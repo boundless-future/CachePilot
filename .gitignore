@@ -1,0 +1,36 @@
+# Python and local environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+
+# Local credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.ssh/
+
+# Downloaded models, caches and experiment output
+/models/
+/datasets/
+/logs/
+/outputs/
+/runs/
+.cache/
+*.log
+*.pid
+*.safetensors
+*.pt
+*.pth
+
+# Editor and OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

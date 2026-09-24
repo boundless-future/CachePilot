@@ -1,0 +1,50 @@
+{
+  "status": "template-not-validated",
+  "recorded_at": null,
+  "hardware": {
+    "gpu_name": null,
+    "gpu_vram_bytes": null,
+    "gpu_count": 1,
+    "cpu": null,
+    "available_cpu_cores": null,
+    "system_memory_bytes": null,
+    "pcie_link": null,
+    "numa": null
+  },
+  "runtime": {
+    "os": null,
+    "container_image_digest": null,
+    "nvidia_driver": null,
+    "python": null,
+    "torch_version": null,
+    "torch_cuda_build": null,
+    "vllm_version_or_commit": null,
+    "lmcache_version_or_commit": null,
+    "actual_connector_module_file": null
+  },
+  "model": {
+    "id": "Qwen/Qwen3-4B",
+    "revision": null,
+    "tokenizer_revision": null,
+    "weights_dtype": "bfloat16",
+    "resolved_kv_dtype": null,
+    "max_model_len": 16384,
+    "thinking_mode": null
+  },
+  "cache": {
+    "actual_gpu_kv_bytes": null,
+    "lmcache_cpu_pool_config": "16GB candidate; verify CLI units",
+    "resolved_cpu_pool_bytes": null,
+    "gpu_block_size_tokens": null,
+    "lmcache_chunk_size_tokens": null
+  },
+  "validation": {
+    "model_generation": false,
+    "external_connector_loaded": false,
+    "cpu_store_observed": false,
+    "cpu_retrieve_after_gpu_miss": false,
+    "output_regression": false,
+    "lazy_offload_policy_observed": false,
+    "logs_directory": null
+  }
+}

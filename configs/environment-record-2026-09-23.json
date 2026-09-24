@@ -1,0 +1,71 @@
+{
+  "status": "functional-store-retrieve-smoke-passed-with-lazy-offload-limitation",
+  "recorded_at": "2026-09-23",
+  "hardware": {
+    "gpu_name": "NVIDIA GeForce RTX 4090",
+    "gpu_vram_bytes": 25757220864,
+    "gpu_count": 1,
+    "cpu": "AMD EPYC 7543; 16 vCPU",
+    "available_cpu_cores": 16,
+    "system_memory_bytes": 99130691584,
+    "pcie_link": null,
+    "numa": "single NUMA node; GPU topology reports CPU affinity 0-15"
+  },
+  "runtime": {
+    "os": "Ubuntu 22.04.5 LTS; x86_64; kernel 5.15.0-113-generic",
+    "container_image_digest": null,
+    "nvidia_driver": "595.80",
+    "python": "3.12.14",
+    "torch_version": "2.13.0+cu130",
+    "torch_cuda_build": "13.0",
+    "vllm_version_or_commit": "0.30.0",
+    "lmcache_version_or_commit": "0.5.5",
+    "actual_connector_module_file": "/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/lmcache/integration/vllm/lmcache_mp_connector.py"
+  },
+  "model": {
+    "id": "Qwen/Qwen3-4B",
+    "revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+    "tokenizer_revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+    "weights_dtype": "bfloat16",
+    "resolved_kv_dtype": "torch.bfloat16",
+    "max_model_len": 8192,
+    "thinking_mode": null
+  },
+  "cache": {
+    "actual_gpu_kv_bytes": 13801881600,
+    "lmcache_cpu_pool_config": "16 GiB",
+    "resolved_cpu_pool_bytes": 17179869184,
+    "gpu_block_size_tokens": 16,
+    "lmcache_chunk_size_tokens": 256
+  },
+  "validation": {
+    "conda_environment_created": true,
+    "pip_check": true,
+    "pytorch_cuda_matrix_operation": true,
+    "vllm_cli": true,
+    "lmcache_cli": true,
+    "connector_module_import": true,
+    "model_generation": true,
+    "external_connector_loaded": true,
+    "cpu_store_observed": true,
+    "cpu_retrieve_after_gpu_miss": true,
+    "output_regression": true,
+    "lazy_offload_policy_observed": true,
+    "logs_directory": "/root/CachePilot/logs"
+  },
+  "smoke_test": {
+    "prompt_sha256": "61872c6dee4c499a7463ce2704a2248dc3503494d3f5331bda713f202fcb2978",
+    "prompt_tokens": 1550,
+    "external_cache_hit_tokens": 1536,
+    "cpu_to_gpu_retrieves_total": 2,
+    "successful_run_retrieve_tokens": 1536,
+    "generation_http_status": 200,
+    "generation_max_tokens": 32,
+    "run_mode": "--enforce-eager; lazy-offload disabled for successful retrieve run"
+  },
+  "known_issues": [
+    "With LMCache 0.5.5 FIFO lazy-offload enabled, vLLM 0.30.0 EngineCore can fail in request_finished because the request is absent from pending_items. The failure was reproduced twice; basic connector store/retrieve succeeds when lazy-offload is disabled.",
+    "The tested run used --enforce-eager; optimized compilation and performance behavior remain unvalidated.",
+    "The published LMCache compatibility table does not explicitly cover vLLM 0.30.0 with LMCache 0.5.5."
+  ]
+}
