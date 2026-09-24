@@ -1,0 +1,19 @@
+{
+  "repository": "https://github.com/LMCache/LMCache",
+  "commit": "1a4b40b1d79b0e76244f127f96ee0982f8bd270f",
+  "archive_sha256": "25e6fe48aad218e67ed75b8c8c7bc687c38aa3ae60ae9ebebe437d6eed853d2d",
+  "local_package_version": "0.5.5+g1a4b40b1d",
+  "version_note": "Local packaging label set via SETUPTOOLS_SCM_PRETEND_VERSION; the commit identifies the source, not the upstream 0.5.5 release.",
+  "build": {
+    "python": "3.12.14",
+    "torch": "2.13.0+cu130",
+    "cuda_home": "/usr/local/cuda-13.0",
+    "torch_cuda_arch_list": "8.9",
+    "max_jobs": 4,
+    "nvcc_threads": 2,
+    "no_build_isolation": true,
+    "no_deps": true,
+    "grpcio_tools": "1.78.0"
+  },
+  "wheel_sha256_observed": "8184d8e40d4427e714163551d3158e40524e25e7ca4a19e5b8de76f6c7245eb5"
+}

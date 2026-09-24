@@ -1,0 +1,211 @@
+{
+  "repository": "https://raw.githubusercontent.com/callanjfox/kv-cache-tester/94f6046dfd9c0c8bc0cdb24a5aa6579bac8669bf",
+  "commit": "94f6046dfd9c0c8bc0cdb24a5aa6579bac8669bf",
+  "sampled_rule": "first 20 numbered traces at fixed commit",
+  "selected": [
+    "trace_0019.json"
+  ],
+  "sources": [
+    {
+      "file": "trace_0001.json",
+      "sha256": "cfd45b93c58e16b1ae3cb177f91d45bb58590dc592e140e28e4155145746feb3",
+      "requests": 41,
+      "peak_original_tokens": 196860,
+      "fits_8k_unscaled": false,
+      "scaled_peak": 24607,
+      "eligible_scaled": false,
+      "nested_subagents_excluded": false
+    },
+    {
+      "file": "trace_0002.json",
+      "sha256": "09912e673c0a8fb83db91c52aca6de5418ed179e6be313b72a8d5e23f3f9eaf7",
+      "requests": 33,
+      "peak_original_tokens": 69787,
+      "fits_8k_unscaled": false,
+      "scaled_peak": 8723,
+      "eligible_scaled": false,
+      "nested_subagents_excluded": false
+    },
+    {
+      "file": "trace_0003.json",
+      "sha256": "d999f495fc2a1459d357d745872046d06435cdff2143094078f2bc6483f79f52",
+      "requests": 395,
+      "peak_original_tokens": 203526,
+      "fits_8k_unscaled": false,
+      "scaled_peak": 25440,
+      "eligible_scaled": false,
+      "nested_subagents_excluded": true
+    },
+    {
+      "file": "trace_0004.json",
+      "sha256": "51a7888f72175765f6c2dd7a72eface5bbe7f3ee37bb6e22781344693dcfbb85",
+      "requests": 182,
+      "peak_original_tokens": 165411,
+      "fits_8k_unscaled": false,
+      "scaled_peak": 20676,
+      "eligible_scaled": false,
+      "nested_subagents_excluded": true
+    },
+    {
+      "file": "trace_0005.json",
+      "sha256": "8e2eec5e154becb4b80d70517ba9f2caaf779ad99e0e25879f6f672a8e17e2fe",
+      "requests": 395,
+      "peak_original_tokens": 159975,
+      "fits_8k_unscaled": false,
+      "scaled_peak": 19996,
+      "eligible_scaled": false,
+      "nested_subagents_excluded": true
+    },
+    {
+      "file": "trace_0006.json",
+      "sha256": "e3d2094b48590c556fa5908b8edeca0446ca45543b1b5dfb04eee9245d0cfc7a",
+      "requests": 46,
+      "peak_original_tokens": 106731,
+      "fits_8k_unscaled": false,
+      "scaled_peak": 13341,
+      "eligible_scaled": false,
+      "nested_subagents_excluded": false
+    },
+    {
+      "file": "trace_0007.json",
+      "sha256": "dc7cd5e065bd3366840dbb904d147cae610f7f6c6d74dfaaf99ff4774e5342f0",
+      "requests": 12,
+      "peak_original_tokens": 139222,
+      "fits_8k_unscaled": false,
+      "scaled_peak": 17402,
+      "eligible_scaled": false,
+      "nested_subagents_excluded": false
+    },
+    {
+      "file": "trace_0008.json",
+      "sha256": "10e66acb407cb6a4d39b1d98f1c7260f9363fdd6abd631da1a3e7e1dd7b99c5d",
+      "requests": 52,
+      "peak_original_tokens": 117838,
+      "fits_8k_unscaled": false,
+      "scaled_peak": 14729,
+      "eligible_scaled": false,
+      "nested_subagents_excluded": false
+    },
+    {
+      "file": "trace_0009.json",
+      "sha256": "65203d75c79ae8e304372d31e33459a03fb630f57632ef5d76245a760f4a6b59",
+      "requests": 283,
+      "peak_original_tokens": 155430,
+      "fits_8k_unscaled": false,
+      "scaled_peak": 19428,
+      "eligible_scaled": false,
+      "nested_subagents_excluded": false
+    },
+    {
+      "file": "trace_0010.json",
+      "sha256": "c128af368553d3f1304762644715e1bf3239aa002faaef1ee71716a7f5d33207",
+      "requests": 122,
+      "peak_original_tokens": 162058,
+      "fits_8k_unscaled": false,
+      "scaled_peak": 20257,
+      "eligible_scaled": false,
+      "nested_subagents_excluded": true
+    },
+    {
+      "file": "trace_0011.json",
+      "sha256": "002c1274f6f41acfb25f88c1de5c653aa0a6796eaefdaa500937ce336bb627a0",
+      "requests": 53,
+      "peak_original_tokens": 92565,
+      "fits_8k_unscaled": false,
+      "scaled_peak": 11570,
+      "eligible_scaled": false,
+      "nested_subagents_excluded": false
+    },
+    {
+      "file": "trace_0012.json",
+      "sha256": "1785b98811f83c53fcc84ef6d3cc9e85cf5dd01f5980db589afe6f9075b51c65",
+      "requests": 14,
+      "peak_original_tokens": 65199,
+      "fits_8k_unscaled": false,
+      "scaled_peak": 8149,
+      "eligible_scaled": false,
+      "nested_subagents_excluded": false
+    },
+    {
+      "file": "trace_0013.json",
+      "sha256": "4934ce609e11fe246a6fbacd5db57aa3e0d585dca867de3c226a3764eb76b282",
+      "requests": 68,
+      "peak_original_tokens": 141991,
+      "fits_8k_unscaled": false,
+      "scaled_peak": 17748,
+      "eligible_scaled": false,
+      "nested_subagents_excluded": false
+    },
+    {
+      "file": "trace_0014.json",
+      "sha256": "b988b612707c77a7c113b11b7ed242be59f87b12f64a74759620255068eaf9fb",
+      "requests": 121,
+      "peak_original_tokens": 157760,
+      "fits_8k_unscaled": false,
+      "scaled_peak": 19720,
+      "eligible_scaled": false,
+      "nested_subagents_excluded": true
+    },
+    {
+      "file": "trace_0015.json",
+      "sha256": "bbd437f46709abecb069ff057a16998126803316cd054ae5a986d1a587f99113",
+      "requests": 48,
+      "peak_original_tokens": 69039,
+      "fits_8k_unscaled": false,
+      "scaled_peak": 8629,
+      "eligible_scaled": false,
+      "nested_subagents_excluded": false
+    },
+    {
+      "file": "trace_0016.json",
+      "sha256": "e5ce2bfcb0a976737fb1f93a01b1a578ca01f7f9e90f0369359d8e8ba112c026",
+      "requests": 12,
+      "peak_original_tokens": 83944,
+      "fits_8k_unscaled": false,
+      "scaled_peak": 10493,
+      "eligible_scaled": false,
+      "nested_subagents_excluded": false
+    },
+    {
+      "file": "trace_0017.json",
+      "sha256": "bfaa400753dd979d65314423d3472410d36ad2907ce940e6583632d8ad653992",
+      "requests": 254,
+      "peak_original_tokens": 155516,
+      "fits_8k_unscaled": false,
+      "scaled_peak": 19439,
+      "eligible_scaled": false,
+      "nested_subagents_excluded": true
+    },
+    {
+      "file": "trace_0018.json",
+      "sha256": "ea00764614cdd0d676bf67cb3c3932e0ec831e053677f28c2870e248394959bb",
+      "requests": 346,
+      "peak_original_tokens": 147423,
+      "fits_8k_unscaled": false,
+      "scaled_peak": 18427,
+      "eligible_scaled": false,
+      "nested_subagents_excluded": false
+    },
+    {
+      "file": "trace_0019.json",
+      "sha256": "1b70e709919ffefca8625d858c4af744d98dab7706b364f4b0a9dc3e01cfdb69",
+      "requests": 24,
+      "peak_original_tokens": 37356,
+      "fits_8k_unscaled": false,
+      "scaled_peak": 4669,
+      "eligible_scaled": true,
+      "nested_subagents_excluded": false
+    },
+    {
+      "file": "trace_0020.json",
+      "sha256": "01dd08377857e46b0affb96d2c8a5617e6f64ea62e7958cf26520a54101355cd",
+      "requests": 306,
+      "peak_original_tokens": 158523,
+      "fits_8k_unscaled": false,
+      "scaled_peak": 19815,
+      "eligible_scaled": false,
+      "nested_subagents_excluded": true
+    }
+  ],
+  "transform": "Anonymous hash-block reconstruction, token lengths /8, times /50, fixed output 48; no original text or tool execution."
+}

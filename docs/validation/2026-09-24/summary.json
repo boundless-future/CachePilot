@@ -1,0 +1,54 @@
+[
+  {
+    "mode": "baseline",
+    "eager": false,
+    "kv_cache_bytes": 2147483648,
+    "prompt_sha256": "61872c6dee4c499a7463ce2704a2248dc3503494d3f5331bda713f202fcb2978",
+    "prompt_tokens": 1550,
+    "output_text": " Sentence 60: In a multi-turn assistant session, reusable key and value states can avoid recomputing the same context. Sentence 61: In",
+    "gpu_hit_tokens": 1536.0,
+    "passed": true
+  },
+  {
+    "mode": "immediate",
+    "eager": false,
+    "kv_cache_bytes": 2147483648,
+    "prompt_sha256": "61872c6dee4c499a7463ce2704a2248dc3503494d3f5331bda713f202fcb2978",
+    "prompt_tokens": 1550,
+    "output_text": " Sentence 60: In a multi-turn assistant session, reusable key and value states can avoid recomputing the same context. Sentence 61: In",
+    "gpu_hit_tokens": 1536.0,
+    "stores_completed": 3.0,
+    "retrieve_transfers": 1.0,
+    "external_hit_tokens": 1536.0,
+    "gpu_hit_tokens_after_restart": 0.0,
+    "passed": true
+  },
+  {
+    "mode": "fifo",
+    "eager": false,
+    "kv_cache_bytes": 2147483648,
+    "prompt_sha256": "61872c6dee4c499a7463ce2704a2248dc3503494d3f5331bda713f202fcb2978",
+    "prompt_tokens": 1550,
+    "output_text": " Sentence 60: In a multi-turn assistant session, reusable key and value states can avoid recomputing the same context. Sentence 61: In",
+    "gpu_hit_tokens": 1536.0,
+    "stores_completed": 3.0,
+    "retrieve_transfers": 1.0,
+    "external_hit_tokens": 1536.0,
+    "gpu_hit_tokens_after_restart": 0.0,
+    "passed": true
+  },
+  {
+    "mode": "eviction",
+    "eager": false,
+    "kv_cache_bytes": 2147483648,
+    "prompt_sha256": "61872c6dee4c499a7463ce2704a2248dc3503494d3f5331bda713f202fcb2978",
+    "prompt_tokens": 1550,
+    "output_text": " Sentence 60: In a multi-turn assistant session, reusable key and value states can avoid recomputing the same context. Sentence 61: In",
+    "gpu_hit_tokens": 1536.0,
+    "stores_completed": 14.0,
+    "retrieve_transfers": 1.0,
+    "external_hit_tokens": 1536.0,
+    "gpu_hit_tokens_after_restart": 0.0,
+    "passed": true
+  }
+]

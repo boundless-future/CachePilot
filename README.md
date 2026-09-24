@@ -4,7 +4,7 @@
 
 当前状态：**已完成总体设计、GPU 环境搭建和 vLLM＋LMCache CPU KV 保存/回载的最小功能验证；尚未实现自定义策略或运行性能实验。**
 
-当前验证组合为 RTX 4090 24GB、Qwen3-4B、vLLM 0.30.0、LMCache 0.5.5。验证使用 eager 模式；FIFO lazy-offload 路径存在请求完成回调崩溃，不能视为策略验收通过。详见 [实测环境记录](configs/environment-record-2026-09-23.json)。
+2026-09-24：RTX 4090 24GB、Qwen3-4B、vLLM 0.30.0 和固定 LMCache 研究提交已通过编译模式下的四种功能验收：原生 vLLM、普通保存、FIFO、EVICTION_AWARE。源码版本未复现原 PyPI 0.5.5 的请求完成回调崩溃，压力卸载后可从 CPU 回载 1536 tokens。尚有停机后会话记录待回收的问题；不是完整稳定性或性能认证。详见 [验收结果与限制](docs/validation/2026-09-24/README.md)。
 
 第一版研究：在 vLLM＋LMCache 的现有延迟卸载路径上，观察显存消耗与传输反馈，评估是否需要自适应卸载窗口和搬运预算。先验证瓶颈，再决定实现。
 
@@ -43,4 +43,4 @@ CachePilot/
     environment-record.example.json
 ```
 
-策略源码、启动脚本和依赖锁文件在选定版本并通过验证后添加。当前不提供虚假的 `pip install cachepilot` 或 `CACHEPILOT` 配置开关。
+`scripts/` 已提供源码构建、服务启动和自动功能验收入口；`docs/validation/` 保存实测证据和环境包快照。自定义策略与性能 benchmark 尚未实现，当前没有 `pip install cachepilot` 或 `CACHEPILOT` 配置开关。

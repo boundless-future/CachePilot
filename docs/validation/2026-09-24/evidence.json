@@ -1,0 +1,197 @@
+{
+  "baseline": {
+    "result": {
+      "mode": "baseline",
+      "eager": false,
+      "kv_cache_bytes": 2147483648,
+      "prompt_sha256": "61872c6dee4c499a7463ce2704a2248dc3503494d3f5331bda713f202fcb2978",
+      "prompt_tokens": 1550,
+      "output_text": " Sentence 60: In a multi-turn assistant session, reusable key and value states can avoid recomputing the same context. Sentence 61: In",
+      "gpu_hit_tokens": 1536.0,
+      "passed": true
+    },
+    "log_evidence": {
+      "vllm-cold.log": [
+        "(EngineCore pid=4061) INFO 09-24 12:04:54 [monitor.py:53] torch.compile took 0.25 s in total",
+        "(EngineCore pid=4061) INFO 09-24 12:04:58 [model_runner.py:1066] Graph capturing finished in 2 secs, took 0.06 GiB"
+      ]
+    },
+    "error_lines": {
+      "vllm-cold.log": [
+        "(APIServer pid=3999) ERROR 09-24 12:05:05 [async_llm.py:843] AsyncLLM output_handler failed.",
+        "(APIServer pid=3999) ERROR 09-24 12:05:05 [async_llm.py:843] Traceback (most recent call last):",
+        "(APIServer pid=3999) ERROR 09-24 12:05:05 [async_llm.py:843]   File \"/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/vllm/v1/engine/async_llm.py\", line 789, in output_handler",
+        "(APIServer pid=3999) ERROR 09-24 12:05:05 [async_llm.py:843]     outputs = await engine_core.get_output_async()",
+        "(APIServer pid=3999) ERROR 09-24 12:05:05 [async_llm.py:843]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "(APIServer pid=3999) ERROR 09-24 12:05:05 [async_llm.py:843]   File \"/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/vllm/v1/engine/core_client.py\", line 1175, in get_output_async",
+        "(APIServer pid=3999) ERROR 09-24 12:05:05 [async_llm.py:843]     raise self._format_exception(outputs) from None",
+        "(APIServer pid=3999) ERROR 09-24 12:05:05 [async_llm.py:843] vllm.v1.engine.exceptions.EngineDeadError: EngineCore encountered an issue. See stack trace (above) for the root cause."
+      ]
+    }
+  },
+  "immediate": {
+    "result": {
+      "mode": "immediate",
+      "eager": false,
+      "kv_cache_bytes": 2147483648,
+      "prompt_sha256": "61872c6dee4c499a7463ce2704a2248dc3503494d3f5331bda713f202fcb2978",
+      "prompt_tokens": 1550,
+      "output_text": " Sentence 60: In a multi-turn assistant session, reusable key and value states can avoid recomputing the same context. Sentence 61: In",
+      "gpu_hit_tokens": 1536.0,
+      "stores_completed": 3.0,
+      "retrieve_transfers": 1.0,
+      "external_hit_tokens": 1536.0,
+      "gpu_hit_tokens_after_restart": 0.0,
+      "passed": true
+    },
+    "log_evidence": {
+      "vllm-retrieve.log": [
+        "(EngineCore pid=4585) INFO 09-24 12:06:19 [monitor.py:53] torch.compile took 0.23 s in total",
+        "(EngineCore pid=4585) INFO 09-24 12:06:21 [model_runner.py:1066] Graph capturing finished in 1 secs, took 0.06 GiB",
+        "(EngineCore pid=4585) [2026-09-24 12:06:22,642] LMCache INFO: Bind GPU block pool in LMCacheMPConnector scheduler (lmcache_mp_connector.py:1136:lmcache.integration.vllm.lmcache_mp_connector)",
+        "(EngineCore pid=4585) [2026-09-24 12:06:24,804] LMCache INFO: Unregistering kv caches (vllm_multi_process_adapter.py:2375:lmcache.integration.vllm.vllm_multi_process_adapter)"
+      ],
+      "vllm-cold.log": [
+        "(EngineCore pid=4339) INFO 09-24 12:05:40 [monitor.py:53] torch.compile took 0.26 s in total",
+        "(EngineCore pid=4339) INFO 09-24 12:05:43 [model_runner.py:1066] Graph capturing finished in 2 secs, took 0.06 GiB",
+        "(EngineCore pid=4339) [2026-09-24 12:05:45,642] LMCache INFO: Bind GPU block pool in LMCacheMPConnector scheduler (lmcache_mp_connector.py:1136:lmcache.integration.vllm.lmcache_mp_connector)",
+        "(EngineCore pid=4339) [2026-09-24 12:05:48,186] LMCache INFO: Unregistering kv caches (vllm_multi_process_adapter.py:2375:lmcache.integration.vllm.vllm_multi_process_adapter)"
+      ],
+      "lmcache.log": [
+        "[2026-09-24 12:05:46,669] LMCache INFO: Stored 1536 tokens in 0.116 seconds (lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)",
+        "[2026-09-24 12:05:47,396] LMCache INFO: Stored 1536 tokens in 0.003 seconds (lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)",
+        "[2026-09-24 12:05:47,798] LMCache INFO: Stored 1536 tokens in 0.002 seconds (lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)",
+        "[2026-09-24 12:06:24,114] LMCache INFO: Retrieved 1536 tokens in 0.001 seconds (lmcache_driven_transfer.py:1011:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)"
+      ]
+    },
+    "error_lines": {
+      "vllm-retrieve.log": [],
+      "vllm-cold.log": [],
+      "lmcache.log": []
+    },
+    "after_stop": {
+      "is_healthy": true,
+      "active_sessions": 0,
+      "registered_gpu_ids": [],
+      "read_locked_count": 0,
+      "write_locked_count": 0,
+      "temporary_count": 0
+    },
+    "before_restart_registered_gpu_ids": []
+  },
+  "fifo": {
+    "result": {
+      "mode": "fifo",
+      "eager": false,
+      "kv_cache_bytes": 2147483648,
+      "prompt_sha256": "61872c6dee4c499a7463ce2704a2248dc3503494d3f5331bda713f202fcb2978",
+      "prompt_tokens": 1550,
+      "output_text": " Sentence 60: In a multi-turn assistant session, reusable key and value states can avoid recomputing the same context. Sentence 61: In",
+      "gpu_hit_tokens": 1536.0,
+      "stores_completed": 3.0,
+      "retrieve_transfers": 1.0,
+      "external_hit_tokens": 1536.0,
+      "gpu_hit_tokens_after_restart": 0.0,
+      "passed": true
+    },
+    "log_evidence": {
+      "vllm-retrieve.log": [
+        "(EngineCore pid=5114) INFO 09-24 12:08:01 [monitor.py:53] torch.compile took 0.27 s in total",
+        "(EngineCore pid=5114) INFO 09-24 12:08:03 [model_runner.py:1066] Graph capturing finished in 1 secs, took 0.06 GiB",
+        "(EngineCore pid=5114) [2026-09-24 12:08:05,247] LMCache INFO: Bind GPU block pool in LMCacheMPConnector scheduler (lmcache_mp_connector.py:1136:lmcache.integration.vllm.lmcache_mp_connector)",
+        "(EngineCore pid=5114) [2026-09-24 12:08:05,247] LMCache INFO: lazy offload enabled with FIFO policy, offload threshold: 1 (fifo.py:58:lmcache.integration.vllm.lazy_offload_policy.fifo)",
+        "(EngineCore pid=5114) [2026-09-24 12:08:08,140] LMCache INFO: Unregistering kv caches (vllm_multi_process_adapter.py:2375:lmcache.integration.vllm.vllm_multi_process_adapter)"
+      ],
+      "vllm-cold.log": [
+        "(EngineCore pid=4898) INFO 09-24 12:07:21 [monitor.py:53] torch.compile took 0.27 s in total",
+        "(EngineCore pid=4898) INFO 09-24 12:07:25 [model_runner.py:1066] Graph capturing finished in 2 secs, took 0.06 GiB",
+        "(EngineCore pid=4898) [2026-09-24 12:07:27,362] LMCache INFO: Bind GPU block pool in LMCacheMPConnector scheduler (lmcache_mp_connector.py:1136:lmcache.integration.vllm.lmcache_mp_connector)",
+        "(EngineCore pid=4898) [2026-09-24 12:07:27,362] LMCache INFO: lazy offload enabled with FIFO policy, offload threshold: 1 (fifo.py:58:lmcache.integration.vllm.lazy_offload_policy.fifo)",
+        "(EngineCore pid=4898) [2026-09-24 12:07:30,443] LMCache INFO: Unregistering kv caches (vllm_multi_process_adapter.py:2375:lmcache.integration.vllm.vllm_multi_process_adapter)"
+      ],
+      "lmcache.log": [
+        "[2026-09-24 12:07:29,301] LMCache INFO: Stored 1536 tokens in 0.008 seconds (lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)",
+        "[2026-09-24 12:07:30,055] LMCache INFO: Stored 1536 tokens in 0.002 seconds (lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)",
+        "[2026-09-24 12:08:07,433] LMCache INFO: Retrieved 1536 tokens in 0.003 seconds (lmcache_driven_transfer.py:1011:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)"
+      ]
+    },
+    "error_lines": {
+      "vllm-retrieve.log": [],
+      "vllm-cold.log": [],
+      "lmcache.log": []
+    },
+    "after_stop": {
+      "is_healthy": true,
+      "active_sessions": 1,
+      "registered_gpu_ids": [],
+      "read_locked_count": 0,
+      "write_locked_count": 0,
+      "temporary_count": 0
+    },
+    "before_restart_registered_gpu_ids": []
+  },
+  "eviction": {
+    "result": {
+      "mode": "eviction",
+      "eager": false,
+      "kv_cache_bytes": 2147483648,
+      "prompt_sha256": "61872c6dee4c499a7463ce2704a2248dc3503494d3f5331bda713f202fcb2978",
+      "prompt_tokens": 1550,
+      "output_text": " Sentence 60: In a multi-turn assistant session, reusable key and value states can avoid recomputing the same context. Sentence 61: In",
+      "gpu_hit_tokens": 1536.0,
+      "stores_completed": 14.0,
+      "retrieve_transfers": 1.0,
+      "external_hit_tokens": 1536.0,
+      "gpu_hit_tokens_after_restart": 0.0,
+      "passed": true
+    },
+    "log_evidence": {
+      "vllm-retrieve.log": [
+        "(EngineCore pid=5644) INFO 09-24 12:09:41 [monitor.py:53] torch.compile took 0.24 s in total",
+        "(EngineCore pid=5644) INFO 09-24 12:09:43 [model_runner.py:1066] Graph capturing finished in 1 secs, took 0.06 GiB",
+        "(EngineCore pid=5644) [2026-09-24 12:09:44,826] LMCache INFO: Bind GPU block pool in LMCacheMPConnector scheduler (lmcache_mp_connector.py:1136:lmcache.integration.vllm.lmcache_mp_connector)",
+        "(EngineCore pid=5644) [2026-09-24 12:09:44,826] LMCache INFO: lazy offload enabled with EVICTION_AWARE policy: EvictionAwarePolicyConfig(horizon_steps=2.5, max_drain_per_step=64, max_deferral_seconds=0.0) (__init__.py:73:lmcache.integration.vllm.lazy_offload_policy)",
+        "(EngineCore pid=5644) [2026-09-24 12:09:47,272] LMCache INFO: Unregistering kv caches (vllm_multi_process_adapter.py:2375:lmcache.integration.vllm.vllm_multi_process_adapter)",
+        "(EngineCore pid=5644) [2026-09-24 12:09:47,654] LMCache INFO: Lazy offload final counters: admitted=0 emitted=0 emitted_overdue=0 dropped_evicted=0 rejected_unhashed=0 rejected_prefix_broken=0 dropped_on_request_drop=0 dropped_failed_store=0 dropped_id_reuse=0 pending=0 (eviction_aware.py:578:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)"
+      ],
+      "vllm-cold.log": [
+        "(EngineCore pid=5414) INFO 09-24 12:08:57 [monitor.py:53] torch.compile took 0.26 s in total",
+        "(EngineCore pid=5414) INFO 09-24 12:09:01 [model_runner.py:1066] Graph capturing finished in 2 secs, took 0.06 GiB",
+        "(EngineCore pid=5414) [2026-09-24 12:09:03,409] LMCache INFO: Bind GPU block pool in LMCacheMPConnector scheduler (lmcache_mp_connector.py:1136:lmcache.integration.vllm.lmcache_mp_connector)",
+        "(EngineCore pid=5414) [2026-09-24 12:09:03,409] LMCache INFO: lazy offload enabled with EVICTION_AWARE policy: EvictionAwarePolicyConfig(horizon_steps=2.5, max_drain_per_step=64, max_deferral_seconds=0.0) (__init__.py:73:lmcache.integration.vllm.lazy_offload_policy)",
+        "(EngineCore pid=5414) [2026-09-24 12:09:12,792] LMCache INFO: Unregistering kv caches (vllm_multi_process_adapter.py:2375:lmcache.integration.vllm.vllm_multi_process_adapter)",
+        "(EngineCore pid=5414) [2026-09-24 12:09:13,499] LMCache INFO: Lazy offload final counters: admitted=18 emitted=14 emitted_overdue=0 dropped_evicted=0 rejected_unhashed=0 rejected_prefix_broken=0 dropped_on_request_drop=0 dropped_failed_store=0 dropped_id_reuse=0 pending=4 (eviction_aware.py:578:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)"
+      ],
+      "lmcache.log": [
+        "[2026-09-24 12:09:08,402] LMCache INFO: Stored 1536 tokens in 0.122 seconds (lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)",
+        "[2026-09-24 12:09:08,740] LMCache INFO: Stored 1536 tokens in 0.001 seconds (lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)",
+        "[2026-09-24 12:09:08,741] LMCache INFO: Stored 1536 tokens in 0.001 seconds (lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)",
+        "[2026-09-24 12:09:09,146] LMCache INFO: Stored 1536 tokens in 0.002 seconds (lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)",
+        "[2026-09-24 12:09:09,148] LMCache INFO: Stored 1536 tokens in 0.001 seconds (lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)",
+        "[2026-09-24 12:09:09,149] LMCache INFO: Stored 1536 tokens in 0.001 seconds (lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)",
+        "[2026-09-24 12:09:09,551] LMCache INFO: Stored 1536 tokens in 0.001 seconds (lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)",
+        "[2026-09-24 12:09:09,955] LMCache INFO: Stored 1536 tokens in 0.002 seconds (lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)",
+        "[2026-09-24 12:09:10,766] LMCache INFO: Stored 1536 tokens in 0.001 seconds (lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)",
+        "[2026-09-24 12:09:11,176] LMCache INFO: Stored 1536 tokens in 0.001 seconds (lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)",
+        "[2026-09-24 12:09:11,584] LMCache INFO: Stored 1536 tokens in 0.002 seconds (lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)",
+        "[2026-09-24 12:09:11,994] LMCache INFO: Stored 1536 tokens in 0.002 seconds (lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)",
+        "[2026-09-24 12:09:12,396] LMCache INFO: Stored 1536 tokens in 0.002 seconds (lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)",
+        "[2026-09-24 12:09:46,563] LMCache INFO: Retrieved 1536 tokens in 0.002 seconds (lmcache_driven_transfer.py:1011:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)"
+      ]
+    },
+    "error_lines": {
+      "vllm-retrieve.log": [],
+      "vllm-cold.log": [],
+      "lmcache.log": []
+    },
+    "after_stop": {
+      "is_healthy": true,
+      "active_sessions": 4,
+      "registered_gpu_ids": [],
+      "read_locked_count": 0,
+      "write_locked_count": 0,
+      "temporary_count": 0
+    },
+    "before_restart_registered_gpu_ids": []
+  }
+}

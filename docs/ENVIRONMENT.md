@@ -1,6 +1,14 @@
 # 环境要求与租机清单
 
-日期：2026-09-23。本文区分通用建议和已实测配置。
+更新：2026-09-24。本文区分通用建议和已实测配置。
+
+## 2026-09-24 源码环境更新
+
+已在同一个 `cachepilot` 环境中将 PyPI LMCache 0.5.5 替换为固定研究提交 `1a4b40b1d79b0e76244f127f96ee0982f8bd270f`，针对现有 PyTorch 2.13.0 / CUDA 13.0 重编扩展，未升级 vLLM 或 PyTorch。归档源码的本地包标签为 `0.5.5+g1a4b40b1d`；以完整 commit 和归档校验值作为版本依据。
+
+构建方式见 [build-lmcache.sh](../scripts/build-lmcache.sh)，来源清单见 [lmcache-source.json](../configs/lmcache-source.json)，本轮结果见 [2026-09-24 验收记录](validation/2026-09-24/README.md)。启动与自动验收以 [INTEGRATION.md](INTEGRATION.md) 为当前入口。下方 2026-09-23 的版本状态保留为历史记录，不能当作当前安装版本。
+
+四种模式（原生 vLLM、immediate、FIFO、EVICTION_AWARE）在 torch.compile/CUDA Graph 模式下通过功能验收。三种 LMCache 模式均在 vLLM 重启后实现 GPU hit=0、CPU 回载 1536 tokens，单条 greedy 输出与原生基线一致。EVICTION_AWARE 压力运行完成 14 次 store，最终 ledger 为 admitted=18/emitted=14/pending=4/dropped_evicted=0。停机后 GPU 注册、对象读写锁均清空，但 FIFO/EVICTION_AWARE 分别留下 1/4 个会话记录，TTL 回收与更广泛生命周期场景待验证。
 
 ## 0. 当前容器候选环境（2026-09-23）
 

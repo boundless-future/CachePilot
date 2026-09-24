@@ -1,6 +1,6 @@
 # 待办与阶段验收
 
-更新：2026-09-20。未勾选项均未完成。
+更新：2026-09-24。未勾选项均未完整完成；历史设计与当前实测环境以 ENVIRONMENT.md 及对应日期的记录区分。
 
 ## 已完成
 
@@ -12,9 +12,9 @@
 
 ## P0：租机前可完成
 
-- [ ] 固定 LMCache 候选 commit，核对 lazy-offload 所需的 vLLM scheduler/block-pool hooks。
-- [ ] 选择候选集成镜像，记录 tag/digest 与其中的 vLLM、torch、CUDA；确认能加载所需策略，不能仅按最新版选。
-- [ ] 对比 LMCache 公开镜像与研究 commit；确定源码安装是否需要重编 native 扩展。
+- [x] 固定 LMCache 候选 commit，核对 lazy-offload 所需的 vLLM scheduler/block-pool hooks。
+- [x] 采用独立 Conda 环境，记录 vLLM、torch、CUDA；不采用集成镜像，因此无镜像 digest。
+- [x] 对比 LMCache 0.5.5 wheel 与研究 commit；已针对现有 torch/CUDA 重编 native 扩展。
 - [ ] 少量下载/读取轨迹，统计完整短会话覆盖率；决定合成负载和真实结构回放的首批样本。
 - [ ] 固定输入输出长度、轮数、种子、时间语义和初始压力点。
 - [ ] 确认租机主存、CPU、磁盘、驱动、Docker/SSH 权限及价格。
@@ -23,15 +23,16 @@
 
 ## P1：GPU 环境与连接验证（先决条件）
 
-- [ ] 记录实际硬件与软件元组，验证 PyTorch CUDA 运算。
-- [ ] 下载 Qwen3-4B，固定 model/tokenizer revision。
-- [ ] 单独启动 vLLM，确认模型正常生成。
-- [ ] 启动 LMCache MP server，再启用外部 `LMCacheMPConnector`。
-- [ ] 打印实际 Connector 模块路径，确认没有加载到 vLLM bundled 版本。
-- [ ] 验证冷请求、GPU 热命中、CPU 保存、GPU miss 后 CPU 回载。
-- [ ] 验证输出和无缓存/默认路径一致性；检查布局、传输、worker 错误。
-- [ ] 确认 lazy-offload 开关和 `EVICTION_AWARE` 分支真的执行。
-- [ ] 保存环境锁定记录、启动命令、日志与实际 KV 池容量。
+- [x] 记录实际硬件与软件元组，验证 PyTorch CUDA 运算。
+- [x] 下载 Qwen3-4B，固定 model/tokenizer revision。
+- [x] 单独启动 vLLM，确认模型正常生成。
+- [x] 启动 LMCache MP server，再启用外部 `LMCacheMPConnector`。
+- [x] 打印实际 Connector 模块路径，确认没有加载到 vLLM bundled 版本。
+- [x] 验证冷请求、GPU 热命中、CPU 保存、GPU miss 后 CPU 回载。
+- [x] 单条 greedy prompt 的冷/热/回载输出与原生 vLLM 一致；检查布局、传输、worker 错误（不代表全面正确性回归）。
+- [x] 确认 lazy-offload 开关和 `EVICTION_AWARE` 分支真的执行。
+- [x] 保存固定源码版本、包快照、启动命令、日志与实际 KV 池容量。
+- [ ] 验证停机后 lazy-offload 会话记录的 TTL 清理，以及更广泛的取消/抢占/错误恢复场景；最终运行 FIFO/EVICTION_AWARE 分别有 1/4 个会话记录，GPU 注册和对象读写锁均已清空。
 
 交付：基线可运行环境和 smoke 证据。仅 import 成功、HTTP 成功或 GPU prefix hit 都不算通过完整验收。
 
@@ -68,4 +69,4 @@
 
 ## 优先顺序
 
-先完成 P0 → P1 → P2，再决定 P3。当前最需要补的信息是租机配置和候选软件栈；无需先买更贵的 GPU，也无需先跑完整 SWE-bench。
+先完成 P0 → P1 → P2，再决定 P3。GPU 硬件和基础运行环境已落实，接下来补齐固定 workload、trace 语义和基线 profiling；尚不需要更贵的 GPU 或完整 SWE-bench。
