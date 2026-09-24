@@ -1,0 +1,63 @@
+{
+  "records": 773,
+  "event_counts": {
+    "config": 1,
+    "request": 17,
+    "scheduled": 253,
+    "lookup": 17,
+    "drain": 233,
+    "adaptive_horizon": 233,
+    "admission": 19
+  },
+  "dropped_evicted": 0,
+  "emitted": 0,
+  "submitted_store": 0,
+  "admissions": 19,
+  "drain_steps": 233,
+  "danger_depth_mean": 41.317596566523605,
+  "drop_age_seconds_mean": null,
+  "prefix_outcomes": {
+    "906700bb70154978be7c77393bed01241fa12da6c1698687678db233d1908d82": {
+      "admitted": 4,
+      "dropped": 0,
+      "emitted": 0,
+      "submitted": 0
+    },
+    "b2c577b289848cc8006d6661b3bce805b58039b8492a4512acc10506b4615314": {
+      "admitted": 1,
+      "dropped": 0,
+      "emitted": 0,
+      "submitted": 0
+    },
+    "235bfc81d7a6accd9ef14591d6589809b0545ea30ae80cdd8ba511fd79be6892": {
+      "admitted": 4,
+      "dropped": 0,
+      "emitted": 0,
+      "submitted": 0
+    },
+    "143ad63ded7f66905dab527e58e67d18d1b4ae4946b049cd2634f933392f53fb": {
+      "admitted": 1,
+      "dropped": 0,
+      "emitted": 0,
+      "submitted": 0
+    },
+    "59f2311e038226110480723fe76e733e57fe885de89a20d6477887491aff8604": {
+      "admitted": 1,
+      "dropped": 0,
+      "emitted": 0,
+      "submitted": 0
+    },
+    "4b5b6620ff55523c9a64ac52a7979ba8168d6d89eee9e9f90dff99ce9fa5bb06": {
+      "admitted": 4,
+      "dropped": 0,
+      "emitted": 0,
+      "submitted": 0
+    },
+    "f8bacfdb48301ce327c5bd1eef795533950a6eda6151a6c5027427082be512f1": {
+      "admitted": 4,
+      "dropped": 0,
+      "emitted": 0,
+      "submitted": 0
+    }
+  }
+}

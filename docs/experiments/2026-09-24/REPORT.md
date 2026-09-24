@@ -105,6 +105,12 @@
 
 所有 H2D 为 0。该会话保留了前缀复用，但没有造成 GPU KV 压力，因而仅复核“小工作集时 CPU 保存可能没有回载收益”。完整指标见 [real-analysis.json](real-analysis.json)。不能据此宣称默认策略的压力问题已经在真实负载复现。
 
+## 6.5 策略原型
+
+`AdaptiveConnector` 是当前第一版个人实现：它通过外部 connector 继承 LMCache 的 EVICTION_AWARE 队列，只在每次 `drain` 前根据本步新分配块数和下一步估计压力选择 horizon；哈希快照、块 pin/unpin、提交回执和失败清理继续使用 LMCache 原实现。默认基础 horizon 为 2.5，压力达到 16 块时临时用 5.0。配置和代码见 `configs/adaptive-trace.json`、`scripts/adaptive_connector.py`。
+
+压力单次回放的复用 TTFT P95 为 3492.6ms，固定 horizon=2.5 的同口径单次对照为 3467.8ms；自适应账本 640 次 drain 中 44 次选择宽 horizon，dropped_evicted 12。低压力单次回放复用 TTFT P95 为 90.5ms，0 次 store 提交、0 次 dropped_evicted。该结果只证明机制可接入且低压力不主动搬运，不能作为性能改进结论，后续需要参数扫描和至少多次重复。
+
 ## 7. 生命周期和稳定性
 
 FIFO 专项：停止推理引擎后，GPU 注册与读写锁已经清空，但 active_sessions 仍为 1；600 秒仍为 1，630.16 秒观测到 0，符合 600 秒 TTL 加后台清理周期。见 [ttl-result.json](ttl-result.json) 和 [连续观测](ttl-observations.jsonl)。这只覆盖本次 FIFO 路径，不能替代取消、抢占、错误恢复和 EVICTION_AWARE 生命周期测试。
@@ -113,12 +119,14 @@ FIFO 专项：停止推理引擎后，GPU 注册与读写锁已经清空，但 a
 
 ## 8. 下一阶段的具体工作
 
-1. **先解决正确性解释。** 根据串行回归缩小差异范围，比较原生 GPU 热命中、CPU 回载、相同已计算前缀，必要时增加 eager 对照与首分歧 token 的 logits。确认是可接受数值差异还是缓存路径缺陷后，再决定性能数据的采用范围。
-2. **记录默认策略的决策过程。** 为 admitted→emitted/dropped 的候选记录 block/chunk 标识、预计淘汰距离、可用块与每步新分配量；把 dropped_evicted 对应到后续实际重算请求。先解释为何 horizon 加倍没有改善。
-3. **补足固定参数与负载基线。** 扫描少量 horizon/drain 参数；加入封闭环、真实结构压力、CPU 容量不足场景，改变 GPU KV 大小核对阈值是否跟着变化。已有两点不能充当“充分调优过的基线”。
-4. **再选一个小机制。** 若证据支持，优先试压力变化时提前提交卸载，或给高复用前缀分配搬运预算；保留低压力场景，避免用更多写入换取单场景优势。实现应复用 LMCache 的哈希、引用与完成回执安全机制。
+1. **已完成第一轮正确性缩小。** 同一输入、同一前缀长度的 GPU 热命中和 CPU 回载，探针逐块逐层 bitwise 一致；4 个受控 CPU 回载案例输出全部与原生一致。此前多轮 2/16 的差异仍需更严格控制原始 KV 生产过程，不能直接标成 bug，也不能标成完全无害。
+2. **已完成默认策略决策账本。** 一次压力运行记录 47 个 admission、31 个 emitted、17 个最终 store 提交和 14 个 dropped_evicted；丢弃平均年龄约 0.84 秒，平均 danger depth 32.25 个块。记录包含块 ID、前缀摘要、free-queue rank 和每步分配压力，见 [decision-analysis.json](decision-analysis.json)。
+3. **实现并验证一个最小自适应原型。** `AdaptiveConnector` 在新分配压力达到 16 块时选择 horizon=5，否则使用基线 2.5；它复用 LMCache 的原策略和生命周期，只改变 drain 时的 horizon。一次压力运行 P95 为 3492.6ms，固定 horizon=2.5 对照约 3467.8ms；样本不足且略有退化，因此暂不宣称收益。账本显示 640 个 drain 中 44 个选择宽 horizon，dropped_evicted 为 12。
+4. **下一步补足对照后再迭代。** 扫描少量 horizon/drain 参数，加入封闭环、真实结构压力、CPU 容量不足场景和不同 GPU KV 容量。只有在多次重复中减少重算且不引入低压力退化后，才保留自适应机制；实现继续复用 LMCache 的哈希、引用与完成回执安全机制。
 
-尚未完成：50–200 会话规模、总缓存溢出、独立 DMA profiling、取消/抢占正确性、更大模型/硬件复核、完整在线 Agent 质量评估。P2 只完成初始实验，不整体标记完成。
+低压力回放也已跑通：自适应配置 16 个合成请求无错误、无 dropped_evicted、无 store 提交，复用轮 TTFT P95 为 90.5ms；这说明它没有在当前小工作集主动发起搬运，但仍没有与原生基线形成收益。
+
+尚未完成：受控多轮 KV 生产的完整数值归因、50–200 会话规模、总缓存溢出、独立 DMA profiling、取消/抢占正确性、更大模型/硬件复核、完整在线 Agent 质量评估。P2 只完成初始实验，不整体标记完成。
 
 ## 9. 复现与证据
 

@@ -1,0 +1,162 @@
+{
+  "records": 1595,
+  "event_counts": {
+    "config": 1,
+    "request": 49,
+    "scheduled": 669,
+    "lookup": 97,
+    "drain": 646,
+    "admission": 47,
+    "emitted": 31,
+    "submitted_store": 17,
+    "submitted_retrieve": 24,
+    "dropped_evicted": 14
+  },
+  "dropped_evicted": 14,
+  "emitted": 31,
+  "submitted_store": 17,
+  "admissions": 47,
+  "drain_steps": 646,
+  "danger_depth_mean": 32.249226006191954,
+  "drop_age_seconds_mean": 0.8351534822142119,
+  "prefix_outcomes": {
+    "906700bb70154978be7c77393bed01241fa12da6c1698687678db233d1908d82": {
+      "admitted": 1,
+      "dropped": 0,
+      "emitted": 1,
+      "submitted": 1
+    },
+    "b2c577b289848cc8006d6661b3bce805b58039b8492a4512acc10506b4615314": {
+      "admitted": 1,
+      "dropped": 0,
+      "emitted": 1,
+      "submitted": 0
+    },
+    "235bfc81d7a6accd9ef14591d6589809b0545ea30ae80cdd8ba511fd79be6892": {
+      "admitted": 1,
+      "dropped": 0,
+      "emitted": 1,
+      "submitted": 1
+    },
+    "143ad63ded7f66905dab527e58e67d18d1b4ae4946b049cd2634f933392f53fb": {
+      "admitted": 1,
+      "dropped": 0,
+      "emitted": 1,
+      "submitted": 0
+    },
+    "59f2311e038226110480723fe76e733e57fe885de89a20d6477887491aff8604": {
+      "admitted": 1,
+      "dropped": 0,
+      "emitted": 1,
+      "submitted": 0
+    },
+    "4b5b6620ff55523c9a64ac52a7979ba8168d6d89eee9e9f90dff99ce9fa5bb06": {
+      "admitted": 1,
+      "dropped": 0,
+      "emitted": 1,
+      "submitted": 1
+    },
+    "f8bacfdb48301ce327c5bd1eef795533950a6eda6151a6c5027427082be512f1": {
+      "admitted": 1,
+      "dropped": 0,
+      "emitted": 1,
+      "submitted": 1
+    },
+    "69173a09b1d829ad3e8b08104f2c3fc1c771ede99c9741023f1b1ef7ea4559fc": {
+      "admitted": 2,
+      "dropped": 0,
+      "emitted": 2,
+      "submitted": 1
+    },
+    "afeb88243877b2d928b52734a64b43d4bb05810ea20557f084b6371f110ffb53": {
+      "admitted": 2,
+      "dropped": 1,
+      "emitted": 1,
+      "submitted": 1
+    },
+    "7c378afc3ad46a493dffc2bade73fee4535f11316750d85d04fabae7b4bea779": {
+      "admitted": 2,
+      "dropped": 0,
+      "emitted": 2,
+      "submitted": 0
+    },
+    "25cff16eda061fcce125696c9e45d209d9d53362204bd4d6938e2674e412c4a2": {
+      "admitted": 2,
+      "dropped": 0,
+      "emitted": 2,
+      "submitted": 2
+    },
+    "f35f482aaddac3fb373823cf8a2437f234a321c2874fbc1e3eb8f54f7621d848": {
+      "admitted": 2,
+      "dropped": 0,
+      "emitted": 2,
+      "submitted": 0
+    },
+    "816ba1725753ae26b71df98915b7935bef818418e3eec91f5f030196d1040d12": {
+      "admitted": 2,
+      "dropped": 0,
+      "emitted": 2,
+      "submitted": 2
+    },
+    "b756e5303064bb5d04c95ff7f871fe6465bbf6462c69454af692d9e96e9a1d3b": {
+      "admitted": 2,
+      "dropped": 0,
+      "emitted": 2,
+      "submitted": 0
+    },
+    "aa0055e21145de3c5c8c45ed8c848ca8790b0e93a2dc6abd97f4d77410c50e3e": {
+      "admitted": 2,
+      "dropped": 0,
+      "emitted": 2,
+      "submitted": 2
+    },
+    "bdc1b53e02f8fbc6049eca527eabcd9f85bd747e1aafa0df896d4f07e55ea9af": {
+      "admitted": 2,
+      "dropped": 1,
+      "emitted": 1,
+      "submitted": 0
+    },
+    "cef8f4c4c6a88f5bf1c75614e0ddda8493f7001ad4543e198c32b3f66154517b": {
+      "admitted": 2,
+      "dropped": 1,
+      "emitted": 1,
+      "submitted": 1
+    },
+    "a79a37dc87e38701e81e788c277c7458686eea5bf0fc8c45416d24e7fc24a64f": {
+      "admitted": 3,
+      "dropped": 1,
+      "emitted": 2,
+      "submitted": 0
+    },
+    "a35863727ba89bc185aefc3a7c573a36f9f22db8ab74f0fec1cf585250a02333": {
+      "admitted": 4,
+      "dropped": 3,
+      "emitted": 0,
+      "submitted": 0
+    },
+    "db312de125866b866c4ca1ced1f8a378b971828cbebe18c5f68b40cf44a84f52": {
+      "admitted": 3,
+      "dropped": 1,
+      "emitted": 2,
+      "submitted": 2
+    },
+    "4391ec2268e0da830a90d9ba55fa8f3f12901eb8238a7d04afed72f5e976b349": {
+      "admitted": 4,
+      "dropped": 3,
+      "emitted": 0,
+      "submitted": 0
+    },
+    "43efd3f971cd05b3987e00f640d9c340240d46d113fbd1837f1e2da894902ea8": {
+      "admitted": 3,
+      "dropped": 1,
+      "emitted": 2,
+      "submitted": 1
+    },
+    "d7b804773272042529f79ceb7c7866a9ad695105d333df694d5c157f19c02ba1": {
+      "admitted": 3,
+      "dropped": 2,
+      "emitted": 1,
+      "submitted": 1
+    }
+  }
+}

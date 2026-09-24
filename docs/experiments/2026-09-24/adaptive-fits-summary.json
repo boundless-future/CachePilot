@@ -1,0 +1,113 @@
+{
+  "requests": 16,
+  "errors": 0,
+  "ttft_ms": {
+    "p50": 74.68125349987531,
+    "p95": 458.4077677500318,
+    "p99": 461.1852391506545,
+    "mean": 133.04257262495867
+  },
+  "ready_to_first_ms": {
+    "p50": 75.23274299910554,
+    "p95": 458.79135974973906,
+    "p99": 461.9940319491434,
+    "mean": 133.959161749317
+  },
+  "e2e_ms": {
+    "p50": 604.7900305002258,
+    "p95": 990.0311169994893,
+    "p99": 991.185310599576,
+    "mean": 696.6624710621545
+  },
+  "ready_to_end_ms": {
+    "p50": 605.132945999685,
+    "p95": 991.3877357485035,
+    "p99": 992.1887087479263,
+    "mean": 697.5790601865128
+  },
+  "client_queue_ms": {
+    "p50": 0.9265069984394358,
+    "p95": 1.8516959989938186,
+    "p99": 1.9549055989045883,
+    "mean": 0.9165891243583246
+  },
+  "cold_ttft_ms": {
+    "p50": 366.72844599979726,
+    "p95": 461.1852391506545
+  },
+  "reuse_ttft_ms": {
+    "p50": 65.22036000023945,
+    "p95": 90.46603094948294
+  },
+  "session_completion_ms": {
+    "mean": 6012.809381248644,
+    "p95": 6019.089081898073
+  },
+  "elapsed_ms": 6069.102562998523,
+  "output_tokens": 768,
+  "vllm_delta": {
+    "vllm:lmcache_mp_lookup_duration_seconds_count": 16.0,
+    "vllm:lmcache_mp_lookup_duration_seconds_sum": 0.6583493640009692,
+    "vllm:estimated_flops_per_gpu_total": 0.0,
+    "vllm:estimated_read_bytes_per_gpu_total": 0.0,
+    "vllm:estimated_write_bytes_per_gpu_total": 0.0,
+    "vllm:prefix_cache_queries_total": 33800.0,
+    "vllm:prefix_cache_hits_total": 25024.0,
+    "vllm:external_prefix_cache_queries_total": 8776.0,
+    "vllm:external_prefix_cache_hits_total": 0.0,
+    "vllm:mm_cache_queries_total": 0.0,
+    "vllm:mm_cache_hits_total": 0.0,
+    "vllm:num_preemptions_total": 0.0,
+    "vllm:prompt_tokens_total": 33800.0,
+    "vllm:prompt_tokens_by_source_total": 33800.0,
+    "vllm:prompt_tokens_cached_total": 25024.0,
+    "vllm:generation_tokens_total": 768.0,
+    "vllm:request_success_total": 16.0,
+    "vllm:request_prompt_tokens_count": 16.0,
+    "vllm:request_prompt_tokens_sum": 33800.0,
+    "vllm:request_generation_tokens_count": 16.0,
+    "vllm:request_generation_tokens_sum": 768.0,
+    "vllm:iteration_tokens_total_count": 216.0,
+    "vllm:iteration_tokens_total_sum": 9544.0,
+    "vllm:request_max_num_generation_tokens_count": 16.0,
+    "vllm:request_max_num_generation_tokens_sum": 768.0,
+    "vllm:request_params_n_count": 16.0,
+    "vllm:request_params_n_sum": 16.0,
+    "vllm:request_params_max_tokens_count": 16.0,
+    "vllm:request_params_max_tokens_sum": 768.0,
+    "vllm:time_to_first_token_seconds_count": 16.0,
+    "vllm:time_to_first_token_seconds_sum": 2.0881335735321045,
+    "vllm:inter_token_latency_seconds_count": 752.0,
+    "vllm:inter_token_latency_seconds_sum": 9.033132865999505,
+    "vllm:request_time_per_output_token_seconds_count": 16.0,
+    "vllm:request_time_per_output_token_seconds_sum": 0.1921943162978618,
+    "vllm:e2e_request_latency_seconds_count": 16.0,
+    "vllm:e2e_request_latency_seconds_sum": 11.114851713180542,
+    "vllm:request_queue_time_seconds_count": 16.0,
+    "vllm:request_queue_time_seconds_sum": 0.6607473810054216,
+    "vllm:request_inference_time_seconds_count": 16.0,
+    "vllm:request_inference_time_seconds_sum": 10.14410518099794,
+    "vllm:request_prefill_time_seconds_count": 16.0,
+    "vllm:request_prefill_time_seconds_sum": 1.1109723149984347,
+    "vllm:request_decode_time_seconds_count": 16.0,
+    "vllm:request_decode_time_seconds_sum": 9.033132865999505,
+    "vllm:request_num_preemptions_count": 16.0,
+    "vllm:request_num_preemptions_sum": 0.0,
+    "vllm:request_prefill_kv_computed_tokens_count": 16.0,
+    "vllm:request_prefill_kv_computed_tokens_sum": 8776.0
+  },
+  "lmcache_delta": {
+    "lmcache_mp_l1_eviction_loop_ticks_total": 6.0,
+    "lmcache_mp_lookup_requested_tokens_total": 32768.0,
+    "lmcache_mp_lookup_hit_tokens_total": 0.0,
+    "lmcache_mp_lookups_requests_total": 16.0,
+    "lmcache_mp_lookup_hit_l1_tokens_total": 0.0,
+    "lmcache_mp_lookup_hit_l2_tokens_total": 0.0,
+    "lmcache_mp_lookup_early_exit_requests_total": 0.0,
+    "lmcache_mp_event_bus_dropped_events_total": 0.0
+  },
+  "policy": "adaptive",
+  "workload": "fits-gpu",
+  "repeat": 0,
+  "replay_mode": "open"
+}
