@@ -1,0 +1,21 @@
+{
+  "archive": "next-stage-evidence-2026-09-24.tar.gz",
+  "bytes": 546323,
+  "sha256": "1ade62304e42510b1cc6c095546a54f27367f4c65959ddf714f0db6fe69a49c1",
+  "includes": [
+    "controlled-kv-2026-09-24-rerun",
+    "decision-ledger-2026-09-24",
+    "decision-ledger-run3-2026-09-24",
+    "adaptive-ledger-2026-09-24",
+    "adaptive-baseline-2026-09-24",
+    "adaptive-fits-ledger-2026-09-24",
+    "adaptive-fits-2026-09-24"
+  ],
+  "driver_logs": [
+    "controlled-kv-rerun.log",
+    "decision-ledger3.log",
+    "adaptive-baseline.log",
+    "adaptive-fits.log"
+  ],
+  "server_services_stopped": true
+}

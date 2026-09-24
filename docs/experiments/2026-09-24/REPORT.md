@@ -146,3 +146,5 @@ python scripts/run_baselines.py --trace artifacts/real-source-new/real-trace.jso
 输出目录要求尚不存在，防止覆盖实验。回放 schema、开放环/封闭环定义及指标口径见 [REPLAY.md](../../REPLAY.md)。8 项本地单元测试通过，覆盖分片 SSE、空块、流截断、封闭环依赖、客户端排队、哈希和 token-array 分叉校验；测试不依赖 GPU，也不替代模型输出回归。
 
 原始日志、每请求数据、trace、真实来源样本与回归响应保存在服务器和本地 `artifacts/`。主实验/TTL/串行回归/来源样本已归档为 `baseline-evidence-2026-09-24.tar.gz`，约 2.1 MB，SHA256 见 [归档清单](baseline-evidence-manifest.json)，本地副本校验一致。真实小样本、相同前缀对照、重现脚本和驱动日志另归档为 `supplemental-evidence-2026-09-24.tar.gz`，SHA256 见 [补充清单](supplemental-evidence-manifest.json)。Git 保存脚本、配置、摘要和图表，不提交模型权重或大量原始输出。
+
+本轮新增的受控 KV 回归、decision ledger、自适应高/低压力回放和驱动日志另归档为 `next-stage-evidence-2026-09-24.tar.gz`，约 534 KiB，SHA256 见 [第二阶段归档清单](next-stage-evidence-manifest.json)。服务器上的测试服务已停止，GPU 空闲，可以安全关机；下次开机后可直接从这些归档和 Git 提交继续。
