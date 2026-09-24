@@ -79,6 +79,19 @@ class SchemaTests(unittest.TestCase):
         t=trace();t['events'][1]['prompt']='changed'
         with self.assertRaises(AssertionError):validate_trace(t)
 
+    def test_token_arrays_extend_or_branch_explicitly(self):
+        import json
+        t=trace()
+        for e in t['events']:
+            e['prompt']=[7]*(e['turn']+1)
+            e['prompt_sha256']=hashlib.sha256(json.dumps(e['prompt'],separators=(',',':')).encode()).hexdigest()
+        validate_trace(t)
+        t['events'][1]['prompt']=[8,9]
+        t['events'][1]['prompt_sha256']=hashlib.sha256(b'[8,9]').hexdigest()
+        with self.assertRaises(AssertionError):validate_trace(t)
+        t['append_only']=False
+        validate_trace(t)
+
     def test_metrics_and_percentile(self):
         self.assertEqual(counters('# comment\nx{a="b"} 2\nx{a="c"} 3')['x'],5)
         self.assertEqual(percentile([10,20,30],50),20)

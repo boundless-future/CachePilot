@@ -1,0 +1,46 @@
+[
+  {
+    "event_id": 8,
+    "first_differing_token_index": 32,
+    "baseline_token": ":\n",
+    "cpu_token": ":",
+    "baseline_top5": {
+      ":\n": -0.585078775882721,
+      ":": -0.835078775882721,
+      ":\n\n": -4.710078716278076,
+      "\n": -9.460079193115234,
+      ".\n": -12.710079193115234
+    },
+    "cpu_top5": {
+      ":": -0.6402286887168884,
+      ":\n": -0.7652286887168884,
+      ":\n\n": -4.890228748321533,
+      "\n": -9.640228271484375,
+      ".\n": -12.765228271484375
+    },
+    "baseline_text": " Assistant recorded action: inspect module 3.\nTool recorded result: module 3 tests pass.\n\nUser turn 3: explain the next debugging step briefly.\nAssistant:\nOkay, let's see. The user has been asking for the next debugging",
+    "cpu_text": " Assistant recorded action: inspect module 3.\nTool recorded result: module 3 tests pass.\n\nUser turn 3: explain the next debugging step briefly.\nAssistant: Assistant recorded action: inspect module 4.\nTool recorded result: module "
+  },
+  {
+    "event_id": 9,
+    "first_differing_token_index": 32,
+    "baseline_token": ":",
+    "cpu_token": ":\n",
+    "baseline_top5": {
+      ":": -0.7023381590843201,
+      ":\n": -0.7023381590843201,
+      ":\n\n": -4.702338218688965,
+      "\n": -9.702338218688965,
+      ".\n": -13.077338218688965
+    },
+    "cpu_top5": {
+      ":\n": -0.6423519253730774,
+      ":": -0.7673519253730774,
+      ":\n\n": -4.642352104187012,
+      "\n": -9.767352104187012,
+      ".\n": -13.017352104187012
+    },
+    "baseline_text": " Assistant recorded action: inspect module 3.\nTool recorded result: module 3 tests pass.\n\nUser turn 3: explain the next debugging step briefly.\nAssistant: Assistant recorded action: inspect module 4.\nTool recorded result: module ",
+    "cpu_text": " Assistant recorded action: inspect module 3.\nTool recorded result: module 3 tests pass.\n\nUser turn 3: explain the next debugging step briefly.\nAssistant:\nAssistant recorded action: inspect module 4.\nTool recorded result: module "
+  }
+]

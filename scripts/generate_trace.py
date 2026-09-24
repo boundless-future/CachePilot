@@ -20,7 +20,7 @@ def validate_trace(trace):
         assert event['turn'] == (last['turn'] + 1 if last else 0)
         if last:
             if trace.get('append_only',True):
-                assert event['prompt'].startswith(last['prompt']), 'prefix must extend'
+                assert prompt[:len(last['prompt'])] == last['prompt'], 'prefix must extend'
             assert event['arrival_ms'] >= last['arrival_ms']
         previous[event['session_id']] = event
 

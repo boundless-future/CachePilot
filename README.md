@@ -2,9 +2,9 @@
 
 面向多轮 Agent 推理的 KV 缓存卸载策略探索。
 
-当前状态：**已完成总体设计、GPU 环境搭建和 vLLM＋LMCache CPU KV 保存/回载的最小功能验证；尚未实现自定义策略或运行性能实验。**
+当前状态：**已完成环境验收、固定轨迹回放工具和第一轮 24 组重复基线实验；正在收敛输出正确性与瓶颈证据，尚未实现自定义策略。**
 
-2026-09-24：RTX 4090 24GB、Qwen3-4B、vLLM 0.30.0 和固定 LMCache 研究提交已通过编译模式下的四种功能验收：原生 vLLM、普通保存、FIFO、EVICTION_AWARE。源码版本未复现原 PyPI 0.5.5 的请求完成回调崩溃，压力卸载后可从 CPU 回载 1536 tokens。尚有停机后会话记录待回收的问题；不是完整稳定性或性能认证。详见 [验收结果与限制](docs/validation/2026-09-24/README.md)。
+2026-09-24：RTX 4090 24GB、Qwen3-4B、vLLM 0.30.0 和固定 LMCache 研究提交已通过编译模式下的四种最小功能验收。后续合成实验完成 768 个请求：2 GiB GPU KV 压力下，原生/立即卸载/默认延迟卸载的复用轮 TTFT P95 均值分别约 5.53/2.85/3.47 秒；能留在 GPU 的小工作集则原生更快。跨配置存在输出文本差异，不能据此宣称正确性通过或新策略已有收益。详见 [实验报告与限制](docs/experiments/2026-09-24/REPORT.md) 和 [环境验收](docs/validation/2026-09-24/README.md)。
 
 第一版研究：在 vLLM＋LMCache 的现有延迟卸载路径上，观察显存消耗与传输反馈，评估是否需要自适应卸载窗口和搬运预算。先验证瓶颈，再决定实现。
 
@@ -14,6 +14,8 @@
 - [待办与阶段验收](docs/TASKS.md)
 - [环境要求与租机清单](docs/ENVIRONMENT.md)
 - [系统接入与基线启动说明](docs/INTEGRATION.md)
+- [回放语义、指标与运行入口](docs/REPLAY.md)
+- [第一轮基线实验报告](docs/experiments/2026-09-24/REPORT.md)
 - [实验环境记录模板](configs/environment-record.example.json)
 
 完整调研及候选改进点的源码证据目前保存在本地工作区的同级 `survey/` 目录，未包含在本仓库中。
@@ -37,10 +39,16 @@ CachePilot/
     TASKS.md
     ENVIRONMENT.md
     INTEGRATION.md
+    REPLAY.md
+    experiments/             基线摘要、图表与结果限制
+    validation/              功能验收和环境包快照
     sources/                 本轮兼容性文档快照
+  scripts/                   构建、启动、回放、分析与回归
+  tests/                     不依赖 GPU 的回放测试
   configs/
-    baseline-kv-transfer.json  待环境核验的基线配置
+    baseline-kv-transfer.json  固定源码上已实测的基线配置
+    baseline-experiment.json   初始实验清单
     environment-record.example.json
 ```
 
-`scripts/` 已提供源码构建、服务启动和自动功能验收入口；`docs/validation/` 保存实测证据和环境包快照。自定义策略与性能 benchmark 尚未实现，当前没有 `pip install cachepilot` 或 `CACHEPILOT` 配置开关。
+`scripts/` 已提供源码构建、服务启动、自动功能验收和可复现回放入口。原始日志/trace 归档留在 `artifacts/`，不提交模型或大体积输出。自定义策略尚未实现，当前没有 `pip install cachepilot` 或 `CACHEPILOT` 配置开关。

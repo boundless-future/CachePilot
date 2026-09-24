@@ -15,8 +15,8 @@
 - [x] 固定 LMCache 候选 commit，核对 lazy-offload 所需的 vLLM scheduler/block-pool hooks。
 - [x] 采用独立 Conda 环境，记录 vLLM、torch、CUDA；不采用集成镜像，因此无镜像 digest。
 - [x] 对比 LMCache 0.5.5 wheel 与研究 commit；已针对现有 torch/CUDA 重编 native 扩展。
-- [ ] 少量下载/读取轨迹，统计完整短会话覆盖率；决定合成负载和真实结构回放的首批样本。
-- [ ] 固定输入输出长度、轮数、种子、时间语义和初始压力点。
+- [x] 少量下载/读取轨迹，统计完整短会话覆盖率；固定来源编号前 20 个文件，原尺寸 8K 覆盖 0/20，缩比筛出 1 个完整 24 轮会话，详见 experiments/2026-09-24/real-source-manifest.json。
+- [x] 固定输入输出长度、轮数、种子、时间语义和初始压力点；实现 schema v2、SSE 回放、计时测试和 baseline-experiment.json 实验清单。
 - [ ] 确认租机主存、CPU、磁盘、驱动、Docker/SSH 权限及价格。
 
 交付：候选环境表、数据小样本与统计、可执行实验配置。CPU 数据工作尽量在租卡前完成。
@@ -32,19 +32,25 @@
 - [x] 单条 greedy prompt 的冷/热/回载输出与原生 vLLM 一致；检查布局、传输、worker 错误（不代表全面正确性回归）。
 - [x] 确认 lazy-offload 开关和 `EVICTION_AWARE` 分支真的执行。
 - [x] 保存固定源码版本、包快照、启动命令、日志与实际 KV 池容量。
-- [ ] 验证停机后 lazy-offload 会话记录的 TTL 清理，以及更广泛的取消/抢占/错误恢复场景；最终运行 FIFO/EVICTION_AWARE 分别有 1/4 个会话记录，GPU 注册和对象读写锁均已清空。
+- [x] 实测 FIFO 停机遗留会话的 TTL 回收：600 秒仍有 1 个会话，630 秒时为 0；GPU 注册与读写锁均清空。见 experiments/2026-09-24/ttl-result.json。
+- [ ] 更广泛的取消/抢占/错误恢复与 EVICTION_AWARE 会话生命周期回归；FIFO 的一次 TTL 实测不代表所有路径已验证。
 
 交付：基线可运行环境和 smoke 证据。仅 import 成功、HTTP 成功或 GPU prefix hit 都不算通过完整验收。
 
 ## P2：基线 profiling（决定是否继续）
 
-- [ ] A：vLLM 原生前缀缓存。
-- [ ] B：相同 GPU KV 预算下，LMCache 默认延迟卸载。
+- [x] A：vLLM 原生前缀缓存；4/12 会话、各 4 轮、三次重复初始测量。
+- [x] B：相同 GPU KV 预算下，LMCache 默认延迟卸载；另加入立即卸载对照。
+- [x] 固定 horizon=2.5/5.0 两点初测，共 24 个实验单元、768 个测量请求；结果见 experiments/2026-09-24/REPORT.md。
 - [ ] C：扫描固定 horizon/提交上限，得到合理调优的基线。
-- [ ] 测工作集小于 GPU、超过 GPU、超过总缓存三个区间。
+- [x] 测工作集小于 GPU、超过 GPU 两个区间（GPU KV 人为固定 2 GiB）。
+- [ ] 补测超过总缓存区间及更多 GPU KV 容量点。
 - [ ] 加入长 prefill 突发、稳定 decode、多轮集中恢复。
 - [ ] 分解排队、重算、回载耗时，记录搬运量与调度开销。
+- [x] 保存排队/precompute 聚合指标、CPU/GPU 命中和 staging 搬运字节；尚未得到独立 DMA 关键路径分解。
+- [ ] 解释跨配置输出差异；HTTP/SSE/长度检查通过不等于正确性通过。
 - [ ] 验证真实结构轨迹上也存在相关现象。
+- [x] 完成单个匿名真实结构缩比会话的四配置回放（96 请求，输出一致）；该样本无 GPU 压力，不等于真实压力场景验证。
 
 交付：原始指标、trace、参数扫描与明确瓶颈结论。若默认策略足够好、瓶颈主要在 decode，先调整选题，不直接写新策略。
 
@@ -69,4 +75,4 @@
 
 ## 优先顺序
 
-先完成 P0 → P1 → P2，再决定 P3。GPU 硬件和基础运行环境已落实，接下来补齐固定 workload、trace 语义和基线 profiling；尚不需要更贵的 GPU 或完整 SWE-bench。
+先完成 P0 → P1 → P2，再决定 P3。初始基线表明压力负载中立即卸载优于默认延迟卸载，而小工作集原生路径更快。下一步先解释输出差异，再追踪 dropped_evicted 与后续重算的联系；两点 horizon 试验不代替完整参数扫描。尚不需要更贵的 GPU 或完整 SWE-bench。

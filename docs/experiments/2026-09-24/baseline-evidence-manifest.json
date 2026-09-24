@@ -1,0 +1,13 @@
+{
+  "archive": "baseline-evidence-2026-09-24.tar.gz",
+  "bytes": 2100380,
+  "sha256": "68e83d8431c3dfb2fecdcbfdd678216d2db2b92b9129a32f821eb9375b94e67a",
+  "includes": [
+    "baselines-2026-09-24",
+    "ttl-complete-2026-09-24",
+    "output-regression-2026-09-24",
+    "output-regression-retry-2026-09-24",
+    "real-source-2026-09-24"
+  ],
+  "failed_attempt_included": "output-regression-2026-09-24 failed GPU reset; successful bounded-retry experiment is separate"
+}

@@ -8,7 +8,11 @@
 
 构建方式见 [build-lmcache.sh](../scripts/build-lmcache.sh)，来源清单见 [lmcache-source.json](../configs/lmcache-source.json)，本轮结果见 [2026-09-24 验收记录](validation/2026-09-24/README.md)。启动与自动验收以 [INTEGRATION.md](INTEGRATION.md) 为当前入口。下方 2026-09-23 的版本状态保留为历史记录，不能当作当前安装版本。
 
-四种模式（原生 vLLM、immediate、FIFO、EVICTION_AWARE）在 torch.compile/CUDA Graph 模式下通过功能验收。三种 LMCache 模式均在 vLLM 重启后实现 GPU hit=0、CPU 回载 1536 tokens，单条 greedy 输出与原生基线一致。EVICTION_AWARE 压力运行完成 14 次 store，最终 ledger 为 admitted=18/emitted=14/pending=4/dropped_evicted=0。停机后 GPU 注册、对象读写锁均清空，但 FIFO/EVICTION_AWARE 分别留下 1/4 个会话记录，TTL 回收与更广泛生命周期场景待验证。
+四种模式（原生 vLLM、immediate、FIFO、EVICTION_AWARE）在 torch.compile/CUDA Graph 模式下通过功能验收。三种 LMCache 模式均在 vLLM 重启后实现 GPU hit=0、CPU 回载 1536 tokens，单条 greedy 输出与原生基线一致。EVICTION_AWARE 压力运行完成 14 次 store，最终 ledger 为 admitted=18/emitted=14/pending=4/dropped_evicted=0。停机后 GPU 注册、对象读写锁均清空，但 FIFO/EVICTION_AWARE 分别留下 1/4 个会话记录。
+
+后续 TTL 专项实测：FIFO 遗留的 1 个会话在停止引擎后约 630 秒清零，符合 600 秒 TTL 与 60 秒清理周期；详见 [TTL 结果](experiments/2026-09-24/ttl-result.json)。这不等于 EVICTION_AWARE 和取消/抢占等所有路径均已完成生命周期回归。
+
+后续 24 组合成基线中出现跨配置输出文本差异；前述单条 smoke 一致不能推广为全部输入正确。完整性能数据、输出回归与限制见 [第一轮实验报告](experiments/2026-09-24/REPORT.md)。
 
 ## 0. 当前容器候选环境（2026-09-23）
 

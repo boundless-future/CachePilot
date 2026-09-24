@@ -12,7 +12,7 @@ case "$MODE" in
   fifo) CONFIG=lmcache-0.5.5-smoke.json ;;
   eviction) CONFIG=baseline-kv-transfer.json ;;
   eviction-h5) CONFIG=eviction-h5.json ;;
-  *) echo "Usage: $0 {baseline|immediate|fifo|eviction} [vllm options]" >&2; exit 2 ;;
+  *) echo "Usage: $0 {baseline|immediate|fifo|eviction|eviction-h5} [vllm options]" >&2; exit 2 ;;
 esac
 if [[ "$MODE" != baseline ]]; then
   CONNECTOR_ARGS=(--kv-transfer-config "$(python -c 'import json,os,sys; c=json.load(open(sys.argv[1])); c["kv_connector_extra_config"]["lmcache.mp.port"]=int(os.environ.get("LMCACHE_PORT",5555)); print(json.dumps(c))' "$PROJECT_ROOT/configs/$CONFIG")")
