@@ -1,0 +1,30 @@
+{
+  "kv": {
+    "counts": {
+      "before_store_chunks": 32,
+      "after_retrieve_chunks": 96,
+      "retrieved_layers": 3456,
+      "equal_layers": 3456
+    },
+    "missing_references": [],
+    "unequal_layers": [],
+    "covered_and_equal": true
+  },
+  "outputs": {
+    "baseline__immediate": {
+      "requests": 16,
+      "mismatches": 0,
+      "differences": []
+    },
+    "baseline__probe": {
+      "requests": 16,
+      "mismatches": 0,
+      "differences": []
+    },
+    "immediate__probe": {
+      "requests": 16,
+      "mismatches": 0,
+      "differences": []
+    }
+  }
+}

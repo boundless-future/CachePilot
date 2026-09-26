@@ -1,0 +1,14 @@
+{
+  "packages": {
+    "torch": "2.13.0",
+    "vllm": "0.30.0",
+    "lmcache": "0.5.5+g1a4b40b1d",
+    "transformers": "5.17.0"
+  },
+  "gpu": "NVIDIA GeForce RTX 4090, 24564 MiB, 595.80",
+  "scripts": {
+    "check_outputs.py": "ac282e445bb4937eaf515bda152062147e11a733ad63e73f0834498102512d4f",
+    "diagnostic_connector.py": "1c2d92b1dc30b484efe29f33eb4e8b6e94107640a70cd9896525461bc417e169",
+    "analyze_kv_probe.py": "08b643b7f8c1fbf6ee40eafa5d32019e740f9a596f8ed5332863fe11755ec005"
+  }
+}

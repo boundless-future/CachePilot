@@ -16,6 +16,7 @@
 - [系统接入与基线启动说明](docs/INTEGRATION.md)
 - [回放语义、指标与运行入口](docs/REPLAY.md)
 - [第一轮基线实验报告](docs/experiments/2026-09-24/REPORT.md)
+- [重启复核与多轮 KV 回载诊断](docs/experiments/2026-09-26/README.md)
 - [实验环境记录模板](configs/environment-record.example.json)
 
 完整调研及候选改进点的源码证据目前保存在本地工作区的同级 `survey/` 目录，未包含在本仓库中。
@@ -51,4 +52,4 @@ CachePilot/
     environment-record.example.json
 ```
 
-`scripts/` 已提供源码构建、服务启动、自动功能验收和可复现回放入口。原始日志/trace 归档留在 `artifacts/`，不提交模型或大体积输出。自定义策略尚未实现，当前没有 `pip install cachepilot` 或 `CACHEPILOT` 配置开关。
+`scripts/` 已提供源码构建、服务启动、自动功能验收和可复现回放入口。原始日志/trace 归档留在 `artifacts/`，不提交模型或大体积输出。自适应 horizon 目前是外部 Connector 实验原型，尚未证明收益；当前没有 `pip install cachepilot` 或 `CACHEPILOT` 配置开关。
