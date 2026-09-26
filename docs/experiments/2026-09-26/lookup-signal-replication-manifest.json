@@ -1,0 +1,29 @@
+{
+  "date": "2026-09-26",
+  "purpose": "Second independent arrival-pattern replication for lookup signal diagnostics",
+  "runtime": {
+    "vllm": "0.30.0",
+    "gpu": "RTX 4090 24GB",
+    "model": "Qwen3-4B",
+    "gpu_kv_budget": "2 GiB"
+  },
+  "trace": {
+    "sessions": 20,
+    "rounds": 4,
+    "context_tokens": 1280,
+    "period_ms": 2300,
+    "session_gap_ms": 0,
+    "requests_per_repeat": 80,
+    "repeats": 2
+  },
+  "remote_directory": "/root/CachePilot/artifacts/preallocation-burst-validation-2026-09-26",
+  "raw_archive": {
+    "local": "artifacts/preallocation-burst-validation-raw-2026-09-26.tar.gz",
+    "sha256": "a48dc9290807af99ec1357fcfc9eaed8bdf0d46d7ad1d1711856d3335a1330e0"
+  },
+  "audit": {
+    "r0": {"allocated": 6073, "consumed": 6073, "store_submitted": 21, "store_completed": 21},
+    "r1": {"allocated": 6574, "consumed": 6574, "store_submitted": 20, "store_completed": 20}
+  },
+  "caveat": "Diagnostic timing only; no pin/admission protection was enabled."
+}

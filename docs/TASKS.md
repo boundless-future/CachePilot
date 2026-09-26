@@ -77,6 +77,8 @@
 - [x] 实现独立准入前需求观测并完成一次 12 会话压力诊断；计算槽估计漏掉异步回载，宽泛异步上界误报过多，当前不进入保护原型。见 experiments/2026-09-26/PREALLOCATION_OBSERVATION.md。
 - [x] 在独立 16 会话压力轨迹上比较 `compute_slots`、`lookup_ready`、`lookup_inflight` 与宽泛异步上界；核对 STORE worker 回执并完成分配闭合审计。结论见 experiments/2026-09-26/LOOKUP_SIGNAL_VALIDATION.md：lookup 状态比宽泛上界更有区分度，但仍有大量无效报警，暂不进入提前 pin/准入保护。
 - [ ] 在第二类压力轨迹和多次重复中复核 lookup 状态信号，补齐取消/抢占/保存失败生命周期，再决定是否修改保护及准入流程。
+- [x] 完成第二类批量到达轨迹两次重复；`lookup_inflight` 未增加有效提前覆盖，仍有大量无效报警，两个账本分配与 STORE 回执均闭合。见 experiments/2026-09-26/LOOKUP_SIGNAL_REPLICATION.md。
+- [ ] 补充高重叠持续到达或显式抢占轨迹，覆盖取消/抢占/保存失败生命周期，再决定是否修改保护及准入流程。
 
 交付：可启用和禁用的实现、测试、消融及反例。性能门槛由基线噪声与实际需求决定，不先填加速目标。
 
