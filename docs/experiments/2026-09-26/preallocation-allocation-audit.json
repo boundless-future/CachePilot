@@ -1,0 +1,643 @@
+{
+  "signal_audit": {
+    "passed": true,
+    "errors": [],
+    "total_allocated": 6756,
+    "total_consumed": 6756,
+    "unconsumed_blocks": 0,
+    "corrected_drains": 654,
+    "changed_signals": [
+      {
+        "step": 174,
+        "original_new_blocks": 0,
+        "actual_step_blocks": 384,
+        "consumed_blocks": 384
+      },
+      {
+        "step": 178,
+        "original_new_blocks": 0,
+        "actual_step_blocks": 128,
+        "consumed_blocks": 128
+      },
+      {
+        "step": 179,
+        "original_new_blocks": 131,
+        "actual_step_blocks": 3,
+        "consumed_blocks": 3
+      },
+      {
+        "step": 180,
+        "original_new_blocks": 1,
+        "actual_step_blocks": 129,
+        "consumed_blocks": 129
+      },
+      {
+        "step": 181,
+        "original_new_blocks": 262,
+        "actual_step_blocks": 6,
+        "consumed_blocks": 6
+      },
+      {
+        "step": 228,
+        "original_new_blocks": 131,
+        "actual_step_blocks": 3,
+        "consumed_blocks": 3
+      },
+      {
+        "step": 230,
+        "original_new_blocks": 256,
+        "actual_step_blocks": 128,
+        "consumed_blocks": 128
+      },
+      {
+        "step": 329,
+        "original_new_blocks": 0,
+        "actual_step_blocks": 512,
+        "consumed_blocks": 512
+      },
+      {
+        "step": 335,
+        "original_new_blocks": 134,
+        "actual_step_blocks": 6,
+        "consumed_blocks": 6
+      },
+      {
+        "step": 337,
+        "original_new_blocks": 134,
+        "actual_step_blocks": 6,
+        "consumed_blocks": 6
+      },
+      {
+        "step": 339,
+        "original_new_blocks": 268,
+        "actual_step_blocks": 12,
+        "consumed_blocks": 12
+      },
+      {
+        "step": 384,
+        "original_new_blocks": 0,
+        "actual_step_blocks": 384,
+        "consumed_blocks": 384
+      },
+      {
+        "step": 386,
+        "original_new_blocks": 0,
+        "actual_step_blocks": 128,
+        "consumed_blocks": 128
+      },
+      {
+        "step": 388,
+        "original_new_blocks": 128,
+        "actual_step_blocks": 384,
+        "consumed_blocks": 384
+      },
+      {
+        "step": 390,
+        "original_new_blocks": 134,
+        "actual_step_blocks": 6,
+        "consumed_blocks": 6
+      },
+      {
+        "step": 408,
+        "original_new_blocks": 402,
+        "actual_step_blocks": 18,
+        "consumed_blocks": 18
+      },
+      {
+        "step": 438,
+        "original_new_blocks": 134,
+        "actual_step_blocks": 6,
+        "consumed_blocks": 6
+      },
+      {
+        "step": 457,
+        "original_new_blocks": 257,
+        "actual_step_blocks": 129,
+        "consumed_blocks": 129
+      },
+      {
+        "step": 458,
+        "original_new_blocks": 11,
+        "actual_step_blocks": 395,
+        "consumed_blocks": 395
+      },
+      {
+        "step": 464,
+        "original_new_blocks": 136,
+        "actual_step_blocks": 8,
+        "consumed_blocks": 8
+      },
+      {
+        "step": 487,
+        "original_new_blocks": 136,
+        "actual_step_blocks": 8,
+        "consumed_blocks": 8
+      },
+      {
+        "step": 506,
+        "original_new_blocks": 136,
+        "actual_step_blocks": 8,
+        "consumed_blocks": 8
+      },
+      {
+        "step": 507,
+        "original_new_blocks": 128,
+        "actual_step_blocks": 384,
+        "consumed_blocks": 384
+      },
+      {
+        "step": 512,
+        "original_new_blocks": 136,
+        "actual_step_blocks": 8,
+        "consumed_blocks": 8
+      },
+      {
+        "step": 513,
+        "original_new_blocks": 0,
+        "actual_step_blocks": 128,
+        "consumed_blocks": 128
+      },
+      {
+        "step": 514,
+        "original_new_blocks": 136,
+        "actual_step_blocks": 8,
+        "consumed_blocks": 8
+      },
+      {
+        "step": 536,
+        "original_new_blocks": 136,
+        "actual_step_blocks": 8,
+        "consumed_blocks": 8
+      },
+      {
+        "step": 555,
+        "original_new_blocks": 0,
+        "actual_step_blocks": 384,
+        "consumed_blocks": 384
+      },
+      {
+        "step": 562,
+        "original_new_blocks": 136,
+        "actual_step_blocks": 8,
+        "consumed_blocks": 8
+      },
+      {
+        "step": 563,
+        "original_new_blocks": 136,
+        "actual_step_blocks": 8,
+        "consumed_blocks": 8
+      },
+      {
+        "step": 585,
+        "original_new_blocks": 136,
+        "actual_step_blocks": 8,
+        "consumed_blocks": 8
+      },
+      {
+        "step": 610,
+        "original_new_blocks": 129,
+        "actual_step_blocks": 385,
+        "consumed_blocks": 385
+      },
+      {
+        "step": 615,
+        "original_new_blocks": 136,
+        "actual_step_blocks": 8,
+        "consumed_blocks": 8
+      },
+      {
+        "step": 617,
+        "original_new_blocks": 136,
+        "actual_step_blocks": 8,
+        "consumed_blocks": 8
+      }
+    ],
+    "zero_token_allocation_steps": []
+  },
+  "timeline": {
+    "drop_operations": 8,
+    "first_lost_operations": 5,
+    "hash_changed_operations": 8,
+    "suffix_without_hash_change": 0,
+    "allocator_confirmed_operations": 8,
+    "drops_with_later_miss": 4,
+    "cases": [
+      {
+        "request_id": "cmpl-9718013be8ae43b3-0-a87cb773",
+        "step": 178,
+        "start": 0,
+        "end": 1792,
+        "prefix_sha256": "a35863727ba89bc185aefc3a7c573a36f9f22db8ab74f0fec1cf585250a02333",
+        "changed_blocks": 103,
+        "first_lost": true,
+        "drop_kind": "hash_changed",
+        "prior": {
+          "step": 177,
+          "danger_depth": 99,
+          "rank": null,
+          "blocked": false,
+          "new_blocks": 0,
+          "free_blocks": 133
+        },
+        "allocation_evidence": [
+          {
+            "upcoming_step": 178,
+            "monotonic_ns": 992153669740,
+            "allocated_blocks": 128,
+            "context": {
+              "request_id": "cmpl-90edcae38c52e47d-0-b6ddc34e",
+              "external_tokens": 2048,
+              "async_load": true
+            },
+            "recycled_blocks": 103,
+            "intact_before_count": 103
+          }
+        ],
+        "reported_new_blocks": 128,
+        "actual_allocated_blocks": 128,
+        "age_seconds": 0.8606205359999421,
+        "later_lookups": [
+          {
+            "request_id": "cmpl-9ef2e6b9907aa000-0-a70e4fcf",
+            "step": 279,
+            "cached_prefix_tokens": 0,
+            "missing_tokens_in_range": 1792
+          },
+          {
+            "request_id": "cmpl-a31dc1d544997f4d-0-92a52d68",
+            "step": 387,
+            "cached_prefix_tokens": 0,
+            "missing_tokens_in_range": 1792
+          },
+          {
+            "request_id": "cmpl-abf48a96242b3d7a-0-bb1b73cd",
+            "step": 560,
+            "cached_prefix_tokens": 2048,
+            "missing_tokens_in_range": 0
+          }
+        ]
+      },
+      {
+        "request_id": "cmpl-9718013be8ae43b3-0-a87cb773",
+        "step": 178,
+        "start": 1792,
+        "end": 2048,
+        "prefix_sha256": "4391ec2268e0da830a90d9ba55fa8f3f12901eb8238a7d04afed72f5e976b349",
+        "changed_blocks": 16,
+        "first_lost": false,
+        "drop_kind": "hash_changed",
+        "prior": {
+          "step": 177,
+          "danger_depth": 99,
+          "rank": null,
+          "blocked": false,
+          "new_blocks": 0,
+          "free_blocks": 133
+        },
+        "allocation_evidence": [
+          {
+            "upcoming_step": 178,
+            "monotonic_ns": 992153669740,
+            "allocated_blocks": 128,
+            "context": {
+              "request_id": "cmpl-90edcae38c52e47d-0-b6ddc34e",
+              "external_tokens": 2048,
+              "async_load": true
+            },
+            "recycled_blocks": 16,
+            "intact_before_count": 16
+          }
+        ],
+        "reported_new_blocks": 128,
+        "actual_allocated_blocks": 128,
+        "age_seconds": 0.7691590499999847,
+        "later_lookups": [
+          {
+            "request_id": "cmpl-9ef2e6b9907aa000-0-a70e4fcf",
+            "step": 279,
+            "cached_prefix_tokens": 0,
+            "missing_tokens_in_range": 256
+          },
+          {
+            "request_id": "cmpl-a31dc1d544997f4d-0-92a52d68",
+            "step": 387,
+            "cached_prefix_tokens": 0,
+            "missing_tokens_in_range": 256
+          },
+          {
+            "request_id": "cmpl-abf48a96242b3d7a-0-bb1b73cd",
+            "step": 560,
+            "cached_prefix_tokens": 2048,
+            "missing_tokens_in_range": 0
+          }
+        ]
+      },
+      {
+        "request_id": "cmpl-bb8532282aecd4f9-0-9ceb9bef",
+        "step": 180,
+        "start": 0,
+        "end": 1792,
+        "prefix_sha256": "43efd3f971cd05b3987e00f640d9c340240d46d113fbd1837f1e2da894902ea8",
+        "changed_blocks": 103,
+        "first_lost": true,
+        "drop_kind": "hash_changed",
+        "prior": {
+          "step": 179,
+          "danger_depth": 118,
+          "rank": null,
+          "blocked": false,
+          "new_blocks": 3,
+          "free_blocks": 6
+        },
+        "allocation_evidence": [
+          {
+            "upcoming_step": 180,
+            "monotonic_ns": 992192812008,
+            "allocated_blocks": 128,
+            "context": {
+              "request_id": "cmpl-82d68895a86adaf2-0-898d6ffe",
+              "external_tokens": 2048,
+              "async_load": true
+            },
+            "recycled_blocks": 103,
+            "intact_before_count": 103
+          }
+        ],
+        "reported_new_blocks": 129,
+        "actual_allocated_blocks": 129,
+        "age_seconds": 0.6931933150000305,
+        "later_lookups": [
+          {
+            "request_id": "cmpl-9a72f4334ac63fba-0-a247bc45",
+            "step": 282,
+            "cached_prefix_tokens": 0,
+            "missing_tokens_in_range": 1792
+          },
+          {
+            "request_id": "cmpl-92011ba627f08316-0-b1af0689",
+            "step": 388,
+            "cached_prefix_tokens": 0,
+            "missing_tokens_in_range": 1792
+          },
+          {
+            "request_id": "cmpl-b0b330a13fd4f996-0-8f1c5c35",
+            "step": 609,
+            "cached_prefix_tokens": 2048,
+            "missing_tokens_in_range": 0
+          }
+        ]
+      },
+      {
+        "request_id": "cmpl-bb8532282aecd4f9-0-9ceb9bef",
+        "step": 180,
+        "start": 1792,
+        "end": 2048,
+        "prefix_sha256": "d7b804773272042529f79ceb7c7866a9ad695105d333df694d5c157f19c02ba1",
+        "changed_blocks": 16,
+        "first_lost": false,
+        "drop_kind": "hash_changed",
+        "prior": {
+          "step": 179,
+          "danger_depth": 118,
+          "rank": null,
+          "blocked": false,
+          "new_blocks": 3,
+          "free_blocks": 6
+        },
+        "allocation_evidence": [
+          {
+            "upcoming_step": 180,
+            "monotonic_ns": 992192812008,
+            "allocated_blocks": 128,
+            "context": {
+              "request_id": "cmpl-82d68895a86adaf2-0-898d6ffe",
+              "external_tokens": 2048,
+              "async_load": true
+            },
+            "recycled_blocks": 16,
+            "intact_before_count": 16
+          }
+        ],
+        "reported_new_blocks": 129,
+        "actual_allocated_blocks": 129,
+        "age_seconds": 0.6682610120000163,
+        "later_lookups": [
+          {
+            "request_id": "cmpl-9a72f4334ac63fba-0-a247bc45",
+            "step": 282,
+            "cached_prefix_tokens": 0,
+            "missing_tokens_in_range": 256
+          },
+          {
+            "request_id": "cmpl-92011ba627f08316-0-b1af0689",
+            "step": 388,
+            "cached_prefix_tokens": 0,
+            "missing_tokens_in_range": 256
+          },
+          {
+            "request_id": "cmpl-b0b330a13fd4f996-0-8f1c5c35",
+            "step": 609,
+            "cached_prefix_tokens": 2048,
+            "missing_tokens_in_range": 0
+          }
+        ]
+      },
+      {
+        "request_id": "cmpl-9ec4bb33d61a3656-0-a720bcbe",
+        "step": 329,
+        "start": 0,
+        "end": 1792,
+        "prefix_sha256": "bdc1b53e02f8fbc6049eca527eabcd9f85bd747e1aafa0df896d4f07e55ea9af",
+        "changed_blocks": 112,
+        "first_lost": true,
+        "drop_kind": "hash_changed",
+        "prior": {
+          "step": 328,
+          "danger_depth": 3,
+          "rank": 395,
+          "blocked": false,
+          "new_blocks": 0,
+          "free_blocks": 507
+        },
+        "allocation_evidence": [
+          {
+            "upcoming_step": 329,
+            "monotonic_ns": 994616051236,
+            "allocated_blocks": 128,
+            "context": {
+              "request_id": "cmpl-add6e2c2f0c8aeec-0-9ffa2e87",
+              "external_tokens": 2048,
+              "async_load": true
+            },
+            "recycled_blocks": 112,
+            "intact_before_count": 112
+          }
+        ],
+        "reported_new_blocks": 512,
+        "actual_allocated_blocks": 512,
+        "age_seconds": 1.0000525170000856,
+        "later_lookups": [
+          {
+            "request_id": "cmpl-a83b85db4a39de75-0-a2c4e3a5",
+            "step": 386,
+            "cached_prefix_tokens": 2048,
+            "missing_tokens_in_range": 0
+          },
+          {
+            "request_id": "cmpl-8c84eb71b8cd84b9-0-beff97dd",
+            "step": 554,
+            "cached_prefix_tokens": 2048,
+            "missing_tokens_in_range": 0
+          }
+        ]
+      },
+      {
+        "request_id": "cmpl-9ec4bb33d61a3656-0-a720bcbe",
+        "step": 329,
+        "start": 1792,
+        "end": 2048,
+        "prefix_sha256": "cef8f4c4c6a88f5bf1c75614e0ddda8493f7001ad4543e198c32b3f66154517b",
+        "changed_blocks": 16,
+        "first_lost": false,
+        "drop_kind": "hash_changed",
+        "prior": {
+          "step": 328,
+          "danger_depth": 3,
+          "rank": 379,
+          "blocked": false,
+          "new_blocks": 0,
+          "free_blocks": 507
+        },
+        "allocation_evidence": [
+          {
+            "upcoming_step": 329,
+            "monotonic_ns": 994615240652,
+            "allocated_blocks": 128,
+            "context": {
+              "request_id": "cmpl-ba11b657a1e197d5-0-89856911",
+              "external_tokens": 2048,
+              "async_load": true
+            },
+            "recycled_blocks": 4,
+            "intact_before_count": 4
+          },
+          {
+            "upcoming_step": 329,
+            "monotonic_ns": 994616051236,
+            "allocated_blocks": 128,
+            "context": {
+              "request_id": "cmpl-add6e2c2f0c8aeec-0-9ffa2e87",
+              "external_tokens": 2048,
+              "async_load": true
+            },
+            "recycled_blocks": 12,
+            "intact_before_count": 12
+          }
+        ],
+        "reported_new_blocks": 512,
+        "actual_allocated_blocks": 512,
+        "age_seconds": 0.9733976800000619,
+        "later_lookups": [
+          {
+            "request_id": "cmpl-a83b85db4a39de75-0-a2c4e3a5",
+            "step": 386,
+            "cached_prefix_tokens": 2048,
+            "missing_tokens_in_range": 0
+          },
+          {
+            "request_id": "cmpl-8c84eb71b8cd84b9-0-beff97dd",
+            "step": 554,
+            "cached_prefix_tokens": 2048,
+            "missing_tokens_in_range": 0
+          }
+        ]
+      },
+      {
+        "request_id": "cmpl-a31dc1d544997f4d-0-92a52d68",
+        "step": 457,
+        "start": 0,
+        "end": 2048,
+        "prefix_sha256": "4391ec2268e0da830a90d9ba55fa8f3f12901eb8238a7d04afed72f5e976b349",
+        "changed_blocks": 19,
+        "first_lost": true,
+        "drop_kind": "hash_changed",
+        "prior": {
+          "step": 456,
+          "danger_depth": 3,
+          "rank": 110,
+          "blocked": false,
+          "new_blocks": 0,
+          "free_blocks": 238
+        },
+        "allocation_evidence": [
+          {
+            "upcoming_step": 457,
+            "monotonic_ns": 996172285734,
+            "allocated_blocks": 123,
+            "context": {
+              "request_id": "cmpl-92011ba627f08316-0-b1af0689",
+              "external_tokens": 0,
+              "async_load": false
+            },
+            "recycled_blocks": 19,
+            "intact_before_count": 19
+          }
+        ],
+        "reported_new_blocks": 129,
+        "actual_allocated_blocks": 129,
+        "age_seconds": 0.8911379599999236,
+        "later_lookups": [
+          {
+            "request_id": "cmpl-abf48a96242b3d7a-0-bb1b73cd",
+            "step": 560,
+            "cached_prefix_tokens": 2048,
+            "missing_tokens_in_range": 0
+          }
+        ]
+      },
+      {
+        "request_id": "cmpl-92011ba627f08316-0-b1af0689",
+        "step": 507,
+        "start": 1792,
+        "end": 2048,
+        "prefix_sha256": "d7b804773272042529f79ceb7c7866a9ad695105d333df694d5c157f19c02ba1",
+        "changed_blocks": 14,
+        "first_lost": true,
+        "drop_kind": "hash_changed",
+        "prior": {
+          "step": 506,
+          "danger_depth": 20,
+          "rank": null,
+          "blocked": false,
+          "new_blocks": 8,
+          "free_blocks": 362
+        },
+        "allocation_evidence": [
+          {
+            "upcoming_step": 507,
+            "monotonic_ns": 996879701662,
+            "allocated_blocks": 128,
+            "context": {
+              "request_id": "cmpl-bc6c6c70bbddc34a-0-a4246c0d",
+              "external_tokens": 0,
+              "async_load": false
+            },
+            "recycled_blocks": 14,
+            "intact_before_count": 14
+          }
+        ],
+        "reported_new_blocks": 384,
+        "actual_allocated_blocks": 384,
+        "age_seconds": 0.6797537049999391,
+        "later_lookups": [
+          {
+            "request_id": "cmpl-b0b330a13fd4f996-0-8f1c5c35",
+            "step": 609,
+            "cached_prefix_tokens": 2048,
+            "missing_tokens_in_range": 0
+          }
+        ]
+      }
+    ]
+  }
+}

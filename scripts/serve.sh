@@ -17,7 +17,8 @@ case "$MODE" in
   adaptive) CONFIG=adaptive-trace.json ;;
   allocation) CONFIG=allocation-signal.json ;;
   allocation-decision) CONFIG=allocation-decision.json ;;
-  *) echo "Usage: $0 {baseline|immediate|fifo|eviction|eviction-h5|decision|adaptive|allocation|allocation-decision} [vllm options]" >&2; exit 2 ;;
+  preallocation-diagnostic) CONFIG=preallocation-diagnostic.json ;;
+  *) echo "Usage: $0 {baseline|immediate|fifo|eviction|eviction-h5|decision|adaptive|allocation|allocation-decision|preallocation-diagnostic} [vllm options]" >&2; exit 2 ;;
 esac
 if [[ "$MODE" != baseline ]]; then
   CONNECTOR_ARGS=(--kv-transfer-config "$(python -c 'import json,os,sys; c=json.load(open(sys.argv[1])); c["kv_connector_extra_config"]["lmcache.mp.port"]=int(os.environ.get("LMCACHE_PORT",5555)); print(json.dumps(c))' "$PROJECT_ROOT/configs/$CONFIG")")

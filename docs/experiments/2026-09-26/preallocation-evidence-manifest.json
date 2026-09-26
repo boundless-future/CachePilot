@@ -1,0 +1,14 @@
+{
+  "archive": "artifacts/preallocation-evidence-2026-09-26.tar.gz",
+  "sha256": "5e3279a2cccbf66af6bca99c74d8fb1caed1b560c28576089a867de24f30e70c",
+  "locations": [
+    "D:/oss-projects/future/CachePilot/artifacts/preallocation-evidence-2026-09-26.tar.gz",
+    "/root/CachePilot/artifacts/preallocation-evidence-2026-09-26.tar.gz"
+  ],
+  "run_directory": "artifacts/preallocation-diagnostic-2026-09-26",
+  "runtime_source_note": "runtime-source/ preserves the observer and analyzer as they stood during the GPU run; the final analyzer adds post hoc async-admission analysis and strict prior-step accounting.",
+  "measurement_requests": 48,
+  "request_errors": 0,
+  "allocation_audit_passed": true,
+  "teardown_error_present": true
+}
