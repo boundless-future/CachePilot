@@ -47,6 +47,8 @@ bash scripts/serve.sh eviction
 
 `eviction` 使用固定研究提交中的 `EVICTION_AWARE`；`fifo` 使用 FIFO，`immediate` 不启用 lazy-offload，`baseline` 仅运行原生 vLLM。FIFO 和 immediate 配置文件名中的 `0.5.5` 保留了原始测试来源，不表示 FIFO 已在 PyPI 0.5.5 上通过。源码来源见 [lmcache-source.json](../configs/lmcache-source.json)。
 
+实验扩展：`adaptive` 切换 horizon，`allocation` 以真实物理块分配量替换历史压力信号；两者均不启用逐步 JSON 诊断日志。`decision` 观测默认策略，`allocation-decision` 观测修正信号后的策略，诊断模式不用于计时对比。计数修正的零 token 步累计规则与限制见 [实际分配信号消融](experiments/2026-09-26/ALLOCATION_SIGNAL.md)。这些外部 Connector 只适用于当前固定源码版本，尚不是上游正式策略。
+
 启动脚本固定 8K 上下文、2 GiB GPU KV 池和最多 4 个序列；这是功能验收预算，便于触发淘汰，不是建议的最终性能配置。`KV_CACHE_BYTES` 和 `MODEL_PATH` 可覆盖默认值。LMCache L1 为 16 GiB，5555/8080 和 vLLM 8000 都绑定回环地址。
 
 脚本设置 `--shutdown-timeout 10`，给 EngineCore 时间注销 LMCache GPU IPC 映射；不要以默认 0 秒超时强杀后立即重启来模拟正常回载。`--gpu-memory-utilization 0.80` 为启动检查保留余量，实际 GPU KV 大小由 `--kv-cache-memory-bytes` 显式固定。

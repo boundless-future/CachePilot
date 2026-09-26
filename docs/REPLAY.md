@@ -36,6 +36,8 @@ python scripts/run_baselines.py --output artifacts/baselines-run-01
 
 实验占用 8000、5556、8081，独立于环境检查的 5555/8080。VLLM_SERVER_DEV_MODE 仅用于本机缓存重置，不用于公网部署。结束关闭测试服务，服务器保持运行。
 
+实际分配信号消融可使用 `--modes eviction allocation immediate`；诊断单独用 `--modes allocation-decision --workloads exceeds-gpu --repeats 1`。每个单元保存 `run-manifest.json`（脚本/配置 SHA256、KV 预算、日志模式），诊断账本保存在该单元的 `decisions/`。配置改变后必须用新的输出目录。
+
 ```bash
 python scripts/generate_trace.py --model models/Qwen3-4B --output artifacts/trace.json
 python scripts/replay_trace.py --trace artifacts/trace.json --output artifacts/requests.json \

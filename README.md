@@ -6,6 +6,8 @@
 
 2026-09-26：分离策略与诊断日志后完成 12 组重复对比，默认/自适应压力 P95 均值为 3.686/3.694 秒，仍无收益证据。独立分配诊断确认异步回载的块分配与策略压力信号存在时间错位；下一步验证实际分配信号及提前需求预算。详见 [策略诊断报告](docs/experiments/2026-09-26/STRATEGY_DIAGNOSIS.md)。
 
+后续已实现真实分配计数修正，完成三策略 18 组重复对比：压力 P95 默认/修正/立即卸载为 3.624/3.522/2.950 秒。修正相对默认改善 2.82%、实际 prefill 减少 6.21%，但增加搬运且仍慢于立即卸载；这是单一合成压力点的局部结果。见 [分配信号消融报告](docs/experiments/2026-09-26/ALLOCATION_SIGNAL.md) 与 [前移决策设计](docs/experiments/2026-09-26/PREALLOCATION_DESIGN.md)。
+
 2026-09-24：RTX 4090 24GB、Qwen3-4B、vLLM 0.30.0 和固定 LMCache 研究提交已通过编译模式下的四种最小功能验收。后续合成实验完成 768 个请求：2 GiB GPU KV 压力下，原生/立即卸载/默认延迟卸载的复用轮 TTFT P95 均值分别约 5.53/2.85/3.47 秒；能留在 GPU 的小工作集则原生更快。跨配置存在输出文本差异，不能据此宣称正确性通过或新策略已有收益。详见 [实验报告与限制](docs/experiments/2026-09-24/REPORT.md) 和 [环境验收](docs/validation/2026-09-24/README.md)。
 
 第一版研究：在 vLLM＋LMCache 的现有延迟卸载路径上，观察显存消耗与传输反馈，评估是否需要自适应卸载窗口和搬运预算。先验证瓶颈，再决定实现。
@@ -20,6 +22,7 @@
 - [第一轮基线实验报告](docs/experiments/2026-09-24/REPORT.md)
 - [重启复核与多轮 KV 回载诊断](docs/experiments/2026-09-26/README.md)
 - [无日志策略对比与块分配诊断](docs/experiments/2026-09-26/STRATEGY_DIAGNOSIS.md)
+- [实际分配信号消融与下一步决定](docs/experiments/2026-09-26/ALLOCATION_SIGNAL.md)
 - [实验环境记录模板](configs/environment-record.example.json)
 
 完整调研及候选改进点的源码证据目前保存在本地工作区的同级 `survey/` 目录，未包含在本仓库中。

@@ -1,0 +1,13 @@
+{
+  "kv_connector": "AllocationDiagnosticConnector",
+  "kv_connector_module_path": "scripts.allocation_diagnostic_connector",
+  "kv_role": "kv_both",
+  "kv_connector_extra_config": {
+    "lmcache.mp.host": "tcp://127.0.0.1",
+    "lmcache.mp.port": 5555,
+    "lmcache.mp.lazy_offload": true,
+    "lmcache.mp.lazy_offload_policy": "EVICTION_AWARE",
+    "lmcache.mp.lazy_offload_horizon_steps": 2.5,
+    "lmcache.mp.lazy_offload_max_drain_per_step": 64
+  }
+}
