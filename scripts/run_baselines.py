@@ -46,6 +46,14 @@ def main():
         for workload in a.workloads:
             for mode in modes:
                 out=a.output/f'{workload}-{mode}-r{rep}';out.mkdir()
+                if mode=='decision':
+                    os.environ['CACHEPILOT_DECISION_DIR']=str(out/'decisions')
+                write_json(out/'run-manifest.json',dict(mode=mode,replay_mode=a.replay_mode,
+                    kv_cache_bytes=int(os.environ.get('KV_CACHE_BYTES',2147483648)),
+                    decision_tracing=mode=='decision',
+                    source_sha256={str(f.relative_to(ROOT)):hashlib.sha256(f.read_bytes()).hexdigest()
+                        for directory in ['scripts','configs'] for f in sorted((ROOT/directory).glob('*'))
+                        if f.is_file() and f.suffix in {'.py','.sh','.json'}}))
                 engine=Service(['bash',str(ROOT/'scripts/serve.sh'),mode],out/'vllm.log')
                 cache=Service(['bash',str(ROOT/'scripts/lmcache-server.sh')],out/'lmcache.log')
                 print(f'START {out.name}',flush=True)

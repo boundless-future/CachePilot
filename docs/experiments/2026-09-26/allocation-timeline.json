@@ -1,0 +1,615 @@
+{
+  "drop_operations": 11,
+  "first_lost_operations": 6,
+  "hash_changed_operations": 11,
+  "suffix_without_hash_change": 0,
+  "allocator_confirmed_operations": 11,
+  "drops_with_later_miss": 9,
+  "cases": [
+    {
+      "request_id": "cmpl-b12e3ced8f187f2f-0-9552057b",
+      "step": 179,
+      "start": 0,
+      "end": 1792,
+      "prefix_sha256": "a79a37dc87e38701e81e788c277c7458686eea5bf0fc8c45416d24e7fc24a64f",
+      "changed_blocks": 112,
+      "first_lost": true,
+      "drop_kind": "hash_changed",
+      "prior": {
+        "step": 178,
+        "danger_depth": 3,
+        "rank": 21,
+        "blocked": false,
+        "new_blocks": 0,
+        "free_blocks": 133
+      },
+      "allocation_evidence": [
+        {
+          "upcoming_step": 179,
+          "monotonic_ns": 3058348952347,
+          "allocated_blocks": 128,
+          "context": {
+            "request_id": "cmpl-94a62f3e2db9750f-0-96b5dbd4",
+            "external_tokens": 2048,
+            "async_load": true
+          },
+          "recycled_blocks": 106,
+          "intact_before_count": 106
+        },
+        {
+          "upcoming_step": 179,
+          "monotonic_ns": 3058349720044,
+          "allocated_blocks": 128,
+          "context": {
+            "request_id": "cmpl-a0d4c44dbb3e19fb-0-b459fe07",
+            "external_tokens": 0,
+            "async_load": false
+          },
+          "recycled_blocks": 6,
+          "intact_before_count": 6
+        }
+      ],
+      "reported_new_blocks": 128,
+      "actual_allocated_blocks": 256,
+      "age_seconds": 0.9257564720001028,
+      "later_lookups": [
+        {
+          "request_id": "cmpl-a93b350f1076f3bb-0-926a7301",
+          "step": 278,
+          "cached_prefix_tokens": 0,
+          "missing_tokens_in_range": 1792
+        },
+        {
+          "request_id": "cmpl-86330ab67fb3d3ea-0-8e6cb780",
+          "step": 402,
+          "cached_prefix_tokens": 0,
+          "missing_tokens_in_range": 1792
+        },
+        {
+          "request_id": "cmpl-a34a76aa6d9c6f00-0-9fbbce27",
+          "step": 552,
+          "cached_prefix_tokens": 0,
+          "missing_tokens_in_range": 1792
+        }
+      ]
+    },
+    {
+      "request_id": "cmpl-b12e3ced8f187f2f-0-9552057b",
+      "step": 179,
+      "start": 1792,
+      "end": 2048,
+      "prefix_sha256": "db312de125866b866c4ca1ced1f8a378b971828cbebe18c5f68b40cf44a84f52",
+      "changed_blocks": 16,
+      "first_lost": false,
+      "drop_kind": "hash_changed",
+      "prior": {
+        "step": 178,
+        "danger_depth": 3,
+        "rank": 5,
+        "blocked": false,
+        "new_blocks": 0,
+        "free_blocks": 133
+      },
+      "allocation_evidence": [
+        {
+          "upcoming_step": 179,
+          "monotonic_ns": 3058348952347,
+          "allocated_blocks": 128,
+          "context": {
+            "request_id": "cmpl-94a62f3e2db9750f-0-96b5dbd4",
+            "external_tokens": 2048,
+            "async_load": true
+          },
+          "recycled_blocks": 16,
+          "intact_before_count": 16
+        }
+      ],
+      "reported_new_blocks": 128,
+      "actual_allocated_blocks": 256,
+      "age_seconds": 0.9001711179998892,
+      "later_lookups": [
+        {
+          "request_id": "cmpl-a93b350f1076f3bb-0-926a7301",
+          "step": 278,
+          "cached_prefix_tokens": 0,
+          "missing_tokens_in_range": 256
+        },
+        {
+          "request_id": "cmpl-86330ab67fb3d3ea-0-8e6cb780",
+          "step": 402,
+          "cached_prefix_tokens": 0,
+          "missing_tokens_in_range": 256
+        },
+        {
+          "request_id": "cmpl-a34a76aa6d9c6f00-0-9fbbce27",
+          "step": 552,
+          "cached_prefix_tokens": 0,
+          "missing_tokens_in_range": 256
+        }
+      ]
+    },
+    {
+      "request_id": "cmpl-baa5791dbe1a9589-0-baef3aa9",
+      "step": 179,
+      "start": 0,
+      "end": 1792,
+      "prefix_sha256": "a35863727ba89bc185aefc3a7c573a36f9f22db8ab74f0fec1cf585250a02333",
+      "changed_blocks": 103,
+      "first_lost": true,
+      "drop_kind": "hash_changed",
+      "prior": {
+        "step": 178,
+        "danger_depth": 3,
+        "rank": null,
+        "blocked": false,
+        "new_blocks": 0,
+        "free_blocks": 133
+      },
+      "allocation_evidence": [
+        {
+          "upcoming_step": 179,
+          "monotonic_ns": 3058349720044,
+          "allocated_blocks": 128,
+          "context": {
+            "request_id": "cmpl-a0d4c44dbb3e19fb-0-b459fe07",
+            "external_tokens": 0,
+            "async_load": false
+          },
+          "recycled_blocks": 103,
+          "intact_before_count": 103
+        }
+      ],
+      "reported_new_blocks": 128,
+      "actual_allocated_blocks": 256,
+      "age_seconds": 0.794246596999983,
+      "later_lookups": [
+        {
+          "request_id": "cmpl-9ba9bfd71425e2c2-0-80f6153e",
+          "step": 280,
+          "cached_prefix_tokens": 0,
+          "missing_tokens_in_range": 1792
+        },
+        {
+          "request_id": "cmpl-badbab042afb4f19-0-8e309b3e",
+          "step": 452,
+          "cached_prefix_tokens": 0,
+          "missing_tokens_in_range": 1792
+        },
+        {
+          "request_id": "cmpl-82c14410eac5779b-0-b6c33606",
+          "step": 558,
+          "cached_prefix_tokens": 0,
+          "missing_tokens_in_range": 1792
+        }
+      ]
+    },
+    {
+      "request_id": "cmpl-baa5791dbe1a9589-0-baef3aa9",
+      "step": 179,
+      "start": 1792,
+      "end": 2048,
+      "prefix_sha256": "4391ec2268e0da830a90d9ba55fa8f3f12901eb8238a7d04afed72f5e976b349",
+      "changed_blocks": 16,
+      "first_lost": false,
+      "drop_kind": "hash_changed",
+      "prior": {
+        "step": 178,
+        "danger_depth": 3,
+        "rank": null,
+        "blocked": false,
+        "new_blocks": 0,
+        "free_blocks": 133
+      },
+      "allocation_evidence": [
+        {
+          "upcoming_step": 179,
+          "monotonic_ns": 3058349720044,
+          "allocated_blocks": 128,
+          "context": {
+            "request_id": "cmpl-a0d4c44dbb3e19fb-0-b459fe07",
+            "external_tokens": 0,
+            "async_load": false
+          },
+          "recycled_blocks": 16,
+          "intact_before_count": 16
+        }
+      ],
+      "reported_new_blocks": 128,
+      "actual_allocated_blocks": 256,
+      "age_seconds": 0.7719727099997726,
+      "later_lookups": [
+        {
+          "request_id": "cmpl-9ba9bfd71425e2c2-0-80f6153e",
+          "step": 280,
+          "cached_prefix_tokens": 0,
+          "missing_tokens_in_range": 256
+        },
+        {
+          "request_id": "cmpl-badbab042afb4f19-0-8e309b3e",
+          "step": 452,
+          "cached_prefix_tokens": 0,
+          "missing_tokens_in_range": 256
+        },
+        {
+          "request_id": "cmpl-82c14410eac5779b-0-b6c33606",
+          "step": 558,
+          "cached_prefix_tokens": 0,
+          "missing_tokens_in_range": 256
+        }
+      ]
+    },
+    {
+      "request_id": "cmpl-ac2247056c714ae9-0-96e92f05",
+      "step": 181,
+      "start": 0,
+      "end": 1792,
+      "prefix_sha256": "43efd3f971cd05b3987e00f640d9c340240d46d113fbd1837f1e2da894902ea8",
+      "changed_blocks": 103,
+      "first_lost": true,
+      "drop_kind": "hash_changed",
+      "prior": {
+        "step": 180,
+        "danger_depth": 70,
+        "rank": null,
+        "blocked": false,
+        "new_blocks": 3,
+        "free_blocks": 6
+      },
+      "allocation_evidence": [
+        {
+          "upcoming_step": 181,
+          "monotonic_ns": 3058478994500,
+          "allocated_blocks": 125,
+          "context": {
+            "request_id": "cmpl-b7312840e944a276-0-97a4490d",
+            "external_tokens": 0,
+            "async_load": false
+          },
+          "recycled_blocks": 103,
+          "intact_before_count": 103
+        }
+      ],
+      "reported_new_blocks": 257,
+      "actual_allocated_blocks": 129,
+      "age_seconds": 0.7927521459996569,
+      "later_lookups": [
+        {
+          "request_id": "cmpl-8b39a70ea6aefc6f-0-b5341870",
+          "step": 282,
+          "cached_prefix_tokens": 0,
+          "missing_tokens_in_range": 1792
+        },
+        {
+          "request_id": "cmpl-91d1fb7a8e43661a-0-876818c8",
+          "step": 453,
+          "cached_prefix_tokens": 0,
+          "missing_tokens_in_range": 1792
+        },
+        {
+          "request_id": "cmpl-a87c9349b9a2b67c-0-bcdcddc9",
+          "step": 609,
+          "cached_prefix_tokens": 2048,
+          "missing_tokens_in_range": 0
+        }
+      ]
+    },
+    {
+      "request_id": "cmpl-ac2247056c714ae9-0-96e92f05",
+      "step": 181,
+      "start": 1792,
+      "end": 2048,
+      "prefix_sha256": "d7b804773272042529f79ceb7c7866a9ad695105d333df694d5c157f19c02ba1",
+      "changed_blocks": 16,
+      "first_lost": false,
+      "drop_kind": "hash_changed",
+      "prior": {
+        "step": 180,
+        "danger_depth": 70,
+        "rank": null,
+        "blocked": false,
+        "new_blocks": 3,
+        "free_blocks": 6
+      },
+      "allocation_evidence": [
+        {
+          "upcoming_step": 181,
+          "monotonic_ns": 3058478994500,
+          "allocated_blocks": 125,
+          "context": {
+            "request_id": "cmpl-b7312840e944a276-0-97a4490d",
+            "external_tokens": 0,
+            "async_load": false
+          },
+          "recycled_blocks": 16,
+          "intact_before_count": 16
+        }
+      ],
+      "reported_new_blocks": 257,
+      "actual_allocated_blocks": 129,
+      "age_seconds": 0.7713511719998678,
+      "later_lookups": [
+        {
+          "request_id": "cmpl-8b39a70ea6aefc6f-0-b5341870",
+          "step": 282,
+          "cached_prefix_tokens": 0,
+          "missing_tokens_in_range": 256
+        },
+        {
+          "request_id": "cmpl-91d1fb7a8e43661a-0-876818c8",
+          "step": 453,
+          "cached_prefix_tokens": 0,
+          "missing_tokens_in_range": 256
+        },
+        {
+          "request_id": "cmpl-a87c9349b9a2b67c-0-bcdcddc9",
+          "step": 609,
+          "cached_prefix_tokens": 2048,
+          "missing_tokens_in_range": 0
+        }
+      ]
+    },
+    {
+      "request_id": "cmpl-a6648c8fd038078e-0-83ff0e04",
+      "step": 329,
+      "start": 0,
+      "end": 1792,
+      "prefix_sha256": "bdc1b53e02f8fbc6049eca527eabcd9f85bd747e1aafa0df896d4f07e55ea9af",
+      "changed_blocks": 112,
+      "first_lost": true,
+      "drop_kind": "hash_changed",
+      "prior": {
+        "step": 328,
+        "danger_depth": 3,
+        "rank": 395,
+        "blocked": false,
+        "new_blocks": 0,
+        "free_blocks": 507
+      },
+      "allocation_evidence": [
+        {
+          "upcoming_step": 329,
+          "monotonic_ns": 3060892497793,
+          "allocated_blocks": 128,
+          "context": {
+            "request_id": "cmpl-bb673d9df79711ca-0-b695549f",
+            "external_tokens": 2048,
+            "async_load": true
+          },
+          "recycled_blocks": 112,
+          "intact_before_count": 112
+        }
+      ],
+      "reported_new_blocks": 0,
+      "actual_allocated_blocks": 512,
+      "age_seconds": 0.9885925640001005,
+      "later_lookups": [
+        {
+          "request_id": "cmpl-9a576ddcc7355dad-0-99b7eedc",
+          "step": 396,
+          "cached_prefix_tokens": 2048,
+          "missing_tokens_in_range": 0
+        },
+        {
+          "request_id": "cmpl-8e93a0bc1bceba15-0-82f6f79a",
+          "step": 551,
+          "cached_prefix_tokens": 2048,
+          "missing_tokens_in_range": 0
+        }
+      ]
+    },
+    {
+      "request_id": "cmpl-a6648c8fd038078e-0-83ff0e04",
+      "step": 329,
+      "start": 1792,
+      "end": 2048,
+      "prefix_sha256": "cef8f4c4c6a88f5bf1c75614e0ddda8493f7001ad4543e198c32b3f66154517b",
+      "changed_blocks": 16,
+      "first_lost": false,
+      "drop_kind": "hash_changed",
+      "prior": {
+        "step": 328,
+        "danger_depth": 3,
+        "rank": 379,
+        "blocked": false,
+        "new_blocks": 0,
+        "free_blocks": 507
+      },
+      "allocation_evidence": [
+        {
+          "upcoming_step": 329,
+          "monotonic_ns": 3060891921041,
+          "allocated_blocks": 128,
+          "context": {
+            "request_id": "cmpl-af72fc4c03391614-0-9fa06469",
+            "external_tokens": 2048,
+            "async_load": true
+          },
+          "recycled_blocks": 4,
+          "intact_before_count": 4
+        },
+        {
+          "upcoming_step": 329,
+          "monotonic_ns": 3060892497793,
+          "allocated_blocks": 128,
+          "context": {
+            "request_id": "cmpl-bb673d9df79711ca-0-b695549f",
+            "external_tokens": 2048,
+            "async_load": true
+          },
+          "recycled_blocks": 12,
+          "intact_before_count": 12
+        }
+      ],
+      "reported_new_blocks": 0,
+      "actual_allocated_blocks": 512,
+      "age_seconds": 0.9639539770000738,
+      "later_lookups": [
+        {
+          "request_id": "cmpl-9a576ddcc7355dad-0-99b7eedc",
+          "step": 396,
+          "cached_prefix_tokens": 2048,
+          "missing_tokens_in_range": 0
+        },
+        {
+          "request_id": "cmpl-8e93a0bc1bceba15-0-82f6f79a",
+          "step": 551,
+          "cached_prefix_tokens": 2048,
+          "missing_tokens_in_range": 0
+        }
+      ]
+    },
+    {
+      "request_id": "cmpl-9ba9bfd71425e2c2-0-80f6153e",
+      "step": 346,
+      "start": 0,
+      "end": 1792,
+      "prefix_sha256": "a35863727ba89bc185aefc3a7c573a36f9f22db8ab74f0fec1cf585250a02333",
+      "changed_blocks": 110,
+      "first_lost": true,
+      "drop_kind": "hash_changed",
+      "prior": {
+        "step": 331,
+        "danger_depth": 3,
+        "rank": 23,
+        "blocked": false,
+        "new_blocks": 0,
+        "free_blocks": 135
+      },
+      "allocation_evidence": [
+        {
+          "upcoming_step": 333,
+          "monotonic_ns": 3060934892282,
+          "allocated_blocks": 128,
+          "context": {
+            "request_id": "cmpl-b7069115b12248f4-0-88b74a14",
+            "external_tokens": 2048,
+            "async_load": true
+          },
+          "recycled_blocks": 104,
+          "intact_before_count": 104
+        },
+        {
+          "upcoming_step": 346,
+          "monotonic_ns": 3060955019742,
+          "allocated_blocks": 6,
+          "context": {
+            "request_id": "cmpl-b6b4091c722bc12c-0-a7e0582e",
+            "external_tokens": 0,
+            "async_load": false
+          },
+          "recycled_blocks": 6,
+          "intact_before_count": 6
+        }
+      ],
+      "reported_new_blocks": 134,
+      "actual_allocated_blocks": 6,
+      "age_seconds": 0.8163467740000669,
+      "later_lookups": [
+        {
+          "request_id": "cmpl-badbab042afb4f19-0-8e309b3e",
+          "step": 452,
+          "cached_prefix_tokens": 0,
+          "missing_tokens_in_range": 1792
+        },
+        {
+          "request_id": "cmpl-82c14410eac5779b-0-b6c33606",
+          "step": 558,
+          "cached_prefix_tokens": 0,
+          "missing_tokens_in_range": 1792
+        }
+      ]
+    },
+    {
+      "request_id": "cmpl-9ba9bfd71425e2c2-0-80f6153e",
+      "step": 346,
+      "start": 1792,
+      "end": 2048,
+      "prefix_sha256": "4391ec2268e0da830a90d9ba55fa8f3f12901eb8238a7d04afed72f5e976b349",
+      "changed_blocks": 16,
+      "first_lost": false,
+      "drop_kind": "hash_changed",
+      "prior": {
+        "step": 331,
+        "danger_depth": 3,
+        "rank": 7,
+        "blocked": false,
+        "new_blocks": 0,
+        "free_blocks": 135
+      },
+      "allocation_evidence": [
+        {
+          "upcoming_step": 333,
+          "monotonic_ns": 3060934892282,
+          "allocated_blocks": 128,
+          "context": {
+            "request_id": "cmpl-b7069115b12248f4-0-88b74a14",
+            "external_tokens": 2048,
+            "async_load": true
+          },
+          "recycled_blocks": 16,
+          "intact_before_count": 16
+        }
+      ],
+      "reported_new_blocks": 134,
+      "actual_allocated_blocks": 6,
+      "age_seconds": 0.7941890210004203,
+      "later_lookups": [
+        {
+          "request_id": "cmpl-badbab042afb4f19-0-8e309b3e",
+          "step": 452,
+          "cached_prefix_tokens": 0,
+          "missing_tokens_in_range": 256
+        },
+        {
+          "request_id": "cmpl-82c14410eac5779b-0-b6c33606",
+          "step": 558,
+          "cached_prefix_tokens": 0,
+          "missing_tokens_in_range": 256
+        }
+      ]
+    },
+    {
+      "request_id": "cmpl-badbab042afb4f19-0-8e309b3e",
+      "step": 503,
+      "start": 1792,
+      "end": 2048,
+      "prefix_sha256": "4391ec2268e0da830a90d9ba55fa8f3f12901eb8238a7d04afed72f5e976b349",
+      "changed_blocks": 11,
+      "first_lost": true,
+      "drop_kind": "hash_changed",
+      "prior": {
+        "step": 502,
+        "danger_depth": 103,
+        "rank": null,
+        "blocked": false,
+        "new_blocks": 136,
+        "free_blocks": 117
+      },
+      "allocation_evidence": [
+        {
+          "upcoming_step": 503,
+          "monotonic_ns": 3063104694848,
+          "allocated_blocks": 128,
+          "context": {
+            "request_id": "cmpl-965c9055e6c5de44-0-b0100fc7",
+            "external_tokens": 2048,
+            "async_load": true
+          },
+          "recycled_blocks": 11,
+          "intact_before_count": 11
+        }
+      ],
+      "reported_new_blocks": 136,
+      "actual_allocated_blocks": 136,
+      "age_seconds": 0.7621361329997853,
+      "later_lookups": [
+        {
+          "request_id": "cmpl-82c14410eac5779b-0-b6c33606",
+          "step": 558,
+          "cached_prefix_tokens": 0,
+          "missing_tokens_in_range": 256
+        }
+      ]
+    }
+  ]
+}

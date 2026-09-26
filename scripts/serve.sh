@@ -2,6 +2,7 @@
 # Foreground vLLM service. Run in the cachepilot Conda environment.
 set -euo pipefail
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+export PYTHONPATH="$PROJECT_ROOT${PYTHONPATH:+:$PYTHONPATH}"
 export CUDA_HOME="${CUDA_HOME:-/usr/local/cuda-13.0}"
 export PATH="$CUDA_HOME/bin:$PATH"
 MODE="${1:-immediate}"

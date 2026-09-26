@@ -18,6 +18,22 @@ def prefix_digest(tokens, end):
 
 
 class DecisionConnector(LMCacheMPConnector):
+    def bind_kv_cache_manager(self, kv_cache_manager):
+        super().bind_kv_cache_manager(kv_cache_manager)
+        if getattr(self,'_allocation_bound',False):return
+        self._allocation_bound=True
+        original=kv_cache_manager.allocate_slots
+
+        def allocate(request, *args, **kwargs):
+            old=getattr(self,'_allocation_context',None)
+            self._allocation_context=dict(request_id=request.request_id,
+                external_tokens=kwargs.get('num_external_computed_tokens',0),
+                async_load=kwargs.get('delay_cache_blocks',False))
+            try:return original(request,*args,**kwargs)
+            finally:self._allocation_context=old
+
+        kv_cache_manager.allocate_slots=allocate
+
     def _record(self, event, **data):
         if not hasattr(self, '_decision_file'):
             path = Path(os.environ.get('CACHEPILOT_DECISION_DIR', '/tmp/cachepilot-decision'))
@@ -55,7 +71,34 @@ class DecisionConnector(LMCacheMPConnector):
         policy = self._lazy_offload_manager._policy
         if policy.__class__.__name__ != 'EvictionAwareStoreQueue':
             raise RuntimeError(f'Unsupported traced policy: {type(policy).__name__}')
-        self._record('config',config=asdict(policy._config),gpu_blocks=gpu_block_pool.num_gpu_blocks)
+        self._record('config',schema_version=2,config=asdict(policy._config),gpu_blocks=gpu_block_pool.num_gpu_blocks)
+        self._allocation_count=0
+        original_allocate=gpu_block_pool.get_new_blocks
+
+        def allocate_blocks(num_blocks):
+            # Observe candidates BEFORE allocator resets hashes; never pin,
+            # reorder or alter allocations. This instrumentation is not timed.
+            selected=[]
+            block=gpu_block_pool.free_block_queue.fake_free_list_head.next_free_block
+            while block is not None and block.next_free_block is not None and len(selected)<num_blocks:
+                selected.append(block.block_id);block=block.next_free_block
+            selected_set=set(selected)
+            affected=[]
+            for ops in policy._pending.values():
+                for op in ops:
+                    overlap=selected_set.intersection(op.block_hashes)
+                    if overlap:
+                        intact=[bid for bid in overlap if gpu_block_pool.blocks[bid].block_hash==op.block_hashes[bid]]
+                        affected.append(dict(**self._op(op.store_metadata),
+                            recycled_block_ids=sorted(overlap),intact_before_ids=sorted(intact)))
+            result=original_allocate(num_blocks)
+            self._allocation_count+=len(result)
+            self._record('allocation',upcoming_step=getattr(self,'_decision_step',0)+1,
+                         context=getattr(self,'_allocation_context',None),
+                         allocated_blocks=len(result),affected=affected)
+            return result
+
+        gpu_block_pool.get_new_blocks=allocate_blocks
         original_add, original_drain = policy.add, policy.drain
         original_drop = policy._drop_evicted_suffix
 
@@ -67,10 +110,11 @@ class DecisionConnector(LMCacheMPConnector):
 
         def drop(request_id, ops):
             survivors = original_drop(request_id,ops)
-            for op in ops[len(survivors):]:
+            for index,op in enumerate(ops[len(survivors):]):
                 changed = [bid for bid,h in op.block_hashes.items() if gpu_block_pool.blocks[bid].block_hash!=h]
                 self._record('dropped_evicted',**self._op(op.store_metadata),
-                             changed_block_ids=changed,age_seconds=policy._now-op.admitted_at_time)
+                             changed_block_ids=changed,age_seconds=policy._now-op.admitted_at_time,
+                             first_lost=index==0,drop_kind='hash_changed' if changed else 'prefix_suffix')
             return survivors
 
         def drain(signals):
@@ -99,7 +143,9 @@ class DecisionConnector(LMCacheMPConnector):
         self._decision_step = getattr(self,'_decision_step',0)+1
         per_request = getattr(scheduler_output, 'num_scheduled_tokens', None)
         self._record('scheduled',tokens=scheduler_output.total_num_scheduled_tokens,
-                     per_request=None if per_request is None else dict(per_request))
+                     per_request=None if per_request is None else dict(per_request),
+                     actual_allocated_blocks=getattr(self,'_allocation_count',0))
+        self._allocation_count=0
         result = super().build_connector_meta(scheduler_output)
         for meta in result.requests:
             self._record('submitted_'+meta.direction.lower(),**self._op(meta))

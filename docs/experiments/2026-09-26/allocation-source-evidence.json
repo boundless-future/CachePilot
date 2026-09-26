@@ -1,0 +1,82 @@
+[
+  {
+    "path": "vllm/v1/core/sched/scheduler.py",
+    "sha256": "c1db45f3bbad3a875dd8638331b8870c4380ac1ab4734265ba5c863833a82884",
+    "excerpts": [
+      {
+        "start": 1151,
+        "end": 1169,
+        "text": "                reserved_blocks = 0\n                if load_kv_async:\n                    # An async load holds its blocks for the whole transfer with\n                    # no forward progress and isn't preemptible here. Admit it\n                    # only if it fits in (free - other in-flight reservations), to\n                    # avoid deadlock and predictable preemptions.\n                    reserved_blocks = self._inflight_prefill_reserved_blocks()\n\n                new_blocks = self.kv_cache_manager.allocate_slots(\n                    request,\n                    num_new_tokens,\n                    num_new_computed_tokens=num_new_local_computed_tokens,\n                    new_computed_blocks=new_computed_blocks,\n                    num_lookahead_tokens=effective_lookahead_tokens,\n                    num_external_computed_tokens=num_external_computed_tokens,\n                    delay_cache_blocks=load_kv_async,\n                    num_encoder_tokens=num_encoder_tokens,\n                    full_sequence_must_fit=self.scheduler_reserve_full_isl,\n                    reserved_blocks=reserved_blocks,"
+      },
+      {
+        "start": 1208,
+        "end": 1225,
+        "text": "                request = request_queue.pop_request()\n                if load_kv_async:\n                    # If loading async, allocate memory and put request\n                    # into the WAITING_FOR_REMOTE_KV state.\n                    request.status = RequestStatus.WAITING_FOR_REMOTE_KVS\n                    step_skipped_waiting.prepend_request(request)\n                    # Set num_computed_tokens even though KVs are not yet loaded.\n                    # request.num_computed_tokens will not be used anywhere until\n                    # the request finished the KV transfer.\n                    #\n                    # If a transfer error is reported by the connector,\n                    # request.num_computed_tokens will be re-set accordingly in\n                    # _update_requests_with_invalid_blocks.\n                    #\n                    # When the transfer is finished, either successfully or not,\n                    # request.num_computed_tokens will correctly reflect the number\n                    # of computed tokens.\n                    # _update_waiting_for_remote_kv will then cache"
+      },
+      {
+        "start": 1431,
+        "end": 1437,
+        "text": "        # NOTE(Kuntai): this function is designed for multiple purposes:\n        # 1. Plan the KV cache store\n        # 2. Wrap up all the KV cache load / save ops into an opaque object\n        # 3. Clear the internal states of the connector\n        if self.connector is not None:\n            meta = self._build_kv_connector_meta(self.connector, scheduler_output)\n            scheduler_output.kv_connector_metadata = meta"
+      }
+    ]
+  },
+  {
+    "path": "vllm/v1/core/block_pool.py",
+    "sha256": "34c2fd67148cecb7763ff49ad694a57073759b0fa67572a4270dc995b4acf8fc",
+    "excerpts": [
+      {
+        "start": 664,
+        "end": 699,
+        "text": "    def get_new_blocks(self, num_blocks: int) -> list[KVCacheBlock]:\n        \"\"\"Get new blocks from the free block pool.\n\n        Note that we do not check block cache in this function.\n\n        Args:\n            num_blocks: The number of blocks to allocate.\n\n        Returns:\n            A list of new block.\n        \"\"\"\n        if num_blocks > self.get_num_free_blocks():\n            raise ValueError(f\"Cannot get {num_blocks} free blocks from the pool\")\n\n        ret: list[KVCacheBlock] = self.free_block_queue.popleft_n(num_blocks)\n\n        if self._reuse_watchers:\n            self._notify_reuse(ret)\n\n        # In order to only iterate the list once, we duplicated code a bit\n        if self.enable_caching:\n            for block in ret:\n                self._maybe_evict_cached_block(block)\n                assert block.ref_cnt == 0\n                block.ref_cnt += 1\n                if self.metrics_collector:\n                    self.metrics_collector.on_block_allocated(block)\n        else:\n            for block in ret:\n                assert block.ref_cnt == 0\n                block.ref_cnt += 1\n                if self.metrics_collector:\n                    self.metrics_collector.on_block_allocated(block)\n        return ret\n\n    def _notify_reuse(self, blocks: Iterable[KVCacheBlock]) -> None:"
+      }
+    ]
+  },
+  {
+    "path": "vllm/distributed/kv_transfer/kv_connector/v1/base.py",
+    "sha256": "97af64220475c6c9e8273438d7b5138b105ebe6944beb783facb36a3bb76f31b",
+    "excerpts": [
+      {
+        "start": 473,
+        "end": 476,
+        "text": "    def bind_kv_cache_manager(self, kv_cache_manager: \"KVCacheManager\") -> None:\n        \"\"\"Bind the scheduler's cache manager after it has been constructed.\"\"\"\n        self._kv_cache_manager = kv_cache_manager\n        self.bind_gpu_block_pool(kv_cache_manager.block_pool)"
+      }
+    ]
+  },
+  {
+    "path": "lmcache/integration/vllm/lazy_offload_manager.py",
+    "sha256": "e611da21991cd29757e553acfaeabbdd1332d4743f036f6b35ed0e85c80c5bcd",
+    "excerpts": [
+      {
+        "start": 95,
+        "end": 114,
+        "text": "def _new_blocks(scheduler_output: \"SchedulerOutput\") -> int:\n    \"\"\"Count the GPU blocks one scheduler step handed out.\n\n    Args:\n        scheduler_output: The step's schedule, whose newly scheduled and\n            cached requests carry the block ids allocated to them.\n\n    Returns:\n        The gross count over all requests and cache groups, which\n        drives the policy's estimate of free-queue consumption.\n    \"\"\"\n    groups = [request.block_ids for request in scheduler_output.scheduled_new_reqs]\n    groups.extend(\n        request_block_ids\n        for request_block_ids in scheduler_output.scheduled_cached_reqs.new_block_ids\n        if request_block_ids\n    )\n    return sum(\n        len(group_ids) for request_groups in groups for group_ids in request_groups\n    )"
+      },
+      {
+        "start": 270,
+        "end": 292,
+        "text": "        Returns:\n            Stores to submit and sessions made releasable by the drain.\n\n        Raises:\n            ValueError: If no GPU block pool has been bound, or if a\n                request's buffered operations are not contiguous.\n            RuntimeError: If the policy emitted for a request that\n                already has a store batch in flight.\n        \"\"\"\n        if not scheduler_output.total_num_scheduled_tokens:\n            return LazyOffloadActions()\n        return self._drain(scheduler_output, self._require_block_pool())\n\n    def on_store_results(\n        self,\n        failed_request_ids: set[str],\n        completed_store_counts: dict[str, int],\n    ) -> LazyOffloadActions:\n        \"\"\"Apply failed stores and fully aggregated completion receipts.\n\n        Failures go first, so dropping a finished request's held-back suffix\n        can make it releasable by the accompanying receipt. Stale receipts in\n        ``completed_store_counts`` are filtered here."
+      },
+      {
+        "start": 446,
+        "end": 466,
+        "text": "\n        Returns:\n            The stores to submit and the sessions the drain made releasable.\n\n        Raises:\n            RuntimeError: If the policy emitted for a request that already\n                has a store batch in flight, which would make the worker's\n                receipts ambiguous.\n        \"\"\"\n        drain = self._require_policy().drain(\n            DrainSignals(\n                new_blocks_allocated=_new_blocks(scheduler_output),\n                est_next_step_blocks=sum(\n                    -(-scheduler_output.total_num_scheduled_tokens // tokens_per_block)\n                    for tokens_per_block in self._group_tokens_per_block\n                ),\n                finished_request_ids=self._requests.finished_request_ids(),\n                blocked_request_ids=self._requests.in_flight_request_ids(),\n            )\n        )\n        actions = LazyOffloadActions()"
+      }
+    ]
+  },
+  {
+    "path": "lmcache/integration/vllm/lazy_offload_policy/eviction_aware.py",
+    "sha256": "f75df38b9f3bf3eaa364b7ec3dbcb4fc1229eec54ad3db35509591a19a150f33",
+    "excerpts": [
+      {
+        "start": 348,
+        "end": 367,
+        "text": "            signals: This step's allocation pressure, which updates the\n                consumption estimate, plus the finished and blocked request\n                ids. Finished ids are not read by this policy: imminence\n                alone decides, whether or not the request is still running.\n\n        Returns:\n            The stores to submit and the requests left with nothing buffered.\n        \"\"\"\n        self._now = time.monotonic()\n        if self._ema_initialized:\n            self._blocks_per_step_ema = (\n                _EMA_ALPHA * signals.new_blocks_allocated\n                + (1 - _EMA_ALPHA) * self._blocks_per_step_ema\n            )\n        else:\n            self._blocks_per_step_ema = float(signals.new_blocks_allocated)\n            self._ema_initialized = True\n        self._next_step_estimate = signals.est_next_step_blocks\n        if not self._pending:\n            self._maybe_log_stats()"
+      },
+      {
+        "start": 385,
+        "end": 399,
+        "text": "            ops = self._pending[request_id]\n            surviving = self._drop_evicted_suffix(request_id, ops)\n            if len(surviving) != len(ops):\n                dropped_ops += len(ops) - len(surviving)\n                dropped_ids.append(request_id)\n                if not surviving:\n                    del self._pending[request_id]\n                    drain.emptied_request_ids.append(request_id)\n                    continue\n                self._pending[request_id] = surviving\n            overdue = (\n                self._config.max_deferral_seconds > 0.0\n                and surviving[0].admitted_at_time <= overdue_cutoff\n            )\n            in_window = ["
+      }
+    ]
+  }
+]

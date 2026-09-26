@@ -1,0 +1,294 @@
+[
+  {
+    "event": "scheduled",
+    "step": 178,
+    "monotonic_ns": 3058333601733,
+    "tokens": 1,
+    "actual_allocated_blocks": 0
+  },
+  {
+    "event": "drain",
+    "step": 178,
+    "monotonic_ns": 3058334369751,
+    "new_blocks": 0,
+    "next_step_estimate": 1,
+    "allocation_ema": 0.007701912295904945,
+    "danger_depth": 3,
+    "free_blocks": 133,
+    "counter_delta": {
+      "admitted": 0,
+      "emitted": 0,
+      "emitted_overdue": 0,
+      "dropped_evicted": 0,
+      "rejected_unhashed": 0,
+      "rejected_prefix_broken": 0,
+      "dropped_on_request_drop": 0,
+      "dropped_failed_store": 0,
+      "dropped_id_reuse": 0
+    }
+  },
+  {
+    "event": "allocation",
+    "step": 178,
+    "monotonic_ns": 3058348952347,
+    "upcoming_step": 179,
+    "context": {
+      "request_id": "cmpl-94a62f3e2db9750f-0-96b5dbd4",
+      "external_tokens": 2048,
+      "async_load": true
+    },
+    "allocated_blocks": 128
+  },
+  {
+    "event": "allocation",
+    "step": 178,
+    "monotonic_ns": 3058349720044,
+    "upcoming_step": 179,
+    "context": {
+      "request_id": "cmpl-a0d4c44dbb3e19fb-0-b459fe07",
+      "external_tokens": 0,
+      "async_load": false
+    },
+    "allocated_blocks": 128
+  },
+  {
+    "event": "scheduled",
+    "step": 179,
+    "monotonic_ns": 3058350023698,
+    "tokens": 2048,
+    "actual_allocated_blocks": 256
+  },
+  {
+    "event": "drain",
+    "step": 179,
+    "monotonic_ns": 3058351753525,
+    "new_blocks": 128,
+    "next_step_estimate": 128,
+    "allocation_ema": 38.40539133860713,
+    "danger_depth": 320,
+    "free_blocks": 9,
+    "counter_delta": {
+      "admitted": 0,
+      "emitted": 0,
+      "emitted_overdue": 0,
+      "dropped_evicted": 4,
+      "rejected_unhashed": 0,
+      "rejected_prefix_broken": 0,
+      "dropped_on_request_drop": 0,
+      "dropped_failed_store": 0,
+      "dropped_id_reuse": 0
+    }
+  },
+  {
+    "event": "scheduled",
+    "step": 328,
+    "monotonic_ns": 3060883748964,
+    "tokens": 2,
+    "actual_allocated_blocks": 0
+  },
+  {
+    "event": "drain",
+    "step": 328,
+    "monotonic_ns": 3060885056876,
+    "new_blocks": 0,
+    "next_step_estimate": 1,
+    "allocation_ema": 0.011305522175349173,
+    "danger_depth": 3,
+    "free_blocks": 507,
+    "counter_delta": {
+      "admitted": 0,
+      "emitted": 0,
+      "emitted_overdue": 0,
+      "dropped_evicted": 0,
+      "rejected_unhashed": 0,
+      "rejected_prefix_broken": 0,
+      "dropped_on_request_drop": 0,
+      "dropped_failed_store": 0,
+      "dropped_id_reuse": 0
+    }
+  },
+  {
+    "event": "allocation",
+    "step": 328,
+    "monotonic_ns": 3060891031447,
+    "upcoming_step": 329,
+    "context": {
+      "request_id": "cmpl-b6b4091c722bc12c-0-a7e0582e",
+      "external_tokens": 2048,
+      "async_load": true
+    },
+    "allocated_blocks": 128
+  },
+  {
+    "event": "allocation",
+    "step": 328,
+    "monotonic_ns": 3060891430889,
+    "upcoming_step": 329,
+    "context": {
+      "request_id": "cmpl-8c536dec67f5c079-0-8e3f8974",
+      "external_tokens": 2048,
+      "async_load": true
+    },
+    "allocated_blocks": 128
+  },
+  {
+    "event": "allocation",
+    "step": 328,
+    "monotonic_ns": 3060891921041,
+    "upcoming_step": 329,
+    "context": {
+      "request_id": "cmpl-af72fc4c03391614-0-9fa06469",
+      "external_tokens": 2048,
+      "async_load": true
+    },
+    "allocated_blocks": 128
+  },
+  {
+    "event": "allocation",
+    "step": 328,
+    "monotonic_ns": 3060892497793,
+    "upcoming_step": 329,
+    "context": {
+      "request_id": "cmpl-bb673d9df79711ca-0-b695549f",
+      "external_tokens": 2048,
+      "async_load": true
+    },
+    "allocated_blocks": 128
+  },
+  {
+    "event": "scheduled",
+    "step": 329,
+    "monotonic_ns": 3060892750513,
+    "tokens": 2,
+    "actual_allocated_blocks": 512
+  },
+  {
+    "event": "drain",
+    "step": 329,
+    "monotonic_ns": 3060894007922,
+    "new_blocks": 0,
+    "next_step_estimate": 1,
+    "allocation_ema": 0.00791386552274442,
+    "danger_depth": 3,
+    "free_blocks": 129,
+    "counter_delta": {
+      "admitted": 0,
+      "emitted": 2,
+      "emitted_overdue": 0,
+      "dropped_evicted": 2,
+      "rejected_unhashed": 0,
+      "rejected_prefix_broken": 0,
+      "dropped_on_request_drop": 0,
+      "dropped_failed_store": 0,
+      "dropped_id_reuse": 0
+    }
+  },
+  {
+    "event": "scheduled",
+    "step": 331,
+    "monotonic_ns": 3060912868837,
+    "tokens": 1,
+    "actual_allocated_blocks": 0
+  },
+  {
+    "event": "drain",
+    "step": 331,
+    "monotonic_ns": 3060913755485,
+    "new_blocks": 0,
+    "next_step_estimate": 1,
+    "allocation_ema": 0.0038777941061447652,
+    "danger_depth": 3,
+    "free_blocks": 135,
+    "counter_delta": {
+      "admitted": 0,
+      "emitted": 0,
+      "emitted_overdue": 0,
+      "dropped_evicted": 0,
+      "rejected_unhashed": 0,
+      "rejected_prefix_broken": 0,
+      "dropped_on_request_drop": 0,
+      "dropped_failed_store": 0,
+      "dropped_id_reuse": 0
+    }
+  },
+  {
+    "event": "scheduled",
+    "step": 332,
+    "monotonic_ns": 3060922981673,
+    "tokens": 0,
+    "actual_allocated_blocks": 0
+  },
+  {
+    "event": "allocation",
+    "step": 332,
+    "monotonic_ns": 3060934892282,
+    "upcoming_step": 333,
+    "context": {
+      "request_id": "cmpl-b7069115b12248f4-0-88b74a14",
+      "external_tokens": 2048,
+      "async_load": true
+    },
+    "allocated_blocks": 128
+  },
+  {
+    "event": "scheduled",
+    "step": 333,
+    "monotonic_ns": 3060935263001,
+    "tokens": 0,
+    "actual_allocated_blocks": 128
+  },
+  {
+    "event": "scheduled",
+    "step": 334,
+    "monotonic_ns": 3060937179305,
+    "tokens": 0,
+    "actual_allocated_blocks": 0
+  },
+  {
+    "event": "scheduled",
+    "step": 345,
+    "monotonic_ns": 3060953389710,
+    "tokens": 0,
+    "actual_allocated_blocks": 0
+  },
+  {
+    "event": "allocation",
+    "step": 345,
+    "monotonic_ns": 3060955019742,
+    "upcoming_step": 346,
+    "context": {
+      "request_id": "cmpl-b6b4091c722bc12c-0-a7e0582e",
+      "external_tokens": 0,
+      "async_load": false
+    },
+    "allocated_blocks": 6
+  },
+  {
+    "event": "scheduled",
+    "step": 346,
+    "monotonic_ns": 3060955279936,
+    "tokens": 81,
+    "actual_allocated_blocks": 6
+  },
+  {
+    "event": "drain",
+    "step": 346,
+    "monotonic_ns": 3060956028017,
+    "new_blocks": 134,
+    "next_step_estimate": 6,
+    "allocation_ema": 40.2027144558743,
+    "danger_depth": 101,
+    "free_blocks": 135,
+    "counter_delta": {
+      "admitted": 0,
+      "emitted": 2,
+      "emitted_overdue": 0,
+      "dropped_evicted": 2,
+      "rejected_unhashed": 0,
+      "rejected_prefix_broken": 0,
+      "dropped_on_request_drop": 0,
+      "dropped_failed_store": 0,
+      "dropped_id_reuse": 0
+    }
+  }
+]
