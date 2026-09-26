@@ -4,7 +4,7 @@ from pathlib import Path
 from types import SimpleNamespace
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
-from preallocation_observer import demand_snapshot, install_scheduler_observer
+from preallocation_observer import demand_snapshot, install_scheduler_observer, lookup_snapshot
 from analyze_preallocation import analyze
 
 
@@ -17,6 +17,24 @@ class FakeRequest:
 
 
 class ObserverTests(unittest.TestCase):
+    def test_lookup_snapshot_reads_completed_future_without_polling_adapter(self):
+        class Future:
+            def query(self):
+                return True
+
+            def result(self, timeout):
+                self_timeout.append(timeout)
+                return 4
+
+        self_timeout = []
+        adapter = SimpleNamespace(_finished_lookup_results={}, _pending_lookups={'r'},
+                                  _unacked_lookups={}, _per_server_hits={},
+                                  _lookup_status={'r': {'server': (Future(), 0)}},
+                                  _server_urls=['server'], lmcache_tokens_per_chunk=256)
+        self.assertEqual(lookup_snapshot(adapter, 'r'), ('result_available', 1024))
+        self.assertEqual(self_timeout, [0])
+        self.assertEqual(adapter._per_server_hits, {})
+
     def test_demand_uses_slots_and_budget_without_mutating_queues(self):
         running = FakeRequest('r', 33, 32, 'RUNNING')
         waiting = [FakeRequest('a', 2048), FakeRequest('b', 2048)]
@@ -82,6 +100,28 @@ class ObserverTests(unittest.TestCase):
         result = analyze(rows)
         self.assertEqual(result['affected_with_prior_online_risk'], 0)
         self.assertEqual(result['affected_with_same_step_only_risk'], 1)
+
+    def test_lookup_forecast_and_worker_receipt_timing(self):
+        request = dict(queue='waiting', status='WAITING', remaining_tokens=2048,
+                       resident_blocks=0, lookup_state='result_available',
+                       remote_hit_tokens=1024)
+        rows = [dict(event='pre_step', upcoming_step=1, monotonic_ns=100,
+                     predicted_upper_blocks=0, running_demand_blocks=0,
+                     block_size=16, requests=[request], pending=[]),
+                dict(event='allocation', upcoming_step=1, monotonic_ns=200,
+                     allocated_blocks=128, affected=[]),
+                dict(event='store_submit', monotonic_ns=300, request_ids=['r']),
+                dict(event='store_worker_receipt', monotonic_ns=100000300,
+                     completed={'r': 1}, failed=[])]
+        result = analyze(rows, forecast='lookup_ready')
+        self.assertEqual(result['warned_steps'], 0)
+        self.assertEqual(analyze(rows, forecast='lookup_inflight')['warned_steps'], 0)
+        self.assertEqual(result['store_timing']['worker_receipt_latency_ms']['p95'], 100)
+        request['remote_hit_tokens'] = 2048
+        self.assertEqual(analyze(rows, forecast='lookup_ready')['warned_steps'], 1)
+        del request['lookup_state']
+        with self.assertRaises(ValueError):
+            analyze(rows, forecast='lookup_ready')
 
 
 if __name__ == '__main__':

@@ -1,0 +1,33 @@
+{
+  "date": "2026-09-26",
+  "purpose": "Independent lookup-signal validation and STORE receipt timing",
+  "host": "117.50.221.59",
+  "runtime": {
+    "vllm": "0.30.0",
+    "gpu": "RTX 4090 24GB",
+    "model": "Qwen3-4B",
+    "gpu_kv_budget": "2 GiB"
+  },
+  "trace": {
+    "sessions": 16,
+    "rounds": 5,
+    "initial_tokens": 1536,
+    "inter_round_ms": 1400,
+    "inter_session_ms": 25,
+    "measurement_requests": 80
+  },
+  "remote_directory": "/root/CachePilot/artifacts/preallocation-lookup-validation-2026-09-26",
+  "ledger": "real-scaled-preallocation-diagnostic-r0/decisions/scheduler-1721.jsonl",
+  "raw_archive": {
+    "local": "artifacts/preallocation-lookup-validation-raw-2026-09-26.tar.gz",
+    "sha256": "9691f627d88dc38ef44368ca9ab66a8c3b778489c1dbbca5996f057749bc9641"
+  },
+  "analysis": [
+    "artifacts/preallocation-lookup-validation-2026-09-26-lookup-ready.json",
+    "artifacts/preallocation-lookup-validation-2026-09-26-lookup-inflight.json",
+    "artifacts/preallocation-lookup-validation-2026-09-26-compute-slots.json",
+    "artifacts/preallocation-lookup-validation-2026-09-26-async-admission.json",
+    "artifacts/preallocation-lookup-validation-2026-09-26-allocation-audit.json"
+  ],
+  "caveat": "Diagnostic timing only; no pin/admission protection was enabled."
+}

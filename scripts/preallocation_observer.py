@@ -5,6 +5,31 @@ def _ceil_div(value, divisor):
     return (value + divisor - 1) // divisor
 
 
+def lookup_snapshot(adapter, request_id):
+    """Read existing lookup bookkeeping without polling the server or changing it."""
+    finished = adapter._finished_lookup_results.get(request_id)
+    if finished is not None:
+        return 'resolved', finished
+    if request_id not in adapter._pending_lookups:
+        return 'not_started', None
+    if request_id in adapter._unacked_lookups:
+        return 'awaiting_ack', None
+
+    hits = dict(adapter._per_server_hits.get(request_id, {}))
+    for url, (future, _) in adapter._lookup_status.get(request_id, {}).items():
+        if url in hits or not future.query():
+            continue
+        try:
+            value = future.result(timeout=0)
+        except Exception:
+            return 'lookup_error', None
+        if value is not None:
+            hits[url] = int(value)
+    if all(url in hits for url in adapter._server_urls):
+        return 'result_available', min(hits.values()) * adapter.lmcache_tokens_per_chunk
+    return 'status_pending', None
+
+
 def demand_snapshot(scheduler):
     """Estimate compute-slot demand without invoking cache or remote lookup.
 

@@ -75,7 +75,8 @@
 - [x] 完成默认/修正信号/立即卸载的高低压力各三次重复（576 请求）；修正信号压力 P95 改善 2.82%、prefill 减少 6.21%，D2H 增加 5.54%，仍慢于立即卸载。见 experiments/2026-09-26/ALLOCATION_SIGNAL.md。
 - [x] 核查分配前需求预算的接入与生命周期边界，记录 worker 零 token 路径不提交 STORE 的限制；设计见 experiments/2026-09-26/PREALLOCATION_DESIGN.md。
 - [x] 实现独立准入前需求观测并完成一次 12 会话压力诊断；计算槽估计漏掉异步回载，宽泛异步上界误报过多，当前不进入保护原型。见 experiments/2026-09-26/PREALLOCATION_OBSERVATION.md。
-- [ ] 寻找更有区分度的异步回载需求信号，在独立轨迹上验证提前量、误报与 STORE 完成时间，再决定是否修改保护及准入流程。
+- [x] 在独立 16 会话压力轨迹上比较 `compute_slots`、`lookup_ready`、`lookup_inflight` 与宽泛异步上界；核对 STORE worker 回执并完成分配闭合审计。结论见 experiments/2026-09-26/LOOKUP_SIGNAL_VALIDATION.md：lookup 状态比宽泛上界更有区分度，但仍有大量无效报警，暂不进入提前 pin/准入保护。
+- [ ] 在第二类压力轨迹和多次重复中复核 lookup 状态信号，补齐取消/抢占/保存失败生命周期，再决定是否修改保护及准入流程。
 
 交付：可启用和禁用的实现、测试、消融及反例。性能门槛由基线噪声与实际需求决定，不先填加速目标。
 

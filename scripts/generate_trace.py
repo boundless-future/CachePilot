@@ -25,7 +25,8 @@ def validate_trace(trace):
         previous[event['session_id']] = event
 
 
-def generate(tokenizer, sessions, turns, context_tokens, period_ms=1800, think_ms=100):
+def generate(tokenizer, sessions, turns, context_tokens, period_ms=1800,
+             think_ms=100, session_gap_ms=20):
     events, prompts = [], {}
     for sid in range(sessions):
         prefix = f'Session {sid:04d}. You are debugging a repository. Evidence follows.\n'
@@ -40,7 +41,7 @@ def generate(tokenizer, sessions, turns, context_tokens, period_ms=1800, think_m
             prompts[sid] += f'\nUser turn {turn}: explain the next debugging step briefly.\nAssistant:'
             prompt = prompts[sid]
             events.append(dict(event_id=len(events), session_id=f's{sid:04d}', turn=turn,
-                arrival_ms=turn*period_ms + sid*20, think_ms=think_ms, prompt=prompt,
+                arrival_ms=turn*period_ms + sid*session_gap_ms, think_ms=think_ms, prompt=prompt,
                 prompt_sha256=hashlib.sha256(prompt.encode()).hexdigest(),
                 prompt_tokens=len(tokenizer.encode(prompt, add_special_tokens=False)),
                 max_tokens=48, temperature=0, seed=42))
@@ -58,9 +59,13 @@ def main():
     p.add_argument('--sessions', type=int, default=12)
     p.add_argument('--turns', type=int, default=4)
     p.add_argument('--context-tokens', type=int, default=2048)
+    p.add_argument('--period-ms', type=int, default=1800)
+    p.add_argument('--session-gap-ms', type=int, default=20)
     a=p.parse_args()
     from transformers import AutoTokenizer
-    t=generate(AutoTokenizer.from_pretrained(a.model),a.sessions,a.turns,a.context_tokens)
+    t=generate(AutoTokenizer.from_pretrained(a.model),a.sessions,a.turns,
+               a.context_tokens, period_ms=a.period_ms,
+               session_gap_ms=a.session_gap_ms)
     a.output.parent.mkdir(parents=True,exist_ok=True)
     a.output.write_text(json.dumps(t,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
 

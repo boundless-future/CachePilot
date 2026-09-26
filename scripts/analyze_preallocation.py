@@ -2,6 +2,7 @@
 import argparse
 import json
 from pathlib import Path
+from math import ceil
 
 
 def _async_admission_upper(snapshot):
@@ -13,6 +14,65 @@ def _async_admission_upper(snapshot):
                         - request['resident_blocks']) for request in waiting[:4])
     return max(snapshot['predicted_upper_blocks'],
                snapshot['running_demand_blocks'] + potential)
+
+
+def _lookup_upper(snapshot, forecast):
+    block_size = snapshot['block_size']
+    waiting = [request for request in snapshot['requests']
+               if request['queue'] == 'waiting' and request['status'] == 'WAITING'][:4]
+    potential = 0
+    for request in waiting:
+        if 'lookup_state' not in request:
+            raise ValueError('Lookup forecast requires lookup-state snapshots')
+        state = request['lookup_state']
+        hit = request['remote_hit_tokens']
+        if state in {'resolved', 'result_available'}:
+            tokens = min(hit, request['remaining_tokens'])
+        elif forecast == 'lookup_inflight' and state in {'awaiting_ack', 'status_pending'}:
+            tokens = request['remaining_tokens']
+        else:
+            tokens = 0
+        potential += max(0, ceil(tokens / block_size) - request['resident_blocks'])
+    return max(snapshot['predicted_upper_blocks'],
+               snapshot['running_demand_blocks'] + potential)
+
+
+def _forecast_blocks(snapshot, forecast):
+    if forecast == 'compute_slots':
+        return snapshot['predicted_upper_blocks']
+    if forecast == 'async_admission':
+        return _async_admission_upper(snapshot)
+    if forecast in {'lookup_ready', 'lookup_inflight'}:
+        return _lookup_upper(snapshot, forecast)
+    raise ValueError(f'Unknown forecast: {forecast}')
+
+
+def _store_timing(rows):
+    submissions = {}
+    durations = []
+    unmatched = 0
+    submitted = 0
+    for row in sorted(rows, key=lambda item: item['monotonic_ns']):
+        if row['event'] == 'store_submit':
+            for request_id in row['request_ids']:
+                submissions.setdefault(request_id, []).append(row['monotonic_ns'])
+                submitted += 1
+        elif row['event'] == 'store_worker_receipt':
+            for request_id in row['completed']:
+                queue = submissions.get(request_id, [])
+                if not queue:
+                    unmatched += 1
+                    continue
+                durations.append((row['monotonic_ns'] - queue.pop(0)) / 1e6)
+    if not submitted and not unmatched:
+        return None
+    ordered = sorted(durations)
+    return dict(submitted_batches=submitted, completed_batches=len(ordered),
+                unmatched_receipts=unmatched,
+                unfinished_batches=sum(map(len, submissions.values())),
+                worker_receipt_latency_ms=None if not ordered else dict(
+                    p50=ordered[(len(ordered)-1)//2],
+                    p95=ordered[ceil(.95*len(ordered))-1], maximum=ordered[-1]))
 
 
 def analyze(rows, burst_blocks=128, forecast='compute_slots'):
@@ -28,8 +88,7 @@ def analyze(rows, burst_blocks=128, forecast='compute_slots'):
               for step in snapshots}
     warnings = []
     for step, snapshot in sorted(snapshots.items()):
-        predicted = (_async_admission_upper(snapshot) if forecast == 'async_admission'
-                     else snapshot['predicted_upper_blocks'])
+        predicted = _forecast_blocks(snapshot, forecast)
         warnings.append(dict(step=step, predicted_upper_blocks=predicted,
                              actual_blocks=actual[step],
                              warning=predicted >= burst_blocks,
@@ -59,8 +118,7 @@ def analyze(rows, burst_blocks=128, forecast='compute_slots'):
     for step, snapshot in snapshots.items():
         for pending in snapshot['pending']:
             rank = pending['nearest_free_rank']
-            predicted = (_async_admission_upper(snapshot) if forecast == 'async_admission'
-                         else snapshot['predicted_upper_blocks'])
+            predicted = _forecast_blocks(snapshot, forecast)
             if (rank is not None and pending['hash_valid'] and not pending['blocked'] and
                     rank < predicted):
                 key = (pending['request_id'], pending['start'], pending['end'])
@@ -104,6 +162,9 @@ def analyze(rows, burst_blocks=128, forecast='compute_slots'):
                 risk_warned_operations=len(risk),
                 risk_warned_without_observed_reuse=len(set(risk) - set(losses)),
                 affected_cases=cases)
+    store_timing = _store_timing(rows)
+    if store_timing is not None:
+        result['store_timing'] = store_timing
     if forecast == 'compute_slots':
         alternate = analyze(rows, burst_blocks, 'async_admission')
         result['posthoc_async_admission_upper'] = {
@@ -118,12 +179,15 @@ def analyze(rows, burst_blocks=128, forecast='compute_slots'):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('ledger', type=Path)
+    parser.add_argument('ledger', nargs='+', type=Path)
     parser.add_argument('--output', required=True, type=Path)
     parser.add_argument('--burst-blocks', type=int, default=128)
+    parser.add_argument('--forecast', choices=['compute_slots', 'async_admission',
+                                               'lookup_ready', 'lookup_inflight'],
+                        default='compute_slots')
     args = parser.parse_args()
-    rows = [json.loads(line) for line in args.ledger.read_text().splitlines()]
-    result = analyze(rows, args.burst_blocks)
+    rows = [json.loads(line) for path in args.ledger for line in path.read_text().splitlines()]
+    result = analyze(rows, args.burst_blocks, args.forecast)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps({key: value for key, value in result.items()
