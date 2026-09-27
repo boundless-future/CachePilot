@@ -174,11 +174,11 @@ CachePilot/
 
 随后两次让 MP server 拒绝 RETRIEVE，均得到原始 `false` future：272 个 GPU block 被标错并重算，目标生成和 GPU block 回收通过；但第二次的 CPU 读锁从注入前 0 增至 17，后续请求和 vLLM 退出后仍未释放，故端到端资源验收为 `passed=false`，见 [server 拒绝 RETRIEVE](experiments/2026-09-27/SERVER_REJECTED_RETRIEVE.md)。诊断 Connector 故意提交空 block ID 列表以触发 underflow；没有证据表明正常 Connector 会提交这种输入。这是上游候选缺口，不直接否定保护策略设计，也不能算作自然 I/O 故障验证。
 
-进一步使用未修改的 `LMCacheMPConnector` 三次复现实验：在 MP server 受控暂停造成的 lookup 等待期断开客户端，vLLM 的 deferred 请求清零、正常 follow-up 命中并生成相同输出，但三次均留下 17 个 CPU 读锁；r3 另观察到 1 个未移除的 prefetch job，vLLM 退出后仍在。资源验收均为 `passed=false`，见 [原生 lookup 取消](experiments/2026-09-27/REMOTE_LOOKUP_CANCELLATION.md)。这比非法 RETRIEVE 输入更直接相关，但不是自然网络故障；本地 lookup 记录清理与 server job 消费的竞态只是源码线索，尚未用请求级事件确定根因。
+进一步使用未修改的 `LMCacheMPConnector` 三次复现实验：在 MP server 受控暂停造成的 lookup 等待期断开客户端，vLLM 的 deferred 请求清零、正常 follow-up 命中并生成相同输出，但三次均留下 17 个 CPU 读锁；r3 另观察到 1 个未移除的 prefetch job，vLLM 退出后仍在。资源验收均为 `passed=false`，见 [原生 lookup 取消](experiments/2026-09-27/REMOTE_LOOKUP_CANCELLATION.md)。诊断 Connector 的请求级时序确认 cleanup 移除 pending ack 后、server 恢复前提交 END_SESSION，且目标请求未查询 prefetch 状态；固定版 adapter 特征测试确认 END_SESSION 可早于 ack。诊断轮不是未修改 Connector，也没有 server 侧逐请求事件，因此仍需验证 job/读锁释放条件。这不是自然网络故障。
 
 尚需使用真实 vLLM/LMCache 服务补齐：
 
-- 原生 Connector 异步 lookup 等待期取消后读锁/job 的释放时序和最小回归复现；当前验收失败，不能将 deferred 请求清零等同于资源闭合；
+- 原生 Connector 异步 lookup 等待期取消后读锁/job 的 server 侧时序、最小修复和期望不变量回归；当前验收失败，不能将 deferred 请求清零等同于资源闭合；
 - 自然抢占、在途 STORE、重新远端回载和迟到回执；
 - 异步调度下 reset API 与 deferred block free 的时序限制；
 - 真正的远端异步 lookup/传输中止；受控暂停不等同于自然 I/O 故障；
@@ -219,7 +219,7 @@ CachePilot/
 | 准入前需求观测 | 事后修正信号无法挽救已被覆盖的 KV | `compute_slots` 低估，lookup 信号误报较多，暂不保护 | 增加阶段 3A，阻止过早实现 pin |
 | 生命周期与取消 | 保护策略会改变在途 STORE 和资源释放时序 | registry 契约及若干诊断路径通过；非法 RETRIEVE 输入留下 17 个读锁，原生 Connector 受控 lookup 取消也三次残留 17 个读锁、r3 另有 1 个 job；自然 I/O/部分写入等仍待补 | 增加阶段 3B；GPU 保护门槛未通过，fake worker 状态机可独立推进 |
 | RETRIEVE underflow 读锁 | 诊断 Connector 故意提交空 block ID 列表，MP server 返回原始 `false` | 两次复现，第二次确认注入前 0、目标后及 vLLM 退出后均为 17；正常 Connector 是否可能触发尚无证据 | 独立保存上游候选问题，项目收尾时核查版本、最小修复和回归测试；不外推至自然故障 |
-| 原生 lookup 取消后资源残留 | 受控暂停 MP server 时断开等待 lookup 的客户端 | 三次复现 17 个读锁，r3 还观察到 1 个活动 job；请求已从 deferred 队列清除，正常 follow-up 成功 | 独立记录请求级时序与最小回归需求；真实传输中止仍待测，GPU 保护继续受 3B 门槛约束 |
+| 原生 lookup 取消后资源残留 | 受控暂停 MP server 时断开等待 lookup 的客户端 | 三次原生复现 17 个读锁，r3 有 1 个 job；诊断时序与真实 adapter 特征测试确认 cleanup 后 END_SESSION 可先于 LOOKUP ack | 待 server 侧顺序、修复后原生资源复测和真实传输中止；GPU 保护继续受 3B 门槛约束 |
 | 上游修复评估 | 发现可能有可复现的压力信号缺口 | 已单独记录复现、影响和 PR 条件 | 延后到阶段 5，不阻塞项目主线 |
 
 ## 6. 实验模型与数据
@@ -280,7 +280,7 @@ Trace 回放评估的是推理系统在同一请求负载下的行为，不评�
 
 原计划中的环境确认已经完成并固化在 `docs/ENVIRONMENT.md`。当前剩余事项按阻塞关系排列：
 
-1. 针对原生 Connector 的受控 lookup 取消资源失败，补请求级时序、最小回归和释放条件；另完成真正远端传输中止、自然 I/O/部分写入下的 worker 保存失败验证，补自然抢占/在途 STORE 与迟到回执；RETRIEVE underflow 的读锁残留保留为独立候选问题，两个 `passed=false` 均不能计为资源门槛通过；异步 reset API 与 session TTL 单列复核；
+1. 针对原生 Connector 的受控 lookup 取消资源失败，诊断时序和当前 adapter 特征测试已完成；下一步核对 server 侧顺序、释放条件与最小修复，并用原生 Connector 复测资源；另完成真正远端传输中止、自然 I/O/部分写入下的 worker 保存失败验证，补自然抢占/在途 STORE 与迟到回执；RETRIEVE underflow 的读锁残留保留为独立候选问题，两个 `passed=false` 均不能计为资源门槛通过；异步 reset API 与 session TTL 单列复核；
 2. 继续补齐 P2 的长 prefill、稳定 decode、容量扫描和 DMA/排队/重算分解；
 3. 与资源排查并行，用 fake worker 实现阶段 3C 的保护状态机；只有生命周期门槛通过后才进行小规模 GPU 消融；
 4. 固定最终对照矩阵和验证 trace，重复运行并保留退化案例；

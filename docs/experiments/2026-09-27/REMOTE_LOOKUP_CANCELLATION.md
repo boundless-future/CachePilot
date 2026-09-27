@@ -25,8 +25,18 @@ python scripts/remote_lookup_cancel_smoke.py \
 
 [r2 结果](remote-lookup-cancel-r2-result.json)、[r3 结果](remote-lookup-cancel-r3-result.json)入库；三轮完整日志和结果位于本机及服务器的忽略目录 `artifacts/remote-lookup-cancel-2026-09-27-r{1,2,3}/`。
 
+## 请求级时序补充（trace-r2）
+
+为核对调度端顺序，`LookupTimelineConnector` 只包装固定版 `LMCacheMPConnector` 的 adapter/client 方法，写出请求级 JSONL，保留原调用和返回值；此轮**不是未修改的原生 Connector**，也不用于性能比较。运行 `python scripts/remote_lookup_cancel_smoke.py --trace-lookup --output artifacts/remote-lookup-cancel-2026-09-27-trace-r2`；完整日志和 JSONL 留在忽略目录，入库 [结果](lookup-timeline-r2-result.json) 与 [时序摘要](lookup-timeline-r2-summary.json)。`trace-r1` 因启动环境缺少 `lmcache` 可执行文件而未进入实验，不计为复现。
+
+目标请求 `cmpl-81b57136f1bfcf6d-0-87f231a3` 的 LOOKUP 于 Unix 时间 `1790515211.508375` 提交，客户端于 `5211.59214` 断开。`cleanup_lookup_result()` 前 `_unacked_lookups` 仍包含 server（`5211.5960262`），清理后为空（`5211.5961077`），`END_SESSION` RPC 于 `5211.5962036` 提交，server 到 `5211.7072053` 才恢复。目标请求没有提交 `query_prefetch_status`。取消后和 vLLM 退出后均为 17 个读锁、1 个活动 job；follow-up 外部命中 4,352 token，输出与参考一致，资源验收仍为 `passed=false`。
+
+固定版真实 `LMCacheMPSchedulerAdapter` 的特征测试 `tests/test_lookup_cancel_contract.py` 用 pending ack future 与 fake request client 复现：`cleanup_lookup_result()` 后，`end_session()` 能在 LOOKUP ack 前发送 RPC。此测试**刻画当前缺陷，不是期望行为的通过性回归**；修复后应反转断言，要求先完成/处理 LOOKUP ack，再保证取消路径消费或释放相应 prefetch job 与读锁。
+
 ## 源码线索与下一步
 
-固定版 `lmcache_mp_connector.py` 的 `request_finished()` 先调用 `scheduler_adapter.cleanup_lookup_result()`，再调用 `end_session()`。适配器的 `cleanup_lookup_result()` 移除 `_unacked_lookups` 和 `_lookup_status`，而 `end_session()` 只会等待它还能看到的 future。MP server 的 `lookup.py` 中，`query_prefetch_status()` 消费完成结果并移除 `_prefetch_jobs`；`END_SESSION` 删除 session，却不移除 job 或直接释放 lookup 读锁。取消时本地状态清理、server LOOKUP 注册、状态查询和 END_SESSION 的具体先后仍需请求级事件证据确认。上述源码路径与实测吻合，但**不是已定位并修复的根因**。
+固定版 `lmcache_mp_connector.py` 的 `request_finished()` 先调用 `scheduler_adapter.cleanup_lookup_result()`，再调用 `end_session()`。适配器的 `cleanup_lookup_result()` 移除 `_unacked_lookups` 和 `_lookup_status`，而 `end_session()` 只会等待它还能看到的 future。MP server 的 `lookup.py` 中，`query_prefetch_status()` 消费完成结果并移除 `_prefetch_jobs`；`END_SESSION` 删除 session，却不移除 job 或直接释放 lookup 读锁。
 
-这个原生路径的资源缺口比此前诊断 Connector 故意提交非法 block ID 的 RETRIEVE underflow 更直接影响 CachePilot 的生命周期门槛。阶段 3B 仍未通过，不能据此启动 GPU 上的提前 pin/准入保护。下一步应做请求级时序与最小回归复现，验证取消语义下 job/读锁的恰当释放时机；同时继续独立实现不接 GPU 的 fake worker 状态机。是否向上游提 issue/PR，留待确认当前版本、最小修复和回归测试后决定。
+trace-r2 已确认调度端清理与 END_SESSION 的先后，并确认目标请求没有提交状态查询；但尚无 server 侧逐请求事件，无法单凭客户端时序证明 server 内部处理顺序或所有读锁的对象归属。上述源码路径与实测吻合，是明确的候选原因，**不是已验证修复或自然网络故障复现**。
+
+这个原生路径的资源缺口比此前诊断 Connector 故意提交非法 block ID 的 RETRIEVE underflow 更直接影响 CachePilot 的生命周期门槛。阶段 3B 仍未通过，不能据此启动 GPU 上的提前 pin/准入保护。下一步需要隔离的 server 侧事件或可验证的最小修复，确认取消语义下 job/读锁的释放条件，并做原生 Connector 端到端复测；不接 GPU 的 fake worker 状态机可独立推进。是否向上游提 issue/PR，留待确认当前版本、最小修复和回归测试后决定。

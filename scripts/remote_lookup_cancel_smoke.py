@@ -59,6 +59,7 @@ def open_stream(api_host, model, text):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--trace-lookup", action="store_true")
     args = parser.parse_args()
     for port in (8000, 8080, 5555):
         with socket.socket() as sock:
@@ -70,12 +71,17 @@ def main():
     cache_api = "http://127.0.0.1:8080"
     model = str(ROOT / "models/Qwen3-4B")
     text = prompt()
-    command = ["bash", str(ROOT / "scripts/serve.sh"), "immediate"]
+    mode = "lookup-timeline" if args.trace_lookup else "immediate"
+    if args.trace_lookup:
+        os.environ["CACHEPILOT_LOOKUP_TIMELINE_DIR"] = str(
+            args.output.resolve() / "lookup-timeline")
+    command = ["bash", str(ROOT / "scripts/serve.sh"), mode]
     cache = Service(["bash", str(ROOT / "scripts/lmcache-server.sh")],
                     args.output / "lmcache.log")
     engine = Service(command, args.output / "vllm-warmup.log")
     result = dict(model=model, prompt_sha256=hashlib.sha256(text.encode()).hexdigest(),
-                  prompt_chars=len(text), connector="LMCacheMPConnector",
+                  prompt_chars=len(text), connector=("LookupTimelineConnector"
+                                                       if args.trace_lookup else "LMCacheMPConnector"),
                   timestamps_unix={})
     paused = False
     stream = None

@@ -1,0 +1,25 @@
+{
+  "request_id": "cmpl-81b57136f1bfcf6d-0-87f231a3",
+  "connector": "LookupTimelineConnector",
+  "lookup_submitted_unix": 1790515211.508375,
+  "client_disconnected_unix": 1790515211.59214,
+  "cleanup_before_unix": 1790515211.5960262,
+  "cleanup_after_unix": 1790515211.5961077,
+  "end_session_submitted_unix": 1790515211.5962036,
+  "server_resumed_unix": 1790515211.7072053,
+  "unacked_before_cleanup": [
+    "tcp://127.0.0.1:5555"
+  ],
+  "unacked_after_cleanup": [],
+  "status_query_count": 0,
+  "cleanup_dropped_unacked_before_end": true,
+  "after_cancel": {
+    "l1_read_locked": 17,
+    "active_prefetch_jobs": 1
+  },
+  "after_engine_stop": {
+    "l1_read_locked": 17,
+    "active_prefetch_jobs": 1
+  },
+  "experiment_passed": false
+}
