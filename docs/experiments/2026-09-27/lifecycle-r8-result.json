@@ -1,0 +1,74 @@
+{
+  "model": "/root/CachePilot/models/Qwen3-4B",
+  "delay_seconds": 8.0,
+  "prompt_chars": 24189,
+  "warmup_usage": {
+    "prompt_tokens": 4570,
+    "total_tokens": 4578,
+    "completion_tokens": 8,
+    "prompt_tokens_details": null,
+    "completion_tokens_details": null
+  },
+  "before_cancel_metrics": {
+    "external_hit_tokens": 0.0,
+    "gpu_hit_tokens": 0.0,
+    "kv_cache_usage": 0.0
+  },
+  "cancel": {
+    "status": 200,
+    "chunks_before_close": 0,
+    "elapsed_seconds": 1.0409342140001172
+  },
+  "cache_status_after_cancel": {
+    "is_healthy": true,
+    "active_sessions": 0,
+    "registered_gpu_ids": [
+      2175569016093118330
+    ],
+    "l1_read_locked": 17,
+    "l1_write_locked": 0,
+    "store_pending": 0,
+    "store_in_flight": 0,
+    "prefetch_in_flight": 0,
+    "prefetch_pending": 0,
+    "prefetch_lookup": 0,
+    "prefetch_load": 0,
+    "write_ttl_seconds": 600,
+    "read_ttl_seconds": 300
+  },
+  "after_cancel_metrics": {
+    "external_hit_tokens": 4352.0,
+    "gpu_hit_tokens": 0.0,
+    "kv_cache_usage": 0.0
+  },
+  "follow_up_usage": {
+    "prompt_tokens": 4573,
+    "total_tokens": 4581,
+    "completion_tokens": 8,
+    "prompt_tokens_details": null,
+    "completion_tokens_details": null
+  },
+  "lifecycle": {
+    "request_id": "cmpl-8caacce18247576e-0-9c41de75",
+    "waiting_snapshots": 1,
+    "waiting_block_count": 272,
+    "free_blocks_during_wait": 637,
+    "free_blocks_before_request": 909,
+    "free_blocks_after_completion": 909,
+    "delayed_submit_count": 1,
+    "cancelled_before_submit_count": 1,
+    "submitted_count": 0,
+    "worker_cancel_completion_count": 1,
+    "scheduler_completion_count": 1,
+    "request_registered_after_completion": false,
+    "tracked_refs_after_completion": {},
+    "abort_monotonic_ns": 6580072747010,
+    "skipped_monotonic_ns": 6580074956874
+  },
+  "after_follow_up_metrics": {
+    "external_hit_tokens": 8704.0,
+    "gpu_hit_tokens": 0.0,
+    "kv_cache_usage": 0.0
+  },
+  "passed": true
+}

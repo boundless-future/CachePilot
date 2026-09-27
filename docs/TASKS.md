@@ -82,7 +82,8 @@
 - [x] 补充高重叠持续到达轨迹并完成两次重复；逐请求 lookup→allocation 配对和 STORE 回执均闭合，仍有大量无效报警，暂不进入提前保护。见 [HIGH_OVERLAP_LOOKUP_ALLOCATION.md](experiments/2026-09-27/HIGH_OVERLAP_LOOKUP_ALLOCATION.md)。
 - [x] 增加并在真实 LMCache 环境通过 registry/policy 生命周期契约测试，覆盖 reset、迟到回执、保存失败和 request-id 重用；见 [LIFECYCLE_CONTRACT.md](experiments/2026-09-27/LIFECYCLE_CONTRACT.md)。
 - [x] 完成一次真实客户端断流 smoke：取消后 LMCache 队列/锁归零，后续请求 200；未把 active_sessions 计数解释为回收结论。见 [CANCELLATION_SMOKE.md](experiments/2026-09-27/CANCELLATION_SMOKE.md)。
-- [ ] 用真实 vLLM/LMCache 服务补齐 `WAITING_FOR_REMOTE_KVS` 中途取消、显式抢占、远端回载中止和 worker 保存失败路径，再决定是否修改保护及准入流程。
+- [x] 用诊断 Connector 验证 `WAITING_FOR_REMOTE_KVS` 等待期取消：worker/scheduler 完成通知各一次、请求表删除、272 个 block 引用归零且空闲块恢复、follow-up CPU 回载成功。r5-r7 的诊断注入误判和协议冲突另行保留，见 [ASYNC_RETRIEVE_CANCELLATION.md](experiments/2026-09-27/ASYNC_RETRIEVE_CANCELLATION.md)。
+- [ ] 用真实 vLLM/LMCache 服务补齐显式抢占、远端回载中止和 worker 保存失败路径；等待期取消已在诊断 Connector 下验证，未覆盖未注入的生产路径。再决定是否修改保护及准入流程。
 - [ ] 在上述生命周期通过后实现最终策略原型：准入前需求预算、候选选择与 hash 复核、前缀闭合、pin/unpin、STORE 提交/回执和保护预算回退；先做 fake worker 状态机，再做 GPU 消融，不替换默认策略。
 
 交付：可启用和禁用的实现、测试、消融及反例。性能门槛由基线噪声与实际需求决定，不先填加速目标。
@@ -98,4 +99,4 @@
 
 ## 优先顺序
 
-P0/P1 已建立可运行环境，P2 基线仍有参数扫描与更多压力点未完成。P3 已完成 allocator 真值计数消融、两类压力轨迹的需求信号诊断和生命周期契约/取消 smoke；`compute_slots` 漏掉异步回载突发，宽泛及 lookup 状态估计又有较多无效报警，当前不启用提前 pin/准入保护。下一步先补 `WAITING_FOR_REMOTE_KVS` 中途取消、显式抢占、远端回载中止和保存失败生命周期，再决定是否进入最终策略原型：准入前需求预算、候选保护、pin/unpin 与 STORE 协同。LMCache 压力信号缺口是已知实验限制，不阻塞这些工作；上游 PR 留待项目阶段收尾评估。输出差异仍待独立区分编译/CUDA Graph，固定 horizon 两点试验不代替完整参数扫描；暂不需要更贵的 GPU 或完整 SWE-bench。
+P0/P1 已建立可运行环境，P2 基线仍有参数扫描与更多压力点未完成。P3 已完成 allocator 真值计数消融、两类压力轨迹的需求信号诊断和生命周期契约/取消 smoke；`WAITING_FOR_REMOTE_KVS` 等待期取消已由诊断 Connector 实测闭合，但生产路径、显式抢占、远端回载中止和保存失败仍需验证。`compute_slots` 漏掉异步回载突发，宽泛及 lookup 状态估计又有较多无效报警，当前不启用提前 pin/准入保护。下一步补余下生命周期门槛，再进入最终策略原型：准入前需求预算、候选保护、pin/unpin 与 STORE 协同。LMCache 压力信号缺口是已知实验限制，不阻塞这些工作；上游 PR 留待项目阶段收尾评估。输出差异仍待独立区分编译/CUDA Graph，固定 horizon 两点试验不代替完整参数扫描；暂不需要更贵的 GPU 或完整 SWE-bench。
