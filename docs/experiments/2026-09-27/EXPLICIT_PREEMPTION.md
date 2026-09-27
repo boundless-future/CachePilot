@@ -58,3 +58,11 @@ python scripts/preemption_smoke.py --output artifacts/preemption-async
 ```
 
 下一步验证真实远端回载中止与 worker STORE 失败；异步调度 reset 限制保留为支线，不把关闭异步调度作为正式策略收益的一部分。
+
+## 暂停前收尾
+
+2026-09-27 按用户要求暂停服务器实验。重新检查服务器，没有 vLLM、LMCache 或实验脚本进程，GPU compute 列表为空；平台自带 SSH、Jupyter、文件浏览器和 VS Code 服务保留。服务器已执行 `sync`。
+
+四轮完整实验目录已备份到本地 `artifacts/preemption-2026-09-27-r1` 至 `r4`，包含日志、事件、对照文本和已完成请求的目标文本；四份 result 与四份 vLLM 日志的 SHA-256 均与服务器一致。完整备份由 `.gitignore` 排除，关键结果和事件已提交 GitHub。服务器关机由用户在租机平台操作。
+
+下次开机先确认 SSH、Conda `cachepilot`、模型文件和 GPU 可用，检查实验端口没有占用。继续阶段 3B 的远端回载失败/中止实验，优先核对 worker load-error block 与 scheduler 重算回退的接口；随后验证真实 worker STORE 失败与回执。当前没有需要保持运行或等待完成的实验，不需要重新跑已有成功对照才能继续。
