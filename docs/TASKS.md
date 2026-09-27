@@ -91,8 +91,10 @@
 - [x] 用未修改的 `LMCacheMPConnector` 完成三次受控远端 lookup 延迟期间的客户端取消：`deferred` 请求清零且 follow-up 正常命中，但三次均留下 17 个 CPU 读锁；r3 还留下 1 个 prefetch job，至 vLLM 退出仍在，资源验收为 `passed=false`。见 [REMOTE_LOOKUP_CANCELLATION.md](experiments/2026-09-27/REMOTE_LOOKUP_CANCELLATION.md)。这不是自然网络故障或真实传输中断。
 - [x] 用只记录时序的诊断 Connector 补请求级事件：取消清理先移除 pending LOOKUP ack，随后提交 END_SESSION，server 恢复后仍有 17 个读锁与 1 个 job；固定版真实 adapter 的特征测试复现 END_SESSION 可先于 ack 提交。诊断轮不是未修改的原生 Connector，见 [REMOTE_LOOKUP_CANCELLATION.md](experiments/2026-09-27/REMOTE_LOOKUP_CANCELLATION.md)。
 - [x] 用未修改的原生 Connector 和只记录事件的 MP server 包装器确认：LOOKUP 注册目标 job 后才处理 END_SESSION，目标没有状态查询；17 个读锁与 1 个 job 在取消、follow-up、引擎退出后仍在。隔离的 server 诊断释放轮消费已完成的 17-chunk prefetch 并释放读锁后资源归零，follow-up 仍命中；仅支持已完成 L1 命中场景的归因，不是正式修复或阶段 3B 通过。见 [REMOTE_LOOKUP_CANCELLATION.md](experiments/2026-09-27/REMOTE_LOOKUP_CANCELLATION.md)。
+- [x] 对照上游 LMCache issue #5339 与 PR #5008，明确 #5339 是当前 MP prefetch bookkeeping 的直接相关记录，#5008 是范围不同的 worker async-loading 清理；新增 [UPSTREAM_LOOKUP_RECLAIM.md](UPSTREAM_LOOKUP_RECLAIM.md)。
+- [x] 新增无 GPU 的 prefetch deferred-reclaim 生命周期模型与测试，覆盖完成/取消顺序、失败、重复 END_SESSION、正常消费和 request-id generation 重用；模型只固定不变量，不替代 LMCache 正式实现。
 - [ ] 将 RETRIEVE underflow 的 17 个未释放读锁保留为独立上游候选问题；项目收尾前核查当前 LMCache 版本、最小复现与修复测试，不将其归因于正常 Connector 的未注入路径。
-- [ ] 针对原生 Connector 的 lookup 取消读锁/job 残留，核对当前上游版本，设计覆盖未完成 prefetch、并发、重复 END_SESSION、request-id 重用及正常请求不重复释放的最小修复，补期望不变量回归与未修改 server 的原生端到端资源复测；仍需补真实传输中止和自然 I/O 故障或部分写入下的 worker 保存失败路径。补自然抢占/在途 STORE 与迟到回执，再决定是否修改保护及准入流程。
+- [ ] 针对原生 Connector 的 lookup 取消读锁/job 残留，将模型中的不变量映射到真实 `LookupModule`，核对当前上游版本，设计覆盖未完成 prefetch、并发、重复 END_SESSION、request-id 重用及正常请求不重复释放的最小修复，补期望不变量回归与未修改 server 的原生端到端资源复测；仍需补真实传输中止和自然 I/O 故障或部分写入下的 worker 保存失败路径。补自然抢占/在途 STORE 与迟到回执，再决定是否修改保护及准入流程。
 - [ ] 单独复核异步调度的 prefix reset 与 deferred block free 时序、EVICTION_AWARE 退出后 session TTL；当前 reset API 的失败不能算作生成或资源泄漏，active_sessions 也不能作为回收通过证据。
 - [ ] 可独立推进不接 GPU 的 fake worker 状态机：准入前需求预算、候选选择与 hash 复核、前缀闭合、pin/unpin、STORE 提交/回执和保护预算回退；原生 lookup 取消资源门槛通过后再做 GPU 消融，不替换默认策略。
 

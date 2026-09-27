@@ -280,7 +280,7 @@ Trace 回放评估的是推理系统在同一请求负载下的行为，不评�
 
 原计划中的环境确认已经完成并固化在 `docs/ENVIRONMENT.md`。当前剩余事项按阻塞关系排列：
 
-1. 针对原生 Connector 的受控 lookup 取消资源失败，客户端时序、adapter 特征测试和 server 逐请求事件已完成；诊断释放只在已完成 L1 prefetch 场景使 17 个锁与 1 个 job 归零，不能计为阶段 3B 通过。下一步核对当前上游版本，设计覆盖未完成 prefetch、并发、重复 END_SESSION、request-id 重用及正常请求的最小修复，再以未修改 server 的候选补丁和原生 Connector 复测资源；另完成真正远端传输中止、自然 I/O/部分写入下的 worker 保存失败验证，补自然抢占/在途 STORE 与迟到回执；RETRIEVE underflow 的读锁残留保留为独立候选问题；异步 reset API 与 session TTL 单列复核；
+1. 针对原生 Connector 的受控 lookup 取消资源失败，客户端时序、adapter 特征测试和 server 逐请求事件已完成；诊断释放只在已完成 L1 prefetch 场景使 17 个锁与 1 个 job 归零，不能计为阶段 3B 通过。已完成 #5339/#5008 上游范围对照，并用 [UPSTREAM_LOOKUP_RECLAIM.md](UPSTREAM_LOOKUP_RECLAIM.md) 与无 GPU 生命周期模型固定 server-owned deferred cleanup 的不变量。下一步把模型映射到真实 `LookupModule`，设计覆盖未完成 prefetch、并发、重复 END_SESSION、request-id 重用及正常请求的最小修复，再以未修改 server 的候选补丁和原生 Connector 复测资源；另完成真正远端传输中止、自然 I/O/部分写入下的 worker 保存失败验证，补自然抢占/在途 STORE 与迟到回执；RETRIEVE underflow 的读锁残留保留为独立候选问题；异步 reset API 与 session TTL 单列复核；
 2. 继续补齐 P2 的长 prefill、稳定 decode、容量扫描和 DMA/排队/重算分解；
 3. 与资源排查并行，用 fake worker 实现阶段 3C 的保护状态机；只有生命周期门槛通过后才进行小规模 GPU 消融；
 4. 固定最终对照矩阵和验证 trace，重复运行并保留退化案例；
