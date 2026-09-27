@@ -75,6 +75,66 @@ def _store_timing(rows):
                     p95=ordered[ceil(.95*len(ordered))-1], maximum=ordered[-1]))
 
 
+def _lookup_allocation_pairs(rows):
+    """Join each physical allocation with the latest lookup observation.
+
+    The scheduler ledger records lookup results and allocator events at
+    different points in the scheduling loop.  Joining by request id and
+    monotonic timestamp preserves that ordering without treating
+    ``SchedulerOutput`` as an allocation ledger.  A pre-step snapshot for the
+    same upcoming step is included when available, so the result can compare
+    the online lookup state with the allocation that followed it.
+    """
+    ordered = sorted(rows, key=lambda item: item['monotonic_ns'])
+    latest_lookup = {}
+    pre_steps = {}
+    pairs = []
+    for row in ordered:
+        if row.get('event') == 'pre_step':
+            pre_steps[row.get('upcoming_step')] = row
+        elif row.get('event') == 'lookup':
+            latest_lookup[row.get('request_id')] = row
+        elif row.get('event') == 'allocation':
+            context = row.get('context') or {}
+            request_id = context.get('request_id')
+            lookup = latest_lookup.get(request_id)
+            snapshot = pre_steps.get(row.get('upcoming_step'))
+            request_snapshot = None
+            if snapshot is not None and request_id is not None:
+                request_snapshot = next(
+                    (item for item in snapshot.get('requests', ())
+                     if item.get('request_id') == request_id),
+                    None,
+                )
+            pairs.append({
+                'request_id': request_id,
+                'allocation_step': row.get('upcoming_step'),
+                'allocation_monotonic_ns': row['monotonic_ns'],
+                'allocated_blocks': row.get('allocated_blocks', 0),
+                'external_tokens': context.get('external_tokens'),
+                'async_load': context.get('async_load'),
+                'lookup_step': None if lookup is None else lookup.get('step'),
+                'lookup_monotonic_ns': (
+                    None if lookup is None else lookup.get('monotonic_ns')
+                ),
+                'lookup_external_tokens': (
+                    None if lookup is None else lookup.get('external_tokens')
+                ),
+                'lookup_async_load': (
+                    None if lookup is None else lookup.get('async_load')
+                ),
+                'pre_step_lookup_state': (
+                    None if request_snapshot is None
+                    else request_snapshot.get('lookup_state')
+                ),
+                'pre_step_remote_hit_tokens': (
+                    None if request_snapshot is None
+                    else request_snapshot.get('remote_hit_tokens')
+                ),
+            })
+    return pairs
+
+
 def analyze(rows, burst_blocks=128, forecast='compute_slots'):
     snapshots = {row['upcoming_step']: row for row in rows if row['event'] == 'pre_step'}
     allocations = {}
@@ -165,6 +225,20 @@ def analyze(rows, burst_blocks=128, forecast='compute_slots'):
     store_timing = _store_timing(rows)
     if store_timing is not None:
         result['store_timing'] = store_timing
+    pairs = _lookup_allocation_pairs(rows)
+    if pairs:
+        async_pairs = [item for item in pairs if item['async_load']]
+        result['lookup_allocation_pairs'] = pairs
+        result['lookup_allocation_summary'] = {
+            'allocations': len(pairs),
+            'allocations_with_request': sum(item['request_id'] is not None for item in pairs),
+            'async_allocations': len(async_pairs),
+            'async_blocks': sum(item['allocated_blocks'] for item in async_pairs),
+            'async_with_prior_lookup': sum(item['lookup_step'] is not None for item in async_pairs),
+            'async_with_pre_step_state': sum(
+                item['pre_step_lookup_state'] is not None for item in async_pairs
+            ),
+        }
     if forecast == 'compute_slots':
         alternate = analyze(rows, burst_blocks, 'async_admission')
         result['posthoc_async_admission_upper'] = {

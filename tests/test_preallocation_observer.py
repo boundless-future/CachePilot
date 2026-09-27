@@ -5,7 +5,7 @@ from types import SimpleNamespace
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 from preallocation_observer import demand_snapshot, install_scheduler_observer, lookup_snapshot
-from analyze_preallocation import analyze
+from analyze_preallocation import analyze, _lookup_allocation_pairs
 
 
 class FakeRequest:
@@ -122,6 +122,38 @@ class ObserverTests(unittest.TestCase):
         del request['lookup_state']
         with self.assertRaises(ValueError):
             analyze(rows, forecast='lookup_ready')
+
+    def test_lookup_allocation_pairs_join_latest_lookup_and_step_snapshot(self):
+        rows = [
+            dict(event='lookup', step=4, monotonic_ns=100,
+                 request_id='r', external_tokens=1024, async_load=True),
+            dict(event='pre_step', upcoming_step=5, monotonic_ns=110,
+                 predicted_upper_blocks=0, running_demand_blocks=0,
+                 block_size=16, requests=[dict(
+                     request_id='r', queue='waiting', status='WAITING',
+                     lookup_state='result_available', remote_hit_tokens=1024)],
+                 pending=[]),
+            dict(event='allocation', upcoming_step=5, monotonic_ns=120,
+                 context=dict(request_id='r', external_tokens=1024,
+                              async_load=True), allocated_blocks=64, affected=[]),
+        ]
+        pairs = _lookup_allocation_pairs(rows)
+        self.assertEqual(len(pairs), 1)
+        self.assertEqual(pairs[0]['request_id'], 'r')
+        self.assertEqual(pairs[0]['lookup_step'], 4)
+        self.assertEqual(pairs[0]['pre_step_lookup_state'], 'result_available')
+        self.assertEqual(pairs[0]['allocated_blocks'], 64)
+
+    def test_lookup_allocation_pairs_does_not_use_future_lookup(self):
+        rows = [
+            dict(event='allocation', upcoming_step=2, monotonic_ns=200,
+                 context=dict(request_id='r', async_load=True),
+                 allocated_blocks=8, affected=[]),
+            dict(event='lookup', step=2, monotonic_ns=300,
+                 request_id='r', external_tokens=128, async_load=True),
+        ]
+        pairs = _lookup_allocation_pairs(rows)
+        self.assertIsNone(pairs[0]['lookup_step'])
 
 
 if __name__ == '__main__':

@@ -10,6 +10,8 @@
 
 独立 `preallocation-diagnostic` 模式在 vLLM 0.30.0 `Scheduler.schedule()` 开始时记录 waiting/running 状态、剩余 token、已有 GPU blocks、free queue、pending STORE 候选及 hash 状态。既有 allocator 包装在真实 `get_new_blocks()` 返回后记录物理分配，策略仍在原时机 drain。未 pin、未修改 free queue、未提交额外 STORE，也未调用外部 KV lookup。只支持当前单组 full-attention Qwen3-4B；该观测包装不是通用 vLLM hook。
 
+后续分析工具会把每个 `allocation` 事件按 request id 和单调时钟，关联到最近的 `lookup` 事件，并关联同一 `upcoming_step` 的 `pre_step` lookup 状态；它只使用已经写入账本的事件，不回头轮询 lookup，也不会把未来发生的 lookup 关联到更早的分配。输出中的 `lookup_allocation_pairs` 和 `lookup_allocation_summary` 用于下一类高重叠轨迹的逐请求核对。旧账本没有保存逐请求 `pre_step` lookup 状态时，该字段保持为空，不补推断。
+
 设备及负载：RTX 4090 24GB、Qwen3-4B BF16、2 GiB GPU KV、16 GiB CPU cache，12 会话、4 轮、每轮 48 生成 tokens。引擎和 cache 单独启动，warmup 后重置 GPU prefix cache。48 条测量请求无 HTTP/SSE/长度错误；账本另含 warmup。666 个 scheduler 步，成功分配 6,756 blocks，修正信号消费 6,756，无残留；独立分配审计通过。
 
 以单步实际分配至少 128 blocks 为“突发”，本轮共 33 步。`compute_slots` 只把可用计算槽内的 waiting 请求计入下一步：74 步报警，其中 29 步当步确有突发、45 步没有；历史 EMA 超过同一阈值仅 4 步，且均非这 33 个突发步。这个估计**不是全部物理分配的上界**。
