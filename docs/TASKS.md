@@ -93,8 +93,9 @@
 - [x] 用未修改的原生 Connector 和只记录事件的 MP server 包装器确认：LOOKUP 注册目标 job 后才处理 END_SESSION，目标没有状态查询；17 个读锁与 1 个 job 在取消、follow-up、引擎退出后仍在。隔离的 server 诊断释放轮消费已完成的 17-chunk prefetch 并释放读锁后资源归零，follow-up 仍命中；仅支持已完成 L1 命中场景的归因，不是正式修复或阶段 3B 通过。见 [REMOTE_LOOKUP_CANCELLATION.md](experiments/2026-09-27/REMOTE_LOOKUP_CANCELLATION.md)。
 - [x] 对照上游 LMCache issue #5339 与 PR #5008，明确 #5339 是当前 MP prefetch bookkeeping 的直接相关记录，#5008 是范围不同的 worker async-loading 清理；新增 [UPSTREAM_LOOKUP_RECLAIM.md](UPSTREAM_LOOKUP_RECLAIM.md)。
 - [x] 新增无 GPU 的 prefetch deferred-reclaim 生命周期模型与测试，覆盖完成/取消顺序、失败、重复 END_SESSION、正常消费和 request-id generation 重用；模型只固定不变量，不替代 LMCache 正式实现。
+- [x] 在固定版真实 `LookupModule` 上实现可选 server 回收候选并通过 15 项契约测试；原生 Connector 加候选 server 的两轮受控 L1 取消复测均回收 17 个不同对象 key，读锁、job、controller result 归零，follow-up 输出一致。见 [LOOKUP_RECLAIM_CANDIDATE.md](experiments/2026-09-27/LOOKUP_RECLAIM_CANDIDATE.md)。这不是未修改 server，也不代表阶段 3B 整体验收通过。
 - [ ] 将 RETRIEVE underflow 的 17 个未释放读锁保留为独立上游候选问题；项目收尾前核查当前 LMCache 版本、最小复现与修复测试，不将其归因于正常 Connector 的未注入路径。
-- [ ] 针对原生 Connector 的 lookup 取消读锁/job 残留，将模型中的不变量映射到真实 `LookupModule`，核对当前上游版本，设计覆盖未完成 prefetch、并发、重复 END_SESSION、request-id 重用及正常请求不重复释放的最小修复，补期望不变量回归与未修改 server 的原生端到端资源复测；仍需补真实传输中止和自然 I/O 故障或部分写入下的 worker 保存失败路径。补自然抢占/在途 STORE 与迟到回执，再决定是否修改保护及准入流程。
+- [ ] 将候选扩展并在真实服务验证在途 L2 prefetch、END_SESSION 先于 LOOKUP、无 END_SESSION 的客户端死亡、controller 永久不完成与 server shutdown；复核当前上游版本并形成可维护的最小补丁。继续补真实传输中止、自然 I/O 故障或部分写入下的 worker 保存失败、自然抢占/在途 STORE 与迟到回执；资源门槛通过后再决定是否修改 GPU 保护及准入流程。
 - [ ] 单独复核异步调度的 prefix reset 与 deferred block free 时序、EVICTION_AWARE 退出后 session TTL；当前 reset API 的失败不能算作生成或资源泄漏，active_sessions 也不能作为回收通过证据。
 - [ ] 可独立推进不接 GPU 的 fake worker 状态机：准入前需求预算、候选选择与 hash 复核、前缀闭合、pin/unpin、STORE 提交/回执和保护预算回退；原生 lookup 取消资源门槛通过后再做 GPU 消融，不替换默认策略。
 
@@ -111,4 +112,4 @@
 
 ## 优先顺序
 
-P0/P1 已建立可运行环境，P2 基线仍有参数扫描与更多压力点未完成。P3 已完成 allocator 真值计数消融、需求信号诊断和若干生命周期契约/诊断实验。原生 Connector 的远端 lookup 等待期取消已实测三次：生成 follow-up 正常，但三次均残留 17 个 CPU 读锁，r3 另有 1 个 prefetch job；资源门槛未通过。诊断 Connector 的请求级时序和固定版 adapter 特征测试证实清理丢失 pending ack 后 END_SESSION 可先行；server 侧事件进一步确认 LOOKUP 注册 job 后 END_SESSION 不消费它。仅在已完成 L1 命中场景下，诊断释放清空 17 个锁与 job，但这不是未修改 server 的修复验收。实验是在受控暂停 MP server 下触发的，不是自然网络故障。非法 RETRIEVE underflow 的读锁缺口单独保留，不与本次混为一个已确认根因。显式抢占的默认异步 reset API 仍返回 500；自然抢占、真实传输中止、自然 I/O/部分写入、迟到回执与 session TTL 仍待复核。`compute_slots` 漏掉异步回载突发，宽泛及 lookup 状态估计又有较多无效报警，当前不启用提前 pin/准入保护。可先独立推进 fake worker 状态机，待生命周期门槛通过后再进入 GPU 策略消融。上游 PR 留待项目阶段收尾评估；输出差异和基线参数扫描也仍未完成，暂不需要更贵的 GPU 或完整 SWE-bench。
+P0/P1 已建立可运行环境，P2 基线仍有参数扫描与更多压力点未完成。P3 已完成 allocator 真值计数消融、需求信号诊断和若干生命周期契约/诊断实验。原生 Connector 的远端 lookup 等待期取消在未修改 server 上三次残留 17 个 CPU 读锁，r3 另有 1 个 prefetch job；可选 server 回收候选在相同受控 L1 路径两次使 17 个对象锁和 job 归零，follow-up 正常。真实在途 L2、协议乱序、无 END_SESSION、永久卡住的 controller 和自然故障尚未验证，因此阶段 3B 仍未通过。非法 RETRIEVE underflow 的读锁缺口单独保留。显式抢占的默认异步 reset API 仍返回 500；自然抢占、真实传输中止、自然 I/O/部分写入、迟到回执与 session TTL 仍待复核。`compute_slots` 漏掉异步回载突发，宽泛及 lookup 状态估计又有较多无效报警，当前不启用提前 pin/准入保护。可先独立推进 fake worker 状态机，待生命周期门槛通过后再进入 GPU 策略消融。上游 PR 留待项目阶段收尾评估；输出差异和基线参数扫描也仍未完成，暂不需要更贵的 GPU 或完整 SWE-bench。

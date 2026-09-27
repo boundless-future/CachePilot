@@ -24,7 +24,14 @@ def deferred_requests(metrics):
 
 def cache_state(api):
     state = requests.get(api + "/status", timeout=10).json()
-    return cache_summary(state) | dict(active_prefetch_jobs=state["active_prefetch_jobs"])
+    return cache_summary(state) | dict(
+        active_prefetch_jobs=state["active_prefetch_jobs"],
+        abandoned_prefetch_jobs=state.get("abandoned_prefetch_jobs", 0),
+        reclaim_failed_jobs=state.get("reclaim_failed_jobs", 0),
+        reclaim_completed_jobs=state.get("reclaim_completed_jobs", 0),
+        reclaim_key_snapshots=state.get("reclaim_key_snapshots", 0),
+        completed_results_count=state["storage_manager"]["prefetch_controller"]["completed_results_count"],
+    )
 
 
 def wait_for(predicate, timeout, interval=0.1):
@@ -62,9 +69,14 @@ def main():
     parser.add_argument("--trace-lookup", action="store_true")
     parser.add_argument("--trace-server", action="store_true")
     parser.add_argument("--release-cancelled", action="store_true")
+    parser.add_argument("--reclaim-cancelled", action="store_true")
     args = parser.parse_args()
     if args.release_cancelled and not args.trace_server:
         parser.error("--release-cancelled requires --trace-server")
+    if args.reclaim_cancelled and not args.trace_server:
+        parser.error("--reclaim-cancelled requires --trace-server")
+    if args.reclaim_cancelled and args.release_cancelled:
+        parser.error("--reclaim-cancelled cannot be combined with --release-cancelled")
     for port in (8000, 8080, 5555):
         with socket.socket() as sock:
             if sock.connect_ex(("127.0.0.1", port)) == 0:
@@ -84,6 +96,8 @@ def main():
             args.output.resolve() / "server-timeline")
     if args.release_cancelled:
         os.environ["CACHEPILOT_LOOKUP_SERVER_RELEASE_CANCELLED"] = "1"
+    if args.reclaim_cancelled:
+        os.environ["CACHEPILOT_LOOKUP_SERVER_RECLAIM"] = "1"
     command = ["bash", str(ROOT / "scripts/serve.sh"), mode]
     cache = Service(["bash", str(ROOT / "scripts/lmcache-server.sh")],
                     args.output / "lmcache.log")
@@ -93,6 +107,7 @@ def main():
                                                        if args.trace_lookup else "LMCacheMPConnector"),
                   server_timeline_enabled=args.trace_server,
                   diagnostic_release_enabled=args.release_cancelled,
+                  candidate_reclaim_enabled=args.reclaim_cancelled,
                   timestamps_unix={})
     paused = False
     stream = None
@@ -133,6 +148,8 @@ def main():
         result["timestamps_unix"]["server_resumed"] = time.time()
         wait_for(lambda: requests.get(cache_api + "/status", timeout=5)
                  .status_code == 200, 15)
+        if args.reclaim_cancelled:
+            wait_for(lambda: cache_state(cache_api)["reclaim_completed_jobs"] >= 1, 15)
         time.sleep(2)
         result["cache_status_after_cancel"] = cache_state(cache_api)
         result["timestamps_unix"]["cancel_status_checked"] = time.time()
@@ -149,6 +166,8 @@ def main():
             raise AssertionError("Follow-up did not retrieve the saved prefix")
         status = result["cache_status_after_cancel"]
         if (not status["is_healthy"] or status["active_prefetch_jobs"] or
+                status["abandoned_prefetch_jobs"] or status["reclaim_failed_jobs"] or
+                status["reclaim_key_snapshots"] or status["completed_results_count"] or
                 status["l1_read_locked"] or
                 status["l1_write_locked"] or status["store_pending"] or
                 status["store_in_flight"] or status["prefetch_in_flight"] or

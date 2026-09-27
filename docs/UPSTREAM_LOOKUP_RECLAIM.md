@@ -24,6 +24,8 @@ server 侧应拥有清理责任，客户端是否继续 polling 不能决定资�
 
 项目新增的 [纯 Python 生命周期模型](../scripts/prefetch_reclaim_model.py) 和 [测试](../tests/test_prefetch_reclaim_model.py) 先验证这些顺序约束。它不是 LMCache 代码的替代实现；GPU 端正式补丁仍需在服务器上针对真实 `LookupModule` 做候选修改和原生 Connector 回归。
 
+后续已加入[源码固定的可选 server 候选](../scripts/lookup_server_reclaim.py)及真实 `LookupModule` 契约测试；两轮原生 Connector + 候选 server 的受控 L1 取消复测逐对象释放 17 个读锁，活动 job 与 controller result 归零，见[实验报告](experiments/2026-09-27/LOOKUP_RECLAIM_CANDIDATE.md)。这仍是研究 wrapper，不是上游正式补丁。真实在途 L2、协议乱序、客户端死亡但无 END_SESSION 和永久未完成 controller 等边界尚未通过端到端验证。
+
 ## 对主线的影响
 
 这项上游缺口阻塞阶段 3B 的资源安全验收，因此在正式 server 修复或明确的上游版本修复前，不启用 GPU 上的提前 pin/准入保护。它不阻塞 fake worker/state machine、基线整理和生命周期模型开发。阶段 5 再根据当时上游状态、最小补丁和回归证据决定是否提交 issue/PR。

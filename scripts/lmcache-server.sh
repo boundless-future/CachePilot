@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
-if [[ -n "${CACHEPILOT_LOOKUP_SERVER_TIMELINE_DIR:-}" ]]; then
+if [[ -n "${CACHEPILOT_LOOKUP_SERVER_RECLAIM:-}" ]]; then
+  PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+  SERVER=(python "$PROJECT_ROOT/scripts/lookup_server_reclaim.py")
+elif [[ -n "${CACHEPILOT_LOOKUP_SERVER_TIMELINE_DIR:-}" ]]; then
   PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
   SERVER=(python "$PROJECT_ROOT/scripts/lookup_server_timeline.py")
 else
