@@ -80,7 +80,8 @@
 - [x] 完成第二类批量到达轨迹两次重复；`lookup_inflight` 未增加有效提前覆盖，仍有大量无效报警，两个账本分配与 STORE 回执均闭合。见 experiments/2026-09-26/LOOKUP_SIGNAL_REPLICATION.md。
 - [x] 单独记录异步回载物理分配与 LMCache lazy-offload 压力信号的时间错位、项目影响及未来上游贡献条件；见 [UPSTREAM_ASYNC_KV_PRESSURE.md](UPSTREAM_ASYNC_KV_PRESSURE.md)。此问题不阻塞现有实验，`compute_slots` 也不是 vLLM 的实际准入逻辑。
 - [x] 补充高重叠持续到达轨迹并完成两次重复；逐请求 lookup→allocation 配对和 STORE 回执均闭合，仍有大量无效报警，暂不进入提前保护。见 [HIGH_OVERLAP_LOOKUP_ALLOCATION.md](experiments/2026-09-27/HIGH_OVERLAP_LOOKUP_ALLOCATION.md)。
-- [ ] 补齐取消、显式抢占、保存失败和 request-id 重用生命周期，再决定是否修改保护及准入流程。
+- [x] 增加并在真实 LMCache 环境通过 registry/policy 生命周期契约测试，覆盖 reset、迟到回执、保存失败和 request-id 重用；见 [LIFECYCLE_CONTRACT.md](experiments/2026-09-27/LIFECYCLE_CONTRACT.md)。
+- [ ] 用真实 vLLM/LMCache 服务补齐客户端取消、显式抢占、远端回载中止和 worker 保存失败路径，再决定是否修改保护及准入流程。
 
 交付：可启用和禁用的实现、测试、消融及反例。性能门槛由基线噪声与实际需求决定，不先填加速目标。
 
