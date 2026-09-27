@@ -60,7 +60,11 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--trace-lookup", action="store_true")
+    parser.add_argument("--trace-server", action="store_true")
+    parser.add_argument("--release-cancelled", action="store_true")
     args = parser.parse_args()
+    if args.release_cancelled and not args.trace_server:
+        parser.error("--release-cancelled requires --trace-server")
     for port in (8000, 8080, 5555):
         with socket.socket() as sock:
             if sock.connect_ex(("127.0.0.1", port)) == 0:
@@ -75,6 +79,11 @@ def main():
     if args.trace_lookup:
         os.environ["CACHEPILOT_LOOKUP_TIMELINE_DIR"] = str(
             args.output.resolve() / "lookup-timeline")
+    if args.trace_server:
+        os.environ["CACHEPILOT_LOOKUP_SERVER_TIMELINE_DIR"] = str(
+            args.output.resolve() / "server-timeline")
+    if args.release_cancelled:
+        os.environ["CACHEPILOT_LOOKUP_SERVER_RELEASE_CANCELLED"] = "1"
     command = ["bash", str(ROOT / "scripts/serve.sh"), mode]
     cache = Service(["bash", str(ROOT / "scripts/lmcache-server.sh")],
                     args.output / "lmcache.log")
@@ -82,6 +91,8 @@ def main():
     result = dict(model=model, prompt_sha256=hashlib.sha256(text.encode()).hexdigest(),
                   prompt_chars=len(text), connector=("LookupTimelineConnector"
                                                        if args.trace_lookup else "LMCacheMPConnector"),
+                  server_timeline_enabled=args.trace_server,
+                  diagnostic_release_enabled=args.release_cancelled,
                   timestamps_unix={})
     paused = False
     stream = None
