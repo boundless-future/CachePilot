@@ -15,24 +15,35 @@ from preemption_smoke import completion
 from validate_environment import ROOT, Service, get_text, write_json
 
 
-def summarize(directory):
+def summarize(directory, mode="receipt-only"):
+    if mode not in ("receipt-only", "server-reject"):
+        raise ValueError(f"Unknown retrieve failure mode: {mode}")
     rows = sorted((json.loads(line) for path in directory.glob("retrieve-failure-*.jsonl")
                    for line in path.read_text().splitlines()),
                   key=lambda row: row["monotonic_ns"])
     events = lambda name: [row for row in rows if row["event"] == name]
     submitted = events("retrieve_submitted")
-    overridden = events("retrieve_result_overridden")
+    outcome = events("retrieve_result_overridden" if mode == "receipt-only"
+                     else "server_retrieve_result")
+    invalidated = events("retrieve_payload_invalidated")
     errors = events("worker_load_errors")
     worker_finished = events("worker_get_finished")
     invalid = events("scheduler_invalid_blocks")
     handled = events("scheduler_invalid_handled")
     finished = events("scheduler_finished_recving")
-    if len(submitted) != 1 or len(overridden) != 1:
-        raise AssertionError("Expected one submitted and overridden retrieve")
+    if len(submitted) != 1 or len(outcome) != 1:
+        raise AssertionError("Expected one submitted retrieve and observed result")
     request_id = submitted[0]["request_id"]
     block_ids = set(submitted[0]["block_ids"])
-    if (not block_ids or overridden[0]["request_id"] != request_id
-            or overridden[0]["actual_result"] is not True
+    if (not block_ids or outcome[0]["request_id"] != request_id
+            or outcome[0]["actual_result"] is not (mode == "receipt-only")
+            or (mode == "server-reject" and
+                (len(invalidated) != 1 or invalidated[0]["request_id"] != request_id
+                 or not invalidated[0]["original_block_counts"]
+                 or any(n <= 0 for n in invalidated[0]["original_block_counts"])
+                 or any(invalidated[0]["submitted_block_counts"])
+                 or invalidated[0]["monotonic_ns"] > submitted[0]["monotonic_ns"]))
+            or (mode == "receipt-only" and invalidated)
             or len(errors) != 1 or set(errors[0]["block_ids"]) != block_ids
             or len(invalid) != 1 or set(invalid[0]["block_ids"]) != block_ids
             or not invalid[0]["recompute"] or len(handled) != 1
@@ -41,7 +52,7 @@ def summarize(directory):
                     if request_id in row["receiving"]]) != 1
             or len([row for row in finished if request_id in row["request_ids"]]) != 1):
         raise AssertionError("Retrieve failure did not reach the scheduler recompute path")
-    timeline = [submitted[0], overridden[0], errors[0], invalid[0], handled[0],
+    timeline = [submitted[0], outcome[0], errors[0], invalid[0], handled[0],
                 next(row for row in finished if request_id in row["request_ids"])]
     if any(a["monotonic_ns"] > b["monotonic_ns"] for a, b in zip(timeline, timeline[1:])):
         raise AssertionError("Failure evidence is out of order")
@@ -83,6 +94,8 @@ def summarize(directory):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--mode", choices=("receipt-only", "server-reject"),
+                        default="receipt-only")
     args = parser.parse_args()
     for port in (8000, 8080, 5555):
         with socket.socket() as sock:
@@ -98,10 +111,14 @@ def main():
     model = str(ROOT / "models/Qwen3-4B")
     text = prompt()
     cache = Service(["bash", str(ROOT / "scripts/lmcache-server.sh")], args.output / "lmcache.log")
-    command = ["bash", str(ROOT / "scripts/serve.sh"), "retrieve-failure"]
+    serve_mode = ("retrieve-failure" if args.mode == "receipt-only"
+                  else "server-rejected-retrieve")
+    command = ["bash", str(ROOT / "scripts/serve.sh"), serve_mode]
     engine = Service(command, args.output / "vllm-warmup.log")
     result = dict(model=model, prompt_sha256=hashlib.sha256(text.encode()).hexdigest(),
-                  prompt_chars=len(text), failure_mode="false result after real retrieve")
+                  prompt_chars=len(text), failure_mode=(
+                      "false result after real retrieve" if args.mode == "receipt-only"
+                      else "server rejects underflowed retrieve"))
     try:
         cache.start(cache_api + "/status")
         engine.start(api + "/health")
@@ -120,6 +137,11 @@ def main():
             raise AssertionError("Warmup GPU registration did not clear")
         engine = Service(command, args.output / "vllm-retrieve.log")
         engine.start(api + "/health")
+        result["cache_status_before_target"] = cache_summary(
+            requests.get(cache_api + "/status", timeout=20).json())
+        if (args.mode == "server-reject" and
+                result["cache_status_before_target"]["l1_read_locked"] != 0):
+            raise AssertionError("Warmup left read locks before the rejection probe")
         before = metric_summary(get_text(api + "/metrics"))
         target = completion(api, model, text, 32)
         write_json(args.output / "target.json", target)
@@ -129,7 +151,15 @@ def main():
             metric_summary(get_text(api + "/metrics"))["external_hit_tokens"]
             - before["external_hit_tokens"])
         time.sleep(2)
-        result["lifecycle"] = summarize(events)
+        result["lifecycle"] = summarize(events, mode=args.mode)
+        if args.mode == "server-reject":
+            rejection = ("RETRIEVE block ID underflow for request_id=" +
+                         result["lifecycle"]["request_id"])
+            if rejection not in (args.output / "lmcache.log").read_text(errors="replace"):
+                raise AssertionError("MP server did not log the expected RETRIEVE rejection")
+            result["server_rejection_logged"] = True
+        result["cache_status_after_target"] = cache_summary(
+            requests.get(cache_api + "/status", timeout=20).json())
         follow_up = completion(api, model, text + "\nFollow-up:", 8)
         result["follow_up_usage"] = follow_up["usage"]
         result["cache_status"] = cache_summary(requests.get(cache_api + "/status", timeout=20).json())

@@ -39,12 +39,23 @@ class RetrieveFailureEvidenceTests(unittest.TestCase):
                 requests=[], tracked_refs={}, deferred_frees=0),
         ]
 
-    def summarize(self, rows):
+    def summarize(self, rows, mode="receipt-only"):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory)
             (path / "retrieve-failure-1.jsonl").write_text(
                 "\n".join(json.dumps(row) for row in rows))
-            return summarize(path)
+            return summarize(path, mode=mode)
+
+    def server_reject_rows(self):
+        rows = self.rows()
+        rows.insert(1, dict(event="retrieve_payload_invalidated", monotonic_ns=2,
+                            request_id="r", original_block_counts=[2],
+                            submitted_block_counts=[0]))
+        for row in rows[2:]:
+            row["monotonic_ns"] += 1
+        rows[4]["event"] = "server_retrieve_result"
+        rows[4]["actual_result"] = False
+        return rows
 
     def test_complete_path(self):
         self.assertEqual(self.summarize(self.rows())["failed_blocks"], 2)
@@ -70,6 +81,23 @@ class RetrieveFailureEvidenceTests(unittest.TestCase):
         with self.assertRaises(AssertionError):
             self.summarize(rows + [next(row for row in rows
                                         if row["event"] == "worker_get_finished")])
+
+    def test_server_rejection_requires_real_false_future(self):
+        rows = self.server_reject_rows()
+        self.assertEqual(self.summarize(rows, "server-reject")["failed_blocks"], 2)
+        rows[4]["actual_result"] = True
+        with self.assertRaises(AssertionError):
+            self.summarize(rows, "server-reject")
+
+    def test_server_rejection_requires_underflow_proof(self):
+        rows = self.server_reject_rows()
+        rows[1]["submitted_block_counts"] = [2]
+        with self.assertRaises(AssertionError):
+            self.summarize(rows, "server-reject")
+        rows = self.server_reject_rows()
+        rows.pop(1)
+        with self.assertRaises(AssertionError):
+            self.summarize(rows, "server-reject")
 
 
 if __name__ == "__main__":

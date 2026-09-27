@@ -27,6 +27,20 @@ class FailedResultAfterRetrieve:
         return False
 
 
+class ObservedRetrieveResult:
+    def __init__(self, original, report):
+        self.original = original
+        self.report = report
+
+    def query(self):
+        return self.original.query()
+
+    def result(self, *args, **kwargs):
+        actual = self.original.result(*args, **kwargs)
+        self.report(actual)
+        return actual
+
+
 class RetrieveFailureConnector(LMCacheMPConnector):
     def _record(self, event, **fields):
         directory = Path(os.environ["CACHEPILOT_RETRIEVE_FAILURE_DIR"])
@@ -147,3 +161,42 @@ class RetrieveFailureConnector(LMCacheMPConnector):
         self._record("request_finished", request_id=request.request_id,
                      status=request.status.name, block_count=len(block_ids))
         return super().request_finished(request, block_ids)
+
+
+class ServerRejectedRetrieveConnector(RetrieveFailureConnector):
+    """Submit one short block list and observe the MP server's real result."""
+
+    def start_load_kv(self, forward_context, **kwargs):
+        if getattr(self, "_injected", False):
+            return LMCacheMPConnector.start_load_kv(self, forward_context, **kwargs)
+        context = self.worker_adapter.transfer_ctx
+        original = context.submit_retrieve
+
+        def submit_underflow(request_id, key, kv_caches, block_ids, event,
+                             blocks_in_chunk, **extra):
+            self._injected = True
+            self._record("retrieve_payload_invalidated", request_id=request_id,
+                         original_block_counts=[len(group) for group in block_ids],
+                         submitted_block_counts=[0 for _ in block_ids])
+            future = original(request_id, key, kv_caches, [[] for _ in block_ids],
+                              event, blocks_in_chunk, **extra)
+            self._record("retrieve_submitted", request_id=request_id,
+                         block_ids=sorted({bid for group in block_ids for bid in group}))
+            return future
+
+        context.submit_retrieve = submit_underflow
+        try:
+            result = LMCacheMPConnector.start_load_kv(self, forward_context, **kwargs)
+        finally:
+            context.submit_retrieve = original
+        if getattr(self, "_injected", False):
+            for request_id, (future, block_ids) in list(
+                    self.worker_adapter.retrieve_futures.items()):
+                def report(actual, request_id=request_id):
+                    self._record("server_retrieve_result", request_id=request_id,
+                                 actual_result=actual)
+
+                self.worker_adapter.retrieve_futures[request_id] = (
+                    ObservedRetrieveResult(future, report), block_ids)
+                break
+        return result
