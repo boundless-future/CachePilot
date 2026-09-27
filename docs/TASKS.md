@@ -1,6 +1,6 @@
 # 待办与阶段验收
 
-更新：2026-09-26。未勾选项均未完整完成；历史设计与当前实测环境以 ENVIRONMENT.md 及对应日期的记录区分。
+更新：2026-09-27。未勾选项均未完整完成；历史设计与当前实测环境以 ENVIRONMENT.md 及对应日期的记录区分。
 
 ## 已完成
 
@@ -76,13 +76,14 @@
 - [x] 核查分配前需求预算的接入与生命周期边界，记录 worker 零 token 路径不提交 STORE 的限制；设计见 experiments/2026-09-26/PREALLOCATION_DESIGN.md。
 - [x] 实现独立准入前需求观测并完成一次 12 会话压力诊断；计算槽估计漏掉异步回载，宽泛异步上界误报过多，当前不进入保护原型。见 experiments/2026-09-26/PREALLOCATION_OBSERVATION.md。
 - [x] 在独立 16 会话压力轨迹上比较 `compute_slots`、`lookup_ready`、`lookup_inflight` 与宽泛异步上界；核对 STORE worker 回执并完成分配闭合审计。结论见 experiments/2026-09-26/LOOKUP_SIGNAL_VALIDATION.md：lookup 状态比宽泛上界更有区分度，但仍有大量无效报警，暂不进入提前 pin/准入保护。
-- [ ] 在第二类压力轨迹和多次重复中复核 lookup 状态信号，补齐取消/抢占/保存失败生命周期，再决定是否修改保护及准入流程。
+- [x] 在第二类压力轨迹和多次重复中复核 lookup 状态信号；取消/抢占/保存失败生命周期另列为独立门槛，尚未全部补齐。
 - [x] 完成第二类批量到达轨迹两次重复；`lookup_inflight` 未增加有效提前覆盖，仍有大量无效报警，两个账本分配与 STORE 回执均闭合。见 experiments/2026-09-26/LOOKUP_SIGNAL_REPLICATION.md。
 - [x] 单独记录异步回载物理分配与 LMCache lazy-offload 压力信号的时间错位、项目影响及未来上游贡献条件；见 [UPSTREAM_ASYNC_KV_PRESSURE.md](UPSTREAM_ASYNC_KV_PRESSURE.md)。此问题不阻塞现有实验，`compute_slots` 也不是 vLLM 的实际准入逻辑。
 - [x] 补充高重叠持续到达轨迹并完成两次重复；逐请求 lookup→allocation 配对和 STORE 回执均闭合，仍有大量无效报警，暂不进入提前保护。见 [HIGH_OVERLAP_LOOKUP_ALLOCATION.md](experiments/2026-09-27/HIGH_OVERLAP_LOOKUP_ALLOCATION.md)。
 - [x] 增加并在真实 LMCache 环境通过 registry/policy 生命周期契约测试，覆盖 reset、迟到回执、保存失败和 request-id 重用；见 [LIFECYCLE_CONTRACT.md](experiments/2026-09-27/LIFECYCLE_CONTRACT.md)。
 - [x] 完成一次真实客户端断流 smoke：取消后 LMCache 队列/锁归零，后续请求 200；未把 active_sessions 计数解释为回收结论。见 [CANCELLATION_SMOKE.md](experiments/2026-09-27/CANCELLATION_SMOKE.md)。
 - [ ] 用真实 vLLM/LMCache 服务补齐 `WAITING_FOR_REMOTE_KVS` 中途取消、显式抢占、远端回载中止和 worker 保存失败路径，再决定是否修改保护及准入流程。
+- [ ] 在上述生命周期通过后实现最终策略原型：准入前需求预算、候选选择与 hash 复核、前缀闭合、pin/unpin、STORE 提交/回执和保护预算回退；先做 fake worker 状态机，再做 GPU 消融，不替换默认策略。
 
 交付：可启用和禁用的实现、测试、消融及反例。性能门槛由基线噪声与实际需求决定，不先填加速目标。
 
@@ -97,4 +98,4 @@
 
 ## 优先顺序
 
-P0/P1 已建立可运行环境，P2 基线仍有参数扫描与更多压力点未完成。P3 已完成 allocator 真值计数消融和两类压力轨迹的需求信号诊断；`compute_slots` 漏掉异步回载突发，宽泛及 lookup 状态估计又有较多无效报警，当前不启用提前 pin/准入保护。下一步先补高重叠持续到达或显式抢占轨迹、逐请求 lookup→分配配对及取消/抢占/保存失败生命周期，再判断是否有足够提前量实施保护。LMCache 压力信号缺口是已知实验限制，不阻塞这些工作；上游 PR 留待项目阶段收尾评估。输出差异仍待独立区分编译/CUDA Graph，固定 horizon 两点试验不代替完整参数扫描；暂不需要更贵的 GPU 或完整 SWE-bench。
+P0/P1 已建立可运行环境，P2 基线仍有参数扫描与更多压力点未完成。P3 已完成 allocator 真值计数消融、两类压力轨迹的需求信号诊断和生命周期契约/取消 smoke；`compute_slots` 漏掉异步回载突发，宽泛及 lookup 状态估计又有较多无效报警，当前不启用提前 pin/准入保护。下一步先补 `WAITING_FOR_REMOTE_KVS` 中途取消、显式抢占、远端回载中止和保存失败生命周期，再决定是否进入最终策略原型：准入前需求预算、候选保护、pin/unpin 与 STORE 协同。LMCache 压力信号缺口是已知实验限制，不阻塞这些工作；上游 PR 留待项目阶段收尾评估。输出差异仍待独立区分编译/CUDA Graph，固定 horizon 两点试验不代替完整参数扫描；暂不需要更贵的 GPU 或完整 SWE-bench。
