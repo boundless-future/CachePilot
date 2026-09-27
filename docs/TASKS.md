@@ -85,7 +85,8 @@
 - [x] 用诊断 Connector 验证 `WAITING_FOR_REMOTE_KVS` 等待期取消：worker/scheduler 完成通知各一次、请求表删除、272 个 block 引用归零且空闲块恢复、follow-up CPU 回载成功。r5-r7 的诊断注入误判和协议冲突另行保留，见 [ASYNC_RETRIEVE_CANCELLATION.md](experiments/2026-09-27/ASYNC_RETRIEVE_CANCELLATION.md)。
 - [x] 完成显式抢占的受控诊断：关闭异步调度时恢复与 API 均通过；默认异步调度时 API 返回 500，但生成、block 清理和 follow-up 通过。此结果不覆盖自然抢占、在途 STORE 或重新远端回载。见 [EXPLICIT_PREEMPTION.md](experiments/2026-09-27/EXPLICIT_PREEMPTION.md)。
 - [x] 用真实 vLLM/LMCache 服务完成一次“实际 CPU 回载成功后模拟 worker 失败结果”的诊断；272 个错误 block 触发 scheduler 本地重算，输出一致且资源归零。此结果不是实际传输中断，见 [ASYNC_RETRIEVE_FAILURE.md](experiments/2026-09-27/ASYNC_RETRIEVE_FAILURE.md)。
-- [ ] 补真实异步 lookup/传输中止和 worker 保存失败路径；等待期取消已在诊断 Connector 下验证，未覆盖未注入的生产路径。补自然抢占/在途 STORE 与迟到回执，再决定是否修改保护及准入流程。
+- [x] 用真实 STORE future 完成后模拟失败回执，验证 worker 完成数与失败标记同报、scheduler 清除在途批次和 pending 后缀、128 个 pin 各解除一次，最终空闲块恢复；这不是实际写入失败。见 [STORE_FAILURE.md](experiments/2026-09-27/STORE_FAILURE.md)。
+- [ ] 补真实异步 lookup/传输中止和实际 worker 保存失败路径；等待期取消已在诊断 Connector 下验证，未覆盖未注入的生产路径。补自然抢占/在途 STORE 与迟到回执，再决定是否修改保护及准入流程。
 - [ ] 单独复核异步调度的 prefix reset 与 deferred block free 时序、EVICTION_AWARE 退出后 session TTL；当前 reset API 的失败不能算作生成或资源泄漏，active_sessions 也不能作为回收通过证据。
 - [ ] 在上述生命周期通过后实现最终策略原型：准入前需求预算、候选选择与 hash 复核、前缀闭合、pin/unpin、STORE 提交/回执和保护预算回退；先做 fake worker 状态机，再做 GPU 消融，不替换默认策略。
 
@@ -102,4 +103,4 @@
 
 ## 优先顺序
 
-P0/P1 已建立可运行环境，P2 基线仍有参数扫描与更多压力点未完成。P3 已完成 allocator 真值计数消融、两类压力轨迹的需求信号诊断和生命周期契约/取消 smoke；等待期取消及成功回载后模拟失败的重算均由诊断 Connector 实测闭合。显式抢占完成受控验证，但默认异步调度的 reset API 返回 500；恢复与 block 清理通过不代表 API 或在途 STORE 通过。下一步补真实远端 lookup/传输中止和 worker 保存失败，并保留自然抢占、迟到回执与 session TTL 复核。`compute_slots` 漏掉异步回载突发，宽泛及 lookup 状态估计又有较多无效报警，当前不启用提前 pin/准入保护。生命周期门槛通过后再进入最终策略原型：准入前需求预算、候选保护、pin/unpin 与 STORE 协同。LMCache 压力信号缺口是已知实验限制，不阻塞这些工作；上游 PR 留待项目阶段收尾评估。输出差异仍待独立区分编译/CUDA Graph，固定 horizon 两点试验不代替完整参数扫描；暂不需要更贵的 GPU 或完整 SWE-bench。
+P0/P1 已建立可运行环境，P2 基线仍有参数扫描与更多压力点未完成。P3 已完成 allocator 真值计数消融、两类压力轨迹的需求信号诊断和生命周期契约/取消 smoke；等待期取消、成功回载后模拟失败的重算，以及成功 STORE 后模拟失败回执均由诊断 Connector 实测闭合。显式抢占完成受控验证，但默认异步调度的 reset API 返回 500；恢复与 block 清理通过不代表 API 或在途 STORE 通过。下一步补真实远端 lookup/传输中止和实际 worker STORE 失败，并保留自然抢占、迟到回执与 session TTL 复核。`compute_slots` 漏掉异步回载突发，宽泛及 lookup 状态估计又有较多无效报警，当前不启用提前 pin/准入保护。生命周期门槛通过后再进入最终策略原型：准入前需求预算、候选保护、pin/unpin 与 STORE 协同。LMCache 压力信号缺口是已知实验限制，不阻塞这些工作；上游 PR 留待项目阶段收尾评估。输出差异仍待独立区分编译/CUDA Graph，固定 horizon 两点试验不代替完整参数扫描；暂不需要更贵的 GPU 或完整 SWE-bench。

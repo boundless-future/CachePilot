@@ -21,7 +21,8 @@ case "$MODE" in
   lifecycle) CONFIG=lifecycle.json ;;
   preemption) CONFIG=preemption.json ;;
   retrieve-failure) CONFIG=retrieve-failure.json ;;
-  *) echo "Usage: $0 {baseline|immediate|fifo|eviction|eviction-h5|decision|adaptive|allocation|allocation-decision|preallocation-diagnostic|lifecycle|preemption|retrieve-failure} [vllm options]" >&2; exit 2 ;;
+  store-failure) CONFIG=store-failure.json ;;
+  *) echo "Usage: $0 {baseline|immediate|fifo|eviction|eviction-h5|decision|adaptive|allocation|allocation-decision|preallocation-diagnostic|lifecycle|preemption|retrieve-failure|store-failure} [vllm options]" >&2; exit 2 ;;
 esac
 if [[ "$MODE" != baseline ]]; then
   CONNECTOR_ARGS=(--kv-transfer-config "$(python -c 'import json,os,sys; c=json.load(open(sys.argv[1])); c["kv_connector_extra_config"]["lmcache.mp.port"]=int(os.environ.get("LMCACHE_PORT",5555)); print(json.dumps(c))' "$PROJECT_ROOT/configs/$CONFIG")")
