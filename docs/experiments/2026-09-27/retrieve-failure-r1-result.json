@@ -1,0 +1,39 @@
+{
+  "model": "/root/CachePilot/models/Qwen3-4B",
+  "prompt_sha256": "b271686aa1eee5e0ece17a0d84000194a555b5c5b254646c170902be0387ca62",
+  "prompt_chars": 24189,
+  "failure_mode": "false result after real retrieve",
+  "reference_usage": {
+    "prompt_tokens": 4570,
+    "total_tokens": 4602,
+    "completion_tokens": 32,
+    "prompt_tokens_details": null,
+    "completion_tokens_details": null
+  },
+  "target_usage": {
+    "prompt_tokens": 4570,
+    "total_tokens": 4602,
+    "completion_tokens": 32,
+    "prompt_tokens_details": null,
+    "completion_tokens_details": null
+  },
+  "outputs_equal": true,
+  "target_external_hit_delta": 0.0,
+  "passed": false,
+  "error": "AssertionError('Expected one submitted and overridden retrieve')",
+  "cache_status_after_engine_stop": {
+    "is_healthy": true,
+    "active_sessions": 2,
+    "registered_gpu_ids": [],
+    "l1_read_locked": 0,
+    "l1_write_locked": 0,
+    "store_pending": 0,
+    "store_in_flight": 0,
+    "prefetch_in_flight": 0,
+    "prefetch_pending": 0,
+    "prefetch_lookup": 0,
+    "prefetch_load": 0,
+    "write_ttl_seconds": 600,
+    "read_ttl_seconds": 300
+  }
+}

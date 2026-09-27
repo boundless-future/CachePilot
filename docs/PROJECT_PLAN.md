@@ -170,7 +170,7 @@ CachePilot/
 
 ### 阶段 3B：生命周期与资源安全门槛（进行中）
 
-这条支线由策略设计中的风险暴露出来，必须先于保护策略。已完成真实 LMCache registry/policy 的 fake worker 契约测试，覆盖 reset、迟到 receipt、保存失败、request-id 重用、单请求单在途 STORE 和 pending suffix 清理；已完成一次客户端断流 smoke。等待期取消已由诊断 Connector 验证 block 与完成通知闭合，见 [等待期取消](experiments/2026-09-27/ASYNC_RETRIEVE_CANCELLATION.md)。显式抢占在关闭异步调度的对照下通过；默认异步调度的 reset API 返回 500，但请求恢复和资源清理通过，见 [显式抢占](experiments/2026-09-27/EXPLICIT_PREEMPTION.md)。这些结果不覆盖所有生产路径或在途 STORE。
+这条支线由策略设计中的风险暴露出来，必须先于保护策略。已完成真实 LMCache registry/policy 的 fake worker 契约测试，覆盖 reset、迟到 receipt、保存失败、request-id 重用、单请求单在途 STORE 和 pending suffix 清理；已完成一次客户端断流 smoke。等待期取消已由诊断 Connector 验证 block 与完成通知闭合，见 [等待期取消](experiments/2026-09-27/ASYNC_RETRIEVE_CANCELLATION.md)。显式抢占在关闭异步调度的对照下通过；默认异步调度的 reset API 返回 500，但请求恢复和资源清理通过，见 [显式抢占](experiments/2026-09-27/EXPLICIT_PREEMPTION.md)。成功回载后模拟 worker 失败结果的诊断确认错误 block、scheduler 重算、输出和资源清理闭合，见 [异步回载失败](experiments/2026-09-27/ASYNC_RETRIEVE_FAILURE.md)。这些结果不覆盖真实传输中断、所有生产路径或在途 STORE。
 
 尚需使用真实 vLLM/LMCache 服务补齐：
 
@@ -212,7 +212,7 @@ CachePilot/
 | 自适应 horizon | 原计划预期它是第一版机制 | 三次重复未证明收益，保留为探索性对照 | 最终策略改为准入前保护研究 |
 | 异步分配与压力信号错位 | `dropped_evicted` 与 allocator 分配时序不一致 | 确认是 policy 观测语义错位，不是 vLLM 漏分配；allocation 仅作消融 | 新增信号诊断和上游候选问题记录 |
 | 准入前需求观测 | 事后修正信号无法挽救已被覆盖的 KV | `compute_slots` 低估，lookup 信号误报较多，暂不保护 | 增加阶段 3A，阻止过早实现 pin |
-| 生命周期与取消 | 保护策略会改变在途 STORE 和资源释放时序 | registry 契约、客户端断流、诊断等待期取消和受控抢占恢复通过；异步 reset API、远端中止与 STORE 失败仍待补 | 增加阶段 3B，成为策略实现门槛 |
+| 生命周期与取消 | 保护策略会改变在途 STORE 和资源释放时序 | registry 契约、客户端断流、诊断等待期取消、受控抢占恢复和成功回载后模拟失败的重算通过；异步 reset API、真实远端中止与 STORE 失败仍待补 | 增加阶段 3B，成为策略实现门槛 |
 | 上游修复评估 | 发现可能有可复现的压力信号缺口 | 已单独记录复现、影响和 PR 条件 | 延后到阶段 5，不阻塞项目主线 |
 
 ## 6. 实验模型与数据
@@ -273,7 +273,7 @@ Trace 回放评估的是推理系统在同一请求负载下的行为，不评�
 
 原计划中的环境确认已经完成并固化在 `docs/ENVIRONMENT.md`。当前剩余事项按阻塞关系排列：
 
-1. 在已有等待期取消与受控抢占证据上，完成远端回载中止和 worker 保存失败验证，补自然抢占/在途 STORE 与迟到回执；异步 reset API 与 session TTL 单列复核；
+1. 在已有等待期取消、受控抢占和模拟失败回退证据上，完成真实远端回载中止和 worker 保存失败验证，补自然抢占/在途 STORE 与迟到回执；异步 reset API 与 session TTL 单列复核；
 2. 继续补齐 P2 的长 prefill、稳定 decode、容量扫描和 DMA/排队/重算分解；
 3. 若生命周期通过，先用 fake worker 实现阶段 3C 的保护状态机，再进行小规模 GPU 消融；
 4. 固定最终对照矩阵和验证 trace，重复运行并保留退化案例；
