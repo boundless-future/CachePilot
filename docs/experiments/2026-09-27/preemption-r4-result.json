@@ -1,0 +1,86 @@
+{
+  "model": "/root/CachePilot/models/Qwen3-4B",
+  "max_tokens": 256,
+  "prompt_chars": 24189,
+  "prompt_sha256": "b271686aa1eee5e0ece17a0d84000194a555b5c5b254646c170902be0387ca62",
+  "no_async_scheduling": true,
+  "reference_usage": {
+    "prompt_tokens": 4570,
+    "total_tokens": 4826,
+    "completion_tokens": 256,
+    "prompt_tokens_details": null,
+    "completion_tokens_details": null
+  },
+  "target": {
+    "chunks": 256,
+    "usage": {
+      "prompt_tokens": 4570,
+      "total_tokens": 4826,
+      "completion_tokens": 256
+    },
+    "finish_reason": "length",
+    "reset": {
+      "http_status": 200,
+      "body": {
+        "success": true
+      }
+    }
+  },
+  "outputs_equal": true,
+  "follow_up_usage": {
+    "prompt_tokens": 4573,
+    "total_tokens": 4581,
+    "completion_tokens": 8,
+    "prompt_tokens_details": null,
+    "completion_tokens_details": null
+  },
+  "lifecycle": {
+    "request_id": "cmpl-adbd3020de1309ca-0-83b5dbb8",
+    "allocated_blocks_before_preempt": 286,
+    "free_blocks_before_preempt": 623,
+    "free_blocks_after_preempt": 909,
+    "final_status": "FINISHED_LENGTH_CAPPED",
+    "final_num_preemptions": 1,
+    "baseline_free_blocks": 909,
+    "final_free_blocks": 909,
+    "tracked_refs_after_finish": {},
+    "deferred_frees_after_finish": 0,
+    "request_registered_after_finish": false,
+    "allocation_present_after_finish": false,
+    "completed_store_receipts": 0,
+    "failed_store_receipts": 0
+  },
+  "cache_status": {
+    "is_healthy": true,
+    "active_sessions": 2,
+    "registered_gpu_ids": [
+      675399744072430505
+    ],
+    "l1_read_locked": 0,
+    "l1_write_locked": 0,
+    "store_pending": 0,
+    "store_in_flight": 0,
+    "prefetch_in_flight": 0,
+    "prefetch_pending": 0,
+    "prefetch_lookup": 0,
+    "prefetch_load": 0,
+    "write_ttl_seconds": 600,
+    "read_ttl_seconds": 300
+  },
+  "passed": true,
+  "cache_status_after_engine_stop": {
+    "is_healthy": true,
+    "active_sessions": 2,
+    "registered_gpu_ids": [],
+    "l1_read_locked": 0,
+    "l1_write_locked": 0,
+    "store_pending": 0,
+    "store_in_flight": 0,
+    "prefetch_in_flight": 0,
+    "prefetch_pending": 0,
+    "prefetch_lookup": 0,
+    "prefetch_load": 0,
+    "write_ttl_seconds": 600,
+    "read_ttl_seconds": 300
+  }
+}

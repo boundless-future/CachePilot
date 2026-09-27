@@ -1,0 +1,15 @@
+{
+  "model": "/root/CachePilot/models/Qwen3-4B",
+  "max_tokens": 256,
+  "prompt_chars": 24189,
+  "prompt_sha256": "b271686aa1eee5e0ece17a0d84000194a555b5c5b254646c170902be0387ca62",
+  "reference_usage": {
+    "prompt_tokens": 4570,
+    "total_tokens": 4826,
+    "completion_tokens": 256,
+    "prompt_tokens_details": null,
+    "completion_tokens_details": null
+  },
+  "passed": false,
+  "error": "HTTPError('500 Server Error: Internal Server Error for url: http://127.0.0.1:8000/reset_prefix_cache?reset_running_requests=true&reset_external=false')"
+}
