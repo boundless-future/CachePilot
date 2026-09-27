@@ -15,15 +15,19 @@ from preemption_smoke import completion
 from validate_environment import ROOT, Service, write_json
 
 
-def summarize(directory):
+def summarize(directory, mode="receipt-only"):
+    if mode not in ("receipt-only", "server-reject"):
+        raise ValueError(f"Unknown STORE failure mode: {mode}")
     rows = sorted((json.loads(line) for path in directory.glob("store-failure-*.jsonl")
                    for line in path.read_text().splitlines()),
                   key=lambda row: row["monotonic_ns"])
     events = lambda name: [row for row in rows if row["event"] == name]
     submitted = events("store_submitted")
-    overridden = events("store_result_overridden")
-    if len(submitted) != 1 or len(overridden) != 1:
-        raise AssertionError("Expected one real STORE future and one overridden result")
+    outcome = events("store_result_overridden" if mode == "receipt-only"
+                     else "server_store_result")
+    invalidated = events("store_payload_invalidated")
+    if len(submitted) != 1 or len(outcome) != 1:
+        raise AssertionError("Expected one STORE future and one observed result")
     request_id = submitted[0]["request_id"]
     worker = [row for row in events("worker_store_receipt")
               if request_id in row["completed"] or request_id in row["failed"]]
@@ -33,9 +37,16 @@ def summarize(directory):
              if row["request_id"] == request_id]
     finished = [row for row in events("request_finished")
                 if row["request_id"] == request_id]
-    timeline = [submitted[0], overridden[0], *worker, *before, *after]
-    if (overridden[0]["request_id"] != request_id or
-            overridden[0]["actual_result"] is not True or
+    timeline = [submitted[0], outcome[0], *worker, *before, *after]
+    if (outcome[0]["request_id"] != request_id or
+            outcome[0]["actual_result"] is not (mode == "receipt-only") or
+            (mode == "server-reject" and
+             (len(invalidated) != 1 or invalidated[0]["request_id"] != request_id or
+              not invalidated[0]["original_block_counts"] or
+              any(count <= 0 for count in invalidated[0]["original_block_counts"]) or
+              any(invalidated[0]["submitted_block_counts"]) or
+              invalidated[0]["monotonic_ns"] > submitted[0]["monotonic_ns"])) or
+            (mode == "receipt-only" and invalidated) or
             len(worker) != 1 or worker[0]["completed"].get(request_id) != 1 or
             request_id not in worker[0]["failed"] or
             len(before) != 1 or len(after) != 1 or
@@ -45,7 +56,7 @@ def summarize(directory):
             finished[0]["status"] != "FINISHED_LENGTH_CAPPED" or
             any(a["monotonic_ns"] > b["monotonic_ns"]
                 for a, b in zip(timeline, timeline[1:]))):
-        raise AssertionError("Failed STORE receipt did not close its scheduler batch")
+        raise AssertionError("Failed STORE did not close its scheduler batch")
     refs_before, refs_after = before[0]["pinned_refs"], after[0]["pinned_refs"]
     if (not refs_before or refs_before.keys() != refs_after.keys() or
             any(refs_after[bid] != count - 1 for bid, count in refs_before.items())):

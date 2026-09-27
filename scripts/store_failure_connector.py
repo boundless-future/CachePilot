@@ -23,6 +23,20 @@ class FailedStoreResult:
         return False
 
 
+class ObservedStoreResult:
+    def __init__(self, original, report):
+        self.original = original
+        self.report = report
+
+    def query(self):
+        return self.original.query()
+
+    def result(self, *args, **kwargs):
+        actual = self.original.result(*args, **kwargs)
+        self.report(actual)
+        return actual
+
+
 class StoreFailureConnector(LMCacheMPConnector):
     def _record(self, event, **fields):
         directory = Path(os.environ["CACHEPILOT_STORE_FAILURE_DIR"])
@@ -114,3 +128,39 @@ class StoreFailureConnector(LMCacheMPConnector):
         self._record("request_finished", request_id=request.request_id,
                      status=request.status.name, block_count=len(block_ids))
         return super().request_finished(request, block_ids)
+
+
+class ServerRejectedStoreConnector(StoreFailureConnector):
+    """Submit one short block list so the MP server rejects the whole STORE."""
+
+    def wait_for_save(self):
+        if getattr(self, "_store_injected", False):
+            return LMCacheMPConnector.wait_for_save(self)
+        context = self.worker_adapter.transfer_ctx
+        original = context.submit_store
+
+        def submit_underflow(request_id, key, kv_caches, block_ids, event, blocks_in_chunk):
+            self._store_injected = True
+            self._record("store_payload_invalidated", request_id=request_id,
+                         original_block_counts=[len(group) for group in block_ids],
+                         submitted_block_counts=[0 for _ in block_ids])
+            future = original(request_id, key, kv_caches, [[] for _ in block_ids],
+                              event, blocks_in_chunk)
+            self._record("store_submitted", request_id=request_id)
+            return future
+
+        context.submit_store = submit_underflow
+        try:
+            result = LMCacheMPConnector.wait_for_save(self)
+        finally:
+            context.submit_store = original
+        if getattr(self, "_store_injected", False):
+            for request_id, future in list(self.worker_adapter.store_futures.items()):
+                def report(actual, request_id=request_id):
+                    self._record("server_store_result", request_id=request_id,
+                                 actual_result=actual)
+
+                self.worker_adapter.store_futures[request_id] = ObservedStoreResult(
+                    future, report)
+                break
+        return result

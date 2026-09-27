@@ -1,0 +1,83 @@
+{
+  "model": "/root/CachePilot/models/Qwen3-4B",
+  "prompt_sha256": "b271686aa1eee5e0ece17a0d84000194a555b5c5b254646c170902be0387ca62",
+  "failure_mode": "server rejects one underflowed STORE",
+  "target_usage": {
+    "prompt_tokens": 4570,
+    "total_tokens": 4826,
+    "completion_tokens": 256,
+    "prompt_tokens_details": null,
+    "completion_tokens_details": null
+  },
+  "lifecycle": {
+    "request_id": "cmpl-8dac9902b58b96f5-0-b63c13e2",
+    "final_status": "FINISHED_LENGTH_CAPPED",
+    "released_pins": 128,
+    "pending_before_receipt": true,
+    "pending_after_receipt": false,
+    "in_flight_after_receipt": false,
+    "free_blocks_before_receipt": 623,
+    "free_blocks_after_receipt": 623,
+    "baseline_free_blocks": 909,
+    "final_free_blocks": 909
+  },
+  "server_rejection_logged": true,
+  "cache_status_before_restart": {
+    "is_healthy": true,
+    "active_sessions": 0,
+    "registered_gpu_ids": [
+      317135248621586137
+    ],
+    "l1_read_locked": 0,
+    "l1_write_locked": 0,
+    "store_pending": 0,
+    "store_in_flight": 0,
+    "prefetch_in_flight": 0,
+    "prefetch_pending": 0,
+    "prefetch_lookup": 0,
+    "prefetch_load": 0,
+    "write_ttl_seconds": 600,
+    "read_ttl_seconds": 300
+  },
+  "follow_up_usage": {
+    "prompt_tokens": 4570,
+    "total_tokens": 4602,
+    "completion_tokens": 32,
+    "prompt_tokens_details": null,
+    "completion_tokens_details": null
+  },
+  "follow_up_external_hit_delta": 0.0,
+  "cache_status_after_restart": {
+    "is_healthy": true,
+    "active_sessions": 0,
+    "registered_gpu_ids": [
+      645696755657161597
+    ],
+    "l1_read_locked": 0,
+    "l1_write_locked": 0,
+    "store_pending": 0,
+    "store_in_flight": 0,
+    "prefetch_in_flight": 0,
+    "prefetch_pending": 0,
+    "prefetch_lookup": 0,
+    "prefetch_load": 0,
+    "write_ttl_seconds": 600,
+    "read_ttl_seconds": 300
+  },
+  "passed": true,
+  "cache_status_after_engine_stop": {
+    "is_healthy": true,
+    "active_sessions": 0,
+    "registered_gpu_ids": [],
+    "l1_read_locked": 0,
+    "l1_write_locked": 0,
+    "store_pending": 0,
+    "store_in_flight": 0,
+    "prefetch_in_flight": 0,
+    "prefetch_pending": 0,
+    "prefetch_lookup": 0,
+    "prefetch_load": 0,
+    "write_ttl_seconds": 600,
+    "read_ttl_seconds": 300
+  }
+}
