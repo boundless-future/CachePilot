@@ -25,6 +25,8 @@
 
 本次只验证等待期取消，且需注意完成通知依赖 worker 后续轮询；实验通过诊断 Connector 保证协议闭合，不代表未修改的 LMCache 生产路径已覆盖这一时序。显式抢占、真实远端回载中止、worker STORE 失败以及相同 request ID 的 generation/迟到回执仍需分别验证。完成这些生命周期门槛后，才进入准入预算和候选保护的正式策略原型。
 
+后续使用原生 Connector 的受控远端 lookup 取消实验三次观察到读锁残留，r3 还观察到未移除的 prefetch job，见 [原生 lookup 取消](REMOTE_LOOKUP_CANCELLATION.md)。因此本节 r8/r9 的诊断协议闭合不能用于判定原生路径资源门槛通过；当时仅凭 17 个读锁无法归因，后续的取消前 0、取消后 17 和正常回载对照提供了更强的证据。
+
 ```bash
 python scripts/lifecycle_smoke.py \
   --output artifacts/lifecycle-2026-09-27-r8

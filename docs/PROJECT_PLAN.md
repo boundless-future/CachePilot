@@ -168,26 +168,28 @@ CachePilot/
 
 阶段结论：`compute_slots` 不是异步回载物理分配上界；lookup 状态有一定区分度但误报仍多，当前不足以直接驱动提前 pin 或准入阻塞。因此保留诊断和 allocation 作为消融，不把它们伪装成最终策略。
 
-### 阶段 3B：生命周期与资源安全门槛（进行中；协议拒绝资源验收未通过）
+### 阶段 3B：生命周期与资源安全门槛（进行中；原生 lookup 取消资源验收未通过）
 
 这条支线由策略设计中的风险暴露出来，必须先于保护策略。已完成真实 LMCache registry/policy 的 fake worker 契约测试，覆盖 reset、迟到 receipt、保存失败、request-id 重用、单请求单在途 STORE 和 pending suffix 清理；已完成一次客户端断流 smoke。等待期取消已由诊断 Connector 验证 block 与完成通知闭合，见 [等待期取消](experiments/2026-09-27/ASYNC_RETRIEVE_CANCELLATION.md)。显式抢占在关闭异步调度的对照下通过；默认异步调度的 reset API 返回 500，但请求恢复和资源清理通过，见 [显式抢占](experiments/2026-09-27/EXPLICIT_PREEMPTION.md)。成功回载后模拟 worker 失败结果的诊断确认错误 block、scheduler 重算、输出和资源清理闭合，见 [异步回载失败](experiments/2026-09-27/ASYNC_RETRIEVE_FAILURE.md)。成功 STORE 后模拟失败回执的诊断确认 worker/scheduler 回执、pin/unpin 和资源闭合，见 [STORE 失败回执](experiments/2026-09-27/STORE_FAILURE.md)。进一步以 block ID 不足触发 MP server 拒绝 STORE，验证了原始 `false` future、失败回执和重启后的零外部命中，见 [server 拒绝 STORE](experiments/2026-09-27/SERVER_REJECTED_STORE.md)。协议拒绝仍是注入故障，不覆盖自然传输/写入失败、部分写入、所有生产路径或抢占期间的在途 STORE。
 
 随后两次让 MP server 拒绝 RETRIEVE，均得到原始 `false` future：272 个 GPU block 被标错并重算，目标生成和 GPU block 回收通过；但第二次的 CPU 读锁从注入前 0 增至 17，后续请求和 vLLM 退出后仍未释放，故端到端资源验收为 `passed=false`，见 [server 拒绝 RETRIEVE](experiments/2026-09-27/SERVER_REJECTED_RETRIEVE.md)。诊断 Connector 故意提交空 block ID 列表以触发 underflow；没有证据表明正常 Connector 会提交这种输入。这是上游候选缺口，不直接否定保护策略设计，也不能算作自然 I/O 故障验证。
 
+进一步使用未修改的 `LMCacheMPConnector` 三次复现实验：在 MP server 受控暂停造成的 lookup 等待期断开客户端，vLLM 的 deferred 请求清零、正常 follow-up 命中并生成相同输出，但三次均留下 17 个 CPU 读锁；r3 另观察到 1 个未移除的 prefetch job，vLLM 退出后仍在。资源验收均为 `passed=false`，见 [原生 lookup 取消](experiments/2026-09-27/REMOTE_LOOKUP_CANCELLATION.md)。这比非法 RETRIEVE 输入更直接相关，但不是自然网络故障；本地 lookup 记录清理与 server job 消费的竞态只是源码线索，尚未用请求级事件确定根因。
+
 尚需使用真实 vLLM/LMCache 服务补齐：
 
-- 未注入的异步回载等待期取消与会话退出回收；
+- 原生 Connector 异步 lookup 等待期取消后读锁/job 的释放时序和最小回归复现；当前验收失败，不能将 deferred 请求清零等同于资源闭合；
 - 自然抢占、在途 STORE、重新远端回载和迟到回执；
 - 异步调度下 reset API 与 deferred block free 的时序限制；
-- 远端异步 lookup 中止；
+- 真正的远端异步 lookup/传输中止；受控暂停不等同于自然 I/O 故障；
 - 未修改 Connector 下的远端回载失败和资源释放；非法 block ID underflow 已发现读锁残留，不能作为这项验收通过的证据；
 - 自然 I/O 故障或部分写入下的 worker 保存失败及其 scheduler 回执；成功写入后的模拟失败回执和 server 协议拒绝的原始失败 future 已分别验证。
 
-只有这些路径的 generation、GPU block 释放、pin/unpin、STORE receipt 和最终请求状态可解释，才进入阶段 3C。
+只有这些路径的 generation、GPU block 释放、CPU 锁/job、pin/unpin、STORE receipt 和最终请求状态可解释，才进入阶段 3C 的 GPU 接入与消融；不接 GPU 的 fake worker 状态机可独立推进。
 
 ### 阶段 3C：最终 CachePilot 策略原型（尚未开始）
 
-这是当前项目的核心策略实现，不等同于已经完成的 adaptive horizon。先做不接 GPU 的 fake worker/state machine，再接入外部 Connector 做可回滚消融，步骤固定为：
+这是当前项目的核心策略实现，不等同于已经完成的 adaptive horizon。先做不接 GPU 的 fake worker/state machine；阶段 3B 资源门槛通过后，再接入外部 Connector 做可回滚消融，步骤固定为：
 
 1. 定义准入前需求预算和保护预算，避免把所有 waiting 请求都当成近期风险；
 2. 选择候选 KV，执行 hash revalidation 和 prefix closure；
@@ -215,8 +217,9 @@ CachePilot/
 | 自适应 horizon | 原计划预期它是第一版机制 | 三次重复未证明收益，保留为探索性对照 | 最终策略改为准入前保护研究 |
 | 异步分配与压力信号错位 | `dropped_evicted` 与 allocator 分配时序不一致 | 确认是 policy 观测语义错位，不是 vLLM 漏分配；allocation 仅作消融 | 新增信号诊断和上游候选问题记录 |
 | 准入前需求观测 | 事后修正信号无法挽救已被覆盖的 KV | `compute_slots` 低估，lookup 信号误报较多，暂不保护 | 增加阶段 3A，阻止过早实现 pin |
-| 生命周期与取消 | 保护策略会改变在途 STORE 和资源释放时序 | registry 契约、客户端断流、诊断等待期取消、受控抢占恢复、模拟回载失败的重算、模拟 STORE 失败回执及 server 协议拒绝 STORE 通过；RETRIEVE 协议拒绝重算通过但残留 17 个读锁；异步 reset API、真实远端中止与自然 I/O/部分写入失败仍待补 | 增加阶段 3B；非法 RETRIEVE 输入下资源验收失败，保持最终策略门槛 |
+| 生命周期与取消 | 保护策略会改变在途 STORE 和资源释放时序 | registry 契约及若干诊断路径通过；非法 RETRIEVE 输入留下 17 个读锁，原生 Connector 受控 lookup 取消也三次残留 17 个读锁、r3 另有 1 个 job；自然 I/O/部分写入等仍待补 | 增加阶段 3B；GPU 保护门槛未通过，fake worker 状态机可独立推进 |
 | RETRIEVE underflow 读锁 | 诊断 Connector 故意提交空 block ID 列表，MP server 返回原始 `false` | 两次复现，第二次确认注入前 0、目标后及 vLLM 退出后均为 17；正常 Connector 是否可能触发尚无证据 | 独立保存上游候选问题，项目收尾时核查版本、最小修复和回归测试；不外推至自然故障 |
+| 原生 lookup 取消后资源残留 | 受控暂停 MP server 时断开等待 lookup 的客户端 | 三次复现 17 个读锁，r3 还观察到 1 个活动 job；请求已从 deferred 队列清除，正常 follow-up 成功 | 独立记录请求级时序与最小回归需求；真实传输中止仍待测，GPU 保护继续受 3B 门槛约束 |
 | 上游修复评估 | 发现可能有可复现的压力信号缺口 | 已单独记录复现、影响和 PR 条件 | 延后到阶段 5，不阻塞项目主线 |
 
 ## 6. 实验模型与数据
@@ -277,9 +280,9 @@ Trace 回放评估的是推理系统在同一请求负载下的行为，不评�
 
 原计划中的环境确认已经完成并固化在 `docs/ENVIRONMENT.md`。当前剩余事项按阻塞关系排列：
 
-1. 在已有等待期取消、受控抢占、模拟回载失败回退、模拟 STORE 失败回执及 server 协议拒绝证据上，完成未修改 Connector 下的远端 lookup/回载中止和自然 I/O/部分写入下的 worker 保存失败验证，补自然抢占/在途 STORE 与迟到回执；RETRIEVE underflow 的读锁残留保留为独立候选问题，不能将其 `passed=false` 计为资源门槛通过；异步 reset API 与 session TTL 单列复核；
+1. 针对原生 Connector 的受控 lookup 取消资源失败，补请求级时序、最小回归和释放条件；另完成真正远端传输中止、自然 I/O/部分写入下的 worker 保存失败验证，补自然抢占/在途 STORE 与迟到回执；RETRIEVE underflow 的读锁残留保留为独立候选问题，两个 `passed=false` 均不能计为资源门槛通过；异步 reset API 与 session TTL 单列复核；
 2. 继续补齐 P2 的长 prefill、稳定 decode、容量扫描和 DMA/排队/重算分解；
-3. 若生命周期通过，先用 fake worker 实现阶段 3C 的保护状态机，再进行小规模 GPU 消融；
+3. 与资源排查并行，用 fake worker 实现阶段 3C 的保护状态机；只有生命周期门槛通过后才进行小规模 GPU 消融；
 4. 固定最终对照矩阵和验证 trace，重复运行并保留退化案例；
 5. 使用 Qwen3-8B + RTX 5090 32GB 做扩展复核；
 6. 独立拆分编译/CUDA Graph 对输出差异的影响，更新正确性边界；
