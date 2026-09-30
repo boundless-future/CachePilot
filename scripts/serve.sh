@@ -20,12 +20,13 @@ case "$MODE" in
   preallocation-diagnostic) CONFIG=preallocation-diagnostic.json ;;
   lifecycle) CONFIG=lifecycle.json ;;
   lookup-timeline) CONFIG=lookup-timeline.json ;;
+  lookup-ordering) CONFIG=lookup-ordering.json ;;
   preemption) CONFIG=preemption.json ;;
   retrieve-failure) CONFIG=retrieve-failure.json ;;
   server-rejected-retrieve) CONFIG=server-rejected-retrieve.json ;;
   store-failure) CONFIG=store-failure.json ;;
   server-rejected-store) CONFIG=server-rejected-store.json ;;
-  *) echo "Usage: $0 {baseline|immediate|fifo|eviction|eviction-h5|decision|adaptive|allocation|allocation-decision|preallocation-diagnostic|lifecycle|lookup-timeline|preemption|retrieve-failure|server-rejected-retrieve|store-failure|server-rejected-store} [vllm options]" >&2; exit 2 ;;
+  *) echo "Usage: $0 {baseline|immediate|fifo|eviction|eviction-h5|decision|adaptive|allocation|allocation-decision|preallocation-diagnostic|lifecycle|lookup-timeline|lookup-ordering|preemption|retrieve-failure|server-rejected-retrieve|store-failure|server-rejected-store} [vllm options]" >&2; exit 2 ;;
 esac
 if [[ "$MODE" != baseline ]]; then
   CONNECTOR_ARGS=(--kv-transfer-config "$(python -c 'import json,os,sys; c=json.load(open(sys.argv[1])); c["kv_connector_extra_config"]["lmcache.mp.port"]=int(os.environ.get("LMCACHE_PORT",5555)); print(json.dumps(c))' "$PROJECT_ROOT/configs/$CONFIG")")

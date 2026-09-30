@@ -1,0 +1,658 @@
+{
+  "kind": "fake-worker correctness scenarios, not measured GPU performance",
+  "demand_source": "supplied oracle; no production predictor",
+  "model_block_semantics": "one complete KV chunk per physical block",
+  "runs": [
+    {
+      "scenario": "safe_headroom",
+      "max_pins": 0,
+      "model_stored_chunks": 0,
+      "current_generation_saved_prefix": 0,
+      "pins_acquired": 0,
+      "pins_released": 0,
+      "resources_drained": true,
+      "events": [
+        {
+          "event": "prepare",
+          "token": null,
+          "reason": "no_safe_prefix",
+          "protected": 0,
+          "allocatable": 16
+        },
+        {
+          "event": "allocator_pressure",
+          "allocated_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "prefix_still_valid": [
+            false,
+            false,
+            false,
+            false
+          ],
+          "allocatable": 6
+        }
+      ]
+    },
+    {
+      "scenario": "safe_headroom",
+      "max_pins": 4,
+      "model_stored_chunks": 4,
+      "current_generation_saved_prefix": 4,
+      "pins_acquired": 4,
+      "pins_released": 4,
+      "resources_drained": true,
+      "events": [
+        {
+          "event": "prepare",
+          "token": 1,
+          "reason": "prepared",
+          "protected": 4,
+          "allocatable": 12
+        },
+        {
+          "event": "store_submitted",
+          "token": 1,
+          "chunk_ids": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "event": "allocator_pressure",
+          "allocated_ids": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "prefix_still_valid": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "allocatable": 2
+        },
+        {
+          "event": "store_receipt",
+          "success": true,
+          "stored_prefix": 4
+        }
+      ]
+    },
+    {
+      "scenario": "insufficient_headroom",
+      "max_pins": 0,
+      "model_stored_chunks": 0,
+      "current_generation_saved_prefix": 0,
+      "pins_acquired": 0,
+      "pins_released": 0,
+      "resources_drained": true,
+      "events": [
+        {
+          "event": "prepare",
+          "token": null,
+          "reason": "no_safe_prefix",
+          "protected": 0,
+          "allocatable": 16
+        },
+        {
+          "event": "allocator_pressure",
+          "allocated_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14
+          ],
+          "prefix_still_valid": [
+            false,
+            false,
+            false,
+            false
+          ],
+          "allocatable": 1
+        }
+      ]
+    },
+    {
+      "scenario": "insufficient_headroom",
+      "max_pins": 4,
+      "model_stored_chunks": 0,
+      "current_generation_saved_prefix": 0,
+      "pins_acquired": 0,
+      "pins_released": 0,
+      "resources_drained": true,
+      "events": [
+        {
+          "event": "prepare",
+          "token": null,
+          "reason": "no_safe_prefix",
+          "protected": 0,
+          "allocatable": 16
+        },
+        {
+          "event": "allocator_pressure",
+          "allocated_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14
+          ],
+          "prefix_still_valid": [
+            false,
+            false,
+            false,
+            false
+          ],
+          "allocatable": 1
+        }
+      ]
+    },
+    {
+      "scenario": "zero_token_step",
+      "max_pins": 0,
+      "model_stored_chunks": 0,
+      "current_generation_saved_prefix": 0,
+      "pins_acquired": 0,
+      "pins_released": 0,
+      "resources_drained": true,
+      "events": [
+        {
+          "event": "prepare",
+          "token": null,
+          "reason": "zero_token_step",
+          "protected": 0,
+          "allocatable": 16
+        },
+        {
+          "event": "allocator_pressure",
+          "allocated_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "prefix_still_valid": [
+            false,
+            false,
+            false,
+            false
+          ],
+          "allocatable": 6
+        }
+      ]
+    },
+    {
+      "scenario": "zero_token_step",
+      "max_pins": 4,
+      "model_stored_chunks": 0,
+      "current_generation_saved_prefix": 0,
+      "pins_acquired": 0,
+      "pins_released": 0,
+      "resources_drained": true,
+      "events": [
+        {
+          "event": "prepare",
+          "token": null,
+          "reason": "zero_token_step",
+          "protected": 0,
+          "allocatable": 16
+        },
+        {
+          "event": "allocator_pressure",
+          "allocated_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "prefix_still_valid": [
+            false,
+            false,
+            false,
+            false
+          ],
+          "allocatable": 6
+        }
+      ]
+    },
+    {
+      "scenario": "stale_hash",
+      "max_pins": 0,
+      "model_stored_chunks": 0,
+      "current_generation_saved_prefix": 0,
+      "pins_acquired": 0,
+      "pins_released": 0,
+      "resources_drained": true,
+      "events": [
+        {
+          "event": "prepare",
+          "token": null,
+          "reason": "no_safe_prefix",
+          "protected": 0,
+          "allocatable": 16
+        },
+        {
+          "event": "allocator_pressure",
+          "allocated_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "prefix_still_valid": [
+            false,
+            false,
+            false,
+            false
+          ],
+          "allocatable": 6
+        }
+      ]
+    },
+    {
+      "scenario": "stale_hash",
+      "max_pins": 4,
+      "model_stored_chunks": 2,
+      "current_generation_saved_prefix": 2,
+      "pins_acquired": 2,
+      "pins_released": 2,
+      "resources_drained": true,
+      "events": [
+        {
+          "event": "prepare",
+          "token": 1,
+          "reason": "prepared",
+          "protected": 2,
+          "allocatable": 14
+        },
+        {
+          "event": "store_submitted",
+          "token": 1,
+          "chunk_ids": [
+            0,
+            1
+          ]
+        },
+        {
+          "event": "allocator_pressure",
+          "allocated_ids": [
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "prefix_still_valid": [
+            true,
+            true,
+            false,
+            false
+          ],
+          "allocatable": 4
+        },
+        {
+          "event": "store_receipt",
+          "success": true,
+          "stored_prefix": 2
+        }
+      ]
+    },
+    {
+      "scenario": "cancel_inflight",
+      "max_pins": 0,
+      "model_stored_chunks": 0,
+      "current_generation_saved_prefix": null,
+      "pins_acquired": 0,
+      "pins_released": 0,
+      "resources_drained": true,
+      "events": [
+        {
+          "event": "prepare",
+          "token": null,
+          "reason": "no_safe_prefix",
+          "protected": 0,
+          "allocatable": 16
+        },
+        {
+          "event": "allocator_pressure",
+          "allocated_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "prefix_still_valid": [
+            false,
+            false,
+            false,
+            false
+          ],
+          "allocatable": 6
+        },
+        {
+          "event": "cancel",
+          "outstanding_pins": 0
+        }
+      ]
+    },
+    {
+      "scenario": "cancel_inflight",
+      "max_pins": 4,
+      "model_stored_chunks": 4,
+      "current_generation_saved_prefix": null,
+      "pins_acquired": 4,
+      "pins_released": 4,
+      "resources_drained": true,
+      "events": [
+        {
+          "event": "prepare",
+          "token": 1,
+          "reason": "prepared",
+          "protected": 4,
+          "allocatable": 12
+        },
+        {
+          "event": "store_submitted",
+          "token": 1,
+          "chunk_ids": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "event": "allocator_pressure",
+          "allocated_ids": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "prefix_still_valid": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "allocatable": 2
+        },
+        {
+          "event": "cancel",
+          "outstanding_pins": 4
+        },
+        {
+          "event": "store_receipt",
+          "success": true,
+          "stored_prefix": 4
+        }
+      ]
+    },
+    {
+      "scenario": "store_failure",
+      "max_pins": 0,
+      "model_stored_chunks": 0,
+      "current_generation_saved_prefix": 0,
+      "pins_acquired": 0,
+      "pins_released": 0,
+      "resources_drained": true,
+      "events": [
+        {
+          "event": "prepare",
+          "token": null,
+          "reason": "no_safe_prefix",
+          "protected": 0,
+          "allocatable": 16
+        },
+        {
+          "event": "allocator_pressure",
+          "allocated_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "prefix_still_valid": [
+            false,
+            false,
+            false,
+            false
+          ],
+          "allocatable": 6
+        }
+      ]
+    },
+    {
+      "scenario": "store_failure",
+      "max_pins": 4,
+      "model_stored_chunks": 0,
+      "current_generation_saved_prefix": 0,
+      "pins_acquired": 4,
+      "pins_released": 4,
+      "resources_drained": true,
+      "events": [
+        {
+          "event": "prepare",
+          "token": 1,
+          "reason": "prepared",
+          "protected": 4,
+          "allocatable": 12
+        },
+        {
+          "event": "store_submitted",
+          "token": 1,
+          "chunk_ids": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "event": "allocator_pressure",
+          "allocated_ids": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "prefix_still_valid": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "allocatable": 2
+        },
+        {
+          "event": "store_receipt",
+          "success": false,
+          "stored_prefix": 0
+        }
+      ]
+    },
+    {
+      "scenario": "partial_store",
+      "max_pins": 0,
+      "model_stored_chunks": 0,
+      "current_generation_saved_prefix": 0,
+      "pins_acquired": 0,
+      "pins_released": 0,
+      "resources_drained": true,
+      "events": [
+        {
+          "event": "prepare",
+          "token": null,
+          "reason": "no_safe_prefix",
+          "protected": 0,
+          "allocatable": 16
+        },
+        {
+          "event": "allocator_pressure",
+          "allocated_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "prefix_still_valid": [
+            false,
+            false,
+            false,
+            false
+          ],
+          "allocatable": 6
+        }
+      ]
+    },
+    {
+      "scenario": "partial_store",
+      "max_pins": 4,
+      "model_stored_chunks": 2,
+      "current_generation_saved_prefix": 2,
+      "pins_acquired": 4,
+      "pins_released": 4,
+      "resources_drained": true,
+      "events": [
+        {
+          "event": "prepare",
+          "token": 1,
+          "reason": "prepared",
+          "protected": 4,
+          "allocatable": 12
+        },
+        {
+          "event": "store_submitted",
+          "token": 1,
+          "chunk_ids": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "event": "allocator_pressure",
+          "allocated_ids": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "prefix_still_valid": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "allocatable": 2
+        },
+        {
+          "event": "store_receipt",
+          "success": true,
+          "stored_prefix": 2
+        }
+      ]
+    }
+  ]
+}

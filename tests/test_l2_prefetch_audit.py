@@ -44,6 +44,14 @@ class L2AuditTests(unittest.TestCase):
         with self.assertRaises(AssertionError):
             audit_events(rows, 2, True)
 
+    def test_short_read_only_retained_prefix_is_reclaimed(self):
+        rows = copy.deepcopy(self.rows)
+        rows[-1]["released_objects"] = 8
+        rows[-1]["object_keys"] = rows[-1]["object_keys"][:8]
+        self.assertEqual(audit_events(rows, 2, True, 8)["released_objects"], 8)
+        with self.assertRaises(AssertionError):
+            audit_events(self.rows, 2, True, 8)
+
     def test_early_unlock_rejected(self):
         rows = copy.deepcopy(self.rows)
         rows[-1]["unix_time"] = 5.5

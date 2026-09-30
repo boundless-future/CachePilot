@@ -70,7 +70,10 @@ def main():
     parser.add_argument("--trace-server", action="store_true")
     parser.add_argument("--release-cancelled", action="store_true")
     parser.add_argument("--reclaim-cancelled", action="store_true")
+    parser.add_argument("--ordered-end", action="store_true")
     args = parser.parse_args()
+    if args.ordered_end:
+        args.trace_lookup = True
     if args.release_cancelled and not args.trace_server:
         parser.error("--release-cancelled requires --trace-server")
     if args.reclaim_cancelled and not args.trace_server:
@@ -88,6 +91,8 @@ def main():
     model = str(ROOT / "models/Qwen3-4B")
     text = prompt()
     mode = "lookup-timeline" if args.trace_lookup else "immediate"
+    if args.ordered_end:
+        mode = "lookup-ordering"
     if args.trace_lookup:
         os.environ["CACHEPILOT_LOOKUP_TIMELINE_DIR"] = str(
             args.output.resolve() / "lookup-timeline")
@@ -109,6 +114,9 @@ def main():
                   diagnostic_release_enabled=args.release_cancelled,
                   candidate_reclaim_enabled=args.reclaim_cancelled,
                   timestamps_unix={})
+    if args.ordered_end:
+        result["connector"] = "LookupOrderingConnector"
+        result["synchronous_end_ordering"] = True
     paused = False
     stream = None
     try:
@@ -140,12 +148,32 @@ def main():
         stream.close()
         stream = None
         result["timestamps_unix"]["client_disconnected"] = time.time()
+        if args.ordered_end:
+            # The candidate synchronously waits for LOOKUP ack inside END.
+            # Resume after cleanup owns the future, not after the blocked
+            # scheduler publishes its next waiting-count metrics sample.
+            def preserved():
+                for path in (args.output / "lookup-timeline").glob("*.jsonl"):
+                    for line in path.read_text().splitlines():
+                        try:
+                            row = json.loads(line)
+                        except json.JSONDecodeError:
+                            continue
+                        if (row["event"] == "cleanup_futures_preserved" and row["ack_urls"]
+                                and row["unix_time"] > result["timestamps_unix"]["client_disconnected"]):
+                            return row
+                return None
+            result["preserved_ack_event"] = wait_for(preserved, 10)
+            os.killpg(cache.process.pid, signal.SIGCONT)
+            paused = False
+            result["timestamps_unix"]["server_resumed"] = time.time()
         result["deferred_cleared_after_disconnect"] = wait_for(
             lambda: deferred_requests(get_text(api + "/metrics")) == 0, 15)
         result["timestamps_unix"]["deferred_cleared"] = time.time()
-        os.killpg(cache.process.pid, signal.SIGCONT)
-        paused = False
-        result["timestamps_unix"]["server_resumed"] = time.time()
+        if paused:
+            os.killpg(cache.process.pid, signal.SIGCONT)
+            paused = False
+            result["timestamps_unix"]["server_resumed"] = time.time()
         wait_for(lambda: requests.get(cache_api + "/status", timeout=5)
                  .status_code == 200, 15)
         if args.reclaim_cancelled:

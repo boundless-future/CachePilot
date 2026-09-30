@@ -5,6 +5,8 @@ import json
 import os
 from pathlib import Path
 import socket
+import signal
+import subprocess
 import sys
 import time
 
@@ -35,7 +37,7 @@ def drained(state):
     return state["is_healthy"] and all(state[key] == 0 for key in fields)
 
 
-def audit_events(rows, disconnected, reclaim):
+def audit_events(rows, disconnected, reclaim, retained_objects=17):
     """Reject a run that missed either barrier or reclaimed the wrong objects."""
     if any(row["event"] == "gate_timeout" for row in rows):
         raise AssertionError("Diagnostic barrier timed out")
@@ -82,11 +84,11 @@ def audit_events(rows, disconnected, reclaim):
         assert owner["request_id"] == waiting["request_id"] == done["request_id"]
         assert disconnected < owner["unix_time"] <= waiting["unix_time"] < load["unix_time"]
         assert done["unix_time"] >= released["unix_time"]
-        assert done["released_objects"] == 17 and done["readers"] == 1
-        assert len(done["object_keys"]) == 17
-        assert set(done["object_keys"]) == set(load["object_keys"])
+        assert done["released_objects"] == retained_objects and done["readers"] == 1
+        assert len(done["object_keys"]) == retained_objects
+        assert set(done["object_keys"]) == set(load["object_keys"][:retained_objects])
         summary.update(request_id=done["request_id"], prefetch_request_id=owner["prefetch_request_id"],
-                       released_objects=17, keys_match_load=True)
+                       released_objects=retained_objects, keys_match_load=True)
     return summary
 
 
@@ -94,7 +96,18 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--reclaim", action="store_true")
+    parser.add_argument("--truncate-index", type=int, choices=range(17))
+    parser.add_argument("--crash-client", action="store_true")
+    parser.add_argument("--observe-seconds", type=float, default=0)
+    parser.add_argument("--shutdown-held-phase", choices=("lookup", "load"))
+    parser.add_argument("--registration-grace-seconds", type=float)
     args = parser.parse_args()
+    if args.shutdown_held_phase and (args.crash_client or args.truncate_index is not None or args.observe_seconds):
+        parser.error("Shutdown probe cannot combine with death, truncation, or TTL observation")
+    if not 0 <= args.observe_seconds <= 1800:
+        parser.error("--observe-seconds must be in [0, 1800]")
+    if args.registration_grace_seconds is not None and not 120 <= args.registration_grace_seconds <= 3600:
+        parser.error("Registration grace must be in [120, 3600]; reap timeout stays at default 120")
     for port in (8000, 8080, 5555):
         with socket.socket() as sock:
             if sock.connect_ex(("127.0.0.1", port)) == 0:
@@ -108,6 +121,7 @@ def main():
     os.environ.pop("CACHEPILOT_LOOKUP_SERVER_RELEASE_CANCELLED", None)
     os.environ.update(CACHEPILOT_L2_GATE_DIR=str(gate),
                       CACHEPILOT_L2_RECLAIM="1" if args.reclaim else "0",
+                      CACHEPILOT_L2_SHUTDOWN_TIMELINE="1" if args.shutdown_held_phase else "0",
                       LMCACHE_PORT="5555", LMCACHE_HTTP_PORT="8080")
     api, cache_api = "http://127.0.0.1:8000", "http://127.0.0.1:8080"
     cache_cmd = [sys.executable, str(ROOT / "scripts/l2_prefetch_gate.py"), "server",
@@ -115,14 +129,20 @@ def main():
                  "--http-port", "8080", "--l1-size-gb", "16", "--l1-init-size-gb", "16",
                  "--eviction-policy", "LRU", "--enable-extra-logging", "--l2-adapter",
                  json.dumps(dict(type="fs", base_path=str(disk)))]
+    if args.registration_grace_seconds is not None:
+        cache_cmd += ["--worker-registration-grace-seconds", str(args.registration_grace_seconds)]
     engine_cmd = ["bash", str(ROOT / "scripts/serve.sh"), "immediate", "--enforce-eager"]
     cache = Service(cache_cmd, out / "lmcache-warmup.log")
     engine = Service(engine_cmd, out / "vllm-warmup.log")
     model, text = str(ROOT / "models/Qwen3-4B"), prompt()
     result = dict(candidate_reclaim=args.reclaim, connector="LMCacheMPConnector",
                   controlled_fs_io=True, eager=True, model=model,
+                  crash_client=args.crash_client, observe_seconds=args.observe_seconds,
+                  shutdown_held_phase=args.shutdown_held_phase,
+                  registration_grace_seconds=args.registration_grace_seconds,
                   prompt_sha256=hashlib.sha256(text.encode()).hexdigest(), passed=False)
     stream = None
+    truncated = None
 
     def snapshot(name):
         raw = requests.get(cache_api + "/status", timeout=10).json()
@@ -130,6 +150,35 @@ def main():
         state = cache_state(cache_api)
         result[name] = state
         return state
+
+    def shutdown_held():
+        before = snapshot("before_shutdown")
+        started = time.monotonic()
+        cache.process.terminate()
+        forced = False
+        try:
+            # HTTP shutdown flushes telemetry before engine.close; allow that
+            # bounded overhead while staying below the 60s FS barrier deadline.
+            cache.process.wait(timeout=40)
+        except subprocess.TimeoutExpired:
+            forced = True
+            os.killpg(cache.process.pid, signal.SIGKILL)
+            cache.process.wait(timeout=10)
+        rows = events(gate)
+        cutoff = result["client_disconnected_unix"]
+        closing = [r for r in rows if r["event"].startswith("close_") and r["unix_time"] > cutoff]
+        result["shutdown"] = dict(forced_kill=forced, returncode=cache.process.returncode,
+            elapsed_seconds=time.monotonic() - started, events=closing,
+            note="Held async FS coroutine; not a blocked native filesystem syscall")
+        result["resource_passed"] = drained(before)
+        result["diagnostic_completed"] = not forced and all(any(
+            r["event"] == "close_return" and r["component"] == component for r in closing)
+            for component in ("LookupModule", "StorageManager", "PrefetchController", "FSL2Adapter"))
+        result["passed"] = result["resource_passed"] and result["diagnostic_completed"]
+        print(json.dumps(result["shutdown"]), flush=True)
+        # Process teardown reclaims address space, but is not proof that the
+        # per-job lifecycle reached its terminal state before teardown.
+        assert not any(r["event"] == "gate_timeout" for r in rows)
 
     try:
         print("Starting warmup with real FS L2", flush=True)
@@ -154,18 +203,27 @@ def main():
         wait_for(lambda: any(e["event"] == "gate_entered" and e.get("phase") == "lookup"
                              for e in events(gate)), 15)
         wait_for(lambda: deferred_requests(get_text(api + "/metrics")) > 0, 15)
+        if args.crash_client:
+            # Kill only the process group created by this experiment. This
+            # prevents normal request_finished/END_SESSION cleanup.
+            os.killpg(engine.process.pid, signal.SIGKILL)
+            engine.process.wait(timeout=10)
         stream.close()
         stream = None
         result["client_disconnected_unix"] = time.time()
-        wait_for(lambda: deferred_requests(get_text(api + "/metrics")) == 0, 15)
-        wait_for(lambda: any(e["event"] == "server_after" and e.get("method") == "end_session"
-                             and e["unix_time"] > result["client_disconnected_unix"]
-                             for e in events(gate)), 15)
+        if not args.crash_client:
+            wait_for(lambda: deferred_requests(get_text(api + "/metrics")) == 0, 15)
+            wait_for(lambda: any(e["event"] == "server_after" and e.get("method") == "end_session"
+                                 and e["unix_time"] > result["client_disconnected_unix"]
+                                 for e in events(gate)), 15)
         pending = snapshot("cancelled_lookup_held")
         assert pending["prefetch_in_flight"] == 1
-        if args.reclaim:
+        if args.reclaim and not args.crash_client:
             assert pending["abandoned_prefetch_jobs"] == 1
             assert pending["reclaim_completed_jobs"] == 0
+        if args.shutdown_held_phase == "lookup":
+            shutdown_held()
+            return
         print("Cancelled while L2 lookup held; allowing lookup, holding actual file read", flush=True)
         (gate / "release-lookup").touch()
         wait_for(lambda: any(e["event"] == "gate_entered" and e.get("phase") == "load"
@@ -173,17 +231,57 @@ def main():
         pending = snapshot("cancelled_load_held")
         assert pending["l1_write_locked"] == 17
         assert pending["l1_read_locked"] == 0 and pending["prefetch_load"] == 1
-        if args.reclaim:
+        if args.reclaim and not args.crash_client:
             assert pending["abandoned_prefetch_jobs"] == 1 and pending["reclaim_completed_jobs"] == 0
         time.sleep(1)
         assert snapshot("load_still_held")["l1_write_locked"] == 17
+        if args.shutdown_held_phase == "load":
+            shutdown_held()
+            return
+        if args.truncate_index is not None:
+            load = next(e for e in events(gate) if e["event"] == "gate_entered"
+                        and e.get("phase") == "load")
+            target = Path(load["paths"][args.truncate_index]).resolve()
+            if target.parent != disk.resolve():
+                raise AssertionError("Truncation target outside experiment KV directory")
+            saved = target.read_bytes()
+            truncated = (target, saved)
+            with target.open("r+b") as handle:
+                handle.truncate(len(saved) // 2)
+            result["short_read_injection"] = dict(index=args.truncate_index,
+                filename=target.name, before_bytes=len(saved), after_bytes=target.stat().st_size,
+                unix_time=time.time())
         (gate / "release-load").touch()
         wait_for(lambda: cache_state(cache_api)["prefetch_in_flight"] == 0, 15)
-        if args.reclaim:
+        if args.reclaim and not args.crash_client:
             wait_for(lambda: drained(cache_state(cache_api)), 15)
         time.sleep(1)
         after = snapshot("after_completion")
         result["resource_passed"] = drained(after)
+        if args.observe_seconds:
+            started = time.monotonic()
+            observations = []
+            while time.monotonic() - started < args.observe_seconds:
+                time.sleep(min(15, max(0, args.observe_seconds - (time.monotonic() - started))))
+                elapsed = time.monotonic() - started
+                state = snapshot(f"observe-{len(observations):03d}")
+                observations.append(dict(elapsed_seconds=elapsed, state=state))
+                write_json(out / "observations.json", observations)
+                print(json.dumps(dict(elapsed_seconds=round(elapsed),
+                    read_locks=state["l1_read_locked"], jobs=state["active_prefetch_jobs"],
+                    sessions=state["active_sessions"], result=state["completed_results_count"])), flush=True)
+            result["observed_final"] = observations[-1]["state"]
+        if args.crash_client:
+            assert not any(e["event"] == "server_after" and e.get("method") == "end_session"
+                           and e["unix_time"] > result["client_disconnected_unix"] for e in events(gate))
+            result["no_end_session_observed"] = True
+            engine = Service(engine_cmd, out / "vllm-recovery.log")
+            engine.start(api + "/health")
+        if truncated is not None:
+            target, saved = truncated
+            target.write_bytes(saved)
+            result["short_read_injection"]["restored_sha256"] = hashlib.sha256(saved).hexdigest()
+            truncated = None
         metrics_before = metric_summary(get_text(api + "/metrics"))
         follow_up = completion(api, model, text, 32)
         result["outputs_equal"] = reference["text"] == follow_up["text"]
@@ -191,12 +289,14 @@ def main():
         result["external_hit_tokens"] = metric_summary(get_text(api + "/metrics"))["external_hit_tokens"] - metrics_before["external_hit_tokens"]
         snapshot("after_follow_up")
         assert result["outputs_equal"] and result["external_hit_tokens"] == 4352
-        result["event_audit"] = audit_events(events(gate), result["client_disconnected_unix"], args.reclaim)
+        retained = 17 if args.truncate_index is None else args.truncate_index
+        result["event_audit"] = audit_events(events(gate), result["client_disconnected_unix"],
+                                            args.reclaim and not args.crash_client, retained)
         engine.stop()
         final = snapshot("after_engine_stop")
         result["passed"] = (result["resource_passed"] and drained(result["after_follow_up"])
                             and drained(final) and not final["registered_gpu_ids"])
-        if args.reclaim and not result["passed"]:
+        if args.reclaim and not args.crash_client and not result["passed"]:
             raise AssertionError("Candidate failed resource checks")
         print(json.dumps({k: result[k] for k in ("passed", "resource_passed", "outputs_equal", "external_hit_tokens")}), flush=True)
     except Exception as exc:
@@ -209,6 +309,9 @@ def main():
             stream.close()
         engine.stop()
         cache.stop()
+        if truncated is not None:
+            target, saved = truncated
+            target.write_bytes(saved)
         write_json(out / "result.json", result)
 
 

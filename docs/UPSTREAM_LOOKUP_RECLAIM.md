@@ -28,4 +28,6 @@ server 侧应拥有清理责任，客户端是否继续 polling 不能决定资�
 
 ## 对主线的影响
 
+2026-09-30 进一步完成 END 顺序与真实短读候选/对照，见 [实验](experiments/2026-09-30/ORDERED_END_AND_SHORT_READ.md)。无 END_SESSION 的进程死亡观察 630 秒后，读锁及 session TTL 清除但 job/result 仍残留，见 [死亡路径](experiments/2026-09-30/CLIENT_DEATH_NO_END.md)。原生 TTLLock 的旧 key/count 释放会误减 TTL 后的新读者锁，见 [所有权边界](experiments/2026-09-30/TTL_OWNERSHIP_BOUNDARY.md)。正式方案必须把“停止底层读写”“消费 completion”“释放带身份的 reservation”分开；timeout 本身不是终结证明，也不能用短 TTL tombstone 模拟 generation。
+
 这项上游缺口阻塞阶段 3B 的资源安全验收，因此在正式 server 修复或明确的上游版本修复前，不启用 GPU 上的提前 pin/准入保护。它不阻塞 fake worker/state machine、基线整理和生命周期模型开发。阶段 5 再根据当时上游状态、最小补丁和回归证据决定是否提交 issue/PR。

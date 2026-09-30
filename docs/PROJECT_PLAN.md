@@ -176,6 +176,8 @@ CachePilot/
 
 进一步使用未修改的 `LMCacheMPConnector` 三次复现实验：在 MP server 受控暂停造成的 lookup 等待期断开客户端，vLLM 的 deferred 请求清零、正常 follow-up 命中并生成相同输出，但三次均留下 17 个 CPU 读锁；r3 另观察到 1 个未移除的 prefetch job，vLLM 退出后仍在。资源验收均为 `passed=false`，见 [原生 lookup 取消](experiments/2026-09-27/REMOTE_LOOKUP_CANCELLATION.md)。客户端与 server 逐请求事件确认 LOOKUP 注册 job 后 END_SESSION 没有消费它。固定版真实 `LookupModule` 的可选回收候选在原生 Connector 的两轮受控 L1 取消复测中逐对象释放 17 个锁，job 和 controller result 归零，follow-up 正常，见 [候选复测](experiments/2026-09-27/LOOKUP_RECLAIM_CANDIDATE.md)。这是加 wrapper 的 server，不是未修改 server 或已验证的上游补丁；实验也不是自然网络故障。
 
+2026-09-30 补充了三条证据：客户端恢复 ack/status→END 等待顺序的组合实验通过，但同步等待不是生产策略；真实 FS 短读候选释放前 8 个对象，关闭候选对照残留 8 锁，见 [顺序与短读](experiments/2026-09-30/ORDERED_END_AND_SHORT_READ.md)；无 END_SESSION 的进程死亡实验在 630 秒后 session 已清除而 job/result、17 个 temporary 对象与旧 GPU 注册仍在，见 [客户端死亡](experiments/2026-09-30/CLIENT_DEATH_NO_END.md)。原生锁特征测试还确认旧 key/count unlock 可能误减 TTL 后新读者的锁，见 [所有权边界](experiments/2026-09-30/TTL_OWNERSHIP_BOUNDARY.md)。因此不能将简单 TTL 强制释放当完整补丁。
+
 尚需使用真实 vLLM/LMCache 服务补齐：
 
 - 原生 Connector 异步 lookup 等待期取消的 server 侧时序及受控 L1/FS L2 回收候选已经验证（L2 两轮通过、一轮关闭候选失败对照，见 [L2 报告](experiments/2026-09-30/L2_PREFETCH_CANCELLATION.md)）；仍需 END_SESSION/LOOKUP 乱序、无 END_SESSION、永久不完成的 controller、关闭时 unresolved job 的修复与期望不变量回归，不能以受控 L1/L2 结果替代整体验收；
@@ -187,7 +189,9 @@ CachePilot/
 
 只有这些路径的 generation、GPU block 释放、CPU 锁/job、pin/unpin、STORE receipt 和最终请求状态可解释，才进入阶段 3C 的 GPU 接入与消融；不接 GPU 的 fake worker 状态机可独立推进。
 
-### 阶段 3C：最终 CachePilot 策略原型（尚未开始）
+### 阶段 3C：最终 CachePilot 策略原型（CPU 状态机已开始；GPU 未接入）
+
+首版纯 Python 状态机已完成预算回退、前缀闭合、身份复核和取消/回执所有权测试，见 [PROTECTION_STATE_MACHINE.md](experiments/2026-09-30/PROTECTION_STATE_MACHINE.md)。除简化模型外，已新增 16:1 物理 block/chunk 分组模型和七项测试。它们使用需求与身份 oracle，尚无真实 vLLM adapter，不能代替真实接入或收益验证。
 
 这是当前项目的核心策略实现，不等同于已经完成的 adaptive horizon。先做不接 GPU 的 fake worker/state machine；阶段 3B 资源门槛通过后，再接入外部 Connector 做可回滚消融，步骤固定为：
 
