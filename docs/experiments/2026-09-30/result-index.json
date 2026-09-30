@@ -165,5 +165,21 @@
     "passed": false,
     "resource_passed": false,
     "connector": "LMCacheMPConnector"
+  },
+  {
+    "path": "l2-checked-release-2026-09-30-r1/result.json",
+    "sha256": "e21991f85112dc232b0c12257b84d3d375d0d50233e8990e1ef86c7827c76ed9",
+    "passed": true,
+    "resource_passed": true,
+    "connector": "LMCacheMPConnector",
+    "checked_release": true
+  },
+  {
+    "path": "l2-checked-short-read-2026-09-30-r1/result.json",
+    "sha256": "ceabcc2950929475dcc3092ea0b84987f0b2414df473227f0cae696a9770aa89",
+    "passed": true,
+    "resource_passed": true,
+    "connector": "LMCacheMPConnector",
+    "checked_release": true
   }
 ]

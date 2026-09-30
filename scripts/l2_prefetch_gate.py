@@ -110,7 +110,7 @@ if __name__ == "__main__":
     install_gate(directory)
     install_timeline(directory)
     if os.environ.get("CACHEPILOT_L2_RECLAIM") == "1":
-        install_reclaim(directory)
+        install_reclaim(directory, checked_release=os.environ.get("CACHEPILOT_CHECKED_RELEASE") == "1")
     if os.environ.get("CACHEPILOT_L2_SHUTDOWN_TIMELINE") == "1":
         install_shutdown_timeline(directory)
     from lmcache.cli.main import main

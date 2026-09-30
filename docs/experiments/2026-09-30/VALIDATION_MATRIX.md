@@ -13,6 +13,7 @@
 | 客户端死亡无END | SIGKILL后630秒观察，锁/session到期，job/result/key snapshot各1、temporary17对象612MiB | **资源失败**；功能follow-up一致不抵消资源残留 |
 | GPU注册reaper | 默认grace3600秒；对照改120秒后旧注册清除 | 注册清理通过；不驱动prefetch回收 |
 | TTL后旧reader释放 | 原生TTLLock+真实finish_read复现旧key/count能误减新reader锁 | **所有权缺口已复现**；不能按session TTL盲目解锁 |
+| 逐对象释放结果 | 可选checked-release；9项真实native CPU契约、5项事件审计测试；实机证据见[报告](CHECKED_RELEASE.md) | 部分失败不记完成、不重试成功项；仍是匿名key/count，未解决TTL/epoch或无END |
 | server关闭 | 可取消lookup/load屏障，controller返回后L1对象/锁释放；实际inflight字典0但公开计数1 | **候选job终结未通过**；内核/executor永久阻塞未覆盖；早期telemetry超时轮另保留 |
 | L2部分写入 | RLIMIT_FSIZE真实EFBIG，8临时文件各写1MiB后删除；重启miss、输出一致、17文件恢复 | L1→L2路径通过；不等于GPU→L1 worker STORE失败 |
 | 自然容量抢占 | 两轮11/12次；迟到回执两轮各16次，均8/8生成完成 | 资源路径通过；抢占钩子时无在途STORE，随后提交旧代批次再reset；DMA中抢占未覆盖 |
@@ -39,5 +40,5 @@
 ## 下一轮优先级
 
 1. 以无END死亡后的job/result/reservation为主要缺口，先把 [所有权协议](../../LOOKUP_OWNERSHIP_PROTOCOL.md) 落到可维护的存储接口和真实契约测试。不要用匿名TTL解锁抹平失败。
-2. 区分最小正常取消补丁和完整失联恢复协议的范围；对部分释放结果显式验收，controller未终结时保持可见，不宣称已回收。
+2. 区分最小正常取消补丁和完整失联恢复协议的范围；逐对象释放结果显式验收已接入可选候选，下一步将这些结果绑定reservation/epoch。controller未终结时保持可见，不宣称已回收。
 3. 再补真实worker传输失败、DMA期间抢占及实际KV内容对照；符合既定门槛后才接入GPU保护，随后才做性能消融。

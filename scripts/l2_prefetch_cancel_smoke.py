@@ -37,6 +37,28 @@ def drained(state):
     return state["is_healthy"] and all(state[key] == 0 for key in fields)
 
 
+def audit_checked_release(rows, disconnected, retained_objects):
+    releases = [r for r in rows if r["event"] == "reclaim_release_result"
+                and r["unix_time"] > disconnected]
+    completed = [r for r in rows if r["event"] == "reclaim_completed"
+                 and r["unix_time"] > disconnected]
+    assert len(completed) == 1
+    done = completed[0]
+    assert len(set(done["object_keys"])) == len(done["object_keys"]) == retained_objects
+    assert done["released_objects"] == retained_objects
+    if retained_objects == 0:
+        assert not releases
+        return dict(retained_objects=0, release_called=False)
+    assert len(releases) == 1
+    release = releases[0]
+    assert release["request_id"] == done["request_id"] and release["token"] == done["token"]
+    assert release["unix_time"] <= done["unix_time"]
+    assert len(release["succeeded_keys"]) == retained_objects
+    assert set(release["succeeded_keys"]) == set(done["object_keys"])
+    assert not release["failed_keys"] and not release["errors"] and not release["notification_error"]
+    return release
+
+
 def audit_events(rows, disconnected, reclaim, retained_objects=17):
     """Reject a run that missed either barrier or reclaimed the wrong objects."""
     if any(row["event"] == "gate_timeout" for row in rows):
@@ -96,12 +118,15 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--reclaim", action="store_true")
+    parser.add_argument("--checked-release", action="store_true")
     parser.add_argument("--truncate-index", type=int, choices=range(17))
     parser.add_argument("--crash-client", action="store_true")
     parser.add_argument("--observe-seconds", type=float, default=0)
     parser.add_argument("--shutdown-held-phase", choices=("lookup", "load"))
     parser.add_argument("--registration-grace-seconds", type=float)
     args = parser.parse_args()
+    if args.checked_release and not args.reclaim:
+        parser.error("--checked-release requires --reclaim")
     if args.shutdown_held_phase and (args.crash_client or args.truncate_index is not None or args.observe_seconds):
         parser.error("Shutdown probe cannot combine with death, truncation, or TTL observation")
     if not 0 <= args.observe_seconds <= 1800:
@@ -121,6 +146,7 @@ def main():
     os.environ.pop("CACHEPILOT_LOOKUP_SERVER_RELEASE_CANCELLED", None)
     os.environ.update(CACHEPILOT_L2_GATE_DIR=str(gate),
                       CACHEPILOT_L2_RECLAIM="1" if args.reclaim else "0",
+                      CACHEPILOT_CHECKED_RELEASE="1" if args.checked_release else "0",
                       CACHEPILOT_L2_SHUTDOWN_TIMELINE="1" if args.shutdown_held_phase else "0",
                       LMCACHE_PORT="5555", LMCACHE_HTTP_PORT="8080")
     api, cache_api = "http://127.0.0.1:8000", "http://127.0.0.1:8080"
@@ -136,6 +162,7 @@ def main():
     engine = Service(engine_cmd, out / "vllm-warmup.log")
     model, text = str(ROOT / "models/Qwen3-4B"), prompt()
     result = dict(candidate_reclaim=args.reclaim, connector="LMCacheMPConnector",
+                  checked_release=args.checked_release,
                   controlled_fs_io=True, eager=True, model=model,
                   crash_client=args.crash_client, observe_seconds=args.observe_seconds,
                   shutdown_held_phase=args.shutdown_held_phase,
@@ -293,6 +320,9 @@ def main():
         retained = 17 if args.truncate_index is None else args.truncate_index
         result["event_audit"] = audit_events(events(gate), result["client_disconnected_unix"],
                                             args.reclaim and not args.crash_client, retained)
+        if args.checked_release and not args.crash_client:
+            result["checked_release_audit"] = audit_checked_release(
+                events(gate), result["client_disconnected_unix"], retained)
         engine.stop()
         final = snapshot("after_engine_stop")
         result["passed"] = (result["resource_passed"] and drained(result["after_follow_up"])

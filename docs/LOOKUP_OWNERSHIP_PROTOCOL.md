@@ -30,7 +30,7 @@ LOOKUP接纳后由server持有job；正常消费把相应read reservation移交�
 ## 可先实施的有限改进
 
 1. 保持当前可选候选及其范围，不安装为默认生产修复。
-2. 将失败和unresolved job记录保留，逐key释放结果需要显式验收；为controller结果提供有所有权的消费接口。
+2. 已实现可选 `--checked-release`：读取真实 L1Manager 的逐key结果，保留部分成功/失败及通知异常；不完整结果不记完成，后续扫描不重试已成功项。真实native接口与候选的回归已通过，见 [逐对象释放](experiments/2026-09-30/CHECKED_RELEASE.md)。这仍是key/count接口，不提供reservation/epoch；controller结果的有所有权消费接口尚待实现。
 3. 已有真实native TTL所有权反例与两个manager的部分释放结果契约测试；下一步为reservation/epoch建立可实现的接口及回归，再决定上游扩展范围。
 4. 使用已完成的取消、短读、进程死亡、注册reaper及shutdown反例作回归矩阵；每个用例明确“完整通过”“已归因但失败”“未覆盖”。
 

@@ -31,13 +31,15 @@ class Abandoned:
     found: object = None
     pending_reported: bool = False
     error: str | None = None
+    release_outcome: object = None
 
 
 class ReclaimState:
     """One owner and one background sweeper per LookupModule instance."""
 
-    def __init__(self, module, directory=None, background=True):
+    def __init__(self, module, directory=None, background=True, *, checked_release=False):
         self.module = module
+        self.checked_release = checked_release
         self.gate = threading.RLock()
         self.keys = {}  # Active, unconsumed jobs only; removed on query/end.
         self.abandoned = {}  # id(job) -> record holding that exact job alive.
@@ -90,7 +92,18 @@ class ReclaimState:
                     # not rebuild it using a possibly newer session or layout.
                     keys = entry.found.gather(entry.keys)
                     if keys:
-                        storage.finish_read_prefetched(keys, read_locks=entry.readers)
+                        if self.checked_release:
+                            from checked_prefetch_release import release_prefetched_checked
+                            outcome = release_prefetched_checked(storage, keys, read_locks=entry.readers)
+                            entry.release_outcome = outcome
+                            self.record("reclaim_release_result", request_id, token=token,
+                                succeeded_keys=[str(k) for k in outcome.succeeded],
+                                failed_keys=[str(k) for k in outcome.failed],
+                                errors=list(outcome.errors), notification_error=outcome.notification_error)
+                            if not outcome.complete:
+                                raise RuntimeError("Release did not fully succeed; retained without automatic retry")
+                        else:
+                            storage.finish_read_prefetched(keys, read_locks=entry.readers)
                 except Exception as exc:
                     entry.error = repr(exc)
                     self.record("reclaim_failed", request_id, token=token, error=entry.error)
@@ -126,9 +139,12 @@ class ReclaimState:
             logger.warning("Closing with %d unresolved abandoned jobs", len(self.abandoned))
 
 
-def install_reclaim(directory=None, *, background=True):
+def install_reclaim(directory=None, *, background=True, checked_release=False):
     """Install once before constructing servers; return originals for tests."""
     from lmcache.v1.multiprocess.modules.lookup import LookupModule
+    if checked_release:
+        from checked_prefetch_release import check_release_source
+        check_release_source()
 
     if getattr(LookupModule.lookup, "_cachepilot_reclaim", False):
         raise RuntimeError("Reclaim wrapper already installed")
@@ -139,7 +155,8 @@ def install_reclaim(directory=None, *, background=True):
     @functools.wraps(original["__init__"])
     def initialize(self, *args, **kwargs):
         original["__init__"](self, *args, **kwargs)
-        self._cachepilot_reclaim = ReclaimState(self, directory, background)
+        self._cachepilot_reclaim = ReclaimState(self, directory, background,
+                                               checked_release=checked_release)
 
     @functools.wraps(original["lookup"])
     def lookup(self, key, *args, **kwargs):
@@ -228,6 +245,7 @@ def install_reclaim(directory=None, *, background=True):
                 reclaim_failed_jobs=sum(x.error is not None for x in state.abandoned.values()),
                 reclaim_completed_jobs=state.completed,
                 reclaim_key_snapshots=len(state.keys),
+                reclaim_checked_release=state.checked_release,
             )
 
     @functools.wraps(original["close"])
