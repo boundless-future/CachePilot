@@ -184,6 +184,8 @@ CachePilot/
 
 随后实现独立C++ reservation锁和真实L1Manager方法的CPU契约：共享TTL epoch、不可复用reader token、重复释放和同名对象重建隔离通过；新原生锁11测试、L1契约12测试，完整服务器回归206通过。见 [reservation接口原型](experiments/2026-09-30/RESERVATION_EPOCH.md)。这是3B所有权支线，未替换运行栈；下一步必须在L1命中和L2写转读的获取点保存token，并贯穿裁剪/完成结果/QUERY或回收的唯一移交，不能只改finish_read或给bitmap事后补身份。
 
+2026-10-01进一步将token贯穿真实PrefetchController方法的CPU契约，包括获取、L2写转读、裁剪、完成发布与破坏性消费。新增19测试和50轮QUERY/abandon竞争通过；完整服务器回归225通过，见 [controller唯一移交](experiments/2026-10-01/OWNED_PREFETCH.md)。adapter I/O和load plan仍是测试输入，后台loop/实际服务未接入。下一步覆盖StorageManager的初始L1前缀和L2索引合并、纯L1一次消费，再接LookupModule/RETRIEVE；这仍属于3B支线，不是3C策略或性能收益。
+
 尚需使用真实 vLLM/LMCache 服务补齐：
 
 - 原生 Connector 异步 lookup 等待期取消的 server 侧时序及受控 L1/FS L2 回收候选已经验证（L2 两轮通过、一轮关闭候选失败对照，见 [L2 报告](experiments/2026-09-30/L2_PREFETCH_CANCELLATION.md)）；仍需 END_SESSION/LOOKUP 乱序、无 END_SESSION、永久不完成的 controller、关闭时 unresolved job 的修复与期望不变量回归，不能以受控 L1/L2 结果替代整体验收；
