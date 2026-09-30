@@ -140,6 +140,7 @@ def main():
                   crash_client=args.crash_client, observe_seconds=args.observe_seconds,
                   shutdown_held_phase=args.shutdown_held_phase,
                   registration_grace_seconds=args.registration_grace_seconds,
+                  usage_telemetry=os.environ.get("LMCACHE_TRACK_USAGE", "default"),
                   prompt_sha256=hashlib.sha256(text.encode()).hexdigest(), passed=False)
     stream = None
     truncated = None

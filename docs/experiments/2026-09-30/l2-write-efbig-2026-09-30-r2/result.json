@@ -1,0 +1,161 @@
+{
+  "passed": true,
+  "fault": "RLIMIT_FSIZE EFBIG",
+  "connector": "LMCacheMPConnector",
+  "telemetry_enabled": false,
+  "eager": true,
+  "worker_failure_test": false,
+  "after_fault": {
+    "is_healthy": true,
+    "active_sessions": 0,
+    "registered_gpu_ids": [
+      2903082144755874474
+    ],
+    "l1_read_locked": 0,
+    "l1_write_locked": 0,
+    "store_pending": 0,
+    "store_in_flight": 0,
+    "prefetch_in_flight": 0,
+    "prefetch_pending": 0,
+    "prefetch_lookup": 0,
+    "prefetch_load": 0,
+    "write_ttl_seconds": 600,
+    "read_ttl_seconds": 300,
+    "active_prefetch_jobs": 0,
+    "abandoned_prefetch_jobs": 0,
+    "reclaim_failed_jobs": 0,
+    "reclaim_completed_jobs": 0,
+    "reclaim_key_snapshots": 0,
+    "completed_results_count": 0
+  },
+  "fault_evidence": {
+    "objects": 8,
+    "partial_bytes_each": 1048576,
+    "failed_task": {
+      "event": "actual_store_result",
+      "unix_time": 1790775486.1813457,
+      "pid": 9713,
+      "task_id": 1,
+      "success": false,
+      "bytes_transferred": 0
+    },
+    "final_files": 9,
+    "temporary_files": 0
+  },
+  "after_engine_stop": {
+    "is_healthy": true,
+    "active_sessions": 0,
+    "registered_gpu_ids": [],
+    "l1_read_locked": 0,
+    "l1_write_locked": 0,
+    "store_pending": 0,
+    "store_in_flight": 0,
+    "prefetch_in_flight": 0,
+    "prefetch_pending": 0,
+    "prefetch_lookup": 0,
+    "prefetch_load": 0,
+    "write_ttl_seconds": 600,
+    "read_ttl_seconds": 300,
+    "active_prefetch_jobs": 0,
+    "abandoned_prefetch_jobs": 0,
+    "reclaim_failed_jobs": 0,
+    "reclaim_completed_jobs": 0,
+    "reclaim_key_snapshots": 0,
+    "completed_results_count": 0
+  },
+  "external_hit_tokens_after_restart": 0.0,
+  "outputs_equal": true,
+  "after_recovery": {
+    "is_healthy": true,
+    "active_sessions": 0,
+    "registered_gpu_ids": [
+      686002314806839219
+    ],
+    "l1_read_locked": 0,
+    "l1_write_locked": 0,
+    "store_pending": 0,
+    "store_in_flight": 0,
+    "prefetch_in_flight": 0,
+    "prefetch_pending": 0,
+    "prefetch_lookup": 0,
+    "prefetch_load": 0,
+    "write_ttl_seconds": 600,
+    "read_ttl_seconds": 300,
+    "active_prefetch_jobs": 0,
+    "abandoned_prefetch_jobs": 0,
+    "reclaim_failed_jobs": 0,
+    "reclaim_completed_jobs": 0,
+    "reclaim_key_snapshots": 0,
+    "completed_results_count": 0
+  },
+  "recovery_files": [
+    {
+      "name": "-SEP-root-SEP-CachePilot-SEP-models-SEP-Qwen3-4B@0x01000100@0@16eef515f05385c0c375d133fe06f1d34dd245f88ccc79ff8e4bc80b51957938.data",
+      "bytes": 37748736
+    },
+    {
+      "name": "-SEP-root-SEP-CachePilot-SEP-models-SEP-Qwen3-4B@0x01000100@0@1ac670e6aa77f4936261f0ea2379074beae56963c6b54a0330df3fa59e022c52.data",
+      "bytes": 37748736
+    },
+    {
+      "name": "-SEP-root-SEP-CachePilot-SEP-models-SEP-Qwen3-4B@0x01000100@0@26f24cbad8034578ad5533178659d3eccca4d46b3e7fa8ff6832b274bae7a59e.data",
+      "bytes": 37748736
+    },
+    {
+      "name": "-SEP-root-SEP-CachePilot-SEP-models-SEP-Qwen3-4B@0x01000100@0@30c8a9411e37cd27e357e2c0948980aab2e2acea19dbf7886314c58fc47c5178.data",
+      "bytes": 37748736
+    },
+    {
+      "name": "-SEP-root-SEP-CachePilot-SEP-models-SEP-Qwen3-4B@0x01000100@0@34e21c046b9cc00f5e0b2ece9f4683a1832e2675f1316dba7031a939d03c25ef.data",
+      "bytes": 37748736
+    },
+    {
+      "name": "-SEP-root-SEP-CachePilot-SEP-models-SEP-Qwen3-4B@0x01000100@0@3c3c292d65b204bf406380e12c3dac7e319c101eb3f001d0600aeaef07b39ce5.data",
+      "bytes": 37748736
+    },
+    {
+      "name": "-SEP-root-SEP-CachePilot-SEP-models-SEP-Qwen3-4B@0x01000100@0@3e750546cae909c780d88c3dea1686c77091ab8ab9aa07fd5fe95d7ba01a94de.data",
+      "bytes": 37748736
+    },
+    {
+      "name": "-SEP-root-SEP-CachePilot-SEP-models-SEP-Qwen3-4B@0x01000100@0@40e426ae2eacb266c73ee5d9504aaeb87f57d0b9579d1cded9dd9638ca48da33.data",
+      "bytes": 37748736
+    },
+    {
+      "name": "-SEP-root-SEP-CachePilot-SEP-models-SEP-Qwen3-4B@0x01000100@0@4b1d78bc1a6a2898bd728c65af7440a55465c05c5f7f8b023443f70895bcb1cf.data",
+      "bytes": 37748736
+    },
+    {
+      "name": "-SEP-root-SEP-CachePilot-SEP-models-SEP-Qwen3-4B@0x01000100@0@4c6e2c1a6596d03c35efe40bcc755d71d5b7746716b59f6e9f3f692267a085b8.data",
+      "bytes": 37748736
+    },
+    {
+      "name": "-SEP-root-SEP-CachePilot-SEP-models-SEP-Qwen3-4B@0x01000100@0@57a25bcf248c4ecd8c697f102300d0f30ccfbb234ed1f1f26b800a660a820424.data",
+      "bytes": 37748736
+    },
+    {
+      "name": "-SEP-root-SEP-CachePilot-SEP-models-SEP-Qwen3-4B@0x01000100@0@98250067c7385297e36919b614c5afe47fb384e3a26e3c49dc6e1417ac5b6c09.data",
+      "bytes": 37748736
+    },
+    {
+      "name": "-SEP-root-SEP-CachePilot-SEP-models-SEP-Qwen3-4B@0x01000100@0@9b8526c6e57519c648f14e47294ec2cb0cc4ee32b40f77c27f082a5106dc12bc.data",
+      "bytes": 37748736
+    },
+    {
+      "name": "-SEP-root-SEP-CachePilot-SEP-models-SEP-Qwen3-4B@0x01000100@0@aef3f9c10a33899174472b0e4743c828d73c2079c638e0d5685e2e6587079f4f.data",
+      "bytes": 37748736
+    },
+    {
+      "name": "-SEP-root-SEP-CachePilot-SEP-models-SEP-Qwen3-4B@0x01000100@0@c43e83905a4e3ae90412008a971ed34dbc8493dce2f67f937d12cb381419bec3.data",
+      "bytes": 37748736
+    },
+    {
+      "name": "-SEP-root-SEP-CachePilot-SEP-models-SEP-Qwen3-4B@0x01000100@0@df055c3e49070d5815c8aec6fb7aed3c47cc129c3b017265dcf7387930fbd3a0.data",
+      "bytes": 37748736
+    },
+    {
+      "name": "-SEP-root-SEP-CachePilot-SEP-models-SEP-Qwen3-4B@0x01000100@0@fda37d1c2af1918e7fe3c9655cbdf006821005d02d72c5389c5493aba7c3a047.data",
+      "bytes": 37748736
+    }
+  ]
+}

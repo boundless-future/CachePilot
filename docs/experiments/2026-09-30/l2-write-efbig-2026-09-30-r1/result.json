@@ -1,0 +1,32 @@
+{
+  "passed": false,
+  "fault": "RLIMIT_FSIZE EFBIG",
+  "connector": "LMCacheMPConnector",
+  "telemetry_enabled": false,
+  "eager": true,
+  "worker_failure_test": false,
+  "after_fault": {
+    "is_healthy": true,
+    "active_sessions": 0,
+    "registered_gpu_ids": [
+      2476605389647688910
+    ],
+    "l1_read_locked": 0,
+    "l1_write_locked": 0,
+    "store_pending": 0,
+    "store_in_flight": 0,
+    "prefetch_in_flight": 0,
+    "prefetch_pending": 0,
+    "prefetch_lookup": 0,
+    "prefetch_load": 0,
+    "write_ttl_seconds": 600,
+    "read_ttl_seconds": 300,
+    "active_prefetch_jobs": 0,
+    "abandoned_prefetch_jobs": 0,
+    "reclaim_failed_jobs": 0,
+    "reclaim_completed_jobs": 0,
+    "reclaim_key_snapshots": 0,
+    "completed_results_count": 0
+  },
+  "error": "AssertionError()"
+}

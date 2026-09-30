@@ -1,0 +1,69 @@
+{
+  "passed": true,
+  "controlled_receipt_delay": 5,
+  "max_deferral_seconds": 0.05,
+  "eager": true,
+  "connector": "LateStoreReceiptConnector",
+  "interrupted_dma": false,
+  "client_closed_unix": 1790777736.5939515,
+  "lifecycle": {
+    "request_id": "cmpl-9824394625460551-0-919ec25e",
+    "status": "FINISHED_ABORTED",
+    "released_pin_references": 128,
+    "orphaned_receipts": 0,
+    "initial_free_blocks": 909,
+    "final_free_blocks": 909,
+    "receipt_after_cancel_ms": 4825.265666
+  },
+  "after_cancel": {
+    "is_healthy": true,
+    "active_sessions": 1,
+    "registered_gpu_ids": [
+      3090714913282855217
+    ],
+    "l1_read_locked": 0,
+    "l1_write_locked": 0,
+    "store_pending": 0,
+    "store_in_flight": 0,
+    "prefetch_in_flight": 0,
+    "prefetch_pending": 0,
+    "prefetch_lookup": 0,
+    "prefetch_load": 0,
+    "write_ttl_seconds": 600,
+    "read_ttl_seconds": 300,
+    "active_prefetch_jobs": 0,
+    "abandoned_prefetch_jobs": 0,
+    "reclaim_failed_jobs": 0,
+    "reclaim_completed_jobs": 0,
+    "reclaim_key_snapshots": 0,
+    "completed_results_count": 0
+  },
+  "followup_usage": {
+    "prompt_tokens": 8,
+    "total_tokens": 40,
+    "completion_tokens": 32,
+    "prompt_tokens_details": null,
+    "completion_tokens_details": null
+  },
+  "after_engine_stop": {
+    "is_healthy": true,
+    "active_sessions": 1,
+    "registered_gpu_ids": [],
+    "l1_read_locked": 0,
+    "l1_write_locked": 0,
+    "store_pending": 0,
+    "store_in_flight": 0,
+    "prefetch_in_flight": 0,
+    "prefetch_pending": 0,
+    "prefetch_lookup": 0,
+    "prefetch_load": 0,
+    "write_ttl_seconds": 600,
+    "read_ttl_seconds": 300,
+    "active_prefetch_jobs": 0,
+    "abandoned_prefetch_jobs": 0,
+    "reclaim_failed_jobs": 0,
+    "reclaim_completed_jobs": 0,
+    "reclaim_key_snapshots": 0,
+    "completed_results_count": 0
+  }
+}

@@ -1,6 +1,6 @@
 # CachePilot 总体设计与实施方案
 
-更新：2026-09-27
+更新：2026-09-30
 
 > 本文同时记录原始计划和开发后的修订路线。原始计划假设“自适应卸载窗口”会成为第一版主要机制；实际实验发现更关键的问题是异步 KV 回载的物理 block 分配与 LMCache lazy-offload 压力观测存在时间错位，因此当前主线已经调整为“先建立可验证的压力信号，再决定是否实施准入前保护策略”。
 
@@ -178,10 +178,12 @@ CachePilot/
 
 2026-09-30 补充了三条证据：客户端恢复 ack/status→END 等待顺序的组合实验通过，但同步等待不是生产策略；真实 FS 短读候选释放前 8 个对象，关闭候选对照残留 8 锁，见 [顺序与短读](experiments/2026-09-30/ORDERED_END_AND_SHORT_READ.md)；无 END_SESSION 的进程死亡实验在 630 秒后 session 已清除而 job/result、17 个 temporary 对象与旧 GPU 注册仍在，见 [客户端死亡](experiments/2026-09-30/CLIENT_DEATH_NO_END.md)。原生锁特征测试还确认旧 key/count unlock 可能误减 TTL 后新读者的锁，见 [所有权边界](experiments/2026-09-30/TTL_OWNERSHIP_BOUNDARY.md)。因此不能将简单 TTL 强制释放当完整补丁。
 
+注册宽限期 120 秒的对照确认 worker reaper 能清除旧 GPU 注册，但不清除 lookup job；默认 grace=3,600 秒，不能把630秒观察中的注册直接称泄漏。关闭 load 屏障实验确认 controller.stop 可释放已预留的17对象/612MiB，但候选 bookkeeping 与不可取消 I/O 仍未闭合，见 [关闭边界](experiments/2026-09-30/SHUTDOWN_BOUNDARY.md)。真实 EFBIG 部分写入已验证 L2 清理和重启恢复，见 [L2 写入失败](experiments/2026-09-30/L2_WRITE_FAILURE.md)；它发生在 GPU→L1 成功后，不代替 worker STORE 失败路径。
+
 尚需使用真实 vLLM/LMCache 服务补齐：
 
 - 原生 Connector 异步 lookup 等待期取消的 server 侧时序及受控 L1/FS L2 回收候选已经验证（L2 两轮通过、一轮关闭候选失败对照，见 [L2 报告](experiments/2026-09-30/L2_PREFETCH_CANCELLATION.md)）；仍需 END_SESSION/LOOKUP 乱序、无 END_SESSION、永久不完成的 controller、关闭时 unresolved job 的修复与期望不变量回归，不能以受控 L1/L2 结果替代整体验收；
-- 自然抢占、在途 STORE、重新远端回载和迟到回执；
+- 自然容量抢占与受控迟到STORE回执已完成多轮资源审计及退出TTL观察，见 [自然抢占](experiments/2026-09-30/NATURAL_PREEMPTION.md)；取消持有回执两轮通过且退出TTL归零，见 [取消迟到回执](experiments/2026-09-30/CANCEL_HELD_STORE.md)。自然抢占后实际回载首轮1440层比较全部相等，严格关联1个无中间STORE的orphan源chunk，见 [KV内容](experiments/2026-09-30/PREEMPTION_KV_INTEGRITY.md)。仍需DMA执行期间抢占、更广decode KV与输出正确性验证；
 - 异步调度下 reset API 与 deferred block free 的时序限制；
 - 真正的远端异步 lookup/传输中止；受控暂停不等同于自然 I/O 故障；
 - 未修改 Connector 下的远端回载失败和资源释放；非法 block ID underflow 已发现读锁残留，不能作为这项验收通过的证据；
@@ -191,7 +193,9 @@ CachePilot/
 
 ### 阶段 3C：最终 CachePilot 策略原型（CPU 状态机已开始；GPU 未接入）
 
-首版纯 Python 状态机已完成预算回退、前缀闭合、身份复核和取消/回执所有权测试，见 [PROTECTION_STATE_MACHINE.md](experiments/2026-09-30/PROTECTION_STATE_MACHINE.md)。除简化模型外，已新增 16:1 物理 block/chunk 分组模型和七项测试。它们使用需求与身份 oracle，尚无真实 vLLM adapter，不能代替真实接入或收益验证。
+首版纯 Python 状态机已完成预算回退、前缀闭合、身份复核和取消/回执所有权测试，见 [PROTECTION_STATE_MACHINE.md](experiments/2026-09-30/PROTECTION_STATE_MACHINE.md)。除简化模型外，已新增 16:1 物理 block/chunk 分组模型和七项测试。它们使用需求与身份oracle；后续已接真实库的CPU对象契约，但尚无运行在真实scheduler里的adapter，不能代替GPU接入或收益验证。
+
+随后增加真实 vLLM BlockPool 的 CPU 元数据桥接八项测试和同 request-id 跨代单在途模式；这未安装进 scheduler，也不包含 CUDA tensor。随后增加真实token ledger的两条hash链证明（6项测试）及实际LMCache STORE metadata的CPU交接契约（7项测试）。接入所需的hash来源、零计算步回滚、回执身份和部分保存边界已写入 [adapter 契约](PROTECTION_ADAPTER_CONTRACT.md)。
 
 这是当前项目的核心策略实现，不等同于已经完成的 adaptive horizon。先做不接 GPU 的 fake worker/state machine；阶段 3B 资源门槛通过后，再接入外部 Connector 做可回滚消融，步骤固定为：
 
@@ -284,9 +288,9 @@ Trace 回放评估的是推理系统在同一请求负载下的行为，不评�
 
 原计划中的环境确认已经完成并固化在 `docs/ENVIRONMENT.md`。当前剩余事项按阻塞关系排列：
 
-1. 针对原生 Connector 的受控 lookup 取消资源失败，客户端/server 时序、上游范围对照和纯 Python 模型已完成；固定版真实 `LookupModule` 的可选回收候选在两轮原生 Connector + 候选 server 的受控 L1 复测中使 17 个对象锁和 job 归零，见 [LOOKUP_RECLAIM_CANDIDATE.md](experiments/2026-09-27/LOOKUP_RECLAIM_CANDIDATE.md)。真实 FS L2 在途 prefetch 已完成两轮候选通过及一轮关闭候选失败对照，见 [L2 报告](experiments/2026-09-30/L2_PREFETCH_CANCELLATION.md)。下一步优先验证 END_SESSION/LOOKUP 乱序、无 END_SESSION、永久卡住的 controller 和关闭路径，再形成最小上游补丁；另完成真正远端传输中止、自然 I/O/部分写入下的 worker 保存失败，补自然抢占/在途 STORE 与迟到回执。候选受控 L1/L2 通过不等于阶段 3B 通过；RETRIEVE underflow 的读锁残留保留为独立候选问题，异步 reset API 与 session TTL 单列复核；
+1. 针对原生 Connector 的受控 lookup 取消资源失败，客户端/server 时序、上游范围对照和纯 Python 模型已完成；固定版真实 `LookupModule` 的可选回收候选在两轮原生 Connector + 候选 server 的受控 L1 复测中使 17 个对象锁和 job 归零，见 [LOOKUP_RECLAIM_CANDIDATE.md](experiments/2026-09-27/LOOKUP_RECLAIM_CANDIDATE.md)。真实 FS L2 在途 prefetch 已完成两轮候选通过及一轮关闭候选失败对照，见 [L2 报告](experiments/2026-09-30/L2_PREFETCH_CANCELLATION.md)。当前已补顺序等待/短读、无END死亡对照、可取消controller关闭、L2真实EFBIG、自然抢占/迟到回执和session TTL；仍以无END死亡的job/result所有权为主要缺口，详见 [协议约束](LOOKUP_OWNERSHIP_PROTOCOL.md)。下一步实现可维护的最小所有权补丁，另补真实传输中止、worker层写入失败、DMA执行期抢占与内容正确性。候选受控 L1/L2 通过不等于阶段 3B 通过；RETRIEVE underflow 的读锁残留保留为独立候选问题，异步 reset API 与 session TTL 单列复核；
 2. 继续补齐 P2 的长 prefill、稳定 decode、容量扫描和 DMA/排队/重算分解；
-3. 与资源排查并行，用 fake worker 实现阶段 3C 的保护状态机；只有生命周期门槛通过后才进行小规模 GPU 消融；
+3. 与资源排查并行，阶段3C已完成fake worker状态机、真实BlockPool/hash及STORE metadata的CPU契约；继续核对真实scheduler/worker交接边界；只有生命周期门槛通过后才进行小规模 GPU 消融；
 4. 固定最终对照矩阵和验证 trace，重复运行并保留退化案例；
 5. 使用 Qwen3-8B + RTX 5090 32GB 做扩展复核；
 6. 独立拆分编译/CUDA Graph 对输出差异的影响，更新正确性边界；

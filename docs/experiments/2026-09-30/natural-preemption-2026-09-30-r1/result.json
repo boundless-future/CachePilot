@@ -1,0 +1,154 @@
+{
+  "passed": true,
+  "injection": "none; capacity pressure",
+  "requests": 8,
+  "prompt_tokens": 1536,
+  "decode_tokens": 2048,
+  "kv_bytes": 1073741824,
+  "connector": "PreemptionConnector",
+  "eager": true,
+  "output_equivalence_test": false,
+  "prompt_sha256": "6b2ffe07c21df0f908ded56296d0c0f9d6e21b0a17d9dfc54e3b61c749a09e2c",
+  "responses": [
+    {
+      "index": 0,
+      "usage": {
+        "prompt_tokens": 1536,
+        "total_tokens": 3584,
+        "completion_tokens": 2048,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "elapsed_seconds": 52.460080200005905
+    },
+    {
+      "index": 1,
+      "usage": {
+        "prompt_tokens": 1536,
+        "total_tokens": 3584,
+        "completion_tokens": 2048,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "elapsed_seconds": 52.572522527996625
+    },
+    {
+      "index": 2,
+      "usage": {
+        "prompt_tokens": 1536,
+        "total_tokens": 3584,
+        "completion_tokens": 2048,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "elapsed_seconds": 184.17145297400566
+    },
+    {
+      "index": 3,
+      "usage": {
+        "prompt_tokens": 1536,
+        "total_tokens": 3584,
+        "completion_tokens": 2048,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "elapsed_seconds": 95.11012073299935
+    },
+    {
+      "index": 4,
+      "usage": {
+        "prompt_tokens": 1536,
+        "total_tokens": 3584,
+        "completion_tokens": 2048,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "elapsed_seconds": 162.38492026399763
+    },
+    {
+      "index": 5,
+      "usage": {
+        "prompt_tokens": 1536,
+        "total_tokens": 3584,
+        "completion_tokens": 2048,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "elapsed_seconds": 143.5850303749976
+    },
+    {
+      "index": 6,
+      "usage": {
+        "prompt_tokens": 1536,
+        "total_tokens": 3584,
+        "completion_tokens": 2048,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "elapsed_seconds": 126.12218976500299
+    },
+    {
+      "index": 7,
+      "usage": {
+        "prompt_tokens": 1536,
+        "total_tokens": 3584,
+        "completion_tokens": 2048,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "elapsed_seconds": 88.25065149800503
+    }
+  ],
+  "lifecycle": {
+    "preemptions": 11,
+    "preempted_requests": 6,
+    "preemptions_with_store_inflight": 0,
+    "final_free_blocks": 454,
+    "initial_free_blocks": 454,
+    "all_requests_finished": true
+  },
+  "cache_state": {
+    "is_healthy": true,
+    "active_sessions": 2,
+    "registered_gpu_ids": [
+      3133225512944563919
+    ],
+    "l1_read_locked": 0,
+    "l1_write_locked": 0,
+    "store_pending": 0,
+    "store_in_flight": 0,
+    "prefetch_in_flight": 0,
+    "prefetch_pending": 0,
+    "prefetch_lookup": 0,
+    "prefetch_load": 0,
+    "write_ttl_seconds": 600,
+    "read_ttl_seconds": 300,
+    "active_prefetch_jobs": 0,
+    "abandoned_prefetch_jobs": 0,
+    "reclaim_failed_jobs": 0,
+    "reclaim_completed_jobs": 0,
+    "reclaim_key_snapshots": 0,
+    "completed_results_count": 0
+  },
+  "after_engine_stop": {
+    "is_healthy": true,
+    "active_sessions": 2,
+    "registered_gpu_ids": [],
+    "l1_read_locked": 0,
+    "l1_write_locked": 0,
+    "store_pending": 0,
+    "store_in_flight": 0,
+    "prefetch_in_flight": 0,
+    "prefetch_pending": 0,
+    "prefetch_lookup": 0,
+    "prefetch_load": 0,
+    "write_ttl_seconds": 600,
+    "read_ttl_seconds": 300,
+    "active_prefetch_jobs": 0,
+    "abandoned_prefetch_jobs": 0,
+    "reclaim_failed_jobs": 0,
+    "reclaim_completed_jobs": 0,
+    "reclaim_key_snapshots": 0,
+    "completed_results_count": 0
+  }
+}

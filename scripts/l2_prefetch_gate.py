@@ -95,6 +95,7 @@ def install_shutdown_timeline(directory):
                 after["state"] = self.report_status()
             if _component == "PrefetchController":
                 after["l1_state"] = self._l1_manager.report_status()
+                after["actual_in_flight_entries"] = len(self._in_flight_requests)
             record("close_return", _component, **after)
             return result
 

@@ -2,6 +2,8 @@
 
 记录日期：2026-09-27。本文只记录上游范围和本项目的修复约束，不修改已安装的 LMCache，也不把诊断 wrapper 当作正式补丁。
 
+2026-09-30 再次读取 GitHub API：[状态快照](experiments/2026-09-30/upstream-status.json)。#5339 仍 open；两条评论确认路径并提到 #5363 仅处理客户端 `_returned_finished` 集合，不处理 sidecar prefetch 所有权。#5008 仍 open、`merged_at=null`。本次仅核查这些记录与评论，未声称完整扫描了全部上游提交或已验证最新 dev。
+
 ## 直接相关的问题
 
 [LMCache issue #5339](https://github.com/LMCache/LMCache/issues/5339)（`MP mode: remaining unbounded request-state retention in vLLM client and sidecar prefetch bookkeeping`）描述了与本项目原生 lookup 取消复现相同的生命周期缺口：sidecar 的 `_prefetch_jobs` 主要在 `QUERY_PREFETCH_STATUS` 或 `WAIT_PREFETCH_STATUS` 消费结果时移除；客户端取消、RPC 超时或健康状态变化后可能不再 polling，而 `END_SESSION` 本身不保证消费 controller completion state。该 issue 在本项目核查时仍为 open。

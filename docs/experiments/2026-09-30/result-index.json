@@ -1,0 +1,169 @@
+[
+  {
+    "path": "cancel-held-store-2026-09-30-r1/result.json",
+    "sha256": "7859723900c94f49def4140f254e86464ce8ff926af8b3076433d1cd8dd27135",
+    "passed": true,
+    "connector": "LateStoreReceiptConnector"
+  },
+  {
+    "path": "cancel-held-store-2026-09-30-r2/result.json",
+    "sha256": "89cf191711f25df399f620b7048f77bd243aa333810a97fc2bbbdb3bdd6814b5",
+    "passed": true,
+    "ttl_passed": true,
+    "connector": "LateStoreReceiptConnector"
+  },
+  {
+    "path": "candidate-r1/result.json",
+    "sha256": "ffb82ffcd0db41dd9db9c8a51680bb39600f411ba7d98c2e502f9fcbc7192753",
+    "passed": true,
+    "resource_passed": true,
+    "connector": "LMCacheMPConnector"
+  },
+  {
+    "path": "candidate-r2/result.json",
+    "sha256": "3866ab9d90f0e8cde8a1211cdb2dbcbf8be5b69ee3dedd315d82002d26805043",
+    "passed": true,
+    "resource_passed": true,
+    "connector": "LMCacheMPConnector"
+  },
+  {
+    "path": "client-death-r1/result.json",
+    "sha256": "58364c88db0ebc4008b387e51fda2ff604eaafa6fe2191176556d5228c1b0fb3",
+    "passed": false,
+    "resource_passed": false,
+    "connector": "LMCacheMPConnector"
+  },
+  {
+    "path": "control-r1/result.json",
+    "sha256": "63474db73fbbac73609d5ad0c7b7ff28c5750540c97c739f3888c0426c85f6fb",
+    "passed": false,
+    "resource_passed": false,
+    "connector": "LMCacheMPConnector"
+  },
+  {
+    "path": "l2-client-death-grace120-2026-09-30-r1/result.json",
+    "sha256": "db2e47fd89328741bdf1b50bc51885d51cba28f7d38ff8b1d71718cc99a50261",
+    "passed": false,
+    "resource_passed": false,
+    "connector": "LMCacheMPConnector"
+  },
+  {
+    "path": "l2-shutdown-load-2026-09-30-r1/result.json",
+    "sha256": "b96403bc4aeff45e4ca60812b4f77c76c160e6d361ffd74d83e430c8a2576d7f",
+    "passed": false,
+    "resource_passed": false,
+    "diagnostic_completed": true,
+    "connector": "LMCacheMPConnector"
+  },
+  {
+    "path": "l2-shutdown-load-2026-09-30-r2/result.json",
+    "sha256": "295de18ba9ff231334fa10ce3167d9036fad6fd35fd0f379500287795017b344",
+    "passed": false,
+    "resource_passed": false,
+    "diagnostic_completed": false,
+    "connector": "LMCacheMPConnector"
+  },
+  {
+    "path": "l2-shutdown-load-2026-09-30-r3/result.json",
+    "sha256": "19bc3def26b6ebfdf1495db6416350361dfd89f762745467f8b37d2b6f99b281",
+    "passed": false,
+    "resource_passed": false,
+    "diagnostic_completed": true,
+    "connector": "LMCacheMPConnector"
+  },
+  {
+    "path": "l2-shutdown-lookup-2026-09-30-r1/result.json",
+    "sha256": "3dad5bc1bb8b0c35d4e3d286bc146ddccd6a79ac9e94854a4c9b6d22e68e9a11",
+    "passed": false,
+    "resource_passed": false,
+    "diagnostic_completed": true,
+    "connector": "LMCacheMPConnector"
+  },
+  {
+    "path": "l2-shutdown-lookup-2026-09-30-r2/result.json",
+    "sha256": "6f3dc0d1c5b5fe6da2035de28e3a93912f1236d799096885c77910db11aa0a87",
+    "passed": false,
+    "resource_passed": false,
+    "diagnostic_completed": true,
+    "connector": "LMCacheMPConnector"
+  },
+  {
+    "path": "l2-write-efbig-2026-09-30-r1/result.json",
+    "sha256": "e5e98ceee11e25b2c626d12a9c6a66b02a467c08c42682fdd7285c92bb5a1453",
+    "passed": false,
+    "error": "AssertionError()",
+    "connector": "LMCacheMPConnector",
+    "fault": "RLIMIT_FSIZE EFBIG"
+  },
+  {
+    "path": "l2-write-efbig-2026-09-30-r2/result.json",
+    "sha256": "ce882e5921f91fe820b43b552943351e54e7daa6fd97fa26a0af93859ba316ef",
+    "passed": true,
+    "connector": "LMCacheMPConnector",
+    "fault": "RLIMIT_FSIZE EFBIG"
+  },
+  {
+    "path": "natural-preemption-2026-09-30-r1/result.json",
+    "sha256": "19895a618e5aacad729964b49676e90230d2beb3553e21816880df7650c955ce",
+    "passed": true,
+    "connector": "PreemptionConnector"
+  },
+  {
+    "path": "natural-preemption-2026-09-30-r2/result.json",
+    "sha256": "5d3f375f83def48b5bcea25d72c9c1ca9fb4255d8299bce84db0c172e1b80ada",
+    "passed": true,
+    "connector": "PreemptionConnector"
+  },
+  {
+    "path": "natural-preemption-held5-2026-09-30-r1/result.json",
+    "sha256": "a9b00fbbb538f28f328f96a82f1acc805567c299ec044aa196b847aa42cea628",
+    "passed": true,
+    "connector": "LateStoreReceiptConnector"
+  },
+  {
+    "path": "natural-preemption-held5-2026-09-30-r2/result.json",
+    "sha256": "a555df6ddc690a36bb40e810a1d7e0277bea82fce03bcba3b45ae0560f271926",
+    "passed": true,
+    "ttl_passed": true,
+    "connector": "LateStoreReceiptConnector"
+  },
+  {
+    "path": "natural-preemption-kv-probe-2026-09-30-r1/result.json",
+    "sha256": "c8348a170231b2dcdcbfaea507690e8490e5ef3d9b9d4cb8c429d12c7b3f9ee3",
+    "passed": true,
+    "connector": "PreemptionKVProbeConnector"
+  },
+  {
+    "path": "natural-preemption-kv-probe-held1-2026-09-30-r2/result.json",
+    "sha256": "ae75cdb16b916ff1c414178dda0c7da0667344da937d02e07df0a343c00ba7f7",
+    "passed": false,
+    "error": "AssertionError('No equal KV coverage from an orphaned batch')",
+    "connector": "PreemptionKVProbeConnector"
+  },
+  {
+    "path": "natural-preemption-kv-probe-held5-2026-09-30-r3/result.json",
+    "sha256": "427718f5c28690ba6c06e06a13940f59dde7e271733686949e857a8854276ee7",
+    "passed": true,
+    "connector": "PreemptionKVProbeConnector"
+  },
+  {
+    "path": "ordered-end-r1/result.json",
+    "sha256": "272c2e8685cda9eddbe177812e3eda3e27bb58366170281965ec0e65db2111c4",
+    "passed": true,
+    "connector": "LookupOrderingConnector"
+  },
+  {
+    "path": "short-read-candidate-r1/result.json",
+    "sha256": "2d403137a84e984571a2f4b6cea28fe5e6fd65d28fe5ef3a273ec538b60ae740",
+    "passed": true,
+    "resource_passed": true,
+    "connector": "LMCacheMPConnector"
+  },
+  {
+    "path": "short-read-control-r1/result.json",
+    "sha256": "a0adbbb896c153399570ad3e9cc0213974dba4ccdfec5d022fa5a6fea3dd1f41",
+    "passed": false,
+    "resource_passed": false,
+    "connector": "LMCacheMPConnector"
+  }
+]

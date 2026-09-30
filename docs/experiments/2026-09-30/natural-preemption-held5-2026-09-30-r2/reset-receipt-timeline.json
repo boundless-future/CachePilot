@@ -1,0 +1,190 @@
+[
+  {
+    "request_id": "cmpl-befd2ec81d0b961e-0-aad5813a",
+    "pins": 112,
+    "events": [
+      {
+        "event": "preempt_before",
+        "offset_ms": -37.19,
+        "store_inflight": false
+      },
+      {
+        "event": "worker_store_submitted",
+        "offset_ms": -1.734
+      },
+      {
+        "event": "store_receipt_held",
+        "offset_ms": -1.115,
+        "batch": 5
+      },
+      {
+        "event": "manager_reset_before",
+        "offset_ms": 0.0,
+        "in_flight": true,
+        "pins": 112
+      },
+      {
+        "event": "manager_reset_after",
+        "offset_ms": 0.249,
+        "in_flight": true,
+        "orphaned": true
+      },
+      {
+        "event": "actual_store_ready",
+        "offset_ms": 24.19,
+        "batch": 5
+      },
+      {
+        "event": "held_store_result_delivered",
+        "offset_ms": 5005.048,
+        "batch": 5
+      },
+      {
+        "event": "scheduler_receipt_before",
+        "offset_ms": 5037.471,
+        "orphaned": true
+      }
+    ]
+  },
+  {
+    "request_id": "cmpl-81e8522d5608f154-0-8e3474d9",
+    "pins": 32,
+    "events": [
+      {
+        "event": "preempt_before",
+        "offset_ms": -41.767,
+        "store_inflight": false
+      },
+      {
+        "event": "worker_store_submitted",
+        "offset_ms": -1.226
+      },
+      {
+        "event": "store_receipt_held",
+        "offset_ms": -0.682,
+        "batch": 8
+      },
+      {
+        "event": "manager_reset_before",
+        "offset_ms": 0.0,
+        "in_flight": true,
+        "pins": 32
+      },
+      {
+        "event": "manager_reset_after",
+        "offset_ms": 0.246,
+        "in_flight": true,
+        "orphaned": true
+      },
+      {
+        "event": "actual_store_ready",
+        "offset_ms": 24.9,
+        "batch": 8
+      },
+      {
+        "event": "held_store_result_delivered",
+        "offset_ms": 5001.621,
+        "batch": 8
+      },
+      {
+        "event": "scheduler_receipt_before",
+        "offset_ms": 5030.708,
+        "orphaned": true
+      }
+    ]
+  },
+  {
+    "request_id": "cmpl-a5f14fc1ba1a5c2a-0-b0c3ecf1",
+    "pins": 32,
+    "events": [
+      {
+        "event": "preempt_before",
+        "offset_ms": -41.46,
+        "store_inflight": false
+      },
+      {
+        "event": "worker_store_submitted",
+        "offset_ms": -1.297
+      },
+      {
+        "event": "store_receipt_held",
+        "offset_ms": -0.95,
+        "batch": 10
+      },
+      {
+        "event": "manager_reset_before",
+        "offset_ms": 0.0,
+        "in_flight": true,
+        "pins": 32
+      },
+      {
+        "event": "manager_reset_after",
+        "offset_ms": 0.143,
+        "in_flight": true,
+        "orphaned": true
+      },
+      {
+        "event": "actual_store_ready",
+        "offset_ms": 27.916,
+        "batch": 10
+      },
+      {
+        "event": "held_store_result_delivered",
+        "offset_ms": 5027.993,
+        "batch": 10
+      },
+      {
+        "event": "scheduler_receipt_before",
+        "offset_ms": 5054.053,
+        "orphaned": true
+      }
+    ]
+  },
+  {
+    "request_id": "cmpl-952b007d9214c630-0-8a91cb63",
+    "pins": 64,
+    "events": [
+      {
+        "event": "preempt_before",
+        "offset_ms": -37.651,
+        "store_inflight": false
+      },
+      {
+        "event": "worker_store_submitted",
+        "offset_ms": -1.265
+      },
+      {
+        "event": "store_receipt_held",
+        "offset_ms": -0.761,
+        "batch": 12
+      },
+      {
+        "event": "manager_reset_before",
+        "offset_ms": 0.0,
+        "in_flight": true,
+        "pins": 64
+      },
+      {
+        "event": "manager_reset_after",
+        "offset_ms": 0.254,
+        "in_flight": true,
+        "orphaned": true
+      },
+      {
+        "event": "actual_store_ready",
+        "offset_ms": 25.197,
+        "batch": 12
+      },
+      {
+        "event": "held_store_result_delivered",
+        "offset_ms": 5003.422,
+        "batch": 12
+      },
+      {
+        "event": "scheduler_receipt_before",
+        "offset_ms": 5031.905,
+        "orphaned": true
+      }
+    ]
+  }
+]

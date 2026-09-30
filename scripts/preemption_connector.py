@@ -34,6 +34,23 @@ class PreemptionConnector(LMCacheMPConnector):
 
     def bind_kv_cache_manager(self, kv_cache_manager):
         super().bind_kv_cache_manager(kv_cache_manager)
+        self._observe("block_pool_bound", free_blocks=kv_cache_manager.block_pool.get_num_free_blocks())
+        manager = self._lazy_offload_manager
+        original_reset = manager.on_request_reset
+
+        def observed_reset(request_id):
+            slot = manager._requests._slots.get(request_id)
+            batch = slot.in_flight if slot else None
+            self._observe("manager_reset_before", request_id=request_id,
+                in_flight=batch is not None, pins=len(batch.block_ids) if batch else 0)
+            result = original_reset(request_id)
+            slot = manager._requests._slots.get(request_id)
+            batch = slot.in_flight if slot else None
+            self._observe("manager_reset_after", request_id=request_id,
+                in_flight=batch is not None, orphaned=batch.orphaned if batch else None)
+            return result
+
+        manager.on_request_reset = observed_reset
         if getattr(Scheduler._preempt_request, "_cachepilot_observed", False):
             return
 
@@ -54,6 +71,7 @@ class PreemptionConnector(LMCacheMPConnector):
                 status=request.status.name, num_preemptions=request.num_preemptions,
                 computed_tokens=request.num_computed_tokens, block_ids=blocks,
                 free_blocks=scheduler.kv_cache_manager.block_pool.get_num_free_blocks(),
+                store_inflight=connector._lazy_offload_manager._requests.has_in_flight(request.request_id),
             )
             result = original_preempt(scheduler, request, *args, **kwargs)
             connector._observe(
@@ -62,6 +80,7 @@ class PreemptionConnector(LMCacheMPConnector):
                 computed_tokens=request.num_computed_tokens,
                 free_blocks=scheduler.kv_cache_manager.block_pool.get_num_free_blocks(),
                 registered=request.request_id in scheduler.requests,
+                store_inflight=connector._lazy_offload_manager._requests.has_in_flight(request.request_id),
             )
             return result
 
@@ -105,6 +124,17 @@ class PreemptionConnector(LMCacheMPConnector):
                       prompt_tokens=len(request.prompt_token_ids))
         return super().on_new_request(request)
 
+    def wait_for_save(self):
+        result = super().wait_for_save()
+        futures = self.worker_adapter.store_futures
+        identities = {rid: getattr(future, "future", future) for rid, future in futures.items()}
+        previous = getattr(self, "_observed_store_futures", {})
+        for request_id, future in identities.items():
+            if previous.get(request_id) is not future:
+                self._observe("worker_store_submitted", request_id=request_id)
+        self._observed_store_futures = identities
+        return result
+
     def request_finished(self, request, block_ids):
         self._observe(
             "request_finished", request_id=request.request_id,
@@ -118,6 +148,31 @@ class PreemptionConnector(LMCacheMPConnector):
         if result is not None:
             self._observe(
                 "store_receipt", completed=sorted(result.completed_store_requests),
+                completed_counts=dict(result.completed_store_requests),
                 failed=sorted(result.failed_store_requests),
             )
+        return result
+
+    def update_connector_output(self, connector_output):
+        meta = connector_output.kv_connector_worker_meta
+        if meta is None:
+            return super().update_connector_output(connector_output)
+        pool = self._kv_cache_manager.block_pool
+        registry = self._lazy_offload_manager._requests
+        ids = set(meta.completed_store_requests) | set(meta.failed_store_requests)
+        pinned = {}
+        for request_id in ids:
+            slot = registry._slots.get(request_id)
+            batch = slot.in_flight if slot else None
+            pinned[request_id] = tuple(batch.block_ids) if batch else ()
+            self._observe("scheduler_receipt_before", request_id=request_id,
+                completed=meta.completed_store_requests.get(request_id, 0),
+                failed=request_id in meta.failed_store_requests,
+                orphaned=batch.orphaned if batch else None,
+                pinned_refs={b: pool.blocks[b].ref_cnt for b in pinned[request_id]})
+        result = super().update_connector_output(connector_output)
+        for request_id in ids:
+            self._observe("scheduler_receipt_after", request_id=request_id,
+                in_flight=registry.has_in_flight(request_id),
+                pinned_refs={b: pool.blocks[b].ref_cnt for b in pinned[request_id]})
         return result

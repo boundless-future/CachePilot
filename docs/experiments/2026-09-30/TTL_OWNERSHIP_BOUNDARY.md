@@ -14,3 +14,6 @@
 4. 客户端 timeout/death、未完成 controller 和 server shutdown 应共享明确所有权协议。短 TTL tombstone 不足以区分旧 LOOKUP 和 request-id 重用。
 
 这不推翻已完成的短时受控 L1/L2 实验，也不证明 CachePilot 的策略不可行；它限定候选修复的有效窗口，并继续阻止将其包装成完整上游补丁。当前版本的 unacked/client-death 缺口仍是 3B 支线，3C 可继续独立模型工作。
+
+
+新增 `test_prefetch_release_result.py` 的两项真实接口特征测试通过：同一次释放包含正常key、仍有write lock的key和不存在的key，原生L1返回SUCCESS/KEY_IN_WRONG_STATE/KEY_NOT_EXIST并保留失败锁；StorageManager调用返回None，只把成功/失败列表写进事件。这把部分释放的可观测性限制变成可运行反例。仅分配器与事件投递被mock，native锁及两个manager方法真实执行；尚未修改候选回收算法或正式库接口。

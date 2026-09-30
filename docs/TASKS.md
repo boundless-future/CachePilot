@@ -99,10 +99,19 @@
 - [x] 2026-09-30 用真实 adapter 恢复 cleanup→END 的 ack/status 顺序，四项契约测试及一轮组合 GPU 取消通过；另完成真实文件短读的候选/对照，候选恰好释放前 8 个对象，对照残留 8 锁。见 [ORDERED_END_AND_SHORT_READ.md](experiments/2026-09-30/ORDERED_END_AND_SHORT_READ.md)。同步等待和 MQ timeout 尚未解决，不是通用乱序修复。
 - [x] 受控杀死 vLLM 进程组，在无 END_SESSION 下完成真实 L2 load 并观察 630 秒：读锁和 session 先后 TTL 清除，但 job/result/key snapshot、17 个 temporary 对象及旧 GPU 注册仍残留；follow-up 输出一致，资源验收失败。见 [CLIENT_DEATH_NO_END.md](experiments/2026-09-30/CLIENT_DEATH_NO_END.md)。
 - [x] 原生 TTLLock 特征测试确认旧 key/count 释放能误减 TTL 后的新读者锁；不能使用 session TTL 盲目强制解锁。见 [TTL_OWNERSHIP_BOUNDARY.md](experiments/2026-09-30/TTL_OWNERSHIP_BOUNDARY.md)。
-- [ ] 为无 END_SESSION、迟到 LOOKUP、controller 永久不完成与 server shutdown 定义安全的所有权/终结协议并验证；复核当前上游版本并形成可维护的最小补丁。继续补真实传输中止、自然 I/O 故障或部分写入下的 worker 保存失败、自然抢占/在途 STORE 与迟到回执；资源门槛通过后再决定是否修改 GPU 保护及准入流程。
-- [ ] 单独复核异步调度的 prefix reset 与 deferred block free 时序、EVICTION_AWARE 退出后 session TTL；当前 reset API 的失败不能算作生成或资源泄漏，active_sessions 也不能作为回收通过证据。
-- [x] 完成首版不接 GPU 的 fake worker 状态机：预算、连续前缀、身份复核、pin/unpin、部分保存、取消和 generation 回执隔离；15 项测试、6,000 步固定种子交错以及 14 个执行示例通过，见 [PROTECTION_STATE_MACHINE.md](experiments/2026-09-30/PROTECTION_STATE_MACHINE.md)。
+- [x] 将 worker 注册宽限期设为 120 秒的死亡对照确认旧 GPU 注册能清理，但 prefetch job/result/锁独立残留；默认 3,600 秒宽限期内存在注册不判为泄漏。
+- [x] 真实 FS 等待期关闭增强观测：load r3 的 controller.stop 后 17 个对象、读写锁、612 MiB 归零；候选仍有 abandoned bookkeeping。早期 15 秒关闭预算因 telemetry flush 被截断的一轮保留为失败，见 [SHUTDOWN_BOUNDARY.md](experiments/2026-09-30/SHUTDOWN_BOUNDARY.md)。这不覆盖内核 I/O 永久阻塞。
+- [x] 临时 RLIMIT_FSIZE 触发真实 EFBIG：8 个部分写入临时文件清理，L2 failure 与锁/job 闭合；重启前缀 miss、输出一致并恢复 17 个文件，见 [L2_WRITE_FAILURE.md](experiments/2026-09-30/L2_WRITE_FAILURE.md)。GPU→L1 已成功，不将此算作 worker STORE 失败回执测试。
+- [x] 容量压力触发自然抢占两轮，8/8请求完成；另两轮5秒STORE回执延迟各16次抢占，逐pin闭合。最新轮630秒观察确认session TTL归零，并用manager reset/worker submit时序解释orphan批次，见 [NATURAL_PREEMPTION.md](experiments/2026-09-30/NATURAL_PREEMPTION.md)。尚未验证DMA执行中抢占或并发输出等价。
+- [x] 自然抢占后真实KV回载首轮40个完整chunk/1440层比较全等；严格来源审计确认其中1个orphan源chunk/36层无中间STORE，见 [PREEMPTION_KV_INTEGRITY.md](experiments/2026-09-30/PREEMPTION_KV_INTEGRITY.md)。1秒延迟重复的1296层比较全等，但无orphan来源覆盖，专项失败保留；5秒追加重复同样通过40chunk/1440层及1chunk/36层严格来源。
+- [x] 取消期间持有真实STORE回执两轮通过：没有tick请求，各128个pin释放且909free恢复；重复轮630秒观察确认session TTL归零，见 [CANCEL_HELD_STORE.md](experiments/2026-09-30/CANCEL_HELD_STORE.md)。
+- [x] 形成 [LOOKUP_OWNERSHIP_PROTOCOL.md](LOOKUP_OWNERSHIP_PROTOCOL.md)：区分client incarnation、request generation、锁reservation epoch及controller终结。只是设计约束，尚未实现完整修复。
+- [ ] 为无 END_SESSION、迟到 LOOKUP、controller 永久不完成与 server shutdown 实现并验证安全所有权协议；复核当前上游版本并形成可维护最小补丁。继续补实际传输中止、worker层真实写入失败、DMA执行期抢占及内容正确性；资源门槛通过后再决定是否修改GPU保护/准入。
+- [ ] 单独复核异步调度的 prefix reset API 与 deferred block free 时序；EVICTION_AWARE自然抢占延迟轮session TTL已实测归零，当前 reset API 的失败不能算作生成或资源泄漏，active_sessions 也不能作为回收通过证据。
+- [x] 完成首版不接 GPU 的 fake worker 状态机：预算、连续前缀、身份复核、pin/unpin、部分保存、取消和 generation 回执隔离；17 项测试、6,000 步固定种子交错以及 14 个执行示例通过，见 [PROTECTION_STATE_MACHINE.md](experiments/2026-09-30/PROTECTION_STATE_MACHINE.md)。
 - [x] 增加 16-token 物理 block / 256-token LMCache chunk 的 16:1 CPU 分组模型，七项测试验证整 chunk 预算、失效 block 停止前缀和回执范围；不是实际 GPU adapter。
+- [x] 真实 vLLM BlockPool 的纯 CPU 元数据桥接八项测试通过；新增同 request-id 跨代单在途限制及 [PROTECTION_ADAPTER_CONTRACT.md](PROTECTION_ADAPTER_CONTRACT.md)，明确 block/chunk hash、零步回滚和 worker 布尔回执限制。
+- [x] 从真实token ledger计算vLLM/LMCache两条hash链，6项测试含Request追加decode；新增真实STORE metadata CPU交接桥接，7项测试与原生tracker字段对照，不接GPU/RPC。
 - [ ] 完成真实 adapter 契约：准入前需求预算、候选选择与真实 hash 复核、前缀闭合、pin/unpin、STORE 提交/回执和保护预算回退；原生 lookup 取消资源门槛通过后再做 GPU 消融，不替换默认策略。
 
 交付：可启用和禁用的实现、测试、消融及反例。性能门槛由基线噪声与实际需求决定，不先填加速目标。
@@ -118,4 +127,4 @@
 
 ## 优先顺序
 
-P0/P1 已建立可运行环境，P2 基线仍有参数扫描与更多压力点未完成。P3 已完成 allocator 真值计数消融、需求信号诊断和若干生命周期契约/诊断实验。原生 Connector 的远端 lookup 等待期取消在未修改 server 上三次残留 17 个 CPU 读锁，r3 另有 1 个 prefetch job；可选 server 回收候选在相同受控 L1 路径两次使 17 个对象锁和 job 归零，follow-up 正常。真实 FS L2 在途 prefetch 的受控取消已完成两轮候选及一轮失败对照；END 顺序与短读候选已通过；无 END_SESSION 的进程死亡则在 630 秒后仍残留 job/result，TTL 匿名释放还有所有权风险。永久卡住的 controller 和自然故障尚未完整验证，因此阶段 3B 仍未通过。非法 RETRIEVE underflow 的读锁缺口单独保留。显式抢占的默认异步 reset API 仍返回 500；自然抢占、真实传输中止、自然 I/O/部分写入、迟到回执与 session TTL 仍待复核。`compute_slots` 漏掉异步回载突发，宽泛及 lookup 状态估计又有较多无效报警，当前不启用提前 pin/准入保护。可先独立推进 fake worker 状态机，待生命周期门槛通过后再进入 GPU 策略消融。上游 PR 留待项目阶段收尾评估；输出差异和基线参数扫描也仍未完成，暂不需要更贵的 GPU 或完整 SWE-bench。
+P0/P1 已建立可运行环境，P2 基线仍有参数扫描与更多压力点未完成。P3 已完成 allocator 真值计数消融、需求信号诊断和若干生命周期契约/诊断实验。原生 Connector 的远端 lookup 等待期取消在未修改 server 上三次残留 17 个 CPU 读锁，r3 另有 1 个 prefetch job；可选 server 回收候选在相同受控 L1 路径两次使 17 个对象锁和 job 归零，follow-up 正常。真实 FS L2 在途 prefetch 的受控取消已完成两轮候选及一轮失败对照；END 顺序与短读候选已通过；无 END_SESSION 的进程死亡则在 630 秒后仍残留 job/result，TTL 匿名释放还有所有权风险。永久卡住的 controller 和自然故障尚未完整验证，因此阶段 3B 仍未通过。非法 RETRIEVE underflow 的读锁缺口单独保留。显式抢占的默认异步 reset API 仍返回 500；自然抢占及受控迟到回执资源闭合、自然抢占退出session TTL已验证；真实传输中止、worker层写入失败、DMA期间抢占及内容正确性仍待复核。真实EFBIG仅覆盖L2。`compute_slots` 漏掉异步回载突发，宽泛及 lookup 状态估计又有较多无效报警，当前不启用提前 pin/准入保护。fake worker状态机、真实BlockPool/hash和STORE metadata的CPU契约已推进；待生命周期门槛通过后再进入GPU策略消融。上游 PR 留待项目阶段收尾评估；输出差异和基线参数扫描也仍未完成，暂不需要更贵的 GPU 或完整 SWE-bench。

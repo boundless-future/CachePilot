@@ -17,7 +17,7 @@ RTX 4090 24GB、Qwen3-4B BF16、vLLM 0.30.0、LMCache `1a4b40b1d79b0e76244f127f9
 5. 放行原始 FS load coroutine，真实读取磁盘字节。候选消费 controller 的最终 bitmap，逐对象解锁；后续同前缀请求验证真实回载与生成。
 6. 记录引擎退出后的资源快照，最后停止本轮拥有的服务。
 
-[l2_prefetch_gate.py](../../../../scripts/l2_prefetch_gate.py) 对固定 SHA256 的 FS adapter 加屏障，保留原始 coroutine；不修改安装包。屏障只阻塞自己的异步协程，server 仍可接收 END_SESSION 和状态查询。60 秒超时会放行以便清理，但记录 `gate_timeout` 并导致验收失败。[l2_prefetch_cancel_smoke.py](../../../../scripts/l2_prefetch_cancel_smoke.py) 管理服务、磁盘数据、屏障和资源验收；`finally` 放行并关闭服务。对照也加载相同日志/时序包装器，但不加载回收候选，因此不是完全未修改的 server。
+[l2_prefetch_gate.py](../../../scripts/l2_prefetch_gate.py) 对固定 SHA256 的 FS adapter 加屏障，保留原始 coroutine；不修改安装包。屏障只阻塞自己的异步协程，server 仍可接收 END_SESSION 和状态查询。60 秒超时会放行以便清理，但记录 `gate_timeout` 并导致验收失败。[l2_prefetch_cancel_smoke.py](../../../scripts/l2_prefetch_cancel_smoke.py) 管理服务、磁盘数据、屏障和资源验收；`finally` 放行并关闭服务。对照也加载相同日志/时序包装器，但不加载回收候选，因此不是完全未修改的 server。
 
 ```bash
 source /usr/local/miniconda3/bin/activate cachepilot

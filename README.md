@@ -4,7 +4,9 @@
 
 当前状态：**已完成环境验收、固定轨迹回放、第一轮 24 组重复基线和自适应卸载窗口原型；原型已跑通但尚未证明收益。**
 
-2026-09-27：目前处于阶段 3B 生命周期验证。已完成契约测试、客户端断流、诊断等待期取消、受控显式抢占恢复，以及真实回载/STORE 完成后的模拟失败回执诊断。显式抢占的同步调度对照两次通过，默认异步调度下 reset API 返回 500，但生成和 block 清理通过。真实远端回载中止、实际 worker STORE 失败与在途抢占仍需补齐，最终保护策略尚未开始。见 [抢占实验与边界](docs/experiments/2026-09-27/EXPLICIT_PREEMPTION.md) 和 [STORE 失败回执诊断](docs/experiments/2026-09-27/STORE_FAILURE.md)。
+2026-09-30：阶段3B已补真实FS L2取消/短读、L2部分写入、自然容量抢占、迟到STORE回执及session TTL；无END客户端死亡仍残留prefetch job/result，整体资源门槛未通过。阶段3C已完成保护状态机、真实BlockPool/hash与STORE metadata的CPU契约，尚未接入GPU策略。见 [验收矩阵与下一步](docs/experiments/2026-09-30/VALIDATION_MATRIX.md)。
+
+2026-09-27检查点：当时处于阶段3B生命周期验证。已完成契约测试、客户端断流、诊断等待期取消、受控显式抢占恢复，以及真实回载/STORE 完成后的模拟失败回执诊断。显式抢占的同步调度对照两次通过，默认异步调度下 reset API 返回 500，但生成和 block 清理通过。真实远端回载中止、实际 worker STORE 失败与在途抢占仍需补齐，当时最终保护策略尚未开始；9月30日CPU契约进展见上文。见 [抢占实验与边界](docs/experiments/2026-09-27/EXPLICIT_PREEMPTION.md) 和 [STORE 失败回执诊断](docs/experiments/2026-09-27/STORE_FAILURE.md)。
 
 2026-09-26：分离策略与诊断日志后完成 12 组重复对比，默认/自适应压力 P95 均值为 3.686/3.694 秒，仍无收益证据。独立分配诊断确认异步回载的块分配与策略压力信号存在时间错位；下一步验证实际分配信号及提前需求预算。详见 [策略诊断报告](docs/experiments/2026-09-26/STRATEGY_DIAGNOSIS.md)。
 
@@ -18,6 +20,7 @@
 
 - [总体设计与实施方案](docs/PROJECT_PLAN.md)
 - [待办与阶段验收](docs/TASKS.md)
+- [当前3B/3C验收矩阵](docs/experiments/2026-09-30/VALIDATION_MATRIX.md)
 - [环境要求与租机清单](docs/ENVIRONMENT.md)
 - [系统接入与基线启动说明](docs/INTEGRATION.md)
 - [回放语义、指标与运行入口](docs/REPLAY.md)

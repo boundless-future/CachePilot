@@ -1,0 +1,81 @@
+{
+  "kv": {
+    "counts": {
+      "before_store_chunks": 88,
+      "after_retrieve_chunks": 40,
+      "retrieved_layers": 1440,
+      "equal_layers": 1440
+    },
+    "missing_references": [],
+    "unequal_layers": [],
+    "covered_and_equal": true
+  },
+  "orphan_source_chunks": [
+    {
+      "source_request_id": "cmpl-af8350d710c31ec0-0-a16c376a",
+      "restored_request_id": "cmpl-81e060a1d89af923-0-9c3d0b63",
+      "start": 0,
+      "end": 256,
+      "token_prefix_sha256": "767f00b2e029562968eeff2011a50a4dbf9f1f3cb2eb08361e500649c40b6695",
+      "compared_layers": 36,
+      "intervening_stores": 1
+    },
+    {
+      "source_request_id": "cmpl-af8350d710c31ec0-0-a16c376a",
+      "restored_request_id": "cmpl-81e060a1d89af923-0-9c3d0b63",
+      "start": 256,
+      "end": 512,
+      "token_prefix_sha256": "419f645c8650d39b75a4c0853757ee79e1e83f5421adc83a6f414ed52cd4440a",
+      "compared_layers": 36,
+      "intervening_stores": 1
+    },
+    {
+      "source_request_id": "cmpl-af8350d710c31ec0-0-a16c376a",
+      "restored_request_id": "cmpl-81e060a1d89af923-0-9c3d0b63",
+      "start": 512,
+      "end": 768,
+      "token_prefix_sha256": "62aa360401730ff28eecea1236857b1b8639d64c527aab5aae40f58799ef9d7a",
+      "compared_layers": 36,
+      "intervening_stores": 1
+    },
+    {
+      "source_request_id": "cmpl-af8350d710c31ec0-0-a16c376a",
+      "restored_request_id": "cmpl-81e060a1d89af923-0-9c3d0b63",
+      "start": 768,
+      "end": 1024,
+      "token_prefix_sha256": "679fa9cc392e76d7188fee4e66dcd2211a0a44995dcb23473ee1f5d80c7e6c3f",
+      "compared_layers": 36,
+      "intervening_stores": 1
+    },
+    {
+      "source_request_id": "cmpl-af8350d710c31ec0-0-a16c376a",
+      "restored_request_id": "cmpl-81e060a1d89af923-0-9c3d0b63",
+      "start": 1024,
+      "end": 1280,
+      "token_prefix_sha256": "8484b7d78291af15a4764554b8ea4c16bc562b872d3595f147f916c7df1a562b",
+      "compared_layers": 36,
+      "intervening_stores": 1
+    },
+    {
+      "source_request_id": "cmpl-af8350d710c31ec0-0-a16c376a",
+      "restored_request_id": "cmpl-81e060a1d89af923-0-9c3d0b63",
+      "start": 1280,
+      "end": 1536,
+      "token_prefix_sha256": "0ffc510d6520017514ad8aa539e87954247a36e1ba40af6f09ffdaee26488d4a",
+      "compared_layers": 36,
+      "intervening_stores": 0
+    }
+  ],
+  "unambiguous_orphan_source_chunks": [
+    {
+      "source_request_id": "cmpl-af8350d710c31ec0-0-a16c376a",
+      "restored_request_id": "cmpl-81e060a1d89af923-0-9c3d0b63",
+      "start": 1280,
+      "end": 1536,
+      "token_prefix_sha256": "0ffc510d6520017514ad8aa539e87954247a36e1ba40af6f09ffdaee26488d4a",
+      "compared_layers": 36,
+      "intervening_stores": 0
+    }
+  ],
+  "passed": true
+}
