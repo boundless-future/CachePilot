@@ -107,6 +107,8 @@
 - [x] 取消期间持有真实STORE回执两轮通过：没有tick请求，各128个pin释放且909free恢复；重复轮630秒观察确认session TTL归零，见 [CANCEL_HELD_STORE.md](experiments/2026-09-30/CANCEL_HELD_STORE.md)。
 - [x] 形成 [LOOKUP_OWNERSHIP_PROTOCOL.md](LOOKUP_OWNERSHIP_PROTOCOL.md)：区分client incarnation、request generation、锁reservation epoch及controller终结。只是设计约束，尚未实现完整修复。
 - [x] 为可选回收候选增加逐对象释放结果检查，部分失败/通知异常保留未解决job且不自动重试；9项真实native CPU契约及5项事件审计测试通过。正常L2取消与短读的实机结果见 [CHECKED_RELEASE.md](experiments/2026-09-30/CHECKED_RELEASE.md)。这不解决无END和跨TTL所有权。
+- [x] 实现独立C++ reservation锁（11测试）及真实L1Manager方法CPU契约（12测试）：TTL后旧释放、重复释放、对象重建、多reader、通知/allocator失败及并发验证通过；见 [RESERVATION_EPOCH.md](experiments/2026-09-30/RESERVATION_EPOCH.md)。新token接口未进入实际controller/RPC，原生TTLLock反例保持复现。
+- [ ] 将reservation token贯穿L1命中、L2写转读、retained bitmap裁剪及controller终结结果；明确QUERY与abandon的唯一消费权，再接StorageManager/RETRIEVE。不能在完成bitmap返回后反查key补造token。
 - [ ] 为无 END_SESSION、迟到 LOOKUP、controller 永久不完成与 server shutdown 实现并验证安全所有权协议；优先落实reservation/epoch和controller终结的接口，再决定客户端失联如何转移job。复核当前上游版本并形成可维护最小补丁。继续补实际传输中止、worker层真实写入失败、DMA执行期抢占及内容正确性；资源门槛通过后再决定是否修改GPU保护/准入。
 - [ ] 单独复核异步调度的 prefix reset API 与 deferred block free 时序；EVICTION_AWARE自然抢占延迟轮session TTL已实测归零，当前 reset API 的失败不能算作生成或资源泄漏，active_sessions 也不能作为回收通过证据。
 - [x] 完成首版不接 GPU 的 fake worker 状态机：预算、连续前缀、身份复核、pin/unpin、部分保存、取消和 generation 回执隔离；17 项测试、6,000 步固定种子交错以及 14 个执行示例通过，见 [PROTECTION_STATE_MACHINE.md](experiments/2026-09-30/PROTECTION_STATE_MACHINE.md)。

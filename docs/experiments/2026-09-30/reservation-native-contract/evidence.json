@@ -1,0 +1,23 @@
+{
+  "scope": "CPU native lock prototype and real L1Manager method contracts; no service installation",
+  "source_files_sha256": {
+    "native/reservation_lock.cpp": "1174a9c270fc277fad421a1bc648b0066066984706fc30583c19751de4a7efda",
+    "scripts/build_reservation_native.py": "947c383d32405c839de528fb8505e88601787d8b61cb65d872c67b112ffe341f",
+    "scripts/reservation_l1_contract.py": "7f237023827abeb28d6cf278f8d97b4a81179b1201f5749343058709969cc9c0",
+    "tests/test_reservation_native.py": "85a386ae6285945ea6282c8807d61d45e7c80422da4e98ade9a9e091be91210b",
+    "tests/test_reservation_l1_contract.py": "cc425ff195b040c0e1655b30e6caf61bd1a5132548d01f842e10697b8cab40ba",
+    "docs/experiments/2026-09-30/reservation-native-contract/build.json": "7f298699e505096f78c4b4a5a0222f105aa7515a62b0f66aba53b18dd37f5589",
+    "docs/experiments/2026-09-30/reservation-native-contract/full-pytest.txt": "4a89882147b78622998f8b779ee7db34a103f6f012ac6b3a56b7bae443b0a54f"
+  },
+  "server": {
+    "passed": 206,
+    "subtests_passed": 26,
+    "warnings": 117
+  },
+  "local": {
+    "passed": 122,
+    "skipped": 84,
+    "subtests_passed": 26
+  },
+  "new_tests": 23
+}

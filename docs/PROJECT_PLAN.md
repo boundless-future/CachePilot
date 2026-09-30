@@ -182,6 +182,8 @@ CachePilot/
 
 23:00汇报后经用户继续授权，补充逐对象释放检查：可选候选直接读取固定版真实L1Manager结果，保留成功集、失败集和通知异常，不再把“调用返回”当所有对象释放成功。部分成功或不确定异常保留job且不自动重试，避免重复减少新reader引用；测试和实机证据见 [逐对象释放](experiments/2026-09-30/CHECKED_RELEASE.md)。这是所有权改造的前置步骤，仍使用匿名key/count，不关闭无END死亡或TTL后旧锁释放的缺口，阶段3B保持进行中。
 
+随后实现独立C++ reservation锁和真实L1Manager方法的CPU契约：共享TTL epoch、不可复用reader token、重复释放和同名对象重建隔离通过；新原生锁11测试、L1契约12测试，完整服务器回归206通过。见 [reservation接口原型](experiments/2026-09-30/RESERVATION_EPOCH.md)。这是3B所有权支线，未替换运行栈；下一步必须在L1命中和L2写转读的获取点保存token，并贯穿裁剪/完成结果/QUERY或回收的唯一移交，不能只改finish_read或给bitmap事后补身份。
+
 尚需使用真实 vLLM/LMCache 服务补齐：
 
 - 原生 Connector 异步 lookup 等待期取消的 server 侧时序及受控 L1/FS L2 回收候选已经验证（L2 两轮通过、一轮关闭候选失败对照，见 [L2 报告](experiments/2026-09-30/L2_PREFETCH_CANCELLATION.md)）；仍需 END_SESSION/LOOKUP 乱序、无 END_SESSION、永久不完成的 controller、关闭时 unresolved job 的修复与期望不变量回归，不能以受控 L1/L2 结果替代整体验收；

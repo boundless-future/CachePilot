@@ -17,3 +17,5 @@
 
 
 新增 `test_prefetch_release_result.py` 的两项真实接口特征测试通过：同一次释放包含正常key、仍有write lock的key和不存在的key，原生L1返回SUCCESS/KEY_IN_WRONG_STATE/KEY_NOT_EXIST并保留失败锁；StorageManager调用返回None，只把成功/失败列表写进事件。这把部分释放的可观测性限制变成可运行反例。仅分配器与事件投递被mock，native锁及两个manager方法真实执行；尚未修改候选回收算法或正式库接口。
+
+后续增量：可选候选已增加[逐对象释放检查](CHECKED_RELEASE.md)，独立C++锁与真实L1方法的CPU契约已验证[token/epoch隔离](RESERVATION_EPOCH.md)。上述安装版反例继续保留；新的锁尚未进入controller或实际服务，不把原型验证表述为完整TTL/失联修复。

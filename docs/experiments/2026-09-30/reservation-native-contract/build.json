@@ -1,0 +1,23 @@
+{
+  "source_sha256": "1174a9c270fc277fad421a1bc648b0066066984706fc30583c19751de4a7efda",
+  "binary_sha256": "7b5c833c5a00e51c188e2ad7d498753634bf872abbab5a3109c4af259dbd5bce",
+  "binary": "cachepilot_reservation_native.cpython-312-x86_64-linux-gnu.so",
+  "python": "3.12.14 | packaged by Anaconda, Inc. | (main, Aug 27 2026, 14:46:43) [GCC 14.3.0]",
+  "command": [
+    "g++",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-std=c++17",
+    "-shared",
+    "-fPIC",
+    "-pthread",
+    "-I/usr/local/miniconda3/envs/cachepilot/include/python3.12",
+    "-I/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/torch/include",
+    "/root/CachePilot/native/reservation_lock.cpp",
+    "-o",
+    "/root/CachePilot/artifacts/reservation-native/cachepilot_reservation_native.cpython-312-x86_64-linux-gnu.so.pending"
+  ],
+  "compiler": "g++ (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0"
+}
