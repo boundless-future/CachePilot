@@ -24,7 +24,7 @@ server 侧应拥有清理责任，客户端是否继续 polling 不能决定资�
 
 项目新增的 [纯 Python 生命周期模型](../scripts/prefetch_reclaim_model.py) 和 [测试](../tests/test_prefetch_reclaim_model.py) 先验证这些顺序约束。它不是 LMCache 代码的替代实现；GPU 端正式补丁仍需在服务器上针对真实 `LookupModule` 做候选修改和原生 Connector 回归。
 
-后续已加入[源码固定的可选 server 候选](../scripts/lookup_server_reclaim.py)及真实 `LookupModule` 契约测试；两轮原生 Connector + 候选 server 的受控 L1 取消复测逐对象释放 17 个读锁，活动 job 与 controller result 归零，见[实验报告](experiments/2026-09-27/LOOKUP_RECLAIM_CANDIDATE.md)。这仍是研究 wrapper，不是上游正式补丁。真实在途 L2、协议乱序、客户端死亡但无 END_SESSION 和永久未完成 controller 等边界尚未通过端到端验证。
+后续已加入[源码固定的可选 server 候选](../scripts/lookup_server_reclaim.py)及真实 `LookupModule` 契约测试；两轮原生 Connector + 候选 server 的受控 L1 取消复测逐对象释放 17 个读锁，活动 job 与 controller result 归零，见[实验报告](experiments/2026-09-27/LOOKUP_RECLAIM_CANDIDATE.md)。这仍是研究 wrapper，不是上游正式补丁。2026-09-30 又完成真实 FS L2 在途 prefetch 的受控取消：两轮候选释放 17 个对象并清空 job/result，关闭候选的对照仍残留，见 [L2 报告](experiments/2026-09-30/L2_PREFETCH_CANCELLATION.md)。协议乱序、客户端死亡但无 END_SESSION、永久未完成 controller、自然故障等边界尚未通过端到端验证。
 
 ## 对主线的影响
 

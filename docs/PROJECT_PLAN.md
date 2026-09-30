@@ -168,7 +168,7 @@ CachePilot/
 
 阶段结论：`compute_slots` 不是异步回载物理分配上界；lookup 状态有一定区分度但误报仍多，当前不足以直接驱动提前 pin 或准入阻塞。因此保留诊断和 allocation 作为消融，不把它们伪装成最终策略。
 
-### 阶段 3B：生命周期与资源安全门槛（进行中；原生 lookup 取消资源验收未通过）
+### 阶段 3B：生命周期与资源安全门槛（进行中；候选受控 L1/L2 通过，完整资源门槛未通过）
 
 这条支线由策略设计中的风险暴露出来，必须先于保护策略。已完成真实 LMCache registry/policy 的 fake worker 契约测试，覆盖 reset、迟到 receipt、保存失败、request-id 重用、单请求单在途 STORE 和 pending suffix 清理；已完成一次客户端断流 smoke。等待期取消已由诊断 Connector 验证 block 与完成通知闭合，见 [等待期取消](experiments/2026-09-27/ASYNC_RETRIEVE_CANCELLATION.md)。显式抢占在关闭异步调度的对照下通过；默认异步调度的 reset API 返回 500，但请求恢复和资源清理通过，见 [显式抢占](experiments/2026-09-27/EXPLICIT_PREEMPTION.md)。成功回载后模拟 worker 失败结果的诊断确认错误 block、scheduler 重算、输出和资源清理闭合，见 [异步回载失败](experiments/2026-09-27/ASYNC_RETRIEVE_FAILURE.md)。成功 STORE 后模拟失败回执的诊断确认 worker/scheduler 回执、pin/unpin 和资源闭合，见 [STORE 失败回执](experiments/2026-09-27/STORE_FAILURE.md)。进一步以 block ID 不足触发 MP server 拒绝 STORE，验证了原始 `false` future、失败回执和重启后的零外部命中，见 [server 拒绝 STORE](experiments/2026-09-27/SERVER_REJECTED_STORE.md)。协议拒绝仍是注入故障，不覆盖自然传输/写入失败、部分写入、所有生产路径或抢占期间的在途 STORE。
 
@@ -178,7 +178,7 @@ CachePilot/
 
 尚需使用真实 vLLM/LMCache 服务补齐：
 
-- 原生 Connector 异步 lookup 等待期取消的 server 侧时序及受控 L1 回收候选已经验证；仍需真实在途 L2、END_SESSION/LOOKUP 乱序、无 END_SESSION、永久不完成的 controller、关闭时 unresolved job 的修复与期望不变量回归，不能以两轮 L1 结果替代整体验收；
+- 原生 Connector 异步 lookup 等待期取消的 server 侧时序及受控 L1/FS L2 回收候选已经验证（L2 两轮通过、一轮关闭候选失败对照，见 [L2 报告](experiments/2026-09-30/L2_PREFETCH_CANCELLATION.md)）；仍需 END_SESSION/LOOKUP 乱序、无 END_SESSION、永久不完成的 controller、关闭时 unresolved job 的修复与期望不变量回归，不能以受控 L1/L2 结果替代整体验收；
 - 自然抢占、在途 STORE、重新远端回载和迟到回执；
 - 异步调度下 reset API 与 deferred block free 的时序限制；
 - 真正的远端异步 lookup/传输中止；受控暂停不等同于自然 I/O 故障；
@@ -219,7 +219,7 @@ CachePilot/
 | 准入前需求观测 | 事后修正信号无法挽救已被覆盖的 KV | `compute_slots` 低估，lookup 信号误报较多，暂不保护 | 增加阶段 3A，阻止过早实现 pin |
 | 生命周期与取消 | 保护策略会改变在途 STORE 和资源释放时序 | registry 契约及若干诊断路径通过；非法 RETRIEVE 输入留下 17 个读锁，原生 Connector 受控 lookup 取消也三次残留 17 个读锁、r3 另有 1 个 job；自然 I/O/部分写入等仍待补 | 增加阶段 3B；GPU 保护门槛未通过，fake worker 状态机可独立推进 |
 | RETRIEVE underflow 读锁 | 诊断 Connector 故意提交空 block ID 列表，MP server 返回原始 `false` | 两次复现，第二次确认注入前 0、目标后及 vLLM 退出后均为 17；正常 Connector 是否可能触发尚无证据 | 独立保存上游候选问题，项目收尾时核查版本、最小修复和回归测试；不外推至自然故障 |
-| 原生 lookup 取消后资源残留 | 受控暂停 MP server 时断开等待 lookup 的客户端 | 三次未修改 server 复现 17 个读锁，r3 有 1 个 job；两轮候选 server 的受控 L1 复测逐对象释放 17 个锁且 job 清零 | 继续验证真实在途 L2、协议乱序、无 END_SESSION、自然故障和最小补丁；GPU 保护仍受 3B 门槛约束 |
+| 原生 lookup 取消后资源残留 | 受控暂停 MP server 时断开等待 lookup 的客户端 | 三次未修改 server 复现 17 个读锁，r3 有 1 个 job；两轮候选 server 的受控 L1 复测逐对象释放 17 个锁且 job 清零 | 真实 FS L2 受控取消两轮候选通过、一轮对照失败；继续验证协议乱序、无 END_SESSION、自然故障和最小补丁；GPU 保护仍受 3B 门槛约束 |
 | 上游修复评估 | 发现可能有可复现的压力信号缺口 | 已单独记录复现、影响和 PR 条件 | 延后到阶段 5，不阻塞项目主线 |
 
 ## 6. 实验模型与数据
@@ -280,7 +280,7 @@ Trace 回放评估的是推理系统在同一请求负载下的行为，不评�
 
 原计划中的环境确认已经完成并固化在 `docs/ENVIRONMENT.md`。当前剩余事项按阻塞关系排列：
 
-1. 针对原生 Connector 的受控 lookup 取消资源失败，客户端/server 时序、上游范围对照和纯 Python 模型已完成；固定版真实 `LookupModule` 的可选回收候选在两轮原生 Connector + 候选 server 的受控 L1 复测中使 17 个对象锁和 job 归零，见 [LOOKUP_RECLAIM_CANDIDATE.md](experiments/2026-09-27/LOOKUP_RECLAIM_CANDIDATE.md)。下一步验证真实在途 L2、END_SESSION/LOOKUP 乱序、无 END_SESSION、永久卡住的 controller 和关闭路径，再形成最小上游补丁；另完成真正远端传输中止、自然 I/O/部分写入下的 worker 保存失败，补自然抢占/在途 STORE 与迟到回执。候选 L1 通过不等于阶段 3B 通过；RETRIEVE underflow 的读锁残留保留为独立候选问题，异步 reset API 与 session TTL 单列复核；
+1. 针对原生 Connector 的受控 lookup 取消资源失败，客户端/server 时序、上游范围对照和纯 Python 模型已完成；固定版真实 `LookupModule` 的可选回收候选在两轮原生 Connector + 候选 server 的受控 L1 复测中使 17 个对象锁和 job 归零，见 [LOOKUP_RECLAIM_CANDIDATE.md](experiments/2026-09-27/LOOKUP_RECLAIM_CANDIDATE.md)。真实 FS L2 在途 prefetch 已完成两轮候选通过及一轮关闭候选失败对照，见 [L2 报告](experiments/2026-09-30/L2_PREFETCH_CANCELLATION.md)。下一步优先验证 END_SESSION/LOOKUP 乱序、无 END_SESSION、永久卡住的 controller 和关闭路径，再形成最小上游补丁；另完成真正远端传输中止、自然 I/O/部分写入下的 worker 保存失败，补自然抢占/在途 STORE 与迟到回执。候选受控 L1/L2 通过不等于阶段 3B 通过；RETRIEVE underflow 的读锁残留保留为独立候选问题，异步 reset API 与 session TTL 单列复核；
 2. 继续补齐 P2 的长 prefill、稳定 decode、容量扫描和 DMA/排队/重算分解；
 3. 与资源排查并行，用 fake worker 实现阶段 3C 的保护状态机；只有生命周期门槛通过后才进行小规模 GPU 消融；
 4. 固定最终对照矩阵和验证 trace，重复运行并保留退化案例；
