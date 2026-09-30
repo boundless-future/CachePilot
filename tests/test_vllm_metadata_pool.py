@@ -22,7 +22,7 @@ class VllmMetadataPoolTests(unittest.TestCase):
         cached = self.real.get_new_blocks(32)
         for block in cached:
             self.real._insert_block_hash(make_block_hash_with_group_id(
-                BlockHash(block.block_id.to_bytes(32, "big")), 0), block, 16)
+                BlockHash(block.block_id.to_bytes(32, "big")), 0), block, block.block_id * 16)
         self.real.free_blocks(cached)
         self.pool = VllmMetadataPool(self.real)
         self.blocks = self.pool.capture([b.block_id for b in cached])

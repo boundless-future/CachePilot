@@ -21,6 +21,12 @@ class VllmMetadataPool:
     def allocatable(self):
         return self.pool.get_num_free_blocks()
 
+    def _full_hash(self, physical):
+        # vLLM stores the cumulative prefix token count at this boundary,
+        # not the number of tokens within this one physical block.
+        count = physical.block_hash_num_tokens
+        return type(count) is int and count > 0 and count % self.block_tokens == 0
+
     def capture(self, block_ids):
         """Caller supplies prefix order; this does not prove token provenance."""
         if len(set(block_ids)) != len(block_ids):
@@ -32,7 +38,7 @@ class VllmMetadataPool:
             physical = self.pool.blocks[block_id]
             if (physical.is_null or physical.pool is not self.pool
                     or physical.block_hash is None
-                    or physical.block_hash_num_tokens != self.block_tokens):
+                    or not self._full_hash(physical)):
                 break
             digest = physical.block_hash.hex()
             old = self._snapshots.get(block_id)
@@ -52,7 +58,7 @@ class VllmMetadataPool:
         return (not physical.is_null and physical.pool is self.pool
                 and physical.block_hash is not None
                 and physical.block_hash.hex() == block.prefix_hash
-                and physical.block_hash_num_tokens == self.block_tokens
+                and self._full_hash(physical)
                 and physical.ref_cnt == self.pins.get(block, 0))
 
     def pin(self, block):

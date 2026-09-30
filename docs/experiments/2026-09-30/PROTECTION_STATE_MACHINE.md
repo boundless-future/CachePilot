@@ -2,7 +2,7 @@
 
 ## 已实现范围
 
-[protection_state_machine.py](../../../../scripts/protection_state_machine.py) 是单 scheduler-owner 的纯 Python 参考模型，配 [fake worker 场景](protection-scenarios.json) 和 [测试](../../../../tests/test_protection_state_machine.py)。它不导入 vLLM/LMCache，不改默认 GPU 调度，不代表性能收益。
+[protection_state_machine.py](../../../scripts/protection_state_machine.py) 是单 scheduler-owner 的纯 Python 参考模型，配 [fake worker 场景](protection-scenarios.json) 和 [测试](../../../tests/test_protection_state_machine.py)。它不导入 vLLM/LMCache，不改默认 GPU 调度，不代表性能收益。
 
 流程是 `arrive → prepare → submit → terminal receipt → unpin`：
 
@@ -21,10 +21,22 @@
 
 ## 接 GPU 前必须解决
 
-简单演示按一个 block/chunk 计数；真实环境 256-token LMCache chunk 与 16-token vLLM block 存在 16:1 分组。新增 [chunk_protection_model.py](../../../../scripts/chunk_protection_model.py) 与七项测试，按 16 个物理 block 一组选择和 pin，24-block 预算只能保护一个完整 chunk；任何一块失效即停止其后的前缀。每个 vLLM block 的累计 hash 不同，也不同于 LMCache chunk hash，因此明确要求 `validate_chunk` oracle 验证 chunk 与 token 顺序的对应关系，不能把这些 hash 当同一个值。它仍不是实际 token/layout adapter。需求来自外部真值，当前 lookup 信号仍有误报；没有得到可用于生产准入的预测器。
+简单演示按一个 block/chunk 计数；真实环境 256-token LMCache chunk 与 16-token vLLM block 存在 16:1 分组。新增 [chunk_protection_model.py](../../../scripts/chunk_protection_model.py) 与七项测试，按 16 个物理 block 一组选择和 pin，24-block 预算只能保护一个完整 chunk；任何一块失效即停止其后的前缀。每个 vLLM block 的累计 hash 不同，也不同于 LMCache chunk hash，因此明确要求 `validate_chunk` oracle 验证 chunk 与 token 顺序的对应关系，不能把这些 hash 当同一个值。它仍不是实际 token/layout adapter。需求来自外部真值，当前 lookup 信号仍有误报；没有得到可用于生产准入的预测器。
 
-新增 [vllm_metadata_pool.py](../../../../scripts/vllm_metadata_pool.py) 和服务器契约测试，直接实例化真实 vLLM `BlockPool`，使用原生 free queue、`touch`、`free_blocks`、`get_new_blocks`，但不分配 CUDA tensor 或启动模型。覆盖 null block 不计入可用容量、16:1 分组、真实 allocator 不复用受保护块、取消后等终结回执释放、两代共享块引用和 hash/活动引用失效。hash 内容由测试构造，不是模型生成的 KV 内容；桥接 version 是本地快照编号，不是 vLLM allocator 的 generation，未证明跨重启或所有 ABA 场景。仅选择 idle full block，不涵盖运行请求对受保护块新增引用。该桥接不安装进 Connector 或 scheduler。
+新增 [vllm_metadata_pool.py](../../../scripts/vllm_metadata_pool.py) 和服务器契约测试，直接实例化真实 vLLM `BlockPool`，使用原生 free queue、`touch`、`free_blocks`、`get_new_blocks`，但不分配 CUDA tensor 或启动模型。覆盖 null block 不计入可用容量、16:1 分组、真实 allocator 不复用受保护块、取消后等终结回执释放、两代共享块引用和 hash/活动引用失效。hash 内容由测试构造，不是模型生成的 KV 内容；桥接 version 是本地快照编号，不是 vLLM allocator 的 generation，未证明跨重启或所有 ABA 场景。仅选择 idle full block，不涵盖运行请求对受保护块新增引用。该桥接不安装进 Connector 或 scheduler。
 
 实际 MP worker 的回执当前按 request-id 计数，不携带模型里的 batch token。模型新增 `serialize_request_ids=True` 约束，旧代批次终结前拒绝同 ID 新代准备，其他 ID 可继续。真实 adapter 必须启用同等限制，或扩展 wire protocol；不能把模型默认允许的同 ID 不同代并行提交直接接入现有接口。此开关不解决网络重复回执、跨进程重启或多 worker 终结聚合，尚无 wire adapter。
 
-真实接入还需要：同 scheduler 临界区里的复核/pin、真实 prefix closure、可提交 worker 步、STORE 失败/迟到回执语义、pin hook 的部分失败约定、共享块容量记账及公平性。模型从不等待 admission，所以不会在模型内引入排队饥饿；真实在途失败长期占用预算仍需资源恢复协议。阶段 3B 未全面通过前，不启用 GPU 提前保护消融。下一步可继续 fake worker 接口和多 block/chunk 映射，而不是把模型的需求 oracle 接入线上策略。
+新增 [token_prefix_proof.py](../../../scripts/token_prefix_proof.py)，在给定真实vLLM hash算法/初始parent和LMCache TokenHasher的条件下，从同一不可变token序列分别计算两套rolling hash，生成chunk provenance校验器。服务器6项测试覆盖真实Request追加decode token→cache_full_blocks→真实BlockPool→保护/回执流程、真实函数调用、前缀改变导致后续chunk失效、物理块顺序颠倒、不完整尾部及不支持的身份上下文。当前只接受无salt、无多模态/LoRA extra keys、group 0；运行时初始hash必须显式提供，不改vLLM全局NONE_HASH。它验证token/metadata关系，不验证CUDA KV内容或生产scheduler接入。
+
+真实接入还需要：同 scheduler 临界区里的复核/pin、真实 prefix closure、可提交 worker 步、STORE 失败/迟到回执语义、pin hook 的部分失败约定、共享块容量记账及公平性。模型从不等待 admission，所以不会在模型内引入排队饥饿；真实在途失败长期占用预算仍需资源恢复协议。阶段 3B 未全面通过前，不启用 GPU 提前保护消融。下一步继续核对真实调度临界区与worker终结协议，不把模型的需求 oracle 直接接入线上策略。
+
+联测曾发现CPU桥接误将 block_hash_num_tokens 当单块长度，实际为累计prefix边界；已按完整块边界整除判断修正，并使用真实Request/cache_full_blocks构造测试元数据，避免手造字段掩盖此错误。此为本项目CPU桥接缺陷，未涉及已运行的GPU实验路径。
+
+## 实际 STORE metadata 的 CPU 交接契约
+
+新增 `scripts/cpu_store_metadata_bridge.py`，直接构造锁定版的 `LMCacheMPRequestMetadata` / `LoadStoreOp`，但不创建RPC、worker或CUDA对象。交接前重新从token ledger计算真实hash，验证完整chunk、物理快照、已计算token上界，再复制token与block列表。零计算步、token改变、尚未计算的尾部在交接前回滚PREPARED pin；交接返回之后即按SUBMITTED处理，不明调用异常不能擅自释放。
+
+服务器7项契约测试通过：用真实Request、BlockPool和LMCache tracker，对0–256与256–512两个范围逐字段对照原生 `GetStoreMetadata()`；另验证取消/同ID重用需等旧回执、失败不推进前缀、零步撤销、token/hash错位、输入列表不别名、重复交接和非终结回执拒绝。仅模拟单worker已经终结的布尔结果，不能宣称实际wire提交/回执已打通。
+
+本地token与generation不出现在现有metadata中。该CPU桥接要求单engine incarnation内按request-id精确一次、有序回执；旧回执在同ID新批次发出之后重复到达仍无法辨别，须在生产适配前证明传输保证或扩展协议。不支持多worker聚合、重连、跨进程重启、混合KV组或非文本cache身份。
