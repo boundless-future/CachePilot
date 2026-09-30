@@ -1,0 +1,23 @@
+{
+  "python": "3.12.14",
+  "packages": {
+    "torch": "2.13.0",
+    "vllm": "0.30.0",
+    "lmcache": "0.5.5+g1a4b40b1d",
+    "transformers": "5.17.0"
+  },
+  "source_files": {
+    "lmcache/integration/vllm/lazy_offload_manager.py": "e611da21991cd29757e553acfaeabbdd1332d4743f036f6b35ed0e85c80c5bcd",
+    "lmcache/integration/vllm/lazy_offload_state.py": "1785139617dde03861341dba16528be252bba60d41aa998eee0c8a05717d3289",
+    "lmcache/integration/vllm/lmcache_mp_connector.py": "99e58e36d120176efae7b8c86804953f8f41d975a433bf79d4dfbb22514fb83f",
+    "lmcache/integration/vllm/vllm_multi_process_adapter.py": "63fe75512185c17e990c49c172d2a381741cc6cbc0eb6f8c534cc9ff5df2912c",
+    "lmcache/v1/multiprocess/modules/lookup.py": "cdd6917c6b3e1aed283313ca7a696ded9e8ad0e7309df7ce4afb0285103b7866",
+    "lmcache/v1/distributed/l1_manager.py": "ef9281d51dffc7b9de454d198723845fceb7745918935f738b42a7b1e33a79ad",
+    "lmcache/v1/distributed/storage_manager.py": "628136dc664be9f32efc6cc4bb29e62c5e7a7702b8c1a708a1ac14b1fde8a430",
+    "vllm/v1/core/sched/scheduler.py": "c1db45f3bbad3a875dd8638331b8870c4380ac1ab4734265ba5c863833a82884",
+    "vllm/v1/core/block_pool.py": "34c2fd67148cecb7763ff49ad694a57073759b0fa67572a4270dc995b4acf8fc"
+  },
+  "gpu": "NVIDIA GeForce RTX 4090, 595.80, 24564 MiB, 1 MiB, 0 %",
+  "code_commit": "27da66a5c34e0b2be956481afc969a9f45322cc6",
+  "collected_at_utc": "2026-09-30T14:50:51.580733+00:00"
+}
