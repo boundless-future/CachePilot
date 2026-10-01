@@ -40,3 +40,5 @@ LOOKUP接纳后由server持有job；正常消费把相应read reservation移交�
 随后以独立`LeasedLookupHarness`连接reader槽与lease，见 [Lookup数据访问租约](experiments/2026-10-01/LEASED_LOOKUP.md)。新增23测试、8子测试，完整服务器334通过。QUERY ticket→CLAIM→read_retrieve交付整个worker shard；明确消费停止后terminal才unpin并处置原reservation。过期temporary清理可能先删除entry，保留原core用于确认stale，不能对新对象按key释放；stale独立计数，不记作released。END只表达取消，已运行槽保留到终结。job错误禁止新读取，但其他running槽仍可各自终结一次，失败槽和错误保留，不自动重试。`terminal=True`仍依赖调用方，CPU future不证明真实DMA终结；下一步接RETRIEVE/wire、实际传输终结、writer所有权、失联恢复和安全shutdown。原生安装栈未修改，3B未通过。
 
 上游issue #5339仍讨论该所有权边界，项目阶段收尾再评估正式issue/PR。CachePilot本身的3C CPU状态机与接口设计可以继续；GPU保护仍以资源门槛为前提。避免为获得“全绿”而把未关闭的故障路径从验收定义中删掉。
+
+后续[transfer完成适配](experiments/2026-10-01/TRANSFER_COMPLETION.md)为原ticket绑定唯一提交身份，RPC/event只观测；匹配server回调且submit返回后才unpin和处置reservation。提前END拒绝新提交，在途END不释放；部分提交异常保留到可信终结，重复callback不重试失败清理。22新增测试、4子测试及30轮竞争通过，完整服务器356通过。该server callback目前仍是CPU fixture承诺，native dispatcher/wire/CUDA均未接入；range/group/buffer计划、有界tombstone回收及原有writer/失联/shutdown要求继续保留。

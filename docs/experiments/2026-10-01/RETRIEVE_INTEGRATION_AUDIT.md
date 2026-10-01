@@ -42,3 +42,5 @@ Engine-driven prepare/commit、SHM、blend和P2P属于另外的传输路径，�
 5. 用真实pinned CPU buffer和CUDA stream验证H2D内容、event、callback与allocator复用；至少覆盖正常/END/TTL、部分提交失败及回调失败。随后接实际Connector/vLLM做受控服务实验，再决定更广泛失联/writer/shutdown改造。
 
 这是接入设计和已核对的源码事实，以上新适配、wire及GPU验证均**未实现**。原生安装栈与历史资源失败保持不变。
+
+同日后续进展：第1步独立CPU适配契约已完成，见[TRANSFER_COMPLETION.md](TRANSFER_COMPLETION.md)；其server callback仍由fixture提供停止承诺。上面的“未实现”描述审计时快照，实际native dispatcher、wire和CUDA验证仍未完成。

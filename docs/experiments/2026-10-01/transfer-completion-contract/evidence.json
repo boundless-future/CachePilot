@@ -1,0 +1,58 @@
+{
+  "date": "2026-10-01",
+  "scope": "Isolated CPU transfer registry with real LMCache futures and controlled event backend, not actual CUDA completion",
+  "source_files_sha256": {
+    "scripts/transfer_completion_contract.py": "80aa25fa35d7b1373814955a50d7e16e9ab8c824f4ff26f63099c3b2ff9f67a2",
+    "tests/test_transfer_completion_contract.py": "be3162b9e91413919013eb3d8b100ea8754aadb5188222e433571e0e94faaa10",
+    "docs/experiments/2026-10-01/transfer-completion-contract/full-pytest.txt": "37c346e138246ebf17955e40beea6abfe51500d634485eff6d695cf64af83e2b"
+  },
+  "prior_lease_manifest": "docs/experiments/2026-10-01/leased-lookup-contract/evidence.json",
+  "prior_lease_manifest_sources_verified": true,
+  "retrieve_audit_manifest": "docs/experiments/2026-10-01/retrieve-integration-audit/source-evidence.json",
+  "installed_lease_and_retrieve_source_hashes_verified": true,
+  "native_binary": {
+    "path": "artifacts/reservation-native/cachepilot_reservation_native.cpython-312-x86_64-linux-gnu.so",
+    "sha256": "3eb61c696490f34f80ce4f9c452769dc6988c705b099d50a5c37c51d0d8f3b8a"
+  },
+  "targeted": {
+    "passed": 22,
+    "subtests_passed": 4,
+    "warnings": 80
+  },
+  "server": {
+    "passed": 356,
+    "subtests_passed": 67,
+    "warnings": 117,
+    "seconds": 14.28
+  },
+  "local": {
+    "passed": 122,
+    "skipped": 234,
+    "subtests_passed": 26
+  },
+  "initial_targeted": {
+    "passed": 18,
+    "failed": 1,
+    "reason": "Fixture attempted to reseed an object with an active pin; corrected to a new Lookup reading the existing object"
+  },
+  "callback_end_submit_return_race_rounds": 30,
+  "duplicate_callback_threads": 8,
+  "cpu_fixture_buffer_bytes": 64,
+  "real_lmcache_future_classes": true,
+  "event_backend": "Controlled CPU fixture",
+  "terminal_authority": "Identity-bound trusted server callback fixture after all accesses stop, no actual DMA proof",
+  "future_observation_can_release_lease": false,
+  "range_group_buffer_plan_implemented": false,
+  "native_completion_dispatcher_connected": false,
+  "wire_metadata_implemented": false,
+  "actual_dma_terminal_confirmation": false,
+  "bounded_tombstone_reclamation_implemented": false,
+  "writer_ownership_implemented": false,
+  "client_death_recovery_implemented": false,
+  "force_free_or_shutdown_supported": false,
+  "installed_lmcache_modified": false,
+  "native_rebuilt_this_round": false,
+  "gpu_experiments": false,
+  "stage_3b_passed": false,
+  "full_pytest_log_origin": "Same full server test execution recorded with tee and pipefail; retrieved via SCP"
+}
