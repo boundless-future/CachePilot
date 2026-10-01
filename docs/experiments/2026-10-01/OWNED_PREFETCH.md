@@ -72,3 +72,5 @@ allocator、事件投递和L2 adapter用mock；load plan和write-reserved buffer
 下一步将完成对象接到StorageManager的初始L1前缀和L2局部索引合并路径，处理纯L1的`prefetch_request_id=-1`也必须只移交一次；再对接LookupModule与RETRIEVE的每worker slot。保持失联lease、writer epoch、不可取消I/O及shutdown未解决项，不把CPU契约通过写成真实无END恢复通过。
 
 00:07收尾检查：8000/8080/5555均无监听，GPU无计算进程、显存1MiB、利用率0%；服务器保持开机。
+
+后续进展：StorageManager初始L1前缀、L2局部索引合并及纯L1一次消费的CPU契约已完成，见 [OWNED_STORAGE.md](OWNED_STORAGE.md)。上文225测试对应本轮历史结果；最新完整回归254通过，下一步转向LookupModule/RETRIEVE。真实服务仍未接入新token接口。

@@ -31,7 +31,7 @@ LOOKUP接纳后由server持有job；正常消费把相应read reservation移交�
 
 1. 保持当前可选候选及其范围，不安装为默认生产修复。
 2. 已实现可选 `--checked-release`：读取真实 L1Manager 的逐key结果，保留部分成功/失败及通知异常；不完整结果不记完成，后续扫描不重试已成功项。真实native接口与候选的回归已通过，见 [逐对象释放](experiments/2026-09-30/CHECKED_RELEASE.md)。该服务候选仍是key/count接口，不提供reservation/epoch；下面的token契约尚未安装到服务。
-3. 已实现独立C++ reservation锁及真实L1Manager方法的CPU契约适配，11项原生锁测试和12项L1契约测试通过，见 [原型与接入点](experiments/2026-09-30/RESERVATION_EPOCH.md)。token包含进程内lock identity、共享TTL epoch和单调serial；匿名API拒绝调用。随后将token贯穿真实controller的获取/裁剪/终结方法，新增19项CPU契约及50轮QUERY/abandon竞争通过，见 [唯一移交](experiments/2026-10-01/OWNED_PREFETCH.md)。未接入实际服务和RPC；下一步覆盖StorageManager初始L1前缀与L2合并、纯L1结果的一次消费，再接LookupModule/RETRIEVE，失联lease与writer所有权仍待实现。
+3. 已实现独立C++ reservation锁及真实L1Manager方法的CPU契约适配，11项原生锁测试和12项L1契约测试通过，见 [原型与接入点](experiments/2026-09-30/RESERVATION_EPOCH.md)。token包含进程内lock identity、共享TTL epoch和单调serial；匿名API拒绝调用。随后将token贯穿真实controller的获取/裁剪/终结方法，新增19项CPU契约及50轮QUERY/abandon竞争通过，见 [唯一移交](experiments/2026-10-01/OWNED_PREFETCH.md)。StorageManager初始L1获取/裁剪、L2局部索引合并及纯L1一次消费也完成CPU契约，29测试、11子测试及50轮竞争通过，见 [所有权合并](experiments/2026-10-01/OWNED_STORAGE.md)。未接入实际服务和RPC；下一步接LookupModule/RETRIEVE的每worker slot和数据访问有效性，失联lease与writer所有权仍待实现。
 4. 使用已完成的取消、短读、进程死亡、注册reaper及shutdown反例作回归矩阵；每个用例明确“完整通过”“已归因但失败”“未覆盖”。
 
 上游issue #5339仍讨论该所有权边界，项目阶段收尾再评估正式issue/PR。CachePilot本身的3C CPU状态机与接口设计可以继续；GPU保护仍以资源门槛为前提。避免为获得“全绿”而把未关闭的故障路径从验收定义中删掉。

@@ -1,0 +1,30 @@
+{
+  "scope": "CPU contract: real StorageManager submit/fold/combine/query, owned controller/L1 fixtures; mocked L2 I/O, load plan, allocator and event delivery",
+  "source_files_sha256": {
+    "scripts/owned_storage_contract.py": "3a3c92a1981477681dde34c351099ba4bf550376222effb71ced0831a535ec9d",
+    "tests/test_owned_storage_contract.py": "4c153caf6eb507222fc2078139d6606dd202f0320c2b1a51ba004c19caabcd57",
+    "scripts/owned_prefetch_contract.py": "70e9b240e4cb849807fcdf51a217a5a34ea80f513cf9f7b2c8e042f0b7f25593",
+    "scripts/reservation_l1_contract.py": "7f237023827abeb28d6cf278f8d97b4a81179b1201f5749343058709969cc9c0",
+    "native/reservation_lock.cpp": "1174a9c270fc277fad421a1bc648b0066066984706fc30583c19751de4a7efda",
+    "docs/experiments/2026-10-01/OWNED_STORAGE.md": "214855a2c41745560803079ced6ee34fa226f747ee057275ba644a667317a54b",
+    "docs/experiments/2026-10-01/owned-storage-contract/full-pytest.txt": "4af5e2d9801f0f4a45e076e1a67ccf2a9c98b4935f898add9a712c877197736a"
+  },
+  "pinned_storage_manager_sha256": "628136dc664be9f32efc6cc4bb29e62c5e7a7702b8c1a708a1ac14b1fde8a430",
+  "pinned_controller_sha256": "484609bd8146bcfdfacb35c41af9604bc0173d8434494cc9d016b15267e8b20e",
+  "server": {
+    "passed": 254,
+    "subtests_passed": 37,
+    "warnings": 117
+  },
+  "local": {
+    "passed": 122,
+    "skipped": 132,
+    "subtests_passed": 26
+  },
+  "new_tests": 29,
+  "new_subtests": 11,
+  "query_abandon_race_rounds": 50,
+  "installed_lmcache_modified": false,
+  "real_l2_io": false,
+  "gpu_experiments": false
+}

@@ -186,6 +186,8 @@ CachePilot/
 
 2026-10-01进一步将token贯穿真实PrefetchController方法的CPU契约，包括获取、L2写转读、裁剪、完成发布与破坏性消费。新增19测试和50轮QUERY/abandon竞争通过；完整服务器回归225通过，见 [controller唯一移交](experiments/2026-10-01/OWNED_PREFETCH.md)。adapter I/O和load plan仍是测试输入，后台loop/实际服务未接入。下一步覆盖StorageManager的初始L1前缀和L2索引合并、纯L1一次消费，再接LookupModule/RETRIEVE；这仍属于3B支线，不是3C策略或性能收益。
 
+同日继续完成StorageManager的初始L1获取/裁剪、L2局部→原始索引合并及纯L1结果的一次移交CPU契约。新增29测试、11子测试及50轮QUERY/abandon竞争通过；完整服务器回归254通过，见 [StorageManager所有权合并](experiments/2026-10-01/OWNED_STORAGE.md)。合并失败保留初始和下层原token，不自动重试成功释放项；纯L1的-1也有独立job身份。下一步对接LookupModule与RETRIEVE的每worker reader slot及数据访问生命期，再补实际服务失联恢复。此处仍是3B支线，安装栈和GPU策略未改变，3B未通过。
+
 尚需使用真实 vLLM/LMCache 服务补齐：
 
 - 原生 Connector 异步 lookup 等待期取消的 server 侧时序及受控 L1/FS L2 回收候选已经验证（L2 两轮通过、一轮关闭候选失败对照，见 [L2 报告](experiments/2026-09-30/L2_PREFETCH_CANCELLATION.md)）；仍需 END_SESSION/LOOKUP 乱序、无 END_SESSION、永久不完成的 controller、关闭时 unresolved job 的修复与期望不变量回归，不能以受控 L1/L2 结果替代整体验收；

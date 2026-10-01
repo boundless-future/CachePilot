@@ -16,6 +16,7 @@
 | 逐对象释放结果 | 可选checked-release；9项真实native CPU契约、5项事件审计测试；实机证据见[报告](CHECKED_RELEASE.md) | 部分失败不记完成、不重试成功项；仍是匿名key/count，未解决TTL/epoch或无END |
 | reservation/epoch锁原型 | 独立C++扩展11测试，真实L1Manager方法CPU契约12测试；见[报告](RESERVATION_EPOCH.md) | 原型中的过期/重复/重建释放隔离通过；安装栈未修改，controller和RPC尚未传token，不能作为无END修复 |
 | controller token唯一移交（10月1日补充） | 真实controller方法CPU契约19测试，50轮QUERY/abandon竞争；见[报告](../2026-10-01/OWNED_PREFETCH.md) | 获取/裁剪/完成结果的token对应与唯一消费通过；真实I/O、StorageManager初始前缀、LookupModule/RPC未接入 |
+| StorageManager原token合并（10月1日补充） | 真实submit/fold/combine/query方法CPU契约29测试、11子测试，50轮QUERY/abandon竞争；见[报告](../2026-10-01/OWNED_STORAGE.md) | 初始L1、L2局部映射、纯L1一次消费及错误保留通过；真实I/O、LookupModule/RETRIEVE、数据访问与服务/RPC未接入 |
 | server关闭 | 可取消lookup/load屏障，controller返回后L1对象/锁释放；实际inflight字典0但公开计数1 | **候选job终结未通过**；内核/executor永久阻塞未覆盖；早期telemetry超时轮另保留 |
 | L2部分写入 | RLIMIT_FSIZE真实EFBIG，8临时文件各写1MiB后删除；重启miss、输出一致、17文件恢复 | L1→L2路径通过；不等于GPU→L1 worker STORE失败 |
 | 自然容量抢占 | 两轮11/12次；迟到回执两轮各16次，均8/8生成完成 | 资源路径通过；抢占钩子时无在途STORE，随后提交旧代批次再reset；DMA中抢占未覆盖 |
@@ -42,5 +43,5 @@
 ## 下一轮优先级
 
 1. 以无END死亡后的job/result/reservation为主要缺口，先把 [所有权协议](../../LOOKUP_OWNERSHIP_PROTOCOL.md) 落到可维护的存储接口和真实契约测试。不要用匿名TTL解锁抹平失败。
-2. 区分最小正常取消补丁和完整失联恢复协议的范围；逐对象检查已接入可选候选，reservation/epoch已完成独立C++、L1及controller方法CPU契约。下一步覆盖StorageManager初始L1/L2合并及纯L1一次消费，再接LookupModule/RETRIEVE；controller未终结时保持可见，不宣称已回收。
+2. 区分最小正常取消补丁和完整失联恢复协议的范围；逐对象检查已接入可选候选，reservation/epoch已完成独立C++、L1、controller及StorageManager方法CPU契约。下一步接LookupModule/RETRIEVE的每worker reader slot与数据访问生命期；controller未终结时保持可见，不宣称已回收。
 3. 再补真实worker传输失败、DMA期间抢占及实际KV内容对照；符合既定门槛后才接入GPU保护，随后才做性能消融。
