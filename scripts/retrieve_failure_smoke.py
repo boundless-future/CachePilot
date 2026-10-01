@@ -96,7 +96,10 @@ def main():
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--mode", choices=("receipt-only", "server-reject"),
                         default="receipt-only")
+    parser.add_argument("--owned-guard", action="store_true")
     args = parser.parse_args()
+    if args.owned_guard and args.mode != "server-reject":
+        parser.error("--owned-guard requires --mode server-reject")
     for port in (8000, 8080, 5555):
         with socket.socket() as sock:
             if sock.connect_ex(("127.0.0.1", port)) == 0:
@@ -106,12 +109,15 @@ def main():
     events.mkdir()
     os.environ.update(CACHEPILOT_RETRIEVE_FAILURE_DIR=str(events.resolve()),
                       LMCACHE_PORT="5555", LMCACHE_HTTP_PORT="8080")
+    if args.owned_guard:
+        os.environ["CACHEPILOT_OWNED_MP_DIR"] = str(events.resolve())
     api = "http://127.0.0.1:8000"
     cache_api = "http://127.0.0.1:8080"
     model = str(ROOT / "models/Qwen3-4B")
     text = prompt()
     cache = Service(["bash", str(ROOT / "scripts/lmcache-server.sh")], args.output / "lmcache.log")
     serve_mode = ("retrieve-failure" if args.mode == "receipt-only"
+                  else "owned-server-reject" if args.owned_guard
                   else "server-rejected-retrieve")
     command = ["bash", str(ROOT / "scripts/serve.sh"), serve_mode]
     engine = Service(command, args.output / "vllm-warmup.log")
@@ -153,10 +159,20 @@ def main():
         time.sleep(2)
         result["lifecycle"] = summarize(events, mode=args.mode)
         if args.mode == "server-reject":
-            rejection = ("RETRIEVE block ID underflow for request_id=" +
-                         result["lifecycle"]["request_id"])
-            if rejection not in (args.output / "lmcache.log").read_text(errors="replace"):
-                raise AssertionError("MP server did not log the expected RETRIEVE rejection")
+            if args.owned_guard:
+                guarded = [json.loads(line) for path in events.glob("owned-mp-*.jsonl")
+                           for line in path.read_text().splitlines()]
+                rejected = [row for row in guarded
+                            if row["event"] == "retrieve_rejected_blocks" and
+                            row["request_id"] == result["lifecycle"]["request_id"]]
+                if len(rejected) != 1:
+                    raise AssertionError("Guard did not reject one short RETRIEVE")
+                result["guard_rejection"] = rejected[0]
+            else:
+                rejection = ("RETRIEVE block ID underflow for request_id=" +
+                             result["lifecycle"]["request_id"])
+                if rejection not in (args.output / "lmcache.log").read_text(errors="replace"):
+                    raise AssertionError("MP server did not log the expected RETRIEVE rejection")
             result["server_rejection_logged"] = True
         result["cache_status_after_target"] = cache_summary(
             requests.get(cache_api + "/status", timeout=20).json())

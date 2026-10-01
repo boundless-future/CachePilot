@@ -10,6 +10,8 @@ if [[ $# -gt 0 ]]; then shift; fi
 case "$MODE" in
   baseline) CONNECTOR_ARGS=() ;;
   immediate) CONFIG=lmcache-0.5.5-retrieve.json ;;
+  owned-mp) CONFIG=owned-mp.json ;;
+  owned-server-reject) CONFIG=owned-server-reject.json ;;
   fifo) CONFIG=lmcache-0.5.5-smoke.json ;;
   eviction) CONFIG=baseline-kv-transfer.json ;;
   eviction-h5) CONFIG=eviction-h5.json ;;

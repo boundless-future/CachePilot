@@ -202,6 +202,8 @@ CachePilot/
 
 随后在独立实验 endpoint 中连接原 ticket、版本化 ZMQ QUERY/RETRIEVE、LMCache native completion dispatcher、真实 pinned CPU→CUDA kernel 与独立 target arena；增加原 writer 身份和 D2H marker 后发布/失败丢弃，以及显式断联/迟到请求/shutdown 契约。服务器完整回归398通过。另完成编译/Graph 分离输出消融和 eager/compile-only/graph-only 的188个 decode slot逐层 KV 比较，见 [原生传输和正确性复核](experiments/2026-10-01/NATIVE_TRANSFER_AND_DECODE.md)。这是3B的独立原型，不是正式 MP server/Connector/BlockPool 集成；失联自动发现、自然DMA抢占、真实传输中止、永久阻塞controller关闭及正式writer路径仍未闭合，3B未通过。
 
+随后把 request generation、实际 LOOKUP/RETRIEVE 身份与范围预检、同一 CUDA stream 的独立 native marker、BlockPool 快照接到 opt-in 正式 MP server/Connector。真实正常回载 1536 tokens，非法短 block 在 copy 前拒绝并由 vLLM 重算 272 block；两轮结束后 BlockPool 都回到 909 free、无 tracked ref/deferred free，LMCache 读锁/job 和退出后的 GPU 注册归零；显式 CUDA 完整回归405通过，见 [正式服务桥接](experiments/2026-10-01/OWNED_MP_INTEGRATION.md)。这是正式链路的局部验证，尚未用独立原型的原 reservation/lease/ticket 替换匿名锁和 key-only callback，也未证明所有故障和失联路径。阶段3B继续进行，3C GPU策略消融仍受完整资源门槛约束。
+
 尚需使用真实 vLLM/LMCache 服务补齐：
 
 - 原生 Connector 异步 lookup 等待期取消的 server 侧时序及受控 L1/FS L2 回收候选已经验证（L2 两轮通过、一轮关闭候选失败对照，见 [L2 报告](experiments/2026-09-30/L2_PREFETCH_CANCELLATION.md)）；仍需 END_SESSION/LOOKUP 乱序、无 END_SESSION、永久不完成的 controller、关闭时 unresolved job 的修复与期望不变量回归，不能以受控 L1/L2 结果替代整体验收；

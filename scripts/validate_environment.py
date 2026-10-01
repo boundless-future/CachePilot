@@ -192,7 +192,7 @@ def run_mode(mode, out, eager, expected):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--modes", nargs="+", choices=["baseline", "immediate", "fifo", "eviction"],
+    parser.add_argument("--modes", nargs="+", choices=["baseline", "immediate", "fifo", "eviction", "owned-mp"],
                         default=["baseline", "immediate", "fifo", "eviction"])
     parser.add_argument("--eager", action="store_true")
     parser.add_argument("--output", type=Path, required=True)
@@ -205,7 +205,17 @@ def main():
     args.output.mkdir(parents=True, exist_ok=False)
     results, expected = [], None
     for mode in args.modes:
-        result = run_mode(mode, args.output / mode, args.eager, expected)
+        previous_guard = os.environ.get("CACHEPILOT_OWNED_MP_DIR")
+        if mode == "owned-mp":
+            os.environ["CACHEPILOT_OWNED_MP_DIR"] = str(
+                (args.output / "events").resolve())
+        try:
+            result = run_mode(mode, args.output / mode, args.eager, expected)
+        finally:
+            if previous_guard is None:
+                os.environ.pop("CACHEPILOT_OWNED_MP_DIR", None)
+            else:
+                os.environ["CACHEPILOT_OWNED_MP_DIR"] = previous_guard
         if mode == "baseline":
             expected = result["output_text"]
         results.append(result)

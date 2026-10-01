@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
-if [[ -n "${CACHEPILOT_LOOKUP_SERVER_RECLAIM:-}" ]]; then
+if [[ -n "${CACHEPILOT_OWNED_MP_DIR:-}" ]]; then
+  PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+  export PYTHONPATH="$PROJECT_ROOT${PYTHONPATH:+:$PYTHONPATH}"
+  SERVER=(python "$PROJECT_ROOT/scripts/owned_mp_server.py")
+elif [[ -n "${CACHEPILOT_LOOKUP_SERVER_RECLAIM:-}" ]]; then
   PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
   SERVER=(python "$PROJECT_ROOT/scripts/lookup_server_reclaim.py")
 elif [[ -n "${CACHEPILOT_LOOKUP_SERVER_TIMELINE_DIR:-}" ]]; then
