@@ -194,6 +194,8 @@ CachePilot/
 
 随后连接Lookup reader槽与L1 buffer lease，完成claim→读取→消费者明确停止→unpin→原reservation处置的CPU契约。新增23测试、8子测试，READ/END与READ/失败terminal各30轮竞争，完整服务器334通过，见 [Lookup数据访问租约](experiments/2026-10-01/LEASED_LOOKUP.md)。END与TTL不提前释放活动buffer；旧temporary对象已清理时检查保留的原core，stale单独记过期。一个worker终结失败不会阻止其他已运行worker独立终结，失败证据仍保留且禁止重试。下一步核查真实RETRIEVE获取/提交/future/DMA终结及wire接入点；当前terminal仍是调用方承诺，未接真实服务或CUDA，3B未通过。
 
+继续完成固定安装版LMCache-driven RETRIEVE的Python只读审计，见 [接入边界](experiments/2026-10-01/RETRIEVE_INTEGRATION_AUDIT.md)。RPC返回、设备event完成与server callback清理必须分开；异常退出context manager的立即释放不能作为在途传输停止证明，现有callback和wire缺少原ticket。下一步先做独立transfer提交/event完成适配契约，再版本化wire与带ticket completion，最后真实pinned CPU→CUDA验证及服务接入；native执行错误、writer、失联与shutdown仍未验证。不修改安装栈，不将审计结论视作新的GPU缺陷复现。
+
 尚需使用真实 vLLM/LMCache 服务补齐：
 
 - 原生 Connector 异步 lookup 等待期取消的 server 侧时序及受控 L1/FS L2 回收候选已经验证（L2 两轮通过、一轮关闭候选失败对照，见 [L2 报告](experiments/2026-09-30/L2_PREFETCH_CANCELLATION.md)）；仍需 END_SESSION/LOOKUP 乱序、无 END_SESSION、永久不完成的 controller、关闭时 unresolved job 的修复与期望不变量回归，不能以受控 L1/L2 结果替代整体验收；

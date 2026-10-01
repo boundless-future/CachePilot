@@ -20,6 +20,7 @@
 | Lookup原token与worker槽（10月1日补充） | 真实lookup/query/end方法CPU契约30测试、9子测试，两组各30轮竞争；另补1项Storage编码rank校验测试，完整服务器285通过；见[报告](../2026-10-01/OWNED_LOOKUP.md) | 原始引用分区及模拟终结释放通过；取消不释放running槽；token校验/buffer lease、真实RETRIEVE/DMA、服务/RPC尚未实现 |
 | token校验与buffer lease（10月1日后续） | 独立C++ pin及真实L1方法CPU契约新增26测试、9子测试，完整服务器311通过；可复用字节buffer和CPU future消费；见[报告](../2026-10-01/BUFFER_LEASE.md) | TTL/reset后活动pin继续阻止普通回收；部分失败保留证据且不重试；当时Lookup槽未接入，真实RETRIEVE/DMA/wire、force/free/shutdown及writer安全未覆盖 |
 | Lookup槽连接buffer lease（10月1日后续） | 新增23测试、8子测试，READ/END和READ/失败terminal各30轮竞争；完整服务器334通过；见[报告](../2026-10-01/LEASED_LOOKUP.md) | CPU消费停止后才unpin/处置原token；确认stale单独记录；失败worker不阻止独立worker终结；真实RETRIEVE/DMA/wire和失联/shutdown仍未接入 |
+| RETRIEVE接入审计（10月1日后续） | 固定安装版Python调用链、9文件hash及接入顺序；见[审计](../2026-10-01/RETRIEVE_INTEGRATION_AUDIT.md) | 已区分RPC/event/资源清理并定位ticket/异常边界；运行适配、wire、native执行错误和GPU终结仍未验证 |
 | server关闭 | 可取消lookup/load屏障，controller返回后L1对象/锁释放；实际inflight字典0但公开计数1 | **候选job终结未通过**；内核/executor永久阻塞未覆盖；早期telemetry超时轮另保留 |
 | L2部分写入 | RLIMIT_FSIZE真实EFBIG，8临时文件各写1MiB后删除；重启miss、输出一致、17文件恢复 | L1→L2路径通过；不等于GPU→L1 worker STORE失败 |
 | 自然容量抢占 | 两轮11/12次；迟到回执两轮各16次，均8/8生成完成 | 资源路径通过；抢占钩子时无在途STORE，随后提交旧代批次再reset；DMA中抢占未覆盖 |

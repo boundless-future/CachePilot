@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-01",
+  "scope": "Read-only Python call-chain audit of pinned LMCache-driven RETRIEVE; no native execution audit or GPU experiment",
+  "installed_root": "/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/lmcache",
+  "installed_source_sha256": {
+    "v1/multiprocess/modules/lmcache_driven_transfer.py": "18eebd07c8a42e8f869b1551d2bad520d471518592f0603ba28c5c51ddf3ff6d",
+    "v1/multiprocess/object_group_transfer.py": "739f5316f6c114e01824bca02a91ec0a67b13c4cf0ecad976571bbc554e0264c",
+    "v1/multiprocess/futures.py": "97cd68ed22b8bfd50aea9f89df53ae51a3f1776c4d02cc40ed4d870ff34b941b",
+    "v1/multiprocess/native_completion.py": "58c69916f74b72afb5a755cadf4a87164f34597858a6489509fcbe11e9b866d0",
+    "v1/multiprocess/protocols/engine.py": "df4ababf14ee8cc66ccd168440508b4623284828224fd77a7b9f712f70e33d66",
+    "v1/multiprocess/transport/zmq_impl/client.py": "bc9c72b35ffb12ffa7a1abaeab09a4c96ee383e12dbd59309c4ec08c7e4242db",
+    "v1/multiprocess/transfer_context/worker_transfer.py": "fd41d8fbf1a4f1ad61060c138c35d6db60b47f3f1163f3f2724c667c9d3622dc",
+    "v1/distributed/storage_manager.py": "628136dc664be9f32efc6cc4bb29e62c5e7a7702b8c1a708a1ac14b1fde8a430",
+    "v1/platform/devices/cuda/cache_context.py": "2aca5a3d75050293877e28250b1f8832fb787e9dce6450617b8d294fd9642d1d"
+  },
+  "installed_lmcache_modified": false,
+  "new_runtime_adapter_implemented": false,
+  "wire_metadata_implemented": false,
+  "native_transfer_error_behavior_verified": false,
+  "actual_dma_terminal_confirmation": false,
+  "gpu_experiments": false,
+  "stage_3b_passed": false
+}
