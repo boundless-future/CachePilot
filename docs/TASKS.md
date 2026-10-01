@@ -1,6 +1,6 @@
 # 待办与阶段验收
 
-更新：2026-09-30。未勾选项均未完整完成；历史设计与当前实测环境以 ENVIRONMENT.md 及对应日期的记录区分。
+更新：2026-10-01。未勾选项均未完整完成；历史设计与当前实测环境以 ENVIRONMENT.md 及对应日期的记录区分。
 
 ## 已完成
 
@@ -110,7 +110,8 @@
 - [x] 实现独立C++ reservation锁（11测试）及真实L1Manager方法CPU契约（12测试）：TTL后旧释放、重复释放、对象重建、多reader、通知/allocator失败及并发验证通过；见 [RESERVATION_EPOCH.md](experiments/2026-09-30/RESERVATION_EPOCH.md)。新token接口未进入实际controller/RPC，原生TTLLock反例保持复现。
 - [x] 在CPU契约中将reservation token贯穿真实controller的L1命中、L2写转读、retained裁剪和完成结果；19测试及50轮QUERY/abandon竞争验证唯一移交，部分失败可见且不重试成功项。见 [OWNED_PREFETCH.md](experiments/2026-10-01/OWNED_PREFETCH.md)。真实L2 I/O、后台loop及RPC未接入。
 - [x] 在CPU契约中覆盖StorageManager初始L1获取/裁剪、L2局部索引合并和纯L1一次消费；29测试、11子测试及50轮QUERY/abandon竞争通过，完整服务器回归254通过。见 [OWNED_STORAGE.md](experiments/2026-10-01/OWNED_STORAGE.md)。初始和下层原token均保留，错误/部分释放不自动重试；真实服务和RPC未接入。
-- [ ] 将owned StorageManager结果对接LookupModule/RETRIEVE的每worker reader slot，验证唯一移交及失败/取消释放；读取数据还须验证token有效性和内存生命期。不能在完成bitmap返回后反查key补造token。
+- [x] 在独立CPU契约中对接真实LookupModule QUERY和每worker reader slot：新增30测试、9子测试及QUERY/END、CLAIM/END各30轮竞争；END只回收未领取槽，运行槽等模拟终结。修正真实IPC编码rank接入并补1项Storage测试，完整服务器285通过。见 [OWNED_LOOKUP.md](experiments/2026-10-01/OWNED_LOOKUP.md)。真实RETRIEVE/DMA和服务未接入，3B未通过。
+- [ ] 实现读取时的token有效性与buffer lease，在同步范围内取得并保护原对象，覆盖校验后TTL/eviction/对象重建及异步完成；实际终结前不得释放活动buffer。再接真实RETRIEVE与wire metadata，不能从bitmap反查key补造token。
 - [ ] 为无 END_SESSION、迟到 LOOKUP、controller 永久不完成与 server shutdown 实现并验证安全所有权协议；优先落实reservation/epoch和controller终结的接口，再决定客户端失联如何转移job。复核当前上游版本并形成可维护最小补丁。继续补实际传输中止、worker层真实写入失败、DMA执行期抢占及内容正确性；资源门槛通过后再决定是否修改GPU保护/准入。
 - [ ] 单独复核异步调度的 prefix reset API 与 deferred block free 时序；EVICTION_AWARE自然抢占延迟轮session TTL已实测归零，当前 reset API 的失败不能算作生成或资源泄漏，active_sessions 也不能作为回收通过证据。
 - [x] 完成首版不接 GPU 的 fake worker 状态机：预算、连续前缀、身份复核、pin/unpin、部分保存、取消和 generation 回执隔离；17 项测试、6,000 步固定种子交错以及 14 个执行示例通过，见 [PROTECTION_STATE_MACHINE.md](experiments/2026-09-30/PROTECTION_STATE_MACHINE.md)。

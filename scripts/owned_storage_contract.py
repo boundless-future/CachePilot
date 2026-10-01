@@ -13,7 +13,7 @@ import threading
 import uuid
 
 from lmcache.lmcache_native import Bitmap
-from lmcache.v1.distributed.api import PrefetchMode, TrimPolicy
+from lmcache.v1.distributed.api import ObjectKey, PrefetchMode, TrimPolicy
 from lmcache.v1.distributed.storage_manager import StorageManager
 from owned_prefetch_contract import JobHandle, OwnedCompletion, _ScopedL1, token_id
 
@@ -150,10 +150,15 @@ class OwnedStorageHarness(StorageManager):
         if spec.policy == TrimPolicy.PREFIX:
             if stride < 1 or len(keys) % stride:
                 raise ValueError("PREFIX needs complete chunk/group/rank rows")
-            expected = [(group, rank) for group in range(desc.num_object_groups)
-                        for rank in range(desc.world_size)]
-            if any((key.object_group_id, key.kv_rank) != expected[i % stride]
-                   for i, key in enumerate(keys)):
+            # Real IPC keys encode world/local topology into kv_rank; earlier
+            # CPU fixtures use plain ranks. Require one complete convention.
+            ranks = (list(range(desc.world_size)),
+                     [ObjectKey.ComputeKVRank(desc.world_size, r, desc.world_size, r)
+                      for r in range(desc.world_size)])
+            layouts = [[(group, rank) for group in range(desc.num_object_groups)
+                        for rank in convention] for convention in ranks]
+            if not any(all((key.object_group_id, key.kv_rank) == layout[i % stride]
+                           for i, key in enumerate(keys)) for layout in layouts):
                 raise ValueError("PREFIX group/rank ordering does not match descriptor")
         snapshot = replace(spec, keys=list(keys), attn_desc=deepcopy(desc),
                            group_layout_descs=dict(spec.group_layout_descs))

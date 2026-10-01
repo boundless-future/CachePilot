@@ -1,6 +1,6 @@
 # CachePilot 总体设计与实施方案
 
-更新：2026-09-30
+更新：2026-10-01
 
 > 本文同时记录原始计划和开发后的修订路线。原始计划假设“自适应卸载窗口”会成为第一版主要机制；实际实验发现更关键的问题是异步 KV 回载的物理 block 分配与 LMCache lazy-offload 压力观测存在时间错位，因此当前主线已经调整为“先建立可验证的压力信号，再决定是否实施准入前保护策略”。
 
@@ -187,6 +187,8 @@ CachePilot/
 2026-10-01进一步将token贯穿真实PrefetchController方法的CPU契约，包括获取、L2写转读、裁剪、完成发布与破坏性消费。新增19测试和50轮QUERY/abandon竞争通过；完整服务器回归225通过，见 [controller唯一移交](experiments/2026-10-01/OWNED_PREFETCH.md)。adapter I/O和load plan仍是测试输入，后台loop/实际服务未接入。下一步覆盖StorageManager的初始L1前缀和L2索引合并、纯L1一次消费，再接LookupModule/RETRIEVE；这仍属于3B支线，不是3C策略或性能收益。
 
 同日继续完成StorageManager的初始L1获取/裁剪、L2局部→原始索引合并及纯L1结果的一次移交CPU契约。新增29测试、11子测试及50轮QUERY/abandon竞争通过；完整服务器回归254通过，见 [StorageManager所有权合并](experiments/2026-10-01/OWNED_STORAGE.md)。合并失败保留初始和下层原token，不自动重试成功释放项；纯L1的-1也有独立job身份。下一步对接LookupModule与RETRIEVE的每worker reader slot及数据访问生命期，再补实际服务失联恢复。此处仍是3B支线，安装栈和GPU策略未改变，3B未通过。
+
+同日接入真实LookupModule的结果接收、全局fold及显式每worker reader slot CPU契约：30测试、9子测试通过，QUERY/END和CLAIM/END各30轮竞争闭合；另修正owned StorageManager对真实IPC编码rank的校验并补1测试，完整服务器285通过。见 [Lookup引用槽](experiments/2026-10-01/OWNED_LOOKUP.md)。END回收offered槽，running槽等模拟terminal ack，错误保留原token和证据。尚未读取真实buffer或执行DMA，不能据此证明内存安全；下一步落实token校验与buffer lease，再对接真实RETRIEVE/wire、失联lease及shutdown。3B仍未通过，3C GPU策略未接入。
 
 尚需使用真实 vLLM/LMCache 服务补齐：
 

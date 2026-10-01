@@ -109,6 +109,14 @@ class OwnedStorageTests(unittest.TestCase):
         self.release(result)
         self.assert_drained()
 
+    def test_prefix_rejects_mixed_plain_and_encoded_rank_conventions(self):
+        packed = ObjectKey.ComputeKVRank(2, 1, 2, 1)
+        keys = (ObjectKey(b"a", "test", 0), ObjectKey(b"a", "test", packed))
+        with self.assertRaises(ValueError):
+            self.storage.submit_owned(self.spec(keys, attn_desc=AttnWindowDesc([-1], world_size=2)))
+        self.assertFalse(self.storage.jobs)
+        self.assertFalse(self.l1._objects)
+
     def test_pure_l1_abandon_prevents_query_and_releases_once(self):
         self.seed([0])
         handle = self.storage.submit_owned(self.spec(self.keys[:1]), "r")

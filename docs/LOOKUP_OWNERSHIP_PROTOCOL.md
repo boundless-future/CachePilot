@@ -32,6 +32,7 @@ LOOKUP接纳后由server持有job；正常消费把相应read reservation移交�
 1. 保持当前可选候选及其范围，不安装为默认生产修复。
 2. 已实现可选 `--checked-release`：读取真实 L1Manager 的逐key结果，保留部分成功/失败及通知异常；不完整结果不记完成，后续扫描不重试已成功项。真实native接口与候选的回归已通过，见 [逐对象释放](experiments/2026-09-30/CHECKED_RELEASE.md)。该服务候选仍是key/count接口，不提供reservation/epoch；下面的token契约尚未安装到服务。
 3. 已实现独立C++ reservation锁及真实L1Manager方法的CPU契约适配，11项原生锁测试和12项L1契约测试通过，见 [原型与接入点](experiments/2026-09-30/RESERVATION_EPOCH.md)。token包含进程内lock identity、共享TTL epoch和单调serial；匿名API拒绝调用。随后将token贯穿真实controller的获取/裁剪/终结方法，新增19项CPU契约及50轮QUERY/abandon竞争通过，见 [唯一移交](experiments/2026-10-01/OWNED_PREFETCH.md)。StorageManager初始L1获取/裁剪、L2局部索引合并及纯L1一次消费也完成CPU契约，29测试、11子测试及50轮竞争通过，见 [所有权合并](experiments/2026-10-01/OWNED_STORAGE.md)。未接入实际服务和RPC；下一步接LookupModule/RETRIEVE的每worker slot和数据访问有效性，失联lease与writer所有权仍待实现。
-4. 使用已完成的取消、短读、进程死亡、注册reaper及shutdown反例作回归矩阵；每个用例明确“完整通过”“已归因但失败”“未覆盖”。
+4. 已在真实LookupModule外围接收原始StorageManager完成对象、执行全局fold并分配显式worker reader slots，30测试、9子测试及两组各30轮竞争通过，见 [Lookup契约](experiments/2026-10-01/OWNED_LOOKUP.md)。QUERY交付ticket，registry保留原token；取消offered槽可回收，running槽等模拟终结。已修正真实IPC的编码rank映射，aux/匿名/实际读取路径拒绝；这不是实际RETRIEVE或DMA确认。下一步实现token有效性和buffer lease，校验、取得buffer与保护必须形成一致同步范围，TTL到期不能回收仍被读者/DMA访问的内存；wire、失联lease和writer所有权仍未实现。
+5. 使用已完成的取消、短读、进程死亡、注册reaper及shutdown反例作回归矩阵；每个用例明确“完整通过”“已归因但失败”“未覆盖”。
 
 上游issue #5339仍讨论该所有权边界，项目阶段收尾再评估正式issue/PR。CachePilot本身的3C CPU状态机与接口设计可以继续；GPU保护仍以资源门槛为前提。避免为获得“全绿”而把未关闭的故障路径从验收定义中删掉。

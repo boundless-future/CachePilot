@@ -1,0 +1,42 @@
+{
+  "scope": "CPU contract: real LookupModule lookup/query/end, original StorageManager tokens partitioned into explicit worker slots; simulated terminal acknowledgements, no actual buffer reads or DMA",
+  "source_files_sha256": {
+    "scripts/owned_lookup_contract.py": "36c79bb9ae7586a87455d7d569b1d1542d8e9584aadff0b6158b6b78604dcf53",
+    "scripts/owned_storage_contract.py": "e9231b8ae47f8a948512900f57437f248375686dc7d4c780822b4f9e1c7f544d",
+    "tests/test_owned_lookup_contract.py": "9ec78880e62c6fd5f30616cf9a341358f4ed6b4243b390f921fbc8ee6d2f5962",
+    "tests/test_owned_storage_contract.py": "857b6d045040f2709e73937b7d23d6459fd4dec28eecd68dd3b4f73ba31700f9",
+    "scripts/owned_prefetch_contract.py": "70e9b240e4cb849807fcdf51a217a5a34ea80f513cf9f7b2c8e042f0b7f25593",
+    "scripts/reservation_l1_contract.py": "7f237023827abeb28d6cf278f8d97b4a81179b1201f5749343058709969cc9c0",
+    "native/reservation_lock.cpp": "1174a9c270fc277fad421a1bc648b0066066984706fc30583c19751de4a7efda",
+    "docs/experiments/2026-10-01/OWNED_LOOKUP.md": "4416054a78eef9dc3c34f77f4aa83768ce2029934fb39b96b432fb080a9b00fc",
+    "docs/experiments/2026-10-01/owned-lookup-contract/full-pytest.txt": "1a7987b469fa4efecffab5c1a5a2f963cd0139bb33cc4ba19d85304ec577ec32"
+  },
+  "installed_source_sha256": {
+    "lmcache/v1/multiprocess/modules/lookup.py": "cdd6917c6b3e1aed283313ca7a696ded9e8ad0e7309df7ce4afb0285103b7866",
+    "lmcache/v1/multiprocess/modules/lmcache_driven_transfer.py": "18eebd07c8a42e8f869b1551d2bad520d471518592f0603ba28c5c51ddf3ff6d",
+    "lmcache/v1/distributed/storage_manager.py": "628136dc664be9f32efc6cc4bb29e62c5e7a7702b8c1a708a1ac14b1fde8a430",
+    "lmcache/v1/distributed/storage_controllers/prefetch_controller.py": "484609bd8146bcfdfacb35c41af9604bc0173d8434494cc9d016b15267e8b20e",
+    "lmcache/v1/distributed/bitmap_ops/fold.py": "411ac68be70d485c92805a2685bdf8c4e82d1dcab9cee5f8651adcd410940aef",
+    "lmcache/v1/distributed/api.py": "5395006592e747e1ebe7e38d9a572246a888bdb018672ee4dff9f90df68fa6a7"
+  },
+  "native_binary": {
+    "path": "artifacts/reservation-native/cachepilot_reservation_native.cpython-312-x86_64-linux-gnu.so",
+    "sha256": "7b5c833c5a00e51c188e2ad7d498753634bf872abbab5a3109c4af259dbd5bce"
+  },
+  "server": {"passed": 285, "subtests_passed": 46, "warnings": 117},
+  "local": {"passed": 122, "skipped": 163, "subtests_passed": 26},
+  "targeted": {"passed": 60, "subtests_passed": 20},
+  "new_lookup_tests": 30,
+  "new_lookup_subtests": 9,
+  "additional_storage_tests": 1,
+  "query_end_race_rounds": 30,
+  "claim_end_race_rounds": 30,
+  "duplicate_terminal_ack_races": 1,
+  "installed_lmcache_modified": false,
+  "actual_retrieve_reads": false,
+  "buffer_lease_implemented": false,
+  "actual_dma_terminal_confirmation": false,
+  "real_l2_io": false,
+  "gpu_experiments": false,
+  "stage_3b_passed": false
+}

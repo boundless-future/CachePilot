@@ -74,3 +74,7 @@ CACHEPILOT_REQUIRE_RESERVATION_NATIVE=1 python -m pytest -q
 allocator、event sink、L2 adapter、load plan 和完成时序由测试提供。后台 loop、原生 submit queue、真实 L2 I/O、RPC、消费者读数据、失联 lease、writer epoch、进程重启和 shutdown 尚未接入。job UUID/lock ID 都只有本进程身份语义；没有为实际 wire/restart 承诺身份协议。错误 job 在本原型中保持可见，也不等于已实现恢复或最终回收。
 
 安装栈仍保留原生 TTLLock 缺口和无 END 死亡残留问题；这些 CPU 结果不能替代真实服务复测，不能作为 3C GPU 策略或性能收益证据。
+
+## 后续接入记录
+
+同日完成 [Lookup/worker reader slot CPU契约](OWNED_LOOKUP.md)。实际IPC生成的`kv_rank`是编码后的拓扑值；本轮Storage原型只用数字rank的PREFIX提交前检查不足以接收这些keys。后续版本已兼容整行的原生编码rank和原有CPU fixture，但拒绝混用，并补1项回归测试；旧报告的29测试和manifest仍对应原实验版本，修改后源码与完整285项回归记录在新报告。安装的LMCache未修改，实际数据访问和服务接入仍待完成。
