@@ -7,7 +7,9 @@
 #include <cstdint>
 #include <limits>
 #include <mutex>
+#include <optional>
 #include <stdexcept>
+#include <unordered_map>
 #include <unordered_set>
 #include <vector>
 
@@ -17,7 +19,12 @@ struct Reservation {
     uint64_t lock_id, epoch, serial;
 };
 
-enum class ReleaseStatus { RELEASED, STALE_EPOCH, INACTIVE, FOREIGN_LOCK };
+struct ReadLease {
+    uint64_t lock_id, serial;
+};
+
+enum class ReleaseStatus { RELEASED, STALE_EPOCH, INACTIVE, FOREIGN_LOCK, ACTIVE_LEASE };
+enum class PinStatus { PINNED, STALE_EPOCH, INACTIVE, FOREIGN_LOCK };
 
 class ReservationLock {
     using Clock = std::chrono::steady_clock;
@@ -25,9 +32,11 @@ class ReservationLock {
     const uint64_t id;
     const std::chrono::milliseconds ttl;
     std::mutex mutex;
-    uint64_t epoch = 1, serial = 0;
+    uint64_t epoch = 1, serial = 0, lease_serial = 0;
     Clock::time_point deadline{};
     std::unordered_set<uint64_t> live;
+    // Active readers survive reservation expiry/reset until explicit unpin.
+    std::unordered_map<uint64_t, uint64_t> pins;
 
     static uint64_t allocate_id() {
         auto current = next_id.load();
@@ -82,7 +91,34 @@ public:
         expire(Clock::now());
         if (token.lock_id != id) return ReleaseStatus::FOREIGN_LOCK;
         if (token.epoch != epoch) return ReleaseStatus::STALE_EPOCH;
+        for (const auto& pin : pins)
+            if (pin.second == token.serial) return ReleaseStatus::ACTIVE_LEASE;
         return live.erase(token.serial) ? ReleaseStatus::RELEASED : ReleaseStatus::INACTIVE;
+    }
+
+    std::pair<PinStatus, std::optional<ReadLease>> pin(const Reservation& token) {
+        std::lock_guard<std::mutex> guard(mutex);
+        expire(Clock::now());
+        if (token.lock_id != id) return {PinStatus::FOREIGN_LOCK, std::nullopt};
+        if (token.epoch != epoch) return {PinStatus::STALE_EPOCH, std::nullopt};
+        if (!live.count(token.serial)) return {PinStatus::INACTIVE, std::nullopt};
+        if (lease_serial == std::numeric_limits<uint64_t>::max())
+            throw std::overflow_error("Read lease identity exhausted");
+        const auto number = lease_serial + 1;
+        pins.emplace(number, token.serial);
+        lease_serial = number;
+        return {PinStatus::PINNED, ReadLease{id, number}};
+    }
+
+    ReleaseStatus unpin(const ReadLease& lease) {
+        std::lock_guard<std::mutex> guard(mutex);
+        if (lease.lock_id != id) return ReleaseStatus::FOREIGN_LOCK;
+        return pins.erase(lease.serial) ? ReleaseStatus::RELEASED : ReleaseStatus::INACTIVE;
+    }
+
+    uint64_t active_count() {
+        std::lock_guard<std::mutex> guard(mutex);
+        return pins.size();
     }
 
     uint64_t live_count() {
@@ -91,7 +127,11 @@ public:
         return live.size();
     }
 
-    bool is_locked() { return live_count() != 0; }
+    bool is_locked() {
+        std::lock_guard<std::mutex> guard(mutex);
+        expire(Clock::now());
+        return !live.empty() || !pins.empty();
+    }
 
     void reset() {
         std::lock_guard<std::mutex> guard(mutex);
@@ -105,16 +145,28 @@ PYBIND11_MODULE(cachepilot_reservation_native, m) {
         .def_readonly("lock_id", &Reservation::lock_id)
         .def_readonly("epoch", &Reservation::epoch)
         .def_readonly("serial", &Reservation::serial);
+    py::class_<ReadLease>(m, "ReadLease")
+        .def_readonly("lock_id", &ReadLease::lock_id)
+        .def_readonly("serial", &ReadLease::serial);
     py::enum_<ReleaseStatus>(m, "ReleaseStatus")
         .value("RELEASED", ReleaseStatus::RELEASED)
         .value("STALE_EPOCH", ReleaseStatus::STALE_EPOCH)
         .value("INACTIVE", ReleaseStatus::INACTIVE)
-        .value("FOREIGN_LOCK", ReleaseStatus::FOREIGN_LOCK);
+        .value("FOREIGN_LOCK", ReleaseStatus::FOREIGN_LOCK)
+        .value("ACTIVE_LEASE", ReleaseStatus::ACTIVE_LEASE);
+    py::enum_<PinStatus>(m, "PinStatus")
+        .value("PINNED", PinStatus::PINNED)
+        .value("STALE_EPOCH", PinStatus::STALE_EPOCH)
+        .value("INACTIVE", PinStatus::INACTIVE)
+        .value("FOREIGN_LOCK", PinStatus::FOREIGN_LOCK);
     py::class_<ReservationLock>(m, "ReservationLock")
         .def(py::init<uint32_t>(), py::arg("ttl_ms"))
         .def("acquire", &ReservationLock::acquire, py::arg("count") = 1,
              py::call_guard<py::gil_scoped_release>())
         .def("release", &ReservationLock::release, py::call_guard<py::gil_scoped_release>())
+        .def("pin", &ReservationLock::pin, py::call_guard<py::gil_scoped_release>())
+        .def("unpin", &ReservationLock::unpin, py::call_guard<py::gil_scoped_release>())
+        .def("active_count", &ReservationLock::active_count, py::call_guard<py::gil_scoped_release>())
         .def("is_locked", &ReservationLock::is_locked, py::call_guard<py::gil_scoped_release>())
         .def("live_count", &ReservationLock::live_count, py::call_guard<py::gil_scoped_release>())
         .def("reset", &ReservationLock::reset, py::call_guard<py::gil_scoped_release>())

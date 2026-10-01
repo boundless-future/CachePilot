@@ -35,4 +35,6 @@ LOOKUP接纳后由server持有job；正常消费把相应read reservation移交�
 4. 已在真实LookupModule外围接收原始StorageManager完成对象、执行全局fold并分配显式worker reader slots，30测试、9子测试及两组各30轮竞争通过，见 [Lookup契约](experiments/2026-10-01/OWNED_LOOKUP.md)。QUERY交付ticket，registry保留原token；取消offered槽可回收，running槽等模拟终结。已修正真实IPC的编码rank映射，aux/匿名/实际读取路径拒绝；这不是实际RETRIEVE或DMA确认。下一步实现token有效性和buffer lease，校验、取得buffer与保护必须形成一致同步范围，TTL到期不能回收仍被读者/DMA访问的内存；wire、失联lease和writer所有权仍未实现。
 5. 使用已完成的取消、短读、进程死亡、注册reaper及shutdown反例作回归矩阵；每个用例明确“完整通过”“已归因但失败”“未覆盖”。
 
+2026-10-01后续完成独立token校验与buffer lease CPU契约，见 [报告](experiments/2026-10-01/BUFFER_LEASE.md)：在L1元数据锁内验证当前token、建立native pin并取得原buffer；reservation TTL/reset不使活动pin失效，明确停止消费后才unpin。有效reservation存在pin时release返回active_lease；lease终结不替代reservation release。新增26测试及9子测试，完整服务器311通过。普通L1回收路径受保护；force/free/close拒绝，部分失败保留原引用和已知结果且不重试。Lookup running槽尚未调用该接口，CPU future仅确认CPU消费，未证明真实DMA终结；下一步连接reader槽与数据访问，再接RETRIEVE/wire、writer所有权、失联恢复和安全shutdown。原生安装栈仍未修改。
+
 上游issue #5339仍讨论该所有权边界，项目阶段收尾再评估正式issue/PR。CachePilot本身的3C CPU状态机与接口设计可以继续；GPU保护仍以资源门槛为前提。避免为获得“全绿”而把未关闭的故障路径从验收定义中删掉。

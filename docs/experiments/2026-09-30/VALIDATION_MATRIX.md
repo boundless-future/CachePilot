@@ -18,6 +18,7 @@
 | controller token唯一移交（10月1日补充） | 真实controller方法CPU契约19测试，50轮QUERY/abandon竞争；见[报告](../2026-10-01/OWNED_PREFETCH.md) | 获取/裁剪/完成结果的token对应与唯一消费通过；真实I/O、StorageManager初始前缀、LookupModule/RPC未接入 |
 | StorageManager原token合并（10月1日补充） | 真实submit/fold/combine/query方法CPU契约29测试、11子测试，50轮QUERY/abandon竞争；见[报告](../2026-10-01/OWNED_STORAGE.md) | 初始L1、L2局部映射、纯L1一次消费及错误保留通过；真实I/O、LookupModule/RETRIEVE、数据访问与服务/RPC未接入 |
 | Lookup原token与worker槽（10月1日补充） | 真实lookup/query/end方法CPU契约30测试、9子测试，两组各30轮竞争；另补1项Storage编码rank校验测试，完整服务器285通过；见[报告](../2026-10-01/OWNED_LOOKUP.md) | 原始引用分区及模拟终结释放通过；取消不释放running槽；token校验/buffer lease、真实RETRIEVE/DMA、服务/RPC尚未实现 |
+| token校验与buffer lease（10月1日后续） | 独立C++ pin及真实L1方法CPU契约新增26测试、9子测试，完整服务器311通过；可复用字节buffer和CPU future消费；见[报告](../2026-10-01/BUFFER_LEASE.md) | TTL/reset后活动pin继续阻止普通回收；部分失败保留证据且不重试；Lookup槽、真实RETRIEVE/DMA/wire未接入，force/free/shutdown及writer安全不在本轮范围 |
 | server关闭 | 可取消lookup/load屏障，controller返回后L1对象/锁释放；实际inflight字典0但公开计数1 | **候选job终结未通过**；内核/executor永久阻塞未覆盖；早期telemetry超时轮另保留 |
 | L2部分写入 | RLIMIT_FSIZE真实EFBIG，8临时文件各写1MiB后删除；重启miss、输出一致、17文件恢复 | L1→L2路径通过；不等于GPU→L1 worker STORE失败 |
 | 自然容量抢占 | 两轮11/12次；迟到回执两轮各16次，均8/8生成完成 | 资源路径通过；抢占钩子时无在途STORE，随后提交旧代批次再reset；DMA中抢占未覆盖 |
@@ -44,5 +45,5 @@
 ## 下一轮优先级
 
 1. 以无END死亡后的job/result/reservation为主要缺口，先把 [所有权协议](../../LOOKUP_OWNERSHIP_PROTOCOL.md) 落到可维护的存储接口和真实契约测试。不要用匿名TTL解锁抹平失败。
-2. 区分最小正常取消补丁和完整失联恢复协议的范围；逐对象检查已接入可选候选，reservation/epoch已完成独立C++、L1、controller、StorageManager及Lookup/worker槽CPU契约。下一步验证token校验与buffer lease，再接真实RETRIEVE/wire；controller或实际传输未终结时保持可见，不宣称已回收。
+2. 区分最小正常取消补丁和完整失联恢复协议的范围；逐对象检查已接入可选候选，reservation/epoch已完成独立C++、L1、controller、StorageManager及Lookup/worker槽CPU契约，独立token校验/buffer lease也已验证。下一步连接Lookup running槽与lease，再接真实RETRIEVE/wire及实际传输终结；controller或实际传输未终结时保持可见，不宣称已回收。
 3. 再补真实worker传输失败、DMA期间抢占及实际KV内容对照；符合既定门槛后才接入GPU保护，随后才做性能消融。

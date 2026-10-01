@@ -190,6 +190,8 @@ CachePilot/
 
 同日接入真实LookupModule的结果接收、全局fold及显式每worker reader slot CPU契约：30测试、9子测试通过，QUERY/END和CLAIM/END各30轮竞争闭合；另修正owned StorageManager对真实IPC编码rank的校验并补1测试，完整服务器285通过。见 [Lookup引用槽](experiments/2026-10-01/OWNED_LOOKUP.md)。END回收offered槽，running槽等模拟terminal ack，错误保留原token和证据。尚未读取真实buffer或执行DMA，不能据此证明内存安全；下一步落实token校验与buffer lease，再对接真实RETRIEVE/wire、失联lease及shutdown。3B仍未通过，3C GPU策略未接入。
 
+同日完成独立C++ token校验/pin与真实L1方法外围的活动buffer lease CPU契约：新增7项native和19项L1测试、9子测试，完整服务器311通过。见 [buffer lease](experiments/2026-10-01/BUFFER_LEASE.md)。TTL/reset使旧reservation失效，但活动pin保留至显式消费终结；可复用CPU字节buffer验证普通delete/clear/write/eviction不能释放在用内存。异常和部分释放保留证据，不重试成功项；force/free和close拒绝。下一步先将Lookup running槽与lease连接，再接真实RETRIEVE/wire及实际异步传输终结；writer、失联恢复和shutdown仍待完成。仍是3B支线，未修改安装栈或执行GPU实验。
+
 尚需使用真实 vLLM/LMCache 服务补齐：
 
 - 原生 Connector 异步 lookup 等待期取消的 server 侧时序及受控 L1/FS L2 回收候选已经验证（L2 两轮通过、一轮关闭候选失败对照，见 [L2 报告](experiments/2026-09-30/L2_PREFETCH_CANCELLATION.md)）；仍需 END_SESSION/LOOKUP 乱序、无 END_SESSION、永久不完成的 controller、关闭时 unresolved job 的修复与期望不变量回归，不能以受控 L1/L2 结果替代整体验收；

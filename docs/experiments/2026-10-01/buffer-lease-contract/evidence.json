@@ -1,0 +1,49 @@
+{
+  "scope": "CPU contract: atomic native token validation/pin, original L1 buffer access protected across TTL/reset, explicit consumer terminal unpin; no Lookup slot integration, service or DMA",
+  "source_files_sha256": {
+    "native/reservation_lock.cpp": "4060f83d4d5fb7b88620e303d9b7961bd371e208f916099ae54fc1e3bc5ac84c",
+    "scripts/leased_l1_contract.py": "b66ccf122a1b46f688ef746f80f4098e79faa469af3e31688af96306f3d50386",
+    "tests/test_reservation_native.py": "4794f09b82c22c22c6e650ce8f26089d4ab61aa5763bd1587f82ec28fb43a2d9",
+    "tests/test_leased_l1_contract.py": "455f3cd60bbf394f66bd4867c04d643475971b4a886e45c35af2a7bf5570eae2",
+    "scripts/reservation_l1_contract.py": "7f237023827abeb28d6cf278f8d97b4a81179b1201f5749343058709969cc9c0",
+    "scripts/build_reservation_native.py": "947c383d32405c839de528fb8505e88601787d8b61cb65d872c67b112ffe341f",
+    "docs/experiments/2026-10-01/BUFFER_LEASE.md": "e553af4ef62d81874617b484c6a67eb1943fc53cb7289349728c173590663a50",
+    "docs/experiments/2026-10-01/buffer-lease-contract/full-pytest.txt": "44f8d0977d62f0100aad7bff3145f5b9ea0a337563cfde1ccf47227c2a6b37c1",
+    "docs/experiments/2026-10-01/buffer-lease-contract/build.json": "98611b9665828ea90553857cb9b9c2d76ef61ebca83ba2da79efcdb74c7348af"
+  },
+  "installed_source_sha256": {
+    "lmcache/v1/distributed/l1_manager.py": "ef9281d51dffc7b9de454d198723845fceb7745918935f738b42a7b1e33a79ad",
+    "lmcache/v1/multiprocess/modules/lookup.py": "cdd6917c6b3e1aed283313ca7a696ded9e8ad0e7309df7ce4afb0285103b7866",
+    "lmcache/v1/distributed/storage_manager.py": "628136dc664be9f32efc6cc4bb29e62c5e7a7702b8c1a708a1ac14b1fde8a430",
+    "lmcache/v1/distributed/storage_controllers/prefetch_controller.py": "484609bd8146bcfdfacb35c41af9604bc0173d8434494cc9d016b15267e8b20e",
+    "lmcache/v1/distributed/bitmap_ops/fold.py": "411ac68be70d485c92805a2685bdf8c4e82d1dcab9cee5f8651adcd410940aef",
+    "lmcache/v1/distributed/api.py": "5395006592e747e1ebe7e38d9a572246a888bdb018672ee4dff9f90df68fa6a7"
+  },
+  "native_binary": {
+    "path": "artifacts/reservation-native/cachepilot_reservation_native.cpython-312-x86_64-linux-gnu.so",
+    "sha256": "3eb61c696490f34f80ce4f9c452769dc6988c705b099d50a5c37c51d0d8f3b8a"
+  },
+  "server": {"passed": 311, "subtests_passed": 55, "warnings": 117},
+  "local": {"passed": 122, "skipped": 189, "subtests_passed": 26},
+  "targeted": {"passed": 37, "subtests_passed": 9},
+  "new_native_tests": 7,
+  "new_l1_lease_tests": 19,
+  "new_l1_subtests": 9,
+  "native_pin_release_race_rounds": 100,
+  "l1_begin_reset_delete_race_rounds": 50,
+  "concurrent_native_leases": 512,
+  "cpu_fixture_buffer_bytes": 64,
+  "cpu_fixture_buffer_reuse_observed": true,
+  "cpu_future_consumer_completed_before_terminal": true,
+  "installed_lmcache_modified": false,
+  "buffer_lease_implemented": true,
+  "buffer_lease_scope": "isolated native primitive and LeasedL1Harness only",
+  "lookup_reader_slot_lease_connected": false,
+  "actual_retrieve_reads": false,
+  "actual_dma_terminal_confirmation": false,
+  "writer_ownership_implemented": false,
+  "client_death_recovery_implemented": false,
+  "force_free_or_shutdown_supported": false,
+  "gpu_experiments": false,
+  "stage_3b_passed": false
+}
