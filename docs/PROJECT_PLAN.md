@@ -149,13 +149,13 @@ CachePilot/
 
 实际环境不是原计划的 CUDA 12.8，而是 RTX 4090 24GB、CUDA 13.0、PyTorch 2.13.0+cu130、vLLM 0.30.0、Qwen3-4B 和锁定的 LMCache 研究提交。已完成 vLLM、外部 Connector、MP server、GPU hit、CPU 保存、GPU miss 后回载、EVICTION_AWARE 分支和 TTL 检查。
 
-保留限制：输出在部分串行多轮序列中出现差异；KV 探针已确认观测到的回载内容 bitwise 一致，但编译/CUDA Graph 与全部取消、抢占路径尚未完全拆分验证。因此“链路可运行”不等于“所有正确性路径通过”。
+保留限制：输出在部分串行多轮序列中出现差异；KV 探针已确认观测到的回载内容 bitwise 一致。编译与 CUDA Graph 已独立消融：前者在本 trace 出现 1/16 差异，后者 0/16；仍未定位唯一根因，也未覆盖全部取消、抢占及异步 decode 路径。见 [正确性复核](experiments/2026-10-01/NATIVE_TRANSFER_AND_DECODE.md)。“链路可运行”不等于“所有正确性路径通过”。
 
 ### 阶段 2：基线与 profiling（已完成初轮，仍需补齐）
 
 已经完成原生 vLLM、立即卸载、LMCache 默认 EVICTION_AWARE、固定 horizon 和自适应 horizon 的初轮对照，并覆盖小工作集和超过 GPU KV 的压力工作集。已保存 TTFT、排队/precompute、命中、D2H/H2D、GPU KV 和策略账本等指标。
 
-仍需完成：固定 horizon/提交上限扫描、更多 GPU KV 容量、长 prefill 突发、稳定 decode、集中恢复、DMA/排队/重算/回载分解，以及编译/CUDA Graph 对输出差异的独立归因。初轮结果只证明存在可研究的压力现象，不证明自适应 horizon 有收益。
+仍需完成：固定 horizon/提交上限扫描、更多 GPU KV 容量、长 prefill 突发、稳定 decode、集中恢复、DMA/排队/重算/回载分解，以及编译相关输出差异的根因定位。编译/CUDA Graph 的独立消融和非异步串行 decode KV 逐层复核已完成，但不代替这些性能负载与异步正确性验证。初轮结果只证明存在可研究的压力现象，不证明自适应 horizon 有收益。
 
 ### 阶段 3A：策略信号诊断支线（已完成，作为最终策略前置证据）
 
@@ -200,6 +200,8 @@ CachePilot/
 
 同日完成原ticket绑定的transfer plan CPU契约，见 [TRANSFER_PLAN.md](experiments/2026-10-01/TRANSFER_PLAN.md)。服务端登记布局、Lookup key/chunk快照、chunk对齐命中后缀、object/kernel分组、目标block数量/容量及原buffer identity在提交前校验；部分范围保守持有整个shard。19新增测试、42子测试、30轮竞争，完整服务器375通过。登记历史禁止身份复用；提交后登记变化或END不释放在途buffer。首版只支持零起点Lookup/full attention，不证明GPU block所有权、shape/dtype或实际DMA停止。下一步核查native completion payload/失败终结，再接版本化wire、真实CUDA和Connector；原有writer/失联/shutdown门槛继续保留，3B未通过。
 
+随后在独立实验 endpoint 中连接原 ticket、版本化 ZMQ QUERY/RETRIEVE、LMCache native completion dispatcher、真实 pinned CPU→CUDA kernel 与独立 target arena；增加原 writer 身份和 D2H marker 后发布/失败丢弃，以及显式断联/迟到请求/shutdown 契约。服务器完整回归398通过。另完成编译/Graph 分离输出消融和 eager/compile-only/graph-only 的188个 decode slot逐层 KV 比较，见 [原生传输和正确性复核](experiments/2026-10-01/NATIVE_TRANSFER_AND_DECODE.md)。这是3B的独立原型，不是正式 MP server/Connector/BlockPool 集成；失联自动发现、自然DMA抢占、真实传输中止、永久阻塞controller关闭及正式writer路径仍未闭合，3B未通过。
+
 尚需使用真实 vLLM/LMCache 服务补齐：
 
 - 原生 Connector 异步 lookup 等待期取消的 server 侧时序及受控 L1/FS L2 回收候选已经验证（L2 两轮通过、一轮关闭候选失败对照，见 [L2 报告](experiments/2026-09-30/L2_PREFETCH_CANCELLATION.md)）；仍需 END_SESSION/LOOKUP 乱序、无 END_SESSION、永久不完成的 controller、关闭时 unresolved job 的修复与期望不变量回归，不能以受控 L1/L2 结果替代整体验收；
@@ -241,7 +243,7 @@ CachePilot/
 | 支线 | 触发原因 | 已解决/结论 | 对主线的影响 |
 |---|---|---|---|
 | 环境兼容性 | 计划中的 CUDA/vLLM 组合与租用环境不一致 | 固定为 CUDA 13.0、vLLM 0.30.0、LMCache 研究提交并完成接入 | 后续结果必须绑定实际版本，不能套用原计划兼容表 |
-| 输出差异与 KV 正确性 | 多轮回放出现少量输出不同 | KV 回载探针 bitwise 一致；编译/CUDA Graph 影响仍需拆分 | 性能结论不能用文本相同替代正确性结论 |
+| 输出差异与 KV 正确性 | 多轮回放出现少量输出不同 | 回载 KV bitwise 相同；独立编译 1/16、独立 Graph 0/16 差异；非异步成对 decode 6768/6768 层相同，根因未定位 | 性能结论不能用文本相同替代正确性结论 |
 | 自适应 horizon | 原计划预期它是第一版机制 | 三次重复未证明收益，保留为探索性对照 | 最终策略改为准入前保护研究 |
 | 异步分配与压力信号错位 | `dropped_evicted` 与 allocator 分配时序不一致 | 确认是 policy 观测语义错位，不是 vLLM 漏分配；allocation 仅作消融 | 新增信号诊断和上游候选问题记录 |
 | 准入前需求观测 | 事后修正信号无法挽救已被覆盖的 KV | `compute_slots` 低估，lookup 信号误报较多，暂不保护 | 增加阶段 3A，阻止过早实现 pin |
@@ -313,7 +315,7 @@ Trace 回放评估的是推理系统在同一请求负载下的行为，不评�
 3. 与资源排查并行，阶段3C已完成fake worker状态机、真实BlockPool/hash及STORE metadata的CPU契约；继续核对真实scheduler/worker交接边界；只有生命周期门槛通过后才进行小规模 GPU 消融；
 4. 固定最终对照矩阵和验证 trace，重复运行并保留退化案例；
 5. 使用 Qwen3-8B + RTX 5090 32GB 做扩展复核；
-6. 独立拆分编译/CUDA Graph 对输出差异的影响，更新正确性边界；
+6. 在已拆分编译/CUDA Graph 的基础上定位剩余输出差异，扩展异步 decode 正确性边界；
 7. 项目收尾时重新检查上游状态，再决定是否提交 issue/PR。
 
 以下约束在后续每轮实验中继续有效：固定模型和 tokenizer revision、GPU KV/CPU KV 预算、trace 和到达计划；记录真实 allocator 分配与策略信号；诊断日志运行不得直接作为性能对照；不把 HTTP 成功、计数闭合或预测命中率单独当作策略收益。

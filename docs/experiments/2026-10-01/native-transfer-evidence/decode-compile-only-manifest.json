@@ -1,0 +1,19 @@
+{
+  "execution": "compile-only",
+  "compilation_config": {
+    "mode": 3,
+    "cudagraph_mode": "NONE"
+  },
+  "event_ids": [
+    0,
+    4,
+    8,
+    9
+  ],
+  "trace_sha256": "28ecd2fe00ff37db14d5ec9504b31a1e09b7f48e14324c1fde900c1ac1e5bc23",
+  "decode_tokens": 48,
+  "snapshots": "every computed generated input token (1..47)",
+  "max_num_seqs": 1,
+  "async_scheduling": false,
+  "gpu_reset_before_each_request": true
+}

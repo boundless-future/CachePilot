@@ -1,0 +1,46 @@
+{
+  "outputs": {
+    "immediate": {
+      "requests": 4,
+      "mismatches": 0,
+      "differences": []
+    },
+    "probe": {
+      "requests": 4,
+      "mismatches": 0,
+      "differences": []
+    },
+    "probe_interference_cold": {
+      "requests": 4,
+      "mismatches": 0,
+      "differences": []
+    },
+    "probe_interference_retrieve": {
+      "requests": 4,
+      "mismatches": 0,
+      "differences": []
+    }
+  },
+  "restored_kv": {
+    "counts": {
+      "worker_layout_chunks": 1,
+      "decode_chunks": 432,
+      "before_store_chunks": 32,
+      "after_retrieve_chunks": 32,
+      "retrieved_layers": 1152,
+      "equal_layers": 1152
+    },
+    "missing_references": [],
+    "unequal_layers": [],
+    "covered_and_equal": true
+  },
+  "decode": {
+    "expected_tokens": 188,
+    "observed_tokens": 188,
+    "coverage": true,
+    "equal_layers": 6768,
+    "missing_prefix_references": [],
+    "unequal_layers": [],
+    "covered_and_bitwise_equal": true
+  }
+}

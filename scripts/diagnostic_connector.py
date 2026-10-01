@@ -18,13 +18,56 @@ def token_key(ids, salt, end):
 
 
 class DiagnosticConnector(LMCacheMPConnector):
+    def update_state_after_alloc(self, request, blocks, num_external_tokens):
+        if os.environ.get('CACHEPILOT_DECODE_PROBE') == '1':
+            if not hasattr(self, '_decode_prompt_lengths'):
+                self._decode_prompt_lengths = {}
+            self._decode_prompt_lengths[request.request_id] = len(request.prompt_token_ids)
+        return super().update_state_after_alloc(request, blocks, num_external_tokens)
+
+    def build_connector_meta(self, scheduler_output):
+        metadata = super().build_connector_meta(scheduler_output)
+        if os.environ.get('CACHEPILOT_DECODE_PROBE') != '1':
+            return metadata
+        computed = {r.req_id: r.num_computed_tokens for r in scheduler_output.scheduled_new_reqs}
+        cached = scheduler_output.scheduled_cached_reqs
+        computed.update(zip(cached.req_ids, cached.num_computed_tokens, strict=True))
+        snapshots = []
+        for request_id, count in scheduler_output.num_scheduled_tokens.items():
+            prompt_length = self._decode_prompt_lengths[request_id]
+            begin = computed[request_id]
+            if begin < prompt_length:
+                continue
+            # This diagnostic intentionally supports serial, non-speculative decode.
+            if count != 1:
+                raise RuntimeError('Decode probe requires one scheduled token per request')
+            tracker = self.request_trackers[request_id]
+            ids = tracker.get_token_ids()
+            if begin >= len(ids) or set(tracker.allocated_block_ids) != {0}:
+                raise RuntimeError(f'Decode ledger unavailable: end={begin + 1} ledger={len(ids)} '
+                                   f'groups={list(tracker.allocated_block_ids)}; use --no-async-scheduling')
+            snapshots.append(dict(request_id=request_id, end=begin + 1,
+                decode_index=begin - prompt_length + 1, salt=tracker.cache_salt,
+                token_ids=ids[:begin + 1], block_ids=list(tracker.allocated_block_ids[0])))
+        metadata.cachepilot_decode_snapshots = snapshots
+        for request_id in scheduler_output.finished_req_ids:
+            self._decode_prompt_lengths.pop(request_id, None)
+        return metadata
+
     def register_kv_caches(self, kv_caches):
         super().register_kv_caches(kv_caches)
         self._probe_refs = {}
         self._probe_pending = {}
+        self._decode_refs = {}
         self._probe_dir = Path(os.environ['CACHEPILOT_PROBE_DIR'])
         self._probe_dir.mkdir(parents=True, exist_ok=True)
         adapter = self.worker_adapter
+        self._record(dict(phase='worker_layout', chunk_size=adapter.lmcache_tokens_per_chunk,
+            groups=[dict(tokens_per_block=g.tokens_per_block, recurrent_state=g.recurrent_state)
+                    for g in adapter.engine_group_infos],
+            tensors={name: dict(shape=list(t.shape), stride=list(t.stride()), dtype=str(t.dtype),
+                                device=str(t.device), pointer=t.data_ptr(), element_bytes=t.element_size())
+                     for name,t in adapter.kv_caches.items()}))
         submit_store = adapter.submit_store_request
         submit_retrieve = adapter.submit_retrieve_request
 
@@ -40,6 +83,48 @@ class DiagnosticConnector(LMCacheMPConnector):
 
         adapter.submit_store_request = store
         adapter.submit_retrieve_request = retrieve
+
+    def wait_for_save(self):
+        if os.environ.get('CACHEPILOT_DECODE_PROBE') == '1':
+            metadata = self._get_connector_metadata()
+            for row in getattr(metadata, 'cachepilot_decode_snapshots', []):
+                self._snapshot_decode(row)
+        return super().wait_for_save()
+
+    def _snapshot_decode(self, snapshot):
+        adapter = self.worker_adapter
+        groups = adapter.engine_group_infos
+        if len(groups) != 1 or groups[0].recurrent_state:
+            raise RuntimeError('Decode probe requires one dense attention group')
+        span = groups[0].tokens_per_block
+        position = snapshot['end'] - 1
+        block = snapshot['block_ids'][position // span]
+        slot = position % span
+        key = token_key(snapshot['token_ids'], snapshot['salt'], snapshot['end'])
+        row = {k: v for k, v in snapshot.items() if k not in ('token_ids', 'block_ids')}
+        row.update(phase='decode', token_prefix_sha256=key, block_id=block, slot=slot, layers=[])
+        torch.cuda.synchronize()
+        for name, tensor in adapter.kv_caches.items():
+            # Verified Qwen3-4B worker layout: [block, heads, token, head_dim].
+            # Read only the computed token, never uninitialized block padding.
+            if tensor.ndim != 4 or tensor.shape[2] != span:
+                raise RuntimeError(f'Unsupported decode KV layout: {tensor.shape}')
+            value = tensor[block, :, slot, :].contiguous().cpu()
+            ref_key = (key, name)
+            reference = self._decode_refs.get(ref_key)
+            item = dict(layer=name, shape=list(value.shape), dtype=str(value.dtype),
+                sha256=hashlib.sha256(value.view(torch.uint8).numpy().tobytes()).hexdigest(),
+                reference_present=reference is not None)
+            if reference is None:
+                if len(self._decode_refs) >= 16384:
+                    raise RuntimeError('Decode reference budget exceeded')
+                self._decode_refs[ref_key] = value
+            else:
+                item['bitwise_equal'] = torch.equal(value.view(torch.uint8), reference.view(torch.uint8))
+                item['max_abs_difference'] = float((value.float() - reference.float()).abs().max())
+                item['different_elements'] = int((value != reference).sum())
+            row['layers'].append(item)
+        self._record(row)
 
     def _record(self, row):
         row.update(monotonic_ns=time.monotonic_ns(), pid=os.getpid())

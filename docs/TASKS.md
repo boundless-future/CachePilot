@@ -51,7 +51,8 @@
 - [ ] 完成多轮自然缓存状态下的输出差异归因；HTTP/SSE/长度检查通过不等于正确性通过。
 - [x] 完成同输入/同前缀长度的 KV 探针：GPU 热命中与 CPU 回载逐层逐块 bitwise 一致；受控 4 案例输出一致。
 - [x] 2026-09-26 在原始串行多轮序列中复现 2/16 输出差异；探针不改变文本，96 次 chunk 回载、3456 次逐层比较全部 bitwise 一致且参考完整。见 experiments/2026-09-26/README.md。
-- [x] Eager 对照：原生/立即卸载/探针三组各 16 条输出完全一致，3456 次 KV 比较通过；尚未独立区分编译与 CUDA Graph 的影响。
+- [x] Eager 对照：原生/立即卸载/探针三组各 16 条输出完全一致，3456 次 KV 比较通过；后续独立拆分结果见下一项。
+- [x] 独立拆分 compile-only 与 graph-only：前者串行 16 请求有 1/16 输出差异，后者为 0/16；两者回载 KV 均 3456/3456 层 bitwise 相同。三配置各四组成对冷/回载 decode 探针均覆盖 188 个 slot、6768 层且相同；仅覆盖非异步串行诊断，差异根因仍未定位。见 [复核](experiments/2026-10-01/NATIVE_TRANSFER_AND_DECODE.md)。
 - [x] 增加 EVICTION_AWARE decision ledger，记录 admission、danger depth、emitted、dropped_evicted、提交和前缀摘要。
 - [x] 分配前诊断确认异步回载分配与策略压力信号错位：11 个丢弃操作均有 allocator 证据，9 个关联后续相同前缀缺失；不能将丢弃数直接等同于性能损失。见 experiments/2026-09-26/STRATEGY_DIAGNOSIS.md。
 - [x] 实现压力阈值自适应 horizon 原型并完成一次压力回放；目前略有退化，尚不作为有效优化。
@@ -117,7 +118,8 @@
 - [x] 完成固定安装版LMCache-driven RETRIEVE的Python调用链只读审计：区分RPC/event/dispatcher清理，定位异常立即匿名释放、stream回调key-only与wire缺ticket的接入边界，记录源码hash和下一步适配顺序。见 [RETRIEVE_INTEGRATION_AUDIT.md](experiments/2026-10-01/RETRIEVE_INTEGRATION_AUDIT.md)。未审计native错误终结或执行GPU验证。
 - [x] 完成独立transfer身份/完成适配CPU契约：真实MessagingFuture/DeviceMessagingFuture配受控event，22测试、4子测试、30轮竞争，完整服务器356通过。RPC/event仅诊断；原身份server callback后才一次性清理；提交异常、TTL、END及部分unpin失败保留原所有权。见 [TRANSFER_COMPLETION.md](experiments/2026-10-01/TRANSFER_COMPLETION.md)。下一步原ticket绑定range/group/buffer提交计划，再接native completion和版本化wire；实际CUDA/服务仍未验证，3B未通过。
 - [x] 实现原ticket绑定的transfer plan CPU契约：零起点Lookup/full attention的chunk对齐命中后缀、object/kernel映射、APC skip、目标block数量/容量与原buffer identity校验；整个shard持有到可信终结，登记历史禁止身份复用。新增19测试、42子测试及30轮竞争，完整服务器375通过，见 [TRANSFER_PLAN.md](experiments/2026-10-01/TRANSFER_PLAN.md)。未证明GPU allocator所有权、shape/dtype或实际DMA停止，3B未通过。
-- [ ] 核查native completion dispatcher的payload/queue、callback注册及错误终结；将原transfer身份贯穿server终结路径，再接版本化QUERY/RETRIEVE metadata、真实worker布局与pinned CPU→CUDA内容/allocator复用验证。RPC或event完成仍不得直接释放lease。
+- [ ] 将已验证的独立 native completion、版本化 QUERY/RETRIEVE metadata、真实 worker 布局和 GPU copy 接入正式 LMCache MP server/Connector/vLLM BlockPool；验证真实 driver 错误、callback 丢失和正式服务的 allocator 复用。RPC或event完成仍不得直接释放lease。
+- [x] 完成上述链路的独立实验原型：原身份/nonce native callback、版本化 ticket 的 ZMQ 往返、真实 worker 布局与 pinned CPU→CUDA kernel、独立 target arena，以及 D2H writer marker 后发布/失败丢弃。完整服务器 398 passed；缺 callback 保留 unresolved，真实 driver fault 未注入。见 [GPU 与 decode 证据](experiments/2026-10-01/NATIVE_TRANSFER_AND_DECODE.md)。这尚未接入正式 MP server/Connector/BlockPool。
 - [ ] 为无 END_SESSION、迟到 LOOKUP、controller 永久不完成与 server shutdown 实现并验证安全所有权协议；优先落实reservation/epoch和controller终结的接口，再决定客户端失联如何转移job。复核当前上游版本并形成可维护最小补丁。继续补实际传输中止、worker层真实写入失败、DMA执行期抢占及内容正确性；资源门槛通过后再决定是否修改GPU保护/准入。
 - [ ] 单独复核异步调度的 prefix reset API 与 deferred block free 时序；EVICTION_AWARE自然抢占延迟轮session TTL已实测归零，当前 reset API 的失败不能算作生成或资源泄漏，active_sessions 也不能作为回收通过证据。
 - [x] 完成首版不接 GPU 的 fake worker 状态机：预算、连续前缀、身份复核、pin/unpin、部分保存、取消和 generation 回执隔离；17 项测试、6,000 步固定种子交错以及 14 个执行示例通过，见 [PROTECTION_STATE_MACHINE.md](experiments/2026-09-30/PROTECTION_STATE_MACHINE.md)。

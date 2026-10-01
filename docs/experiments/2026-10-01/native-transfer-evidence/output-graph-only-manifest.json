@@ -1,0 +1,16 @@
+{
+  "trace_sha256": "28ecd2fe00ff37db14d5ec9504b31a1e09b7f48e14324c1fde900c1ac1e5bc23",
+  "modes": [
+    "baseline",
+    "immediate",
+    "probe"
+  ],
+  "eager": false,
+  "execution": "graph-only",
+  "compilation_config": {
+    "mode": 0,
+    "cudagraph_mode": "FULL_DECODE_ONLY"
+  },
+  "max_num_seqs": 1,
+  "gpu_reset_before_each_request": true
+}

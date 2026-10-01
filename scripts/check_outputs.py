@@ -16,7 +16,12 @@ def main():
     p=argparse.ArgumentParser();p.add_argument('--trace',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
     p.add_argument('--include-probe',action='store_true',help='Also replay the same sequence with synchronous KV integrity checks; not a benchmark')
     p.add_argument('--eager',action='store_true')
+    p.add_argument('--execution',choices=['default','compile-only','graph-only','uncompiled'],default='default')
     a=p.parse_args();a.output.mkdir(parents=True,exist_ok=False)
+    if a.eager and a.execution!='default':p.error('--eager and --execution cannot be combined')
+    compilation={'compile-only':dict(mode=3,cudagraph_mode='NONE'),
+                 'graph-only':dict(mode=0,cudagraph_mode='FULL_DECODE_ONLY'),
+                 'uncompiled':dict(mode=0,cudagraph_mode='NONE')}.get(a.execution)
     for port in [8000,5556,8081]:
         with socket.socket() as s:
             if s.connect_ex(('127.0.0.1',port))==0: raise RuntimeError(f'Port {port} occupied')
@@ -25,11 +30,13 @@ def main():
     trace=json.loads(a.trace.read_text());validate_trace(trace);all_results={}
     modes=['baseline','immediate']+(['probe'] if a.include_probe else [])
     write_json(a.output/'manifest.json',dict(trace_sha256=hashlib.sha256(a.trace.read_bytes()).hexdigest(),
-        modes=modes,eager=a.eager,max_num_seqs=1,gpu_reset_before_each_request=True))
+        modes=modes,eager=a.eager,execution=a.execution,compilation_config=compilation,
+        max_num_seqs=1,gpu_reset_before_each_request=True))
     for mode in modes:
         out=a.output/mode;out.mkdir()
         command=['bash',str(ROOT/'scripts/serve.sh'),'immediate' if mode=='probe' else mode,'--max-num-seqs','1']
         if a.eager:command.append('--enforce-eager')
+        if compilation:command+=['--compilation-config',json.dumps(compilation)]
         if mode=='probe':
             config=json.loads((ROOT/'configs/lmcache-0.5.5-retrieve.json').read_text())
             config.update(kv_connector='DiagnosticConnector',kv_connector_module_path='diagnostic_connector')
