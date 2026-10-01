@@ -1,0 +1,113 @@
+{
+  "date": "2026-10-01",
+  "scope": "Isolated CPU owned RETRIEVE range/group/block/buffer plan; no production wire or CUDA",
+  "source_files_sha256": {
+    "scripts/owned_lookup_contract.py": "ed57f6f3d4e82496d3d370c5515c1f1ec51a2b6ec2c04681ae3854129a5fa4d2",
+    "scripts/transfer_completion_contract.py": "bc87d879e9636aa3abd6fbae2047c53ff0a85bafec4bb28c8e1f93ead34a3cc3",
+    "scripts/transfer_plan_contract.py": "92eead351542227a1f607b5809fd197d2b0443a76ddf9ba34c7a3e78cd70ca28",
+    "tests/test_transfer_plan_contract.py": "4779cc8539ae422f618d7b7ff69a55b49c3519813b54d3db505941a1c73f4af5",
+    "tests/test_transfer_completion_contract.py": "be3162b9e91413919013eb3d8b100ea8754aadb5188222e433571e0e94faaa10",
+    "docs/experiments/2026-10-01/transfer-plan-contract/full-pytest.txt": "080e52398f05d82c17e2e634054c6f7da690c7c330e4fbf53048311f1beaed72"
+  },
+  "intentional_prior_source_changes": {
+    "scripts/owned_lookup_contract.py": {
+      "previous": "36c79bb9ae7586a87455d7d569b1d1542d8e9584aadff0b6158b6b78604dcf53",
+      "current": "ed57f6f3d4e82496d3d370c5515c1f1ec51a2b6ec2c04681ae3854129a5fa4d2"
+    },
+    "scripts/transfer_completion_contract.py": {
+      "previous": "80aa25fa35d7b1373814955a50d7e16e9ab8c824f4ff26f63099c3b2ff9f67a2",
+      "current": "bc87d879e9636aa3abd6fbae2047c53ff0a85bafec4bb28c8e1f93ead34a3cc3"
+    }
+  },
+  "unchanged_prior_source_hashes_verified": {
+    "scripts/leased_lookup_contract.py": "c4082e870b68a1305c741cf815276f8aae712a3553044c53d53f9fbf9d21e906",
+    "tests/test_leased_lookup_contract.py": "8f6aae18d6ad873dc19d7dd604196f07faceab86cfecc610de3fa717382eb64c",
+    "scripts/leased_l1_contract.py": "b66ccf122a1b46f688ef746f80f4098e79faa469af3e31688af96306f3d50386",
+    "scripts/owned_storage_contract.py": "e9231b8ae47f8a948512900f57437f248375686dc7d4c780822b4f9e1c7f544d",
+    "scripts/owned_prefetch_contract.py": "70e9b240e4cb849807fcdf51a217a5a34ea80f513cf9f7b2c8e042f0b7f25593",
+    "scripts/reservation_l1_contract.py": "7f237023827abeb28d6cf278f8d97b4a81179b1201f5749343058709969cc9c0",
+    "native/reservation_lock.cpp": "4060f83d4d5fb7b88620e303d9b7961bd371e208f916099ae54fc1e3bc5ac84c",
+    "tests/test_owned_lookup_contract.py": "9ec78880e62c6fd5f30616cf9a341358f4ed6b4243b390f921fbc8ee6d2f5962",
+    "tests/test_leased_l1_contract.py": "455f3cd60bbf394f66bd4867c04d643475971b4a886e45c35af2a7bf5570eae2",
+    "docs/experiments/2026-10-01/LEASED_LOOKUP.md": "9f5c92820bd98c5739cfab66a81faf71a2f36d7501566c7d780bf97837c4bf26",
+    "docs/experiments/2026-10-01/leased-lookup-contract/full-pytest.txt": "8c60a239e8b55448fa26d9bbd631cfd25a18a8b88e5daa125b7ac8973f4d269e",
+    "docs/experiments/2026-10-01/buffer-lease-contract/build.json": "98611b9665828ea90553857cb9b9c2d76ef61ebca83ba2da79efcdb74c7348af",
+    "tests/test_transfer_completion_contract.py": "be3162b9e91413919013eb3d8b100ea8754aadb5188222e433571e0e94faaa10",
+    "docs/experiments/2026-10-01/transfer-completion-contract/full-pytest.txt": "37c346e138246ebf17955e40beea6abfe51500d634485eff6d695cf64af83e2b"
+  },
+  "installed_source_sha256": {
+    "lmcache/v1/distributed/l1_manager.py": "ef9281d51dffc7b9de454d198723845fceb7745918935f738b42a7b1e33a79ad",
+    "lmcache/v1/multiprocess/modules/lookup.py": "cdd6917c6b3e1aed283313ca7a696ded9e8ad0e7309df7ce4afb0285103b7866",
+    "lmcache/v1/distributed/storage_manager.py": "628136dc664be9f32efc6cc4bb29e62c5e7a7702b8c1a708a1ac14b1fde8a430",
+    "lmcache/v1/distributed/storage_controllers/prefetch_controller.py": "484609bd8146bcfdfacb35c41af9604bc0173d8434494cc9d016b15267e8b20e",
+    "lmcache/v1/distributed/bitmap_ops/fold.py": "411ac68be70d485c92805a2685bdf8c4e82d1dcab9cee5f8651adcd410940aef",
+    "lmcache/v1/distributed/api.py": "5395006592e747e1ebe7e38d9a572246a888bdb018672ee4dff9f90df68fa6a7",
+    "lmcache/v1/multiprocess/modules/lmcache_driven_transfer.py": "18eebd07c8a42e8f869b1551d2bad520d471518592f0603ba28c5c51ddf3ff6d",
+    "lmcache/v1/multiprocess/object_group_transfer.py": "739f5316f6c114e01824bca02a91ec0a67b13c4cf0ecad976571bbc554e0264c",
+    "lmcache/v1/multiprocess/futures.py": "97cd68ed22b8bfd50aea9f89df53ae51a3f1776c4d02cc40ed4d870ff34b941b",
+    "lmcache/v1/multiprocess/native_completion.py": "58c69916f74b72afb5a755cadf4a87164f34597858a6489509fcbe11e9b866d0",
+    "lmcache/v1/multiprocess/protocols/engine.py": "df4ababf14ee8cc66ccd168440508b4623284828224fd77a7b9f712f70e33d66",
+    "lmcache/v1/multiprocess/transport/zmq_impl/client.py": "bc9c72b35ffb12ffa7a1abaeab09a4c96ee383e12dbd59309c4ec08c7e4242db",
+    "lmcache/v1/multiprocess/transfer_context/worker_transfer.py": "fd41d8fbf1a4f1ad61060c138c35d6db60b47f3f1163f3f2724c667c9d3622dc",
+    "lmcache/v1/platform/devices/cuda/cache_context.py": "2aca5a3d75050293877e28250b1f8832fb787e9dce6450617b8d294fd9642d1d",
+    "lmcache/v1/multiprocess/custom_types.py": "de85c98c3b8ecc23431d41329950c00dfc318307287632b738820424e54319ba"
+  },
+  "prior_manifests_preserved_as_historical_snapshots": true,
+  "native_binary": {
+    "path": "artifacts/reservation-native/cachepilot_reservation_native.cpython-312-x86_64-linux-gnu.so",
+    "sha256": "3eb61c696490f34f80ce4f9c452769dc6988c705b099d50a5c37c51d0d8f3b8a"
+  },
+  "native_rebuilt_this_round": false,
+  "targeted": {
+    "passed": 41,
+    "subtests_passed": 46,
+    "warnings": 80,
+    "seconds": 2.69,
+    "includes_previous_completion_tests": true,
+    "first_run_passed": true
+  },
+  "server": {
+    "passed": 375,
+    "subtests_passed": 109,
+    "warnings": 117,
+    "seconds": 14.89
+  },
+  "local": {
+    "passed": 122,
+    "skipped": 253,
+    "subtests_passed": 26,
+    "seconds": 1.48
+  },
+  "new_plan_tests": 19,
+  "new_plan_subtests": 42,
+  "callback_end_submit_return_race_rounds": 30,
+  "duplicate_prepare_threads": 8,
+  "cpu_fixture_buffer_bytes": 64,
+  "supported_lookup_origin": 0,
+  "supported_range": "Nonempty chunk-aligned suffix ending at original Lookup hit endpoint",
+  "supported_groups": "Full attention with arbitrary object to kernel group mapping; encoded TP ranks",
+  "apc_skip": "Bounded and aligned to every kernel block size; metadata only, not actual copy",
+  "whole_original_shard_held_for_suffix": true,
+  "source_authority": "Original Lookup snapshot, reader slot reservations and acquired L1 buffer identities",
+  "registration_incarnation_reuse_rejected": "All retained historical identities per worker",
+  "layout_registration_authority": "Trusted server CPU fixture; not authenticated production cache context",
+  "invalid_client_metadata_claims_reader": false,
+  "range_group_buffer_plan_implemented": true,
+  "gpu_target_allocator_ownership_verified": false,
+  "actual_shape_dtype_stride_verified": false,
+  "native_completion_dispatcher_connected": false,
+  "wire_metadata_implemented": false,
+  "actual_dma_terminal_confirmation": false,
+  "bounded_tombstone_reclamation_implemented": false,
+  "writer_ownership_implemented": false,
+  "client_death_recovery_implemented": false,
+  "force_free_or_shutdown_supported": false,
+  "installed_lmcache_modified": false,
+  "gpu_experiments": false,
+  "stage_3b_passed": false,
+  "initial_full_command": {
+    "exit_code": 1,
+    "reason": "PATH assembly made tee unavailable; no interpretable pytest result retained"
+  },
+  "full_pytest_log_origin": "Successful full server execution captured with absolute tee and pipefail; retrieved via SCP"
+}

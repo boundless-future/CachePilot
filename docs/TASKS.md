@@ -116,6 +116,8 @@
 - [ ] 核查并接入真实RETRIEVE的buffer获取、实际异步传输终结和wire metadata；不能从bitmap反查key补造token，实际终结前不得释放活动buffer。先明确提交失败、future取消及DMA仍在途的语义，再接真实传输验证。
 - [x] 完成固定安装版LMCache-driven RETRIEVE的Python调用链只读审计：区分RPC/event/dispatcher清理，定位异常立即匿名释放、stream回调key-only与wire缺ticket的接入边界，记录源码hash和下一步适配顺序。见 [RETRIEVE_INTEGRATION_AUDIT.md](experiments/2026-10-01/RETRIEVE_INTEGRATION_AUDIT.md)。未审计native错误终结或执行GPU验证。
 - [x] 完成独立transfer身份/完成适配CPU契约：真实MessagingFuture/DeviceMessagingFuture配受控event，22测试、4子测试、30轮竞争，完整服务器356通过。RPC/event仅诊断；原身份server callback后才一次性清理；提交异常、TTL、END及部分unpin失败保留原所有权。见 [TRANSFER_COMPLETION.md](experiments/2026-10-01/TRANSFER_COMPLETION.md)。下一步原ticket绑定range/group/buffer提交计划，再接native completion和版本化wire；实际CUDA/服务仍未验证，3B未通过。
+- [x] 实现原ticket绑定的transfer plan CPU契约：零起点Lookup/full attention的chunk对齐命中后缀、object/kernel映射、APC skip、目标block数量/容量与原buffer identity校验；整个shard持有到可信终结，登记历史禁止身份复用。新增19测试、42子测试及30轮竞争，完整服务器375通过，见 [TRANSFER_PLAN.md](experiments/2026-10-01/TRANSFER_PLAN.md)。未证明GPU allocator所有权、shape/dtype或实际DMA停止，3B未通过。
+- [ ] 核查native completion dispatcher的payload/queue、callback注册及错误终结；将原transfer身份贯穿server终结路径，再接版本化QUERY/RETRIEVE metadata、真实worker布局与pinned CPU→CUDA内容/allocator复用验证。RPC或event完成仍不得直接释放lease。
 - [ ] 为无 END_SESSION、迟到 LOOKUP、controller 永久不完成与 server shutdown 实现并验证安全所有权协议；优先落实reservation/epoch和controller终结的接口，再决定客户端失联如何转移job。复核当前上游版本并形成可维护最小补丁。继续补实际传输中止、worker层真实写入失败、DMA执行期抢占及内容正确性；资源门槛通过后再决定是否修改GPU保护/准入。
 - [ ] 单独复核异步调度的 prefix reset API 与 deferred block free 时序；EVICTION_AWARE自然抢占延迟轮session TTL已实测归零，当前 reset API 的失败不能算作生成或资源泄漏，active_sessions 也不能作为回收通过证据。
 - [x] 完成首版不接 GPU 的 fake worker 状态机：预算、连续前缀、身份复核、pin/unpin、部分保存、取消和 generation 回执隔离；17 项测试、6,000 步固定种子交错以及 14 个执行示例通过，见 [PROTECTION_STATE_MACHINE.md](experiments/2026-09-30/PROTECTION_STATE_MACHINE.md)。

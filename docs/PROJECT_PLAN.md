@@ -198,6 +198,8 @@ CachePilot/
 
 2026-10-01继续完成独立transfer身份/完成适配CPU契约，见 [TRANSFER_COMPLETION.md](experiments/2026-10-01/TRANSFER_COMPLETION.md)。真实future类和受控event分离RPC、设备状态和资源清理；原身份server callback与submit返回都满足后才一次性终结lease，部分失败保留证据。新增22测试、4子测试、30轮竞争，完整服务器356通过。下一步绑定原ticket的range/group/buffer提交计划，再接native completion及版本化wire，然后真实CUDA与Connector服务验证；当前callback仍是CPU fixture承诺，没有有界tombstone/失联恢复或shutdown，3B未通过。
 
+同日完成原ticket绑定的transfer plan CPU契约，见 [TRANSFER_PLAN.md](experiments/2026-10-01/TRANSFER_PLAN.md)。服务端登记布局、Lookup key/chunk快照、chunk对齐命中后缀、object/kernel分组、目标block数量/容量及原buffer identity在提交前校验；部分范围保守持有整个shard。19新增测试、42子测试、30轮竞争，完整服务器375通过。登记历史禁止身份复用；提交后登记变化或END不释放在途buffer。首版只支持零起点Lookup/full attention，不证明GPU block所有权、shape/dtype或实际DMA停止。下一步核查native completion payload/失败终结，再接版本化wire、真实CUDA和Connector；原有writer/失联/shutdown门槛继续保留，3B未通过。
+
 尚需使用真实 vLLM/LMCache 服务补齐：
 
 - 原生 Connector 异步 lookup 等待期取消的 server 侧时序及受控 L1/FS L2 回收候选已经验证（L2 两轮通过、一轮关闭候选失败对照，见 [L2 报告](experiments/2026-09-30/L2_PREFETCH_CANCELLATION.md)）；仍需 END_SESSION/LOOKUP 乱序、无 END_SESSION、永久不完成的 controller、关闭时 unresolved job 的修复与期望不变量回归，不能以受控 L1/L2 结果替代整体验收；

@@ -22,6 +22,7 @@
 | Lookup槽连接buffer lease（10月1日后续） | 新增23测试、8子测试，READ/END和READ/失败terminal各30轮竞争；完整服务器334通过；见[报告](../2026-10-01/LEASED_LOOKUP.md) | CPU消费停止后才unpin/处置原token；确认stale单独记录；失败worker不阻止独立worker终结；真实RETRIEVE/DMA/wire和失联/shutdown仍未接入 |
 | RETRIEVE接入审计（10月1日后续） | 固定安装版Python调用链、9文件hash及接入顺序；见[审计](../2026-10-01/RETRIEVE_INTEGRATION_AUDIT.md) | 已区分RPC/event/资源清理并定位ticket/异常边界；运行适配、wire、native执行错误和GPU终结仍未验证 |
 | transfer完成适配CPU契约（10月1日后续） | 真实future类与受控event，22测试、4子测试及30轮竞争；完整服务器356通过；见[报告](../2026-10-01/TRANSFER_COMPLETION.md) | 原身份server callback后一次性终结lease；RPC/event仅诊断，未知提交与清理失败保留；尚未接range/group计划、native dispatcher、wire或实际CUDA |
+| 原ticket提交计划CPU契约（10月1日后续） | 19测试、42子测试、30轮竞争；两object/三kernel及TP分片，完整服务器375通过；见[报告](../2026-10-01/TRANSFER_PLAN.md) | 原请求/range/group/block/buffer绑定通过；部分范围持有整个shard，登记历史不复用；仅零起点/full attention，不验证GPU block所有权/shape/dtype，native/wire/CUDA仍未接入 |
 | server关闭 | 可取消lookup/load屏障，controller返回后L1对象/锁释放；实际inflight字典0但公开计数1 | **候选job终结未通过**；内核/executor永久阻塞未覆盖；早期telemetry超时轮另保留 |
 | L2部分写入 | RLIMIT_FSIZE真实EFBIG，8临时文件各写1MiB后删除；重启miss、输出一致、17文件恢复 | L1→L2路径通过；不等于GPU→L1 worker STORE失败 |
 | 自然容量抢占 | 两轮11/12次；迟到回执两轮各16次，均8/8生成完成 | 资源路径通过；抢占钩子时无在途STORE，随后提交旧代批次再reset；DMA中抢占未覆盖 |

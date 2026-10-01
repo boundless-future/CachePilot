@@ -114,6 +114,8 @@ class TransferCompletionHarness:
                 if job.abandoned or job.error:
                     self.reject_unsubmitted(handle)
                     return False
+                if not self._validate_submission(state):
+                    return False
                 # This transition precedes END under the same Lookup gate.
                 # END after it must conservatively regard the work as in flight.
                 state.phase = "submitting"
@@ -134,6 +136,10 @@ class TransferCompletionHarness:
                 state.phase = "terminal"
                 self._cleanup(state)
             return outcome
+
+    def _validate_submission(self, state):
+        """Extension point under transfer/Lookup gates, before any submission."""
+        return True
 
     def stream_complete(self, handle):
         """Server completion identity callback, never a client cancellation ACK."""

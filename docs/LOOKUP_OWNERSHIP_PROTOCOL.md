@@ -42,3 +42,5 @@ LOOKUP接纳后由server持有job；正常消费把相应read reservation移交�
 上游issue #5339仍讨论该所有权边界，项目阶段收尾再评估正式issue/PR。CachePilot本身的3C CPU状态机与接口设计可以继续；GPU保护仍以资源门槛为前提。避免为获得“全绿”而把未关闭的故障路径从验收定义中删掉。
 
 后续[transfer完成适配](experiments/2026-10-01/TRANSFER_COMPLETION.md)为原ticket绑定唯一提交身份，RPC/event只观测；匹配server回调且submit返回后才unpin和处置reservation。提前END拒绝新提交，在途END不释放；部分提交异常保留到可信终结，重复callback不重试失败清理。22新增测试、4子测试及30轮竞争通过，完整服务器356通过。该server callback目前仍是CPU fixture承诺，native dispatcher/wire/CUDA均未接入；range/group/buffer计划、有界tombstone回收及原有writer/失联/shutdown要求继续保留。
+
+随后[原所有权提交计划](experiments/2026-10-01/TRANSFER_PLAN.md)从原Lookup key/chunk/keys快照与可信worker登记构造range/group/buffer plan，禁止客户端提供源buffer或补造token。首版仅零起点Lookup/full attention的chunk对齐命中后缀，block数/容量/APC skip及原entry/lease/buffer身份在提交前复核；未选择的原shard源仍保留pin。登记身份不可历史复用，提交后换登记不提前释放。19新增测试、42子测试、完整服务器375通过；目标GPU block所有权和实际shape/dtype未验证，native completion/wire/CUDA以及writer/失联/shutdown仍未接入，3B未通过。

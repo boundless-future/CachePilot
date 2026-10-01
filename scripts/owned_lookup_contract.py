@@ -57,6 +57,8 @@ class ReaderSlot:
 class LookupJob:
     handle: JobHandle
     workers: tuple
+    lookup_key: object | None = None
+    chunk_size: int = 0
     ranks: dict = field(default_factory=dict)
     keys: tuple = ()
     readers: int = 1
@@ -195,7 +197,8 @@ class OwnedLookupHarness(LookupModule):
                 raise RuntimeError("Previous generation still owns reader slots")
             handle = JobHandle(self._server, self._sequence, key.request_id)
             self._sequence += 1
-            job = LookupJob(handle, workers, readers=readers)
+            job = LookupJob(handle, workers, lookup_key=deepcopy(key),
+                            chunk_size=self._ctx.chunk_size, readers=readers)
             job.ranks = {r: ObjectKey.ComputeKVRank(key.world_size, r, key.world_size, r)
                          for r in range(key.world_size)}
             self.jobs[handle.sequence] = job
