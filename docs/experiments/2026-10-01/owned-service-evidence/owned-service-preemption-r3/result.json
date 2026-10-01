@@ -1,0 +1,172 @@
+{
+  "passed": false,
+  "injection": "hold CUDA terminal after real STORE copy submission; receipt observation delay; natural capacity pressure",
+  "requests": 8,
+  "prompt_tokens": 1536,
+  "decode_tokens": 2048,
+  "kv_bytes": 1073741824,
+  "connector": "OwnedServicePreemptionConnector",
+  "receipt_delay_seconds": 10.0,
+  "eager": true,
+  "output_equivalence_test": false,
+  "observe_after_stop_seconds": 0,
+  "prompt_sha256": "6b2ffe07c21df0f908ded56296d0c0f9d6e21b0a17d9dfc54e3b61c749a09e2c",
+  "kv_probe_enabled": true,
+  "literal_dma_interruption": false,
+  "terminal_hold_transfers": 3,
+  "responses": [
+    {
+      "index": 0,
+      "usage": {
+        "prompt_tokens": 1536,
+        "total_tokens": 3584,
+        "completion_tokens": 2048,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "elapsed_seconds": 131.81390123099845
+    },
+    {
+      "index": 1,
+      "usage": {
+        "prompt_tokens": 1536,
+        "total_tokens": 3584,
+        "completion_tokens": 2048,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "elapsed_seconds": 172.93145169099807
+    },
+    {
+      "index": 2,
+      "usage": {
+        "prompt_tokens": 1536,
+        "total_tokens": 3584,
+        "completion_tokens": 2048,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "elapsed_seconds": 167.77352800000153
+    },
+    {
+      "index": 3,
+      "usage": {
+        "prompt_tokens": 1536,
+        "total_tokens": 3584,
+        "completion_tokens": 2048,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "elapsed_seconds": 201.74496846400143
+    },
+    {
+      "index": 4,
+      "usage": {
+        "prompt_tokens": 1536,
+        "total_tokens": 3584,
+        "completion_tokens": 2048,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "elapsed_seconds": 60.17035791399758
+    },
+    {
+      "index": 5,
+      "usage": {
+        "prompt_tokens": 1536,
+        "total_tokens": 3584,
+        "completion_tokens": 2048,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "elapsed_seconds": 65.95618201700199
+    },
+    {
+      "index": 6,
+      "usage": {
+        "prompt_tokens": 1536,
+        "total_tokens": 3584,
+        "completion_tokens": 2048,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "elapsed_seconds": 124.43574020699816
+    },
+    {
+      "index": 7,
+      "usage": {
+        "prompt_tokens": 1536,
+        "total_tokens": 3584,
+        "completion_tokens": 2048,
+        "prompt_tokens_details": null,
+        "completion_tokens_details": null
+      },
+      "elapsed_seconds": 95.83040352500029
+    }
+  ],
+  "lifecycle": {
+    "preemptions": 16,
+    "preempted_requests": 6,
+    "preemptions_with_store_inflight": 0,
+    "final_free_blocks": 454,
+    "initial_free_blocks": 454,
+    "all_requests_finished": true
+  },
+  "receipt_audit": {
+    "released_pin_references": 1120,
+    "orphaned_receipts": 2
+  },
+  "owned_copy_windows": [
+    {
+      "request_id": "cp1:1142184358155163041:4:de9786250cd38b12d5189c5ad50c01bc:cmpl-b1e1366d444bc4f7-0-a246446b",
+      "sequence": 1,
+      "copy_enqueued_ns": 21527517704018,
+      "terminal_retired_ns": 21531186350642,
+      "preemptions_ns": []
+    },
+    {
+      "request_id": "cp1:1142184358155163041:3:07512a3cfb697b71c1e73904d2865ce2:cmpl-ab395f5914c4eadc-0-be2d1204",
+      "sequence": 2,
+      "copy_enqueued_ns": 21528939794770,
+      "terminal_retired_ns": 21534876175796,
+      "preemptions_ns": []
+    },
+    {
+      "request_id": "cp1:1142184358155163041:2:ef36bb792388242759a990c644826aa8:cmpl-9774dc881e6a3bc5-0-b2e9b033",
+      "sequence": 3,
+      "copy_enqueued_ns": 21531193239185,
+      "terminal_retired_ns": 21538584126824,
+      "preemptions_ns": []
+    }
+  ],
+  "error": "AssertionError('No natural preemption inside the pending terminal window')",
+  "after_engine_stop": {
+    "is_healthy": true,
+    "active_sessions": 6,
+    "registered_gpu_ids": [],
+    "l1_read_locked": 0,
+    "l1_write_locked": 0,
+    "store_pending": 0,
+    "store_in_flight": 0,
+    "prefetch_in_flight": 0,
+    "prefetch_pending": 0,
+    "prefetch_lookup": 0,
+    "prefetch_load": 0,
+    "write_ttl_seconds": 600,
+    "read_ttl_seconds": 300,
+    "active_prefetch_jobs": 0,
+    "abandoned_prefetch_jobs": 0,
+    "reclaim_failed_jobs": 0,
+    "reclaim_completed_jobs": 0,
+    "reclaim_key_snapshots": 0,
+    "completed_results_count": 0,
+    "owned_jobs": 0,
+    "owned_controller_jobs": 0,
+    "owned_transfers": 0,
+    "owned_clients": 1,
+    "owned_deferred_contexts": 0,
+    "owned_store_batches": 0,
+    "owned_failed": 0,
+    "owned_read_pins": 0
+  }
+}

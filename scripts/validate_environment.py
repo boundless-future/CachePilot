@@ -192,7 +192,7 @@ def run_mode(mode, out, eager, expected):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--modes", nargs="+", choices=["baseline", "immediate", "fifo", "eviction", "owned-mp"],
+    parser.add_argument("--modes", nargs="+", choices=["baseline", "immediate", "fifo", "eviction", "owned-mp", "owned-service"],
                         default=["baseline", "immediate", "fifo", "eviction"])
     parser.add_argument("--eager", action="store_true")
     parser.add_argument("--output", type=Path, required=True)
@@ -206,9 +206,12 @@ def main():
     results, expected = [], None
     for mode in args.modes:
         previous_guard = os.environ.get("CACHEPILOT_OWNED_MP_DIR")
-        if mode == "owned-mp":
+        previous_service = os.environ.get("CACHEPILOT_OWNED_SERVICE_DIR")
+        if mode in ("owned-mp", "owned-service"):
             os.environ["CACHEPILOT_OWNED_MP_DIR"] = str(
                 (args.output / "events").resolve())
+        if mode == "owned-service":
+            os.environ["CACHEPILOT_OWNED_SERVICE_DIR"] = str((args.output / "events").resolve())
         try:
             result = run_mode(mode, args.output / mode, args.eager, expected)
         finally:
@@ -216,6 +219,10 @@ def main():
                 os.environ.pop("CACHEPILOT_OWNED_MP_DIR", None)
             else:
                 os.environ["CACHEPILOT_OWNED_MP_DIR"] = previous_guard
+            if previous_service is None:
+                os.environ.pop("CACHEPILOT_OWNED_SERVICE_DIR", None)
+            else:
+                os.environ["CACHEPILOT_OWNED_SERVICE_DIR"] = previous_service
         if mode == "baseline":
             expected = result["output_text"]
         results.append(result)

@@ -20,6 +20,20 @@ class PreemptionKVAuditTests(unittest.TestCase):
     def test_equal_restored_orphan_batch_is_covered(self):
         self.assertTrue(audit_probe_sources(*self.evidence())["passed"])
 
+    def test_layout_records_are_not_chunk_evidence(self):
+        rows, receipts = self.evidence()
+        layout = dict(phase="worker_layout", monotonic_ns=0, tensors={})
+        self.assertTrue(audit_probe_sources([layout, *rows], receipts)["passed"])
+        self.assertFalse(audit_probe_sources([layout], receipts)["passed"])
+
+    def test_unexpected_phase_and_missing_chunk_fields_fail_closed(self):
+        rows, receipts = self.evidence()
+        with self.assertRaises(AssertionError):
+            audit_probe_sources([dict(phase="unknown"), *rows], receipts)
+        del rows[1]["token_prefix_sha256"]
+        with self.assertRaises(KeyError):
+            audit_probe_sources(rows, receipts)
+
     def test_no_orphan_or_wrong_blocks_does_not_prove_requested_path(self):
         for field, value in [("orphaned", False), ("pinned_refs", {"3": 1}),
                              ("failed", True), ("monotonic_ns", 4)]:

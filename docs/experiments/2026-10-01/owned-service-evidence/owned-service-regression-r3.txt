@@ -1,0 +1,37 @@
+....................................................... [ 12%]
+....................................................... [ 25%]
+................................................................. [ 41%]
+.................................................................. [ 56%]
+.................................................. [ 68%]
+........................................................................ [ 85%]
+..............................................................                                     [100%]
+=============================== warnings summary ===============================
+../../usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/opentelemetry/sdk/_logs/_internal/__init__.py:531: 104 warnings
+tests/test_native_transfer_gpu.py: 2 warnings
+tests/test_owned_mp_bridge.py: 2 warnings
+  /usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/opentelemetry/sdk/_logs/_internal/__init__.py:531: DeprecationWarning: `LoggingHandler` in `opentelemetry-sdk` is deprecated. Use the handler from `opentelemetry-instrumentation-logging` instead.
+    warnings.warn(
+
+../../usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/torch/jit/_script.py:365: 14 warnings
+  /usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/torch/jit/_script.py:365: DeprecationWarning: `torch.jit.script_method` is deprecated. Please switch to `torch.compile` or `torch.export`.
+    warnings.warn(
+
+tests/test_native_transfer_gpu.py::NativeGPUTransferTests::test_forged_and_duplicate_completion_do_not_release_original_lease
+tests/test_native_transfer_gpu.py::NativeGPUTransferTests::test_missing_native_marker_is_quarantined_even_after_stream_done
+tests/test_native_transfer_gpu.py::NativeGPUTransferTests::test_partial_enqueue_exception_waits_for_actual_native_completion
+tests/test_native_transfer_gpu.py::NativeGPUTransferTests::test_real_lmcache_object_group_kernel_and_context
+tests/test_native_transfer_gpu.py::NativeGPUTransferTests::test_real_native_completion_pins_bytes_until_end_reset_and_block_reuse
+tests/test_native_transfer_gpu.py::NativeGPUTransferTests::test_versioned_socket_query_retrieve_to_native_kernel
+tests/test_native_transfer_gpu.py::NativeGPUTransferTests::test_wrong_worker_target_owner_rejected_before_gpu_submission
+tests/test_native_writer_gpu.py::NativeGPUWriterTests::test_actual_d2h_publish_after_native_completion_and_expired_writer
+tests/test_native_writer_gpu.py::NativeGPUWriterTests::test_partial_d2h_exception_waits_then_discards_and_reuses_writer
+  /usr/local/miniconda3/envs/cachepilot/lib/python3.12/unittest/case.py:586: DeprecationWarning: ExternalStream is deprecated. Use Stream.from_external() instead to interoperate with external streams that implement the CUDA stream protocol.
+    self.setUp()
+
+tests/test_native_transfer_gpu.py::NativeGPUTransferTests::test_real_lmcache_object_group_kernel_and_context
+tests/test_native_transfer_gpu.py::NativeGPUTransferTests::test_versioned_socket_query_retrieve_to_native_kernel
+  /usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/lmcache/v1/platform/devices/cuda/cache_context.py:363: DeprecationWarning: ExternalStream is deprecated. Use Stream.from_external() instead to interoperate with external streams that implement the CUDA stream protocol.
+    self._init_impl(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+425 passed, 133 warnings, 115 subtests passed in 16.67s

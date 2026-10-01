@@ -11,6 +11,7 @@ import json
 import os
 from pathlib import Path
 import sys
+import threading
 import time
 
 
@@ -107,6 +108,19 @@ if __name__ == "__main__":
     from lookup_server_timeline import install_timeline
     check_source()
     directory = os.environ["CACHEPILOT_L2_GATE_DIR"]
+    if os.environ.get("CACHEPILOT_OWNED_SERVICE_DIR"):
+        from owned_service import install_service
+        service = install_service(os.environ["CACHEPILOT_OWNED_SERVICE_DIR"])
+        def probe_close():
+            trigger = Path(directory) / "probe-close"
+            while not trigger.exists():
+                time.sleep(0.1)
+            try:
+                service.lookup.close()
+            except RuntimeError as exc:
+                service.record("diagnostic_close_refused", error=repr(exc))
+                (Path(directory) / "close-refused").touch()
+        threading.Thread(target=probe_close, daemon=True).start()
     install_gate(directory)
     install_timeline(directory)
     if os.environ.get("CACHEPILOT_L2_RECLAIM") == "1":

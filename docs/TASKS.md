@@ -114,20 +114,30 @@
 - [x] 在独立CPU契约中对接真实LookupModule QUERY和每worker reader slot：新增30测试、9子测试及QUERY/END、CLAIM/END各30轮竞争；END只回收未领取槽，运行槽等模拟终结。修正真实IPC编码rank接入并补1项Storage测试，完整服务器285通过。见 [OWNED_LOOKUP.md](experiments/2026-10-01/OWNED_LOOKUP.md)。真实RETRIEVE/DMA和服务未接入，3B未通过。
 - [x] 在独立C++和真实L1方法CPU契约中实现token校验与活动buffer lease：新增7项native/19项L1测试及9子测试，完整服务器311通过。TTL/reset不解除活动pin，可复用CPU字节buffer验证delete/clear/write/eviction保护、对象重建隔离及CPU future延迟消费；异常保留证据，force/free/close拒绝。见 [BUFFER_LEASE.md](experiments/2026-10-01/BUFFER_LEASE.md)。未接Lookup running槽或真实DMA，3B未通过。
 - [x] 将Lookup running reader slot与buffer lease连接，固定claim→begin→消费终结→unpin→reservation disposition的次序；新增23测试、8子测试，完整服务器334通过。覆盖END/TTL/reset、CPU future、多worker/TP、部分失败和两组各30轮竞争；失败槽保留证据，独立worker仍可终结。见 [LEASED_LOOKUP.md](experiments/2026-10-01/LEASED_LOOKUP.md)。确认stale的原reservation单独记过期，不伪报release成功；仍是CPU契约，3B未通过。
-- [ ] 核查并接入真实RETRIEVE的buffer获取、实际异步传输终结和wire metadata；不能从bitmap反查key补造token，实际终结前不得释放活动buffer。先明确提交失败、future取消及DMA仍在途的语义，再接真实传输验证。
+- [x] 在固定版 TP=1/full-attention 的 opt-in 实际服务接入 RETRIEVE 获取点原 token/pin、wire identity 与原 native terminal；实际终结前保留活动 buffer。正常回载、提交后 host 异常、取消及缺 terminal 负例分别审计，见 [实际服务报告](experiments/2026-10-01/OWNED_SERVICE.md)。不覆盖真实 driver fault。
 - [x] 完成固定安装版LMCache-driven RETRIEVE的Python调用链只读审计：区分RPC/event/dispatcher清理，定位异常立即匿名释放、stream回调key-only与wire缺ticket的接入边界，记录源码hash和下一步适配顺序。见 [RETRIEVE_INTEGRATION_AUDIT.md](experiments/2026-10-01/RETRIEVE_INTEGRATION_AUDIT.md)。未审计native错误终结或执行GPU验证。
 - [x] 完成独立transfer身份/完成适配CPU契约：真实MessagingFuture/DeviceMessagingFuture配受控event，22测试、4子测试、30轮竞争，完整服务器356通过。RPC/event仅诊断；原身份server callback后才一次性清理；提交异常、TTL、END及部分unpin失败保留原所有权。见 [TRANSFER_COMPLETION.md](experiments/2026-10-01/TRANSFER_COMPLETION.md)。下一步原ticket绑定range/group/buffer提交计划，再接native completion和版本化wire；实际CUDA/服务仍未验证，3B未通过。
 - [x] 实现原ticket绑定的transfer plan CPU契约：零起点Lookup/full attention的chunk对齐命中后缀、object/kernel映射、APC skip、目标block数量/容量与原buffer identity校验；整个shard持有到可信终结，登记历史禁止身份复用。新增19测试、42子测试及30轮竞争，完整服务器375通过，见 [TRANSFER_PLAN.md](experiments/2026-10-01/TRANSFER_PLAN.md)。未证明GPU allocator所有权、shape/dtype或实际DMA停止，3B未通过。
-- [ ] 将已验证的独立 native completion、版本化 QUERY/RETRIEVE metadata、真实 worker 布局和 GPU copy 接入正式 LMCache MP server/Connector/vLLM BlockPool；验证真实 driver 错误、callback 丢失和正式服务的 allocator 复用。RPC或event完成仍不得直接释放lease。
+- [x] 将原身份 native completion、版本化 LOOKUP/QUERY/RETRIEVE 与真实 GPU copy 接入实际 MP 服务/Connector/BlockPool；正常资源审计、取消/失败后新请求和缺 callback 的拒绝关闭通过。RPC 或 event 完成仍不直接释放 lease。
+- [ ] 验证真实 driver 执行错误、硬件 copy 执行期间中断、多 worker/multi-GPU 及更广 allocator 复用；既有 stream hold 只证明 native terminal 尚未确认。
 - [x] 完成上述链路的独立实验原型：原身份/nonce native callback、版本化 ticket 的 ZMQ 往返、真实 worker 布局与 pinned CPU→CUDA kernel、独立 target arena，以及 D2H writer marker 后发布/失败丢弃。完整服务器 398 passed；缺 callback 保留 unresolved，真实 driver fault 未注入。见 [GPU 与 decode 证据](experiments/2026-10-01/NATIVE_TRANSFER_AND_DECODE.md)。这尚未接入正式 MP server/Connector/BlockPool。
 - [x] 将 generation 检查和受控非法 block 预检作为 opt-in 桥接运行在真实 MP server/Connector/vLLM 上：正常 CPU 回载 1536 tokens，独立 CUDA stream marker 到达，BlockPool 最终 909 free；非法短 block 触发 272 block 重算后 909 free、CPU 读锁/job 为 0。显式 CUDA 完整回归 405 passed、115 subtests。见 [正式服务桥接](experiments/2026-10-01/OWNED_MP_INTEGRATION.md)。这只是两个受控路径的局部资源验收；原 ticket/lease、原生身份释放和无 END 等仍未接入，不能勾选完整 3B 条目。
-- [ ] 为无 END_SESSION、迟到 LOOKUP、controller 永久不完成与 server shutdown 实现并验证安全所有权协议；优先落实reservation/epoch和controller终结的接口，再决定客户端失联如何转移job。复核当前上游版本并形成可维护最小补丁。继续补实际传输中止、worker层真实写入失败、DMA执行期抢占及内容正确性；资源门槛通过后再决定是否修改GPU保护/准入。
+- [x] 实际服务获取点保存 reservation/epoch/pin，贯穿初始 L1、L2 controller/crop、QUERY/RETRIEVE 和 L2 STORE；原释放身份逐项且恰好一次审计通过，不按 key 事后补 token。
+- [x] 无 END 客户端死亡：真实进程 SIGKILL 后心跳过期回收 17 个原 token，job/controller/pin 归零，恢复请求外部命中 4352、输出一致；120 秒 GPU 注册 grace 是诊断参数。
+- [x] 八个真实服务场景按 r2/r3 通过：L2 取消、文件短读、客户端死亡、持有 load 的关闭拒绝、STORE/RETRIEVE 提交后 host 异常与在终结等待期取消。失败轮全部保留，不能说单轮矩阵全通过。
+- [x] 缺 STORE/RETRIEVE native terminal：分别保留 8 个 writer、17 个 reader/pin 和 GPU context，直接 transfer.close 与完整关闭均拒绝；按预期 unresolved 审计，完整实例重建为恢复边界。
+- [x] 自然抢占 r8/r9：各 4 次抢占、各 2 次在指定原 transfer 的 native terminal 等待窗口内；各 512 次 pin 引用释放，BlockPool 恢复 454 free，各 432 层 whole-chunk KV bitwise 相同、6 个无中间 STORE 的 orphan 源 chunk；关闭后原 token/job/terminal 审计通过。
+- [x] 最终快照显式 CUDA 回归 438 passed、115 subtests；正常 eager 回载重新复核。限定单卡隔离实例的 3C 准入范围已写入 [总体计划](PROJECT_PLAN.md) 和 [开工顺序](3C_GPU_ENTRY.md)。
+- [ ] 排查 30 秒回执延迟 r6 的空闲收尾：pin/transfer 归零但两个空 owner 到关闭才回收；不得把 5 秒成功轮算作此问题修复，也不得只看 free block 宣布 drain。
+- [ ] 完成完整生产资源门槛：永久 I/O 自动恢复、真实 driver fault/传输中断、L2 不确定提交异常的实机注入；复核上游并形成最小可维护补丁。此项继续开放，与限定 3C 研究准入分开。
 - [ ] 单独复核异步调度的 prefix reset API 与 deferred block free 时序；EVICTION_AWARE自然抢占延迟轮session TTL已实测归零，当前 reset API 的失败不能算作生成或资源泄漏，active_sessions 也不能作为回收通过证据。
 - [x] 完成首版不接 GPU 的 fake worker 状态机：预算、连续前缀、身份复核、pin/unpin、部分保存、取消和 generation 回执隔离；17 项测试、6,000 步固定种子交错以及 14 个执行示例通过，见 [PROTECTION_STATE_MACHINE.md](experiments/2026-09-30/PROTECTION_STATE_MACHINE.md)。
 - [x] 增加 16-token 物理 block / 256-token LMCache chunk 的 16:1 CPU 分组模型，七项测试验证整 chunk 预算、失效 block 停止前缀和回执范围；不是实际 GPU adapter。
 - [x] 真实 vLLM BlockPool 的纯 CPU 元数据桥接八项测试通过；新增同 request-id 跨代单在途限制及 [PROTECTION_ADAPTER_CONTRACT.md](PROTECTION_ADAPTER_CONTRACT.md)，明确 block/chunk hash、零步回滚和 worker 布尔回执限制。
 - [x] 从真实token ledger计算vLLM/LMCache两条hash链，6项测试含Request追加decode；新增真实STORE metadata CPU交接桥接，7项测试与原生tracker字段对照，不接GPU/RPC。
-- [ ] 完成真实 adapter 契约：准入前需求预算、候选选择与真实 hash 复核、前缀闭合、pin/unpin、STORE 提交/回执和保护预算回退；原生 lookup 取消资源门槛通过后再做 GPU 消融，不替换默认策略。
+- [ ] 首先实现 ProtectionConnector 零保护预算的真实 scheduler/worker 交接与配置开关；对照使用同一所有权栈的默认 EVICTION_AWARE，无新增保护 pin 或 STORE，逐轮审计资源终态。
+- [ ] 再以最多两个完整 chunk 验证候选 hash/前缀复核、pin 前串行分配边界、PREPARED 零步回滚、单 request 跨代单在途 STORE、取消/失败/原回执 unpin 和预算回退。
+- [ ] 新增路径的 KV/输出正确性通过后，再关闭诊断日志做至少三次重复消融，报告 TTFT、实际 prefill、排队、搬运、保护/在途峰值与策略开销；没有性能收益则保留退化结果。
 
 交付：可启用和禁用的实现、测试、消融及反例。性能门槛由基线噪声与实际需求决定，不先填加速目标。
 
@@ -142,4 +152,4 @@
 
 ## 优先顺序
 
-P0/P1 已建立可运行环境，P2 基线仍有参数扫描与更多压力点未完成。P3 已完成 allocator 真值计数消融、需求信号诊断和若干生命周期契约/诊断实验。原生 Connector 的远端 lookup 等待期取消在未修改 server 上三次残留 17 个 CPU 读锁，r3 另有 1 个 prefetch job；可选 server 回收候选在相同受控 L1 路径两次使 17 个对象锁和 job 归零，follow-up 正常。真实 FS L2 在途 prefetch 的受控取消已完成两轮候选及一轮失败对照；END 顺序与短读候选已通过；无 END_SESSION 的进程死亡则在 630 秒后仍残留 job/result，TTL 匿名释放还有所有权风险。永久卡住的 controller 和自然故障尚未完整验证，因此阶段 3B 仍未通过。非法 RETRIEVE underflow 的读锁缺口单独保留。显式抢占的默认异步 reset API 仍返回 500；自然抢占及受控迟到回执资源闭合、自然抢占退出session TTL已验证；真实传输中止、worker层写入失败、DMA期间抢占及内容正确性仍待复核。真实EFBIG仅覆盖L2。`compute_slots` 漏掉异步回载突发，宽泛及 lookup 状态估计又有较多无效报警，当前不启用提前 pin/准入保护。fake worker状态机、真实BlockPool/hash和STORE metadata的CPU契约已推进；待生命周期门槛通过后再进入GPU策略消融。上游 PR 留待项目阶段收尾评估；输出差异和基线参数扫描也仍未完成，暂不需要更贵的 GPU 或完整 SWE-bench。
+当前优先进入 3C 零保护预算的真实 Connector 接入，再验证最多两个 chunk 的保护预算。3B 的 opt-in 实际服务已通过受控单卡准入，历史原生栈失败结论保留；30 秒延迟的空闲 owner 收尾、生产故障恢复、异步 reset API、编译输出差异根因仍开放。每轮实验必须隔离实例并检查原 token/job/pin/terminal 与 KV 内容，资源残留就停止该轮。`compute_slots` 和 lookup 状态仍不能当准入需求 oracle。随后补 P2 参数扫描和重复对照，最后再扩模型与评估上游 PR；目前不需要升级 GPU。

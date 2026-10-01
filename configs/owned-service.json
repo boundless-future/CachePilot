@@ -1,0 +1,10 @@
+{
+  "kv_connector": "OwnedServiceConnector",
+  "kv_connector_module_path": "scripts.owned_service_connector",
+  "kv_role": "kv_both",
+  "kv_load_failure_policy": "recompute",
+  "kv_connector_extra_config": {
+    "lmcache.mp.host": "tcp://127.0.0.1",
+    "lmcache.mp.port": 5555
+  }
+}

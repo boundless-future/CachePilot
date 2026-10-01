@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/root/CachePilot/scripts/owned_service_fault_smoke.py", line 136, in <module>
+    main()
+  File "/root/CachePilot/scripts/owned_service_fault_smoke.py", line 76, in main
+    assert held["owned_transfers"] >= 1
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

@@ -1,0 +1,50 @@
+[
+  {
+    "case": "l2-cancel",
+    "returncode": 0,
+    "passed": true,
+    "error": null
+  },
+  {
+    "case": "l2-short-read",
+    "returncode": 1,
+    "passed": false,
+    "error": "AssertionError()"
+  },
+  {
+    "case": "client-death",
+    "returncode": 0,
+    "passed": true,
+    "error": null
+  },
+  {
+    "case": "held-shutdown",
+    "returncode": 0,
+    "passed": true,
+    "error": null
+  },
+  {
+    "case": "store-enqueue-error",
+    "returncode": 0,
+    "passed": true,
+    "error": null
+  },
+  {
+    "case": "retrieve-enqueue-error",
+    "returncode": 0,
+    "passed": true,
+    "error": null
+  },
+  {
+    "case": "cancel-store-stream",
+    "returncode": 1,
+    "passed": false,
+    "error": "AssertionError()"
+  },
+  {
+    "case": "cancel-retrieve-stream",
+    "returncode": 0,
+    "passed": true,
+    "error": null
+  }
+]

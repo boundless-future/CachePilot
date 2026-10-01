@@ -34,7 +34,9 @@ def drained(state):
               "abandoned_prefetch_jobs", "reclaim_failed_jobs", "reclaim_key_snapshots",
               "completed_results_count", "store_pending", "store_in_flight",
               "prefetch_in_flight", "prefetch_pending", "prefetch_lookup", "prefetch_load")
-    return state["is_healthy"] and all(state[key] == 0 for key in fields)
+    owned = ("owned_jobs", "owned_controller_jobs", "owned_transfers", "owned_deferred_contexts",
+             "owned_failed", "owned_read_pins", "owned_store_batches")
+    return state["is_healthy"] and all(state[key] == 0 for key in fields) and all(state.get(key, 0) == 0 for key in owned)
 
 
 def audit_checked_release(rows, disconnected, retained_objects):
@@ -63,7 +65,7 @@ def audit_events(rows, disconnected, reclaim, retained_objects=17):
     """Reject a run that missed either barrier or reclaimed the wrong objects."""
     if any(row["event"] == "gate_timeout" for row in rows):
         raise AssertionError("Diagnostic barrier timed out")
-    rows = sorted(rows, key=lambda r: r["unix_time"])
+    rows = sorted((r for r in rows if "unix_time" in r), key=lambda r: r["unix_time"])
     selected = {}
     # Warmup and follow-up requests also pass the gate. Select the probe
     # lookup immediately before disconnect, then its load and release.
@@ -118,6 +120,8 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--reclaim", action="store_true")
+    parser.add_argument("--owned-service", action="store_true")
+    parser.add_argument("--owned-shutdown", action="store_true")
     parser.add_argument("--checked-release", action="store_true")
     parser.add_argument("--truncate-index", type=int, choices=range(17))
     parser.add_argument("--crash-client", action="store_true")
@@ -125,6 +129,10 @@ def main():
     parser.add_argument("--shutdown-held-phase", choices=("lookup", "load"))
     parser.add_argument("--registration-grace-seconds", type=float)
     args = parser.parse_args()
+    if args.owned_service and (args.reclaim or args.checked_release or args.shutdown_held_phase):
+        parser.error("Owned service uses its own reclaim/shutdown protocol")
+    if args.owned_shutdown and (not args.owned_service or args.crash_client or args.truncate_index is not None):
+        parser.error("Owned shutdown requires owned service and a normal cancellation")
     if args.checked_release and not args.reclaim:
         parser.error("--checked-release requires --reclaim")
     if args.shutdown_held_phase and (args.crash_client or args.truncate_index is not None or args.observe_seconds):
@@ -141,6 +149,8 @@ def main():
     out.mkdir(parents=True, exist_ok=False)
     gate = out / "events"
     gate.mkdir()
+    if args.owned_service:
+        os.environ.update(CACHEPILOT_OWNED_SERVICE_DIR=str(gate), CACHEPILOT_OWNED_MP_DIR=str(gate))
     disk = out / "kv-files"
     # Exclude inherited diagnostic toggles from another experiment.
     os.environ.pop("CACHEPILOT_LOOKUP_SERVER_RELEASE_CANCELLED", None)
@@ -157,11 +167,11 @@ def main():
                  json.dumps(dict(type="fs", base_path=str(disk)))]
     if args.registration_grace_seconds is not None:
         cache_cmd += ["--worker-registration-grace-seconds", str(args.registration_grace_seconds)]
-    engine_cmd = ["bash", str(ROOT / "scripts/serve.sh"), "immediate", "--enforce-eager"]
+    engine_cmd = ["bash", str(ROOT / "scripts/serve.sh"), "owned-service" if args.owned_service else "immediate", "--enforce-eager"]
     cache = Service(cache_cmd, out / "lmcache-warmup.log")
     engine = Service(engine_cmd, out / "vllm-warmup.log")
     model, text = str(ROOT / "models/Qwen3-4B"), prompt()
-    result = dict(candidate_reclaim=args.reclaim, connector="LMCacheMPConnector",
+    result = dict(candidate_reclaim=args.reclaim, owned_service=args.owned_service, connector="OwnedServiceConnector" if args.owned_service else "LMCacheMPConnector",
                   checked_release=args.checked_release,
                   controlled_fs_io=True, eager=True, model=model,
                   crash_client=args.crash_client, observe_seconds=args.observe_seconds,
@@ -263,6 +273,24 @@ def main():
             assert pending["abandoned_prefetch_jobs"] == 1 and pending["reclaim_completed_jobs"] == 0
         time.sleep(1)
         assert snapshot("load_still_held")["l1_write_locked"] == 17
+        if args.owned_shutdown:
+            (gate / "probe-close").touch()
+            wait_for(lambda: (gate / "close-refused").exists(), 20)
+            held = snapshot("close_refused_load_held")
+            assert held["l1_write_locked"] == 17 and held["prefetch_load"] == 1
+            (gate / "release-load").touch()
+            wait_for(lambda: drained(cache_state(cache_api)), 20)
+            engine.stop()
+            final = snapshot("after_engine_stop")
+            assert not final["registered_gpu_ids"] and drained(final)
+            cache.stop()
+            rows = events(gate)
+            assert any(r["event"] == "owned_shutdown_blocked" for r in rows)
+            assert any(r["event"] == "owned_shutdown_drained" and r["unix_time"] > result["client_disconnected_unix"] for r in rows)
+            assert not any(r["event"] == "gate_timeout" for r in rows)
+            result.update(passed=True, resource_passed=True, shutdown_blocked_with_live_writers=True,
+                          shutdown_drained_after_io=True)
+            return
         if args.shutdown_held_phase == "load":
             shutdown_held()
             return
@@ -281,7 +309,7 @@ def main():
                 unix_time=time.time())
         (gate / "release-load").touch()
         wait_for(lambda: cache_state(cache_api)["prefetch_in_flight"] == 0, 15)
-        if args.reclaim and not args.crash_client:
+        if (args.reclaim or args.owned_service) and not args.crash_client:
             wait_for(lambda: drained(cache_state(cache_api)), 15)
         time.sleep(1)
         after = snapshot("after_completion")
@@ -299,6 +327,8 @@ def main():
                     read_locks=state["l1_read_locked"], jobs=state["active_prefetch_jobs"],
                     sessions=state["active_sessions"], result=state["completed_results_count"])), flush=True)
             result["observed_final"] = observations[-1]["state"]
+            if args.owned_service:
+                result["resource_passed"] = drained(result["observed_final"])
         if args.crash_client:
             assert not any(e["event"] == "server_after" and e.get("method") == "end_session"
                            and e["unix_time"] > result["client_disconnected_unix"] for e in events(gate))
@@ -320,6 +350,24 @@ def main():
         retained = 17 if args.truncate_index is None else args.truncate_index
         result["event_audit"] = audit_events(events(gate), result["client_disconnected_unix"],
                                             args.reclaim and not args.crash_client, retained)
+        if args.owned_service:
+            rows = events(gate)
+            done = [r for r in rows if r["event"] == "lookup_reclaimed" and r["unix_time"] > result["client_disconnected_unix"]]
+            assert done
+            request_id = done[0]["request_id"]
+            acquired = [r for r in rows if r["event"] == "reservation_acquired" and r["request_id"] == request_id]
+            released = [r for r in rows if r["event"] == "reservation_released" and r["request_id"] == request_id]
+            identity = lambda r: (r["lock_id"], r["epoch"], r["serial"])
+            assert acquired and len(acquired) == len(released)
+            assert len(set(map(identity, released))) == len(released)
+            assert set(map(identity, acquired)) == set(map(identity, released))
+            collected = [r for r in rows if r["event"] == "prefetch_collected"
+                         and r["request_id"] == request_id]
+            assert len(collected) == 1 and collected[0]["objects"] == retained
+            returned = [r["unix_time"] for r in rows if r["event"] == "io_returned" and r.get("phase") == "load" and r["unix_time"] > result["client_disconnected_unix"]]
+            assert all(r["unix_time"] >= min(returned) for r in released)
+            result["owned_audit"] = dict(original_tokens=len(acquired), retained_objects=retained,
+                                        exactly_once=True, release_after_io=True)
         if args.checked_release and not args.crash_client:
             result["checked_release_audit"] = audit_checked_release(
                 events(gate), result["client_disconnected_unix"], retained)
@@ -327,7 +375,7 @@ def main():
         final = snapshot("after_engine_stop")
         result["passed"] = (result["resource_passed"] and drained(result["after_follow_up"])
                             and drained(final) and not final["registered_gpu_ids"])
-        if args.reclaim and not args.crash_client and not result["passed"]:
+        if (args.reclaim or args.owned_service) and not result["passed"]:
             raise AssertionError("Candidate failed resource checks")
         print(json.dumps({k: result[k] for k in ("passed", "resource_passed", "outputs_equal", "external_hit_tokens")}), flush=True)
     except Exception as exc:

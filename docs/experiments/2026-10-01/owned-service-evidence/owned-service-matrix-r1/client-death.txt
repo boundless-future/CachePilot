@@ -1,0 +1,14 @@
+Starting warmup with real FS L2
+Restarting both services: L1 empty, disk KV retained
+Cancelled while L2 lookup held; allowing lookup, holding actual file read
+{"elapsed_seconds": 15, "read_locks": 17, "jobs": 1, "sessions": 1, "result": 1}
+{"elapsed_seconds": 30, "read_locks": 17, "jobs": 1, "sessions": 1, "result": 1}
+{"elapsed_seconds": 45, "read_locks": 17, "jobs": 1, "sessions": 1, "result": 1}
+{"elapsed_seconds": 60, "read_locks": 17, "jobs": 1, "sessions": 1, "result": 1}
+{"elapsed_seconds": 75, "read_locks": 17, "jobs": 1, "sessions": 1, "result": 1}
+{"elapsed_seconds": 90, "read_locks": 17, "jobs": 1, "sessions": 1, "result": 1}
+{"elapsed_seconds": 105, "read_locks": 17, "jobs": 1, "sessions": 1, "result": 1}
+{"elapsed_seconds": 120, "read_locks": 0, "jobs": 0, "sessions": 0, "result": 0}
+{"elapsed_seconds": 135, "read_locks": 0, "jobs": 0, "sessions": 0, "result": 0}
+{"elapsed_seconds": 150, "read_locks": 0, "jobs": 0, "sessions": 0, "result": 0}
+{"passed": true, "resource_passed": true, "outputs_equal": true, "external_hit_tokens": 4352.0}

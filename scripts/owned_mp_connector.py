@@ -33,7 +33,7 @@ class OwnedMPConnector(LMCacheMPConnector):
             return
         path = Path(directory)
         path.mkdir(parents=True, exist_ok=True)
-        row = dict(event=event, pid=os.getpid(), monotonic_ns=time.monotonic_ns(),
+        row = dict(event=event, pid=os.getpid(), monotonic_ns=time.monotonic_ns(), unix_time=time.time(),
                    **fields)
         with (path / f"owned-connector-{os.getpid()}.jsonl").open("a") as stream:
             stream.write(json.dumps(row, sort_keys=True) + "\n")

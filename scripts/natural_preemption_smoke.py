@@ -65,6 +65,35 @@ def audit_receipts(rows):
     return dict(released_pin_references=released, orphaned_receipts=orphaned)
 
 
+def audit_owned_copy_windows(rows, expected_copies):
+    copies = [r for r in rows if r["event"] == "diagnostic_copy_enqueued"]
+    assert len(copies) == expected_copies
+    windows = []
+    for copy in copies:
+        assert copy["host_exception"] is False and copy["kind"] == "store"
+        terminals = [r for r in rows if r["event"] == "transfer_retired"
+            and r["request_id"] == copy["request_id"] and r["sequence"] == copy["sequence"]
+            and r["kind"] == copy["kind"]]
+        assert len(terminals) == 1 and terminals[0]["succeeded"]
+        terminal = terminals[0]
+        seen = [r for r in rows if r["event"] == "terminal_seen"
+            and r["request_id"] == copy["request_id"] and r["sequence"] == copy["sequence"]
+            and r["kind"] == copy["kind"]]
+        assert len(seen) == 1
+        native = seen[0]
+        assert copy["monotonic_ns"] < native["monotonic_ns"] < terminal["monotonic_ns"]
+        pending = [r for r in rows if r["event"] == "preempt_before"
+            and copy["request_id"].split(":", 4)[4] == r["request_id"]
+            and copy["monotonic_ns"] < r["monotonic_ns"] < native["monotonic_ns"]
+            and r["store_inflight"]]
+        windows.append(dict(request_id=copy["request_id"], sequence=copy["sequence"],
+            copy_enqueued_ns=copy["monotonic_ns"], native_terminal_seen_ns=native["monotonic_ns"],
+            terminal_retired_ns=terminal["monotonic_ns"],
+            preemptions_ns=[r["monotonic_ns"] for r in pending]))
+    assert any(w["preemptions_ns"] for w in windows), "No natural preemption inside the pending terminal window"
+    return windows
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, required=True)
@@ -72,20 +101,33 @@ def main():
     parser.add_argument("--decode-tokens", type=int, default=2048)
     parser.add_argument("--prompt-tokens", type=int, default=1536)
     parser.add_argument("--kv-bytes", type=int, default=1073741824)
+    parser.add_argument("--max-model-len", type=int, default=4096)
     parser.add_argument("--receipt-delay", type=float, default=0)
     parser.add_argument("--observe-after-stop", type=float, default=0)
     parser.add_argument("--kv-probe", action="store_true")
+    parser.add_argument("--owned-service", action="store_true")
+    parser.add_argument("--early-store", action="store_true")
+    parser.add_argument("--terminal-hold-transfers", type=int, default=3)
+    parser.add_argument("--terminal-hold-cycles", type=int, default=10_000_000_000)
     args = parser.parse_args()
     if not 0 <= args.receipt_delay <= 30:
         parser.error("Receipt delay must be in [0,30]")
     if args.kv_probe and args.receipt_delay <= 0:
         parser.error("KV probe uses a positive controlled receipt delay")
+    if args.owned_service and not args.kv_probe:
+        parser.error("Owned service preemption requires the whole-chunk KV probe")
+    if args.early_store and not args.owned_service:
+        parser.error("Early STORE diagnostic requires owned service")
+    if not 1 <= args.terminal_hold_transfers <= 3:
+        parser.error("Terminal hold transfer count must be in [1,3]")
+    if not 0 < args.terminal_hold_cycles <= 40_000_000_000:
+        parser.error("Terminal hold cycles must be in (0,40000000000]")
     if not 0 <= args.observe_after_stop <= 900:
         parser.error("Post-stop observation must be in [0,900]")
     if not 2 <= args.requests <= 16 or not 32 <= args.decode_tokens <= 3072 or not 32 <= args.prompt_tokens <= 2048:
         parser.error("Experiment counts outside bounded range")
-    if args.decode_tokens + args.prompt_tokens > 4096:
-        parser.error("Prompt + decode must fit 4096 tokens")
+    if not args.decode_tokens + args.prompt_tokens <= args.max_model_len <= 4096:
+        parser.error("Prompt + decode must fit max-model-len, bounded at 4096")
     for port in (8000, 8080, 5555):
         with socket.socket() as sock:
             if sock.connect_ex(("127.0.0.1", port)) == 0:
@@ -112,10 +154,20 @@ def main():
     if args.kv_probe:
         mode = "preemption-kv-probe"
         os.environ["CACHEPILOT_PROBE_DIR"] = str(out / "probe")
+    if args.owned_service:
+        mode = "owned-service-preemption"
+        if args.early_store:
+            mode = "owned-service-preemption-deadline"
+        os.environ.update(CACHEPILOT_OWNED_SERVICE_DIR=str(directory),
+            CACHEPILOT_OWNED_MP_DIR=str(directory), CACHEPILOT_OWNED_FAULT_KIND="store",
+            CACHEPILOT_OWNED_HOLD_CYCLES=str(args.terminal_hold_cycles), CACHEPILOT_OWNED_HOST_EXCEPTION="0",
+            CACHEPILOT_OWNED_HOLD_TRANSFERS=str(args.terminal_hold_transfers))
+        (directory / "armed-transfer").touch()
     engine = Service(["bash", str(ROOT / "scripts/serve.sh"), mode, "--enforce-eager",
-                      "--max-model-len", "4096", "--max-num-batched-tokens", "2048"], out / "vllm.log")
+                      "--max-model-len", str(args.max_model_len), "--max-num-batched-tokens", "2048"], out / "vllm.log")
     result = dict(passed=False, injection="receipt observation delay; capacity pressure" if args.receipt_delay else "none; capacity pressure", requests=args.requests,
         prompt_tokens=args.prompt_tokens, decode_tokens=args.decode_tokens, kv_bytes=args.kv_bytes,
+        max_model_len=args.max_model_len,
         connector="LateStoreReceiptConnector" if args.receipt_delay else "PreemptionConnector",
         receipt_delay_seconds=args.receipt_delay, eager=True, output_equivalence_test=False,
         observe_after_stop_seconds=args.observe_after_stop,
@@ -123,6 +175,13 @@ def main():
     result["kv_probe_enabled"] = args.kv_probe
     if args.kv_probe:
         result["connector"] = "PreemptionKVProbeConnector"
+    if args.owned_service:
+        result["connector"] = "OwnedServicePreemptionConnector"
+        result["injection"] = "hold CUDA terminal after real STORE copy submission; receipt observation delay; natural capacity pressure"
+        result["literal_dma_interruption"] = False
+        result["terminal_hold_transfers"] = args.terminal_hold_transfers
+        result["terminal_hold_cycles"] = args.terminal_hold_cycles
+        result["max_deferral_seconds"] = 0.05 if args.early_store else None
 
     def send(index):
         started = time.monotonic()
@@ -150,6 +209,14 @@ def main():
         time.sleep(1)
         result["lifecycle"] = audit(events(directory), args.requests)
         result["receipt_audit"] = audit_receipts(events(directory))
+        if args.owned_service:
+            rows = events(directory)
+            windows = audit_owned_copy_windows(rows, args.terminal_hold_transfers)
+            result["owned_copy_windows"] = windows
+            count = sum(len(w["preemptions_ns"]) for w in windows)
+            result["owned_copy_window"] = dict(preemptions=count,
+                original_source_retained=True, pending_native_terminal=True,
+                copy_execution_overlap_proven=False, literal_dma_interruption=False)
         if args.receipt_delay:
             rows = events(directory)
             held = [r for r in rows if r["event"] == "store_receipt_held"]

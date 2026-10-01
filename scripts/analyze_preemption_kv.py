@@ -3,6 +3,10 @@ from analyze_kv_probe import summarize_probe
 
 
 def audit_probe_sources(probe_rows, lifecycle_rows):
+    # Layout records share the KV JSONL but contain no chunk or byte comparison.
+    phases = {"worker_layout", "before_store", "after_retrieve"}
+    assert all(r["phase"] in phases for r in probe_rows), "Unexpected KV probe phase"
+    probe_rows = [r for r in probe_rows if r["phase"] != "worker_layout"]
     summary = summarize_probe(probe_rows)
     receipts = sorted((r for r in lifecycle_rows if r["event"] == "scheduler_receipt_before"),
                       key=lambda r: r["monotonic_ns"])

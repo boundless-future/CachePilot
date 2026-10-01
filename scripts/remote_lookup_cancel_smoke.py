@@ -31,6 +31,7 @@ def cache_state(api):
         reclaim_completed_jobs=state.get("reclaim_completed_jobs", 0),
         reclaim_key_snapshots=state.get("reclaim_key_snapshots", 0),
         completed_results_count=state["storage_manager"]["prefetch_controller"]["completed_results_count"],
+        **{name: value for name, value in state.items() if name.startswith("owned_")},
     )
 
 

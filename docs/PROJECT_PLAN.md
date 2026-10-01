@@ -6,7 +6,7 @@
 
 ## 1. 项目目标与边界
 
-CachePilot 研究多轮 Agent 推理中的 KV Cache 跨 GPU/CPU 管理策略。它接入 vLLM 与 LMCache，负责在已有 KV 数据通路上做卸载决策；它不是新的推理服务，也不重新实现 vLLM scheduler 或 LMCache 的传输生命周期。
+CachePilot 研究多轮 Agent 推理中的 KV Cache 跨 GPU/CPU 管理策略。它接入 vLLM 与 LMCache，负责在已有 KV 数据通路上做卸载决策。策略本身不拥有传输生命周期；开发中另增加 opt-in 所有权适配器，作为阶段 3B 的实验前置支线，复用真实 LMCache allocator/controller/native copy，并约束获取、终结和关闭。该适配器只绑定固定版本，尚不是上游最小生产补丁。
 
 原始计划要回答一个可验证的问题：
 
@@ -71,7 +71,7 @@ CachePilot 研究多轮 Agent 推理中的 KV Cache 跨 GPU/CPU 管理策略。�
 | LMCache MP server | CPU/其他存储层的 KV 保存和传输 |
 | 指标采集模块 | 合并 vLLM、LMCache、客户端和 GPU 观测，生成实验结果 |
 
-CachePilot 不直接操作底层 GPU block，也不绕过 manager 的引用和完成语义。策略输出应是 manager 能执行的候选集合或预算参数。
+策略输出是候选集合或预算参数，不直接调用底层 GPU kernel。3C 的 integration adapter 必须在 scheduler owner 串行边界执行候选复核、合法 BlockPool pin 和 metadata 交接；已经交给 worker 的 pin 必须等原批次回执才能解除。不能把 CPU harness 直接装进 allocator callback，也不能绕过 manager 的引用和完成语义。所有权适配器与策略独立开关，对照双方使用相同数据通路。
 
 ### 2.2 接入方式
 
@@ -168,7 +168,7 @@ CachePilot/
 
 阶段结论：`compute_slots` 不是异步回载物理分配上界；lookup 状态有一定区分度但误报仍多，当前不足以直接驱动提前 pin 或准入阻塞。因此保留诊断和 allocation 作为消融，不把它们伪装成最终策略。
 
-### 阶段 3B：生命周期与资源安全门槛（进行中；候选受控 L1/L2 通过，完整资源门槛未通过）
+### 阶段 3B：生命周期与资源安全门槛（受控 3C 准入通过；生产完整门槛仍开放）
 
 这条支线由策略设计中的风险暴露出来，必须先于保护策略。已完成真实 LMCache registry/policy 的 fake worker 契约测试，覆盖 reset、迟到 receipt、保存失败、request-id 重用、单请求单在途 STORE 和 pending suffix 清理；已完成一次客户端断流 smoke。等待期取消已由诊断 Connector 验证 block 与完成通知闭合，见 [等待期取消](experiments/2026-09-27/ASYNC_RETRIEVE_CANCELLATION.md)。显式抢占在关闭异步调度的对照下通过；默认异步调度的 reset API 返回 500，但请求恢复和资源清理通过，见 [显式抢占](experiments/2026-09-27/EXPLICIT_PREEMPTION.md)。成功回载后模拟 worker 失败结果的诊断确认错误 block、scheduler 重算、输出和资源清理闭合，见 [异步回载失败](experiments/2026-09-27/ASYNC_RETRIEVE_FAILURE.md)。成功 STORE 后模拟失败回执的诊断确认 worker/scheduler 回执、pin/unpin 和资源闭合，见 [STORE 失败回执](experiments/2026-09-27/STORE_FAILURE.md)。进一步以 block ID 不足触发 MP server 拒绝 STORE，验证了原始 `false` future、失败回执和重启后的零外部命中，见 [server 拒绝 STORE](experiments/2026-09-27/SERVER_REJECTED_STORE.md)。协议拒绝仍是注入故障，不覆盖自然传输/写入失败、部分写入、所有生产路径或抢占期间的在途 STORE。
 
@@ -204,24 +204,28 @@ CachePilot/
 
 随后把 request generation、实际 LOOKUP/RETRIEVE 身份与范围预检、同一 CUDA stream 的独立 native marker、BlockPool 快照接到 opt-in 正式 MP server/Connector。真实正常回载 1536 tokens，非法短 block 在 copy 前拒绝并由 vLLM 重算 272 block；两轮结束后 BlockPool 都回到 909 free、无 tracked ref/deferred free，LMCache 读锁/job 和退出后的 GPU 注册归零；显式 CUDA 完整回归405通过，见 [正式服务桥接](experiments/2026-10-01/OWNED_MP_INTEGRATION.md)。这是正式链路的局部验证，尚未用独立原型的原 reservation/lease/ticket 替换匿名锁和 key-only callback，也未证明所有故障和失联路径。阶段3B继续进行，3C GPU策略消融仍受完整资源门槛约束。
 
-尚需使用真实 vLLM/LMCache 服务补齐：
+上述段落是各历史检查点的结论。最新进展：已将获取点的原 reservation/pin、L2 controller、版本化 transfer terminal、无 END 客户端心跳过期及关闭门槛接入实际 MP 服务。八个受控矩阵场景在 r2/r3 分别通过，缺 STORE/RETRIEVE terminal 的负例保留原 buffer 并拒绝关闭；自然抢占 r8/r9 各 4 次、其中各 2 次落在指定 STORE 原生终结等待窗口内，各 432 层回载 KV bitwise 相同，原 token、job、terminal 和最终 BlockPool 审计通过。最终源码 CUDA 回归 438 passed、115 subtests；证据和失败轮见 [实际服务报告](experiments/2026-10-01/OWNED_SERVICE.md)。
 
-- 原生 Connector 异步 lookup 等待期取消的 server 侧时序及受控 L1/FS L2 回收候选已经验证（L2 两轮通过、一轮关闭候选失败对照，见 [L2 报告](experiments/2026-09-30/L2_PREFETCH_CANCELLATION.md)）；仍需 END_SESSION/LOOKUP 乱序、无 END_SESSION、永久不完成的 controller、关闭时 unresolved job 的修复与期望不变量回归，不能以受控 L1/L2 结果替代整体验收；
+**本轮明确修订准入范围**：此前把全部生产故障路径作为任何 GPU 策略接入的前提；现在允许在 eager、TP=1、单 full-attention group、隔离实例和逐轮资源审计条件下开始 3C。每轮必须验证 KV 内容和资源终态；未知终结、资源残留或关闭被拒绝时停止该轮，完整实例重建，不能强行释放。准入只允许先实施零保护预算交接，然后最多两个完整 chunk 的小预算验证，不能直接进入长期运行或性能结论。
+
+30 秒回执延迟的自然抢占 r6 仍失败：GPU pin 已清零，但两个空 LOOKUP owner 直到服务关闭才回收。固定 manager 的零 token 步不 drain、pending suffix 会阻止 END，与此现象相容，尚未唯一确定根因。r8/r9 的 5 秒延迟通过不消除该失败；长延迟/空闲收尾属于未支持压力边界，3C 每轮须检查 owner/job 而非只看 free block。完整生产门槛继续开放，尚需补齐：
+
+- opt-in 栈的无 END 死亡已由心跳过期回收；乱序 sequence 保守拒绝，缺 terminal 或长时间持有的 controller 拒绝关闭。仍需永久 I/O 的自动恢复、重启边界以外的恢复能力，以及保守拒绝对长期合法乱序请求的影响，不能以受控场景替代生产整体验收；
 - 自然容量抢占与受控迟到STORE回执已完成多轮资源审计及退出TTL观察，见 [自然抢占](experiments/2026-09-30/NATURAL_PREEMPTION.md)；取消持有回执两轮通过且退出TTL归零，见 [取消迟到回执](experiments/2026-09-30/CANCEL_HELD_STORE.md)。自然抢占后实际回载首轮1440层比较全部相等，严格关联1个无中间STORE的orphan源chunk，见 [KV内容](experiments/2026-09-30/PREEMPTION_KV_INTEGRITY.md)。仍需DMA执行期间抢占、更广decode KV与输出正确性验证；
 - 异步调度下 reset API 与 deferred block free 的时序限制；
 - 真正的远端异步 lookup/传输中止；受控暂停不等同于自然 I/O 故障；
 - 未修改 Connector 下的远端回载失败和资源释放；非法 block ID underflow 已发现读锁残留，不能作为这项验收通过的证据；
 - 自然 I/O 故障或部分写入下的 worker 保存失败及其 scheduler 回执；成功写入后的模拟失败回执和 server 协议拒绝的原始失败 future 已分别验证。
 
-只有这些路径的 generation、GPU block 释放、CPU 锁/job、pin/unpin、STORE receipt 和最终请求状态可解释，才进入阶段 3C 的 GPU 接入与消融；不接 GPU 的 fake worker 状态机可独立推进。
+上述未覆盖项仍是扩大运行范围与生产恢复的前置条件。它们不再阻塞限定范围的 3C 零预算接入；已通过的基础服务验证不能替代 3C 新增保护 pin、metadata 和 receipt 的正确性验收。自然终结等待窗口不等于硬件 DMA 执行期中断。
 
-### 阶段 3C：最终 CachePilot 策略原型（CPU 状态机已开始；GPU 未接入）
+### 阶段 3C：最终 CachePilot 策略原型（CPU 契约完成；受控 GPU 接入可开工）
 
 首版纯 Python 状态机已完成预算回退、前缀闭合、身份复核和取消/回执所有权测试，见 [PROTECTION_STATE_MACHINE.md](experiments/2026-09-30/PROTECTION_STATE_MACHINE.md)。除简化模型外，已新增 16:1 物理 block/chunk 分组模型和七项测试。它们使用需求与身份oracle；后续已接真实库的CPU对象契约，但尚无运行在真实scheduler里的adapter，不能代替GPU接入或收益验证。
 
 随后增加真实 vLLM BlockPool 的 CPU 元数据桥接八项测试和同 request-id 跨代单在途模式；这未安装进 scheduler，也不包含 CUDA tensor。随后增加真实token ledger的两条hash链证明（6项测试）及实际LMCache STORE metadata的CPU交接契约（7项测试）。接入所需的hash来源、零计算步回滚、回执身份和部分保存边界已写入 [adapter 契约](PROTECTION_ADAPTER_CONTRACT.md)。
 
-这是当前项目的核心策略实现，不等同于已经完成的 adaptive horizon。先做不接 GPU 的 fake worker/state machine；阶段 3B 资源门槛通过后，再接入外部 Connector 做可回滚消融，步骤固定为：
+这是当前项目的核心策略实现，不等同于已经完成的 adaptive horizon。按 [3C 开工顺序](3C_GPU_ENTRY.md)，先实现零保护预算的外部 ProtectionConnector，使用同一所有权栈上的默认 EVICTION_AWARE 作对照，确认真实交接且无额外 pin/STORE；之后最多两个 chunk 的小预算验收，正确性通过才关闭诊断日志做重复消融。保护实现步骤为：
 
 1. 定义准入前需求预算和保护预算，避免把所有 waiting 请求都当成近期风险；
 2. 选择候选 KV，执行 hash revalidation 和 prefix closure；
@@ -249,10 +253,12 @@ CachePilot/
 | 自适应 horizon | 原计划预期它是第一版机制 | 三次重复未证明收益，保留为探索性对照 | 最终策略改为准入前保护研究 |
 | 异步分配与压力信号错位 | `dropped_evicted` 与 allocator 分配时序不一致 | 确认是 policy 观测语义错位，不是 vLLM 漏分配；allocation 仅作消融 | 新增信号诊断和上游候选问题记录 |
 | 准入前需求观测 | 事后修正信号无法挽救已被覆盖的 KV | `compute_slots` 低估，lookup 信号误报较多，暂不保护 | 增加阶段 3A，阻止过早实现 pin |
-| 生命周期与取消 | 保护策略会改变在途 STORE 和资源释放时序 | registry 契约及若干诊断路径通过；非法 RETRIEVE 输入留下 17 个读锁，原生 Connector 受控 lookup 取消也三次残留 17 个读锁、r3 另有 1 个 job；自然 I/O/部分写入等仍待补 | 增加阶段 3B；GPU 保护门槛未通过，fake worker 状态机可独立推进 |
+| 生命周期与取消 | 保护策略会改变在途 STORE 和资源释放时序 | 历史原生路径失败保留；opt-in 原 token/native terminal 实际服务八场景、自然抢占两轮及 KV 审计通过 | 受控单卡 3C 可开工；生产完整门槛、长延迟空闲收尾仍开放 |
 | RETRIEVE underflow 读锁 | 诊断 Connector 故意提交空 block ID 列表，MP server 返回原始 `false` | 两次复现，第二次确认注入前 0、目标后及 vLLM 退出后均为 17；正常 Connector 是否可能触发尚无证据 | 独立保存上游候选问题，项目收尾时核查版本、最小修复和回归测试；不外推至自然故障 |
 | 原生 lookup 取消后资源残留 | 受控暂停 MP server 时断开等待 lookup 的客户端 | 三次未修改 server 复现 17 个读锁，r3 有 1 个 job；两轮候选 server 的受控 L1 复测逐对象释放 17 个锁且 job 清零 | 真实 FS L2 受控取消两轮候选通过、一轮对照失败；继续验证协议乱序、无 END_SESSION、自然故障和最小补丁；GPU 保护仍受 3B 门槛约束 |
 | 上游修复评估 | 发现可能有可复现的压力信号缺口 | 已单独记录复现、影响和 PR 条件 | 延后到阶段 5，不阻塞项目主线 |
+| STORE 合并丢身份 | 新 wire 协议的多 chunk lazy STORE 得到 HTTP 500 | opt-in coalesce 校验并保留获取时 configs，六项协议测试及两轮抢占通过 | 新协议兼容问题，不能外推为原生 LMCache 缺陷 |
+| 回执长延迟与空闲收尾 | r6 在 30 秒受控回执延迟下留下两个空 owner | pin/transfer 清零、关闭时回收；根因待进一步确认，失败证据保留 | 隔离实例逐轮 owner/job 审计；扩大长期运行范围前必须处理 |
 
 ## 6. 实验模型与数据
 
@@ -312,9 +318,9 @@ Trace 回放评估的是推理系统在同一请求负载下的行为，不评�
 
 原计划中的环境确认已经完成并固化在 `docs/ENVIRONMENT.md`。当前剩余事项按阻塞关系排列：
 
-1. 针对原生 Connector 的受控 lookup 取消资源失败，客户端/server 时序、上游范围对照和纯 Python 模型已完成；固定版真实 `LookupModule` 的可选回收候选在两轮原生 Connector + 候选 server 的受控 L1 复测中使 17 个对象锁和 job 归零，见 [LOOKUP_RECLAIM_CANDIDATE.md](experiments/2026-09-27/LOOKUP_RECLAIM_CANDIDATE.md)。真实 FS L2 在途 prefetch 已完成两轮候选通过及一轮关闭候选失败对照，见 [L2 报告](experiments/2026-09-30/L2_PREFETCH_CANCELLATION.md)。当前已补顺序等待/短读、无END死亡对照、可取消controller关闭、L2真实EFBIG、自然抢占/迟到回执和session TTL；仍以无END死亡的job/result所有权为主要缺口，详见 [协议约束](LOOKUP_OWNERSHIP_PROTOCOL.md)。下一步实现可维护的最小所有权补丁，另补真实传输中止、worker层写入失败、DMA执行期抢占与内容正确性。候选受控 L1/L2 通过不等于阶段 3B 通过；RETRIEVE underflow 的读锁残留保留为独立候选问题，异步 reset API 与 session TTL 单列复核；
+1. 开始 3C 零保护预算的真实 Connector 交接，复用已通过受控门槛的所有权栈，验证无新增 pin/STORE、真实 metadata/receipt 以及资源闭合，再开启最多两个 chunk 的保护预算。见 [当前验收矩阵](experiments/2026-10-01/VALIDATION_MATRIX.md) 和 [开工顺序](3C_GPU_ENTRY.md)；
 2. 继续补齐 P2 的长 prefill、稳定 decode、容量扫描和 DMA/排队/重算分解；
-3. 与资源排查并行，阶段3C已完成fake worker状态机、真实BlockPool/hash及STORE metadata的CPU契约；继续核对真实scheduler/worker交接边界；只有生命周期门槛通过后才进行小规模 GPU 消融；
+3. 继续记录 3B 支线限制：30 秒回执延迟的空闲 owner 收尾、真实 driver fault、永久 I/O 的自动恢复、L2 不确定提交异常的实机注入及可维护上游最小补丁。隔离研究实例可开始 3C；这些事项未完成，不能扩大为生产安全结论；
 4. 固定最终对照矩阵和验证 trace，重复运行并保留退化案例；
 5. 使用 Qwen3-8B + RTX 5090 32GB 做扩展复核；
 6. 在已拆分编译/CUDA Graph 的基础上定位剩余输出差异，扩展异步 decode 正确性边界；

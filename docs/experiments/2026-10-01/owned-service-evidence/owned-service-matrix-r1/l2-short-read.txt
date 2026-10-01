@@ -1,0 +1,10 @@
+Starting warmup with real FS L2
+Restarting both services: L1 empty, disk KV retained
+Cancelled while L2 lookup held; allowing lookup, holding actual file read
+Traceback (most recent call last):
+  File "/root/CachePilot/scripts/l2_prefetch_cancel_smoke.py", line 394, in <module>
+    main()
+  File "/root/CachePilot/scripts/l2_prefetch_cancel_smoke.py", line 361, in main
+    assert len(acquired) == len(released) == retained
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

@@ -11,6 +11,9 @@ case "$MODE" in
   baseline) CONNECTOR_ARGS=() ;;
   immediate) CONFIG=lmcache-0.5.5-retrieve.json ;;
   owned-mp) CONFIG=owned-mp.json ;;
+  owned-service) CONFIG=owned-service.json ;;
+  owned-service-preemption) CONFIG=owned-service-preemption.json ;;
+  owned-service-preemption-deadline) CONFIG=owned-service-preemption-deadline.json ;;
   owned-server-reject) CONFIG=owned-server-reject.json ;;
   fifo) CONFIG=lmcache-0.5.5-smoke.json ;;
   eviction) CONFIG=baseline-kv-transfer.json ;;
