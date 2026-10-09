@@ -1,0 +1,382 @@
+[
+  {
+    "passed": true,
+    "mode": "two",
+    "eager": true,
+    "artificial_hold": false,
+    "protection_budget": 2,
+    "bounded_workload": true,
+    "receipt_probe": "failed-after-success",
+    "recovery_traffic": true,
+    "before_restore": {
+      "is_healthy": true,
+      "active_sessions": 0,
+      "registered_gpu_ids": [
+        2323123061377071459
+      ],
+      "l1_read_locked": 0,
+      "l1_write_locked": 0,
+      "store_pending": 0,
+      "store_in_flight": 0,
+      "prefetch_in_flight": 0,
+      "prefetch_pending": 0,
+      "prefetch_lookup": 0,
+      "prefetch_load": 0,
+      "write_ttl_seconds": 600,
+      "read_ttl_seconds": 300,
+      "active_prefetch_jobs": 0,
+      "abandoned_prefetch_jobs": 0,
+      "reclaim_failed_jobs": 0,
+      "reclaim_completed_jobs": 0,
+      "reclaim_key_snapshots": 0,
+      "completed_results_count": 0,
+      "owned_jobs": 0,
+      "owned_controller_jobs": 0,
+      "owned_transfers": 0,
+      "owned_clients": 1,
+      "owned_deferred_contexts": 0,
+      "owned_store_batches": 0,
+      "owned_failed": 0,
+      "owned_read_pins": 0
+    },
+    "external_hit_tokens": 512.0,
+    "gpu_hit_tokens": 0.0,
+    "running_final": {
+      "is_healthy": true,
+      "active_sessions": 0,
+      "registered_gpu_ids": [
+        2323123061377071459
+      ],
+      "l1_read_locked": 0,
+      "l1_write_locked": 0,
+      "store_pending": 0,
+      "store_in_flight": 0,
+      "prefetch_in_flight": 0,
+      "prefetch_pending": 0,
+      "prefetch_lookup": 0,
+      "prefetch_load": 0,
+      "write_ttl_seconds": 600,
+      "read_ttl_seconds": 300,
+      "active_prefetch_jobs": 0,
+      "abandoned_prefetch_jobs": 0,
+      "reclaim_failed_jobs": 0,
+      "reclaim_completed_jobs": 0,
+      "reclaim_key_snapshots": 0,
+      "completed_results_count": 0,
+      "owned_jobs": 0,
+      "owned_controller_jobs": 0,
+      "owned_transfers": 0,
+      "owned_clients": 1,
+      "owned_deferred_contexts": 0,
+      "owned_store_batches": 0,
+      "owned_failed": 0,
+      "owned_read_pins": 0
+    },
+    "after_engine_stop": {
+      "is_healthy": true,
+      "active_sessions": 0,
+      "registered_gpu_ids": [],
+      "l1_read_locked": 0,
+      "l1_write_locked": 0,
+      "store_pending": 0,
+      "store_in_flight": 0,
+      "prefetch_in_flight": 0,
+      "prefetch_pending": 0,
+      "prefetch_lookup": 0,
+      "prefetch_load": 0,
+      "write_ttl_seconds": 600,
+      "read_ttl_seconds": 300,
+      "active_prefetch_jobs": 0,
+      "abandoned_prefetch_jobs": 0,
+      "reclaim_failed_jobs": 0,
+      "reclaim_completed_jobs": 0,
+      "reclaim_key_snapshots": 0,
+      "completed_results_count": 0,
+      "owned_jobs": 0,
+      "owned_controller_jobs": 0,
+      "owned_transfers": 0,
+      "owned_clients": 1,
+      "owned_deferred_contexts": 0,
+      "owned_store_batches": 0,
+      "owned_failed": 0,
+      "owned_read_pins": 0
+    },
+    "ownership": {
+      "passed": true,
+      "service_processes": 1,
+      "original_tokens": 26,
+      "dispositions": {
+        "RELEASED": 26
+      },
+      "transfer_terminals": 26,
+      "final_free_blocks": {
+        "owned-connector-7312.jsonl": 909
+      },
+      "exactly_once": true,
+      "native_terminal_before_release": true
+    },
+    "handoff": {
+      "passed": true,
+      "batches": 14,
+      "default_batches": 5,
+      "failed_batches": 1,
+      "bypass_decisions": 0,
+      "added_protection_stores": 9,
+      "acquired_protection_pins": 864,
+      "store_signatures": [
+        {
+          "prefix_sha256": "0f611dceb4f99c68dd06ff55094a0392ccd14a23227e5870fec357517fedd89a",
+          "start": 0,
+          "end": 512,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "1b0b5c3908c9c5b875abe0033bd9b34159293733a4c479696e2fe6e796d7c671",
+          "start": 0,
+          "end": 512,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "1eb756f90ac14a670f0c9c62c2c5744607fc6c445bb79c7efdd51dc31e9e56b2",
+          "start": 0,
+          "end": 512,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "20896468b43e7e0999afbdeaea5f749b9b5ae086156394e2457bcd941e0a9f5b",
+          "start": 0,
+          "end": 512,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "215449fb7b5c5d6ceba19f104ee80d7def3dbfd75824feeb1baa1022be685a0c",
+          "start": 0,
+          "end": 512,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "5446426a5353687ce800c6c0a26995b7a6715e92cd120c79dd1a571b5c5e312e",
+          "start": 0,
+          "end": 512,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "a2583134dd0248d93b891d4a66ea704c7f958d3790b4539698f0c6f10bc553c3",
+          "start": 0,
+          "end": 512,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "ab9cb5aa99edb61810f1ec780d4a3c9217f1f4dfe70aef0fdf7b05508d6ed4bb",
+          "start": 0,
+          "end": 512,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "aba87b1daaa42b6001084cfe206c49c9ca1f1e85ee50aaa6bf524f5cb2921c2d",
+          "start": 0,
+          "end": 512,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "bb201d95a79867159f402cf98bd081f7bbd6cdf86f6443aa4cdf7923c68b6d03",
+          "start": 0,
+          "end": 512,
+          "count": 2
+        },
+        {
+          "prefix_sha256": "d861ea26c69a6907d0043ee72834dc1d35420ded4c5240ba0f46917410872ad0",
+          "start": 0,
+          "end": 512,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "e30d48b3f7f7e20737d579c53edd2a5438393f45d799c0f5dbe818161efddc4d",
+          "start": 0,
+          "end": 512,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "f42723c781d6b7ed3e94e2c8ac55d67be721a1d11a6d764624dc0d6b92b8b3d3",
+          "start": 0,
+          "end": 512,
+          "count": 1
+        }
+      ]
+    },
+    "protection": {
+      "passed": true,
+      "protection_stores": 9,
+      "peak_protection_blocks": 32,
+      "observed_allocations": 9,
+      "rollbacks": 18,
+      "final_owned_pins": 0
+    },
+    "kv": {
+      "counts": {
+        "worker_layout_chunks": 1,
+        "before_store_chunks": 28,
+        "after_retrieve_chunks": 24,
+        "retrieved_layers": 864,
+        "equal_layers": 864
+      },
+      "missing_references": [],
+      "unequal_layers": [],
+      "covered_and_equal": true
+    },
+    "protected_prefixes_retrieved": [
+      "1b0b5c3908c9c5b875abe0033bd9b34159293733a4c479696e2fe6e796d7c671",
+      "20896468b43e7e0999afbdeaea5f749b9b5ae086156394e2457bcd941e0a9f5b",
+      "5446426a5353687ce800c6c0a26995b7a6715e92cd120c79dd1a571b5c5e312e",
+      "a2583134dd0248d93b891d4a66ea704c7f958d3790b4539698f0c6f10bc553c3",
+      "bb201d95a79867159f402cf98bd081f7bbd6cdf86f6443aa4cdf7923c68b6d03",
+      "d861ea26c69a6907d0043ee72834dc1d35420ded4c5240ba0f46917410872ad0",
+      "f42723c781d6b7ed3e94e2c8ac55d67be721a1d11a6d764624dc0d6b92b8b3d3"
+    ],
+    "protected_prefixes_not_retrieved": [
+      "ab9cb5aa99edb61810f1ec780d4a3c9217f1f4dfe70aef0fdf7b05508d6ed4bb"
+    ],
+    "strict_protected_sources": {
+      "passed": true,
+      "strict_chunks": 14,
+      "strict_equal_layers": 504,
+      "covered_batches": 7,
+      "protected_batches": 9,
+      "kv_bytes_per_block": 2359296,
+      "submitted_payload_bytes": {
+        "store": 1056964608,
+        "retrieve": 905969664
+      },
+      "strict_sources": [
+        {
+          "batch_id": "cp1:4544943108767472325:2:fb19e3baeaf00f65dd3cab2cfd6cc12b:cmpl-b167b3bb13092013-0-bde506e3:13",
+          "token_prefix_sha256": "af0410b3d1ec706503a740b1abde2bc4e226fcc154b64cc406b3e0c5cff3ae98",
+          "start": 0,
+          "end": 256,
+          "equal_layers": 36,
+          "store_sequence": 13
+        },
+        {
+          "batch_id": "cp1:4544943108767472325:2:fb19e3baeaf00f65dd3cab2cfd6cc12b:cmpl-b167b3bb13092013-0-bde506e3:13",
+          "token_prefix_sha256": "bb201d95a79867159f402cf98bd081f7bbd6cdf86f6443aa4cdf7923c68b6d03",
+          "start": 256,
+          "end": 512,
+          "equal_layers": 36,
+          "store_sequence": 13
+        },
+        {
+          "batch_id": "cp1:4544943108767472325:4:a49ce1dcc3604276444b17aaeb214c2c:cmpl-8465d44155f5adaa-0-9ef0172e:3",
+          "token_prefix_sha256": "8fd9f18c654df1d3c3a2a6545a98a2a042d3fdbd1a744bbe31d0c94146d1f827",
+          "start": 0,
+          "end": 256,
+          "equal_layers": 36,
+          "store_sequence": 3
+        },
+        {
+          "batch_id": "cp1:4544943108767472325:4:a49ce1dcc3604276444b17aaeb214c2c:cmpl-8465d44155f5adaa-0-9ef0172e:3",
+          "token_prefix_sha256": "d861ea26c69a6907d0043ee72834dc1d35420ded4c5240ba0f46917410872ad0",
+          "start": 256,
+          "end": 512,
+          "equal_layers": 36,
+          "store_sequence": 3
+        },
+        {
+          "batch_id": "cp1:4544943108767472325:6:9f5b771f34088986487df406aadbb76a:cmpl-8eac61fbfb448394-0-923abd67:5",
+          "token_prefix_sha256": "275c01b3e13f90c6f380584f2df3c72d615178c3d229c1f41b7ae19ed458e93c",
+          "start": 0,
+          "end": 256,
+          "equal_layers": 36,
+          "store_sequence": 5
+        },
+        {
+          "batch_id": "cp1:4544943108767472325:6:9f5b771f34088986487df406aadbb76a:cmpl-8eac61fbfb448394-0-923abd67:5",
+          "token_prefix_sha256": "1b0b5c3908c9c5b875abe0033bd9b34159293733a4c479696e2fe6e796d7c671",
+          "start": 256,
+          "end": 512,
+          "equal_layers": 36,
+          "store_sequence": 5
+        },
+        {
+          "batch_id": "cp1:4544943108767472325:8:4425c21765243b4a78f4ed5bdf916b7d:cmpl-96fd0ea8ac2bb625-0-b7bf2f47:7",
+          "token_prefix_sha256": "cbc7a7aea5c48d2264736b8a50af553fa03c041f654c19f56518a96c947d91d2",
+          "start": 0,
+          "end": 256,
+          "equal_layers": 36,
+          "store_sequence": 7
+        },
+        {
+          "batch_id": "cp1:4544943108767472325:8:4425c21765243b4a78f4ed5bdf916b7d:cmpl-96fd0ea8ac2bb625-0-b7bf2f47:7",
+          "token_prefix_sha256": "a2583134dd0248d93b891d4a66ea704c7f958d3790b4539698f0c6f10bc553c3",
+          "start": 256,
+          "end": 512,
+          "equal_layers": 36,
+          "store_sequence": 7
+        },
+        {
+          "batch_id": "cp1:4544943108767472325:10:d5ff44fc5fbb1817b072bd1bbe01f8ee:cmpl-99a04339dc23401d-0-9be15a9a:9",
+          "token_prefix_sha256": "0b6190234923c84ce232b955d5e2825942563c328fd2cd22855c72184266ebf1",
+          "start": 0,
+          "end": 256,
+          "equal_layers": 36,
+          "store_sequence": 9
+        },
+        {
+          "batch_id": "cp1:4544943108767472325:10:d5ff44fc5fbb1817b072bd1bbe01f8ee:cmpl-99a04339dc23401d-0-9be15a9a:9",
+          "token_prefix_sha256": "5446426a5353687ce800c6c0a26995b7a6715e92cd120c79dd1a571b5c5e312e",
+          "start": 256,
+          "end": 512,
+          "equal_layers": 36,
+          "store_sequence": 9
+        },
+        {
+          "batch_id": "cp1:4544943108767472325:12:2c4aaa3e987d94fb29f999ac43b540ae:cmpl-bcde541c9a94f79d-0-b3972570:11",
+          "token_prefix_sha256": "55e495a53c7308f1d4c418b81d190fa60c5d86fd021d66c60afa203784eedbaf",
+          "start": 0,
+          "end": 256,
+          "equal_layers": 36,
+          "store_sequence": 11
+        },
+        {
+          "batch_id": "cp1:4544943108767472325:12:2c4aaa3e987d94fb29f999ac43b540ae:cmpl-bcde541c9a94f79d-0-b3972570:11",
+          "token_prefix_sha256": "20896468b43e7e0999afbdeaea5f749b9b5ae086156394e2457bcd941e0a9f5b",
+          "start": 256,
+          "end": 512,
+          "equal_layers": 36,
+          "store_sequence": 11
+        },
+        {
+          "batch_id": "cp1:4544943108767472325:14:ad56ea043429e7c3bb543d210fef3b6f:cmpl-a5ce35bfc4f24407-0-a7838187:12",
+          "token_prefix_sha256": "e65510650a265a9748f8dbfd7b31dd6b2801483b7b0aaf25ddd2fc6a94ed9366",
+          "start": 0,
+          "end": 256,
+          "equal_layers": 36,
+          "store_sequence": 12
+        },
+        {
+          "batch_id": "cp1:4544943108767472325:14:ad56ea043429e7c3bb543d210fef3b6f:cmpl-a5ce35bfc4f24407-0-a7838187:12",
+          "token_prefix_sha256": "f42723c781d6b7ed3e94e2c8ac55d67be721a1d11a6d764624dc0d6b92b8b3d3",
+          "start": 256,
+          "end": 512,
+          "equal_layers": 36,
+          "store_sequence": 12
+        }
+      ],
+      "dma_bytes_after_first_target_restore": {
+        "h2d": 75497472.0,
+        "d2h": 905969664.0
+      },
+      "dma_checkpoint_scope": "Before pressure-prefix replay; not total experiment DMA"
+    },
+    "receipt_probe_audit": {
+      "passed": true,
+      "mode": "failed-after-success",
+      "batch_id": "cp1:4544943108767472325:1:a6d65840b31ab58016b6c525304723eb:cmpl-8ccf4f3fb0997db0-0-ab79ca9b:1",
+      "actual_store_succeeded": true,
+      "receipt_failed": true,
+      "delivery_delay_seconds": 0.000671652,
+      "pin_snapshot_before_receipt": true,
+      "dma_interruption_test": false
+    },
+    "requests": 508
+  }
+]

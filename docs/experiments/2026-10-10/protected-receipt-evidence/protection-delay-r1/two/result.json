@@ -1,0 +1,10 @@
+{
+  "passed": false,
+  "mode": "two",
+  "eager": true,
+  "artificial_hold": true,
+  "protection_budget": 2,
+  "bounded_workload": true,
+  "receipt_probe": "delayed",
+  "error": "RuntimeError('Running service did not drain: before-restore-status')"
+}

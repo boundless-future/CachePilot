@@ -1,0 +1,14 @@
+[two] starting
+[two] pressure complete; bounded short-request tail
+Traceback (most recent call last):
+  File "/root/CachePilot/scripts/protection_zero_smoke.py", line 200, in <module>
+    main()
+  File "/root/CachePilot/scripts/protection_zero_smoke.py", line 184, in main
+    results.append(run((args.output / mode).resolve(), mode, args.bounded_workload, args.receipt_probe))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/CachePilot/scripts/protection_zero_smoke.py", line 99, in run
+    result["before_restore"] = wait_drained("before-restore-status")
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/CachePilot/scripts/protection_zero_smoke.py", line 81, in wait_drained
+    raise RuntimeError("Running service did not drain: " + name)
+RuntimeError: Running service did not drain: before-restore-status

@@ -21,7 +21,7 @@ from remote_lookup_cancel_smoke import cache_state
 from validate_environment import ROOT, Service, API, CACHE, PROMPT, snapshot, counter, write_json
 
 
-def run(out, mode, bounded_workload=False):
+def run(out, mode, bounded_workload=False, receipt_probe=None, recovery_traffic=False):
     out.mkdir(parents=True, exist_ok=False)
     events, probe = out / "events", out / "probe"
     events.mkdir()
@@ -38,6 +38,10 @@ def run(out, mode, bounded_workload=False):
     config["kv_connector"] = "ObservedEvictionProbeConnector" if mode == "baseline" else "ProtectionProbeConnector"
     config["kv_connector_extra_config"]["cachepilot.protection.enabled"] = mode in ("zero", "two")
     config["kv_connector_extra_config"]["cachepilot.protection.max_chunks"] = 2 if mode == "two" else 0
+    if receipt_probe:
+        os.environ["CACHEPILOT_PROTECTED_RECEIPT_PROBE"] = receipt_probe
+        config["kv_connector_module_path"] = "scripts.protection_receipt_probe"
+        config["kv_connector"] = "ReceiptProbeConnector"
     write_json(out / "config.json", config)
     cache = Service(["bash", str(ROOT / "scripts/lmcache-server.sh")], out / "lmcache.log")
     engine = Service(["bash", str(ROOT / "scripts/serve.sh"), "baseline", "--enforce-eager",
@@ -45,6 +49,9 @@ def run(out, mode, bounded_workload=False):
         "--kv-transfer-config", json.dumps(config)], out / "vllm.log")
     result = dict(passed=False, mode=mode, eager=True, artificial_hold=False,
         protection_budget=2 if mode == "two" else 0, bounded_workload=bounded_workload)
+    result["receipt_probe"] = receipt_probe
+    result["artificial_hold"] = receipt_probe == "delayed"
+    result["recovery_traffic"] = recovery_traffic
     responses = []
     tokenizer = AutoTokenizer.from_pretrained(ROOT / "models/Qwen3-4B")
     target = tokenizer.encode(PROMPT)[:576] if bounded_workload else PROMPT
@@ -90,6 +97,14 @@ def run(out, mode, bounded_workload=False):
             ids = tokenizer.encode(f"Tail-{i}: " + PROMPT)[:224]
             assert len(ids) == 224
             send(f"tail-{i:02d}", ids, 1)
+        if recovery_traffic:
+            # Explicit separate recovery workload after the fixed 5s receipt
+            # hold. This cannot be used as evidence for idle draining.
+            time.sleep(6)
+            write_json(out / "before-recovery-traffic-status.json", state())
+            for i in range(160):
+                ids = tokenizer.encode(f"Recovery-tail-{i}: " + PROMPT)[:224]
+                send(f"recovery-tail-{i:02d}", ids, 1)
         result["before_restore"] = wait_drained("before-restore-status")
         before, _ = snapshot(out, "before-restore")
         restored = send("restored", target)
@@ -118,7 +133,7 @@ def run(out, mode, bounded_workload=False):
         cache.stop()
         result["ownership"] = audit_ownership(out)
         result["handoff"] = audit_handoff(events, allow_protection=mode == "two")
-        assert result["handoff"]["failed_batches"] == 0
+        assert result["handoff"]["failed_batches"] == (1 if receipt_probe == "failed-after-success" else 0)
         if mode not in ("baseline", "two"):
             assert result["handoff"]["bypass_decisions"] > 0
         if mode == "two":
@@ -137,6 +152,9 @@ def run(out, mode, bounded_workload=False):
             assert result["protected_prefixes_retrieved"], "No protected STORE prefix was actually restored"
             from audit_bounded_kv import audit as audit_sources
             result["strict_protected_sources"] = audit_sources(out)
+            if receipt_probe:
+                from audit_protected_receipt import audit_rows as audit_receipt
+                result["receipt_probe_audit"] = audit_receipt(handoffs, receipt_probe)
         result.update(passed=True, requests=len(responses))
         print(f"[{mode}] PASS: {result['handoff']['batches']} batches; {result['kv']['counts']}", flush=True)
     except Exception as exc:
@@ -158,18 +176,24 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--bounded-workload", action="store_true")
+    parser.add_argument("--receipt-probe", choices=("delayed", "failed-after-success"))
+    parser.add_argument("--recovery-traffic", action="store_true")
     parser.add_argument("--modes", nargs="+", choices=("baseline", "disabled", "zero", "two"),
                         default=["baseline", "disabled", "zero"])
     args = parser.parse_args()
     if "two" in args.modes and not args.bounded_workload:
         parser.error("two-chunk mode requires --bounded-workload")
+    if args.receipt_probe and (args.modes != ["two"] or not args.bounded_workload):
+        parser.error("receipt probes require --bounded-workload --modes two")
+    if args.recovery_traffic and not args.receipt_probe:
+        parser.error("recovery traffic requires a receipt probe")
     for port in (8000, 8080, 5555):
         with socket.socket() as s:
             assert s.connect_ex(("127.0.0.1", port)) != 0, ("occupied port", port)
     args.output.mkdir(parents=True, exist_ok=False)
     results = []
     for mode in args.modes:
-        results.append(run((args.output / mode).resolve(), mode, args.bounded_workload))
+        results.append(run((args.output / mode).resolve(), mode, args.bounded_workload, args.receipt_probe, args.recovery_traffic))
         write_json(args.output / "summary.json", results)
     if len(results) > 1:
         reference = json.loads((args.output / args.modes[0] / "responses.json").read_text())

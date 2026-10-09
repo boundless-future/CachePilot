@@ -137,7 +137,8 @@
 - [x] 从真实token ledger计算vLLM/LMCache两条hash链，6项测试含Request追加decode；新增真实STORE metadata CPU交接桥接，7项测试与原生tracker字段对照，不接GPU/RPC。
 - [x] 实现 ProtectionConnector 零保护预算的真实 scheduler/worker 交接与配置开关；同一所有权栈的默认 EVICTION_AWARE、关闭和零预算三组各 96 请求、14 STORE 批次通过，范围/文本一致，各 216 层 KV 全等且资源闭合；新增 22 项测试，完整 CUDA 回归 460 passed、115 subtests。见 [零预算报告](experiments/2026-10-09/PROTECTION_ZERO.md)。无新增保护 pin/STORE；非零预算尚未支持，短尾流量不代表空闲收尾修复。
 - [x] 最多两个完整 chunk 的真实分配前保护正常路径：两组各 348 请求、文本一致；保护组 9 STORE、32 block 峰值、19 次零步回滚、864 层 KV 全等，原回执及运行期资源闭合。严格保护来源 7 批/14 chunk/504 层。新增零步回滚刷新 LRU 问题已修，r1/r2 失败保留，见 [报告](experiments/2026-10-09/PROTECTION_TWO.md)。
-- [ ] 对新增保护 STORE 路径补 GPU 取消/自然抢占、失败、延迟/重复回执和预算回退专项；目前跨代/失败等主要由真实库 CPU 契约覆盖，旧 3B GPU 场景不能替代。
+- [x] 新增保护 STORE 回执专项：真实 future 延迟 5 秒后在固定恢复流量下 508 请求、720 层 KV 全等并闭合；真实成功后报告失败时 worker/scheduler 状态一致、pin 释放且 864 层 KV 全等。空闲延迟轮仍留下 pending owner，失败轮保留；注入不代表 DMA 中断或 STORE 执行失败。见 [报告](experiments/2026-10-10/PROTECTED_RECEIPTS.md)。
+- [ ] 对新增保护 STORE 路径补 GPU 取消/自然抢占、重复/跨代回执、真实失败边界和预算回退专项；目前跨代/失败等主要由真实库 CPU 契约覆盖，旧 3B GPU 场景不能替代。
 - [ ] 设计并验证 >512-token pending 整项的 chunk 前缀拆分、已保存前缀账本和更广的候选范围；当前首版只保护已结束、无引用、从零开始的一至两个完整 chunk。
 - [ ] 新增路径的 KV/输出正确性通过后，再关闭诊断日志做至少三次重复消融，报告 TTFT、实际 prefill、排队、搬运、保护/在途峰值与策略开销；没有性能收益则保留退化结果。
 

@@ -223,6 +223,8 @@ CachePilot/
 
 2026-10-09 继续完成最多两个 chunk 的真实分配前保护。零预算/两 chunk 各 348 请求、输出一致；保护组 9 个保护 STORE、峰值 32 block、19 次零步回滚，864 层回载 KV 全等，其中 7 个保护批次的 14 chunk/504 层有无中间 STORE 的严格来源证明。两组运行期资源归零、BlockPool 恢复 909。首版只选已结束、无外部引用、从 0 开始的一到两个完整 chunk，同步模型调度，保守按全活请求 footprint 留余量；尚不支持较大 STORE 拆分。见 [两 chunk 报告](experiments/2026-10-09/PROTECTION_TWO.md)。新增支线 r1：PREPARED 零步 unpin 刷新 LRU 导致 8 个 owner 残留，已修复并记录；r2 因 GPU 命中而无 H2D 覆盖失败，统一增加固定淘汰流量后 r3 通过。GPU 取消/失败/延迟专项与性能消融仍未完成，不能宣布 3C 完成。
 
+2026-10-10 完成新增保护 STORE 的回执专项。对第一批真实保护 future 分别注入 5 秒延迟和“真实成功后报告失败”：延迟加固定恢复流量时 508 请求、720 层 KV bitwise 全等，pin 在回执前保持；失败回执时 worker/scheduler 失败状态一致、pin 正确释放，864 层 KV 全等。无后续流量的延迟轮仍在空闲收尾留下 pending owner，失败证据保留。两种注入只覆盖回执交付诊断，不是 DMA 中断或真实 STORE 执行失败。见 [保护回执专项](experiments/2026-10-10/PROTECTED_RECEIPTS.md)。
+
 2026-10-09 完成 `ProtectionConnector` 的零预算真实 metadata/receipt 交接。默认 EVICTION_AWARE、保护关闭、开启但预算为零三组各 96 请求，默认 STORE 范围/次数及文本一致，各 6 chunk/216 层回载 KV 全等、14 批交接和资源闭合。完整 CUDA 回归 460 passed、115 subtests，见 [报告](experiments/2026-10-09/PROTECTION_ZERO.md)。本轮未增加保护 pin/STORE，使用固定短尾流量推动默认 pending 收尾，不覆盖旧 r6 的空闲边界。实际保护与性能结论仍待后续两步。
 
 前期首版纯 Python 状态机已完成预算回退、前缀闭合、身份复核和取消/回执所有权测试，见 [PROTECTION_STATE_MACHINE.md](experiments/2026-09-30/PROTECTION_STATE_MACHINE.md)。除简化模型外，已新增 16:1 物理 block/chunk 分组模型和七项测试。它们使用需求与身份oracle，当时只有CPU对象契约；本轮真实 scheduler adapter 是独立实现，旧模型本身不能代替GPU接入或收益验证。
@@ -322,7 +324,7 @@ Trace 回放评估的是推理系统在同一请求负载下的行为，不评�
 
 原计划中的环境确认已经完成并固化在 `docs/ENVIRONMENT.md`。当前剩余事项按阻塞关系排列：
 
-1. 零预算与两 chunk 正常路径已通过，下一步对新增保护 STORE 做 GPU 取消/自然抢占、失败回执和延迟专项；同时验证预算回退，之后再扩较长前缀拆分。分配前 pin、真实分配边界、零步回滚和原回执已实测，CPU 专项不代替 GPU 专项。见 [两 chunk 验收](experiments/2026-10-09/PROTECTION_TWO.md) 和 [开工顺序](3C_GPU_ENTRY.md)；
+1. 零预算与两 chunk 正常路径已通过，回执延迟/失败诊断已完成但空闲延迟收尾仍开放；下一步对新增保护 STORE 做 GPU 取消、自然抢占、重复/跨代回执和预算回退专项，随后再扩较长前缀拆分。分配前 pin、真实分配边界、零步回滚和原回执已实测，CPU 专项不代替 GPU 专项。见 [两 chunk 验收](experiments/2026-10-09/PROTECTION_TWO.md)、[保护回执专项](experiments/2026-10-10/PROTECTED_RECEIPTS.md) 和 [开工顺序](3C_GPU_ENTRY.md)；
 2. 继续补齐 P2 的长 prefill、稳定 decode、容量扫描和 DMA/排队/重算分解；
 3. 继续记录 3B 支线限制：30 秒回执延迟的空闲 owner 收尾、真实 driver fault、永久 I/O 的自动恢复、L2 不确定提交异常的实机注入及可维护上游最小补丁。隔离研究实例可开始 3C；这些事项未完成，不能扩大为生产安全结论；
 4. 固定最终对照矩阵和验证 trace，重复运行并保留退化案例；
