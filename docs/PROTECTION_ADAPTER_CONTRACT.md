@@ -1,6 +1,6 @@
 # 3C 接口约定：模型到真实推理栈
 
-状态：2026-09-30，CPU 契约已实现，GPU scheduler/worker 尚未接入。参见 [当前模型与验证](experiments/2026-09-30/PROTECTION_STATE_MACHINE.md)、[分配前设计](experiments/2026-09-26/PREALLOCATION_DESIGN.md)。
+状态：2026-10-09，CPU 保护契约已实现，零预算真实 GPU scheduler/worker 交接通过；实际保护 pin 和非零预算尚未实现。参见 [零预算验收](experiments/2026-10-09/PROTECTION_ZERO.md)、[模型与验证](experiments/2026-09-30/PROTECTION_STATE_MACHINE.md)、[分配前设计](experiments/2026-09-26/PREALLOCATION_DESIGN.md)。
 
 ## 各层职责
 
@@ -16,7 +16,7 @@ flowchart LR
     W --> L[LMCache L1；按配置异步写 L2]
 ```
 
-这是拟实施工作流。当前执行代码包括模型、独立CPU BlockPool/hash桥接和真实LMCache STORE metadata的CPU交接契约，不存在自动安装的scheduler扩展或真实RPC路径。
+这是非零保护的拟实施工作流。当前代码包括模型、独立 CPU BlockPool/hash 桥接及零预算真实交接；后者沿用默认 manager STORE 和真实 RPC，不执行图中的候选 prepare/pin。worker envelope 带原批次身份，只支持单 worker；底层 raw-ID 完成数仍依赖当前唯一在途约束，不能扩大为任意重放/重连安全。
 
 ## 信息不能混用
 
@@ -48,7 +48,7 @@ flowchart LR
 
 ## GPU 验证前置与验收
 
-先完成 3B 尚未闭合的资源边界，保持现有默认策略。然后只在固定单 GPU、single-group full attention 的 Qwen3-4B 上，启用独立可回滚配置；与同版本、同 trace、同 KV 预算的默认/立即卸载/固定调优策略比较。
+按 2026-10-01 修订的 3B 受控准入范围，在固定单 GPU、single-group full attention 的 Qwen3-4B、eager 和独立实例上启用可关闭配置；生产完整资源门槛仍开放。零预算已与同栈默认 EVICTION_AWARE 对照通过，非零保护仍须完成下列验收，后续再扩默认/立即卸载/固定调优策略比较。
 
 先验收逐块身份、pin/unpin、一次提交、取消/重用/失败/零步，继而比较真实 KV 内容与恢复输出，再移除逐步诊断日志计时。报告 TTFT P95、实际 prefill、D2H/H2D、排队、在途/保护峰值以及回退频率。保存块变多或丢弃块变少都不能单独代表收益。完整多 GPU、hybrid/sliding-window、生产故障容错不在首个 GPU adapter 的已支持范围。
 

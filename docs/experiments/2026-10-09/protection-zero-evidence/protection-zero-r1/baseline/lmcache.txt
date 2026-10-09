@@ -1,0 +1,208 @@
+[32;20m[2026-10-09 14:48:26,731] LMCache INFO:[0m torch_dev=<module 'torch.cuda' from '/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/torch/cuda/__init__.py'>, torch_device_type=cuda [3m(_device_detect.py:311:lmcache.v1.platform._device_detect)[0m
+[32;20m[2026-10-09 14:48:26,731] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+
+ _     __  __    ____           _          
+| |   |  \/  |  / ___|__ _  ___| |__   ___      LMCache v0.5.5+g1a4b40b1d
+| |   | |\/| | | |   / _` |/ __| '_ \ / _ \     Website:  https://lmcache.ai/
+| |___| |  | | | |__| (_| | (__| | | |  __/     Recipes:  https://docs.lmcache.ai/recipes
+|_____|_|  |_|  \____\__,_|\___|_| |_|\___|     LinkedIn: https://www.linkedin.com/company/lmcache-lab
+Set LMCACHE_DISABLE_BANNER=1 to hide this banner.
+
+[32;20m[2026-10-09 14:48:31,077] LMCache INFO:[0m Discovered API module: cache_api [3m(router_discovery.py:53:lmcache.v1.utils.router_discovery)[0m
+[32;20m[2026-10-09 14:48:31,079] LMCache INFO:[0m Discovered API module: env_api [3m(router_discovery.py:53:lmcache.v1.utils.router_discovery)[0m
+[32;20m[2026-10-09 14:48:31,081] LMCache INFO:[0m Discovered API module: loglevel_api [3m(router_discovery.py:53:lmcache.v1.utils.router_discovery)[0m
+[32;20m[2026-10-09 14:48:31,082] LMCache INFO:[0m Discovered API module: metrics_api [3m(router_discovery.py:53:lmcache.v1.utils.router_discovery)[0m
+[32;20m[2026-10-09 14:48:31,084] LMCache INFO:[0m Discovered API module: periodic_thread_api [3m(router_discovery.py:53:lmcache.v1.utils.router_discovery)[0m
+[32;20m[2026-10-09 14:48:31,085] LMCache INFO:[0m Discovered API module: run_script_api [3m(router_discovery.py:53:lmcache.v1.utils.router_discovery)[0m
+[32;20m[2026-10-09 14:48:31,086] LMCache INFO:[0m Discovered API module: thread_api [3m(router_discovery.py:53:lmcache.v1.utils.router_discovery)[0m
+[32;20m[2026-10-09 14:48:31,089] LMCache INFO:[0m Discovered API module: common_api [3m(router_discovery.py:53:lmcache.v1.utils.router_discovery)[0m
+[32;20m[2026-10-09 14:48:31,090] LMCache INFO:[0m Discovered API module: config_api [3m(router_discovery.py:53:lmcache.v1.utils.router_discovery)[0m
+[32;20m[2026-10-09 14:48:31,093] LMCache INFO:[0m Discovered API module: info_api [3m(router_discovery.py:53:lmcache.v1.utils.router_discovery)[0m
+[32;20m[2026-10-09 14:48:31,096] LMCache INFO:[0m Discovered API module: quota_api [3m(router_discovery.py:53:lmcache.v1.utils.router_discovery)[0m
+[32;20m[2026-10-09 14:48:31,099] LMCache INFO:[0m Discovered API module: reconfigure_api [3m(router_discovery.py:53:lmcache.v1.utils.router_discovery)[0m
+[32;20m[2026-10-09 14:48:31,123] LMCache INFO:[0m CudaPinMemoryBackend: using torch cudart [3m(pin_memory.py:89:lmcache.v1.platform.devices.cuda.pin_memory)[0m
+[32;20m[2026-10-09 14:48:31,125] LMCache INFO:[0m Starting LMCache HTTP server on http://127.0.0.1:8080 [3m(http_server.py:259:lmcache.v1.multiprocess.http_server)[0m
+INFO:     Started server process [258]
+INFO:     Waiting for application startup.
+[32;20m[2026-10-09 14:48:31,179] LMCache INFO:[0m Starting LMCache HTTP server... (accelerator available: True) [3m(http_server.py:78:lmcache.v1.multiprocess.http_server)[0m
+[32;20m[2026-10-09 14:48:31,183] LMCache INFO:[0m OTel MeterProvider initialised with Prometheus fallback (standalone metrics HTTP server disabled; /metrics must be exposed by the caller), resource={'telemetry.sdk.language': 'python', 'telemetry.sdk.name': 'opentelemetry', 'telemetry.sdk.version': '1.40.0', 'service.instance.id': '3a1ac610-d70b-4a9c-8f24-daa4947915d0', 'service.name': 'unknown_service'} [3m(otel_init.py:114:lmcache.v1.mp_observability.otel_init)[0m
+[32;20m[2026-10-09 14:48:37,106] LMCache INFO:[0m Starting L1EvictionController... [3m(eviction_controller.py:53:lmcache.v1.distributed.storage_controllers.eviction_controller)[0m
+[32;20m[2026-10-09 14:48:37,107] LMCache INFO:[0m Starting L2EvictionController... [3m(eviction_controller.py:250:lmcache.v1.distributed.storage_controllers.eviction_controller)[0m
+[32;20m[2026-10-09 14:48:37,107] LMCache INFO:[0m Starting StoreController... [3m(store_controller.py:305:lmcache.v1.distributed.storage_controllers.store_controller)[0m
+[32;20m[2026-10-09 14:48:37,108] LMCache INFO:[0m Starting PrefetchController... [3m(prefetch_controller.py:596:lmcache.v1.distributed.storage_controllers.prefetch_controller)[0m
+[32;20m[2026-10-09 14:48:37,108] LMCache INFO:[0m Using blake3 hash function [3m(token_hasher.py:79:lmcache.v1.multiprocess.token_hasher)[0m
+[32;20m[2026-10-09 14:48:37,117] LMCache INFO:[0m Computed NONE_HASH=b"~>\xff\x9e\xf7a:P4\x0e\xb1&w\xee\x03\xb8:\xc7Y\xfc\xba\x9b\xb3'\x05\xf0rH\xd5mG;" using hash function [3m(token_hasher.py:180:lmcache.v1.multiprocess.token_hasher)[0m
+[32;20m[2026-10-09 14:48:37,117] LMCache INFO:[0m TokenHasher initialized: chunk_size=256, hash_algorithm=blake3 [3m(token_hasher.py:67:lmcache.v1.multiprocess.token_hasher)[0m
+[32;20m[2026-10-09 14:48:37,117] LMCache INFO:[0m PeriodicThread SessionManager-cleanup-thread-7f5cd670b320 entering main loop (interval=60.0s) [3m(periodic_thread.py:304:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-09 14:48:37,117] LMCache INFO:[0m Started PeriodicThread: SessionManager-cleanup-thread-7f5cd670b320 (level=medium, interval=60.0s, init_wait=0.0s) [3m(periodic_thread.py:248:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-09 14:48:37,118] LMCache INFO:[0m PeriodicThread DeviceHostFuncDispatcher entering main loop (interval=0.0s) [3m(periodic_thread.py:304:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-09 14:48:37,118] LMCache INFO:[0m Started PeriodicThread: DeviceHostFuncDispatcher (level=high, interval=0.0s, init_wait=0.0s) [3m(periodic_thread.py:248:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-09 14:48:37,118] LMCache INFO:[0m Supported transfer mode: lmcache_driven [3m(server.py:192:lmcache.v1.multiprocess.server)[0m
+[32;20m[2026-10-09 14:48:37,119] LMCache INFO:[0m PeriodicThread lmcache-mp-worker-reaper entering main loop (interval=30.0s) [3m(periodic_thread.py:304:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-09 14:48:37,119] LMCache INFO:[0m Started PeriodicThread: lmcache-mp-worker-reaper (level=medium, interval=30.0s, init_wait=0.0s) [3m(periodic_thread.py:248:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-09 14:48:37,119] LMCache INFO:[0m Initializing MP usage context. [3m(mp.py:93:lmcache.usage_telemetry.mp)[0m
+[32;20m[2026-10-09 14:48:37,120] LMCache INFO:[0m Initializing MP continuous usage reporting. [3m(mp_continuous.py:217:lmcache.usage_telemetry.mp_continuous)[0m
+[32;20m[2026-10-09 14:48:37,121] LMCache INFO:[0m Started PeriodicThread: lmcache-usage-continuous (level=low, interval=600.0s, init_wait=600.0s) [3m(periodic_thread.py:248:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-09 14:48:37,121] LMCache INFO:[0m Initializing L2 connector usage reporting. [3m(l2_usage.py:243:lmcache.usage_telemetry.l2_usage)[0m
+[32;20m[2026-10-09 14:48:37,121] LMCache INFO:[0m Started PeriodicThread: lmcache-usage-l2 (level=low, interval=600.0s, init_wait=600.0s) [3m(periodic_thread.py:248:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-09 14:48:37,121] LMCache INFO:[0m Initializing L1 usage reporting. [3m(l1_usage.py:154:lmcache.usage_telemetry.l1_usage)[0m
+[32;20m[2026-10-09 14:48:37,121] LMCache INFO:[0m Started PeriodicThread: lmcache-usage-l1 (level=low, interval=600.0s, init_wait=600.0s) [3m(periodic_thread.py:248:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-09 14:48:37,135] LMCache INFO:[0m Created AffinityThreadPool 'affinity-pool-0' with 1 worker slots: up to 1 distinct affinity keys each bind to their own thread before slots are shared. Compare this against the number of clients expected to connect to confirm routing. [3m(affinity_pool.py:60:lmcache.v1.multiprocess.affinity_pool)[0m
+[32;20m[2026-10-09 14:48:37,135] LMCache INFO:[0m LMCache zmq cache server is running on 127.0.0.1:5555 [3m(server.py:391:lmcache.v1.multiprocess.server)[0m
+[32;20m[2026-10-09 14:48:37,136] LMCache INFO:[0m LMCache cache server is running... [3m(server.py:407:lmcache.v1.multiprocess.server)[0m
+[32;20m[2026-10-09 14:48:37,136] LMCache INFO:[0m LMCache HTTP server initialized [3m(http_server.py:165:lmcache.v1.multiprocess.http_server)[0m
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8080 (Press CTRL+C to quit)
+[32;20m[2026-10-09 14:48:37,560] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-09 14:48:37,560] LMCache INFO:[0m  - Total active allocations: 0 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-09 14:48:37,560] LMCache INFO:[0m  - Total allocated size: 0.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-09 14:48:37,560] LMCache INFO:[0m  - Total free size: 16384.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:45458 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-09 14:48:47,109] LMCache INFO:[0m L1 memory usage: 0.00/16.00 GiB (0.0%) [3m(eviction_controller.py:153:lmcache.v1.distributed.storage_controllers.eviction_controller)[0m
+[32;20m[2026-10-09 14:48:57,111] LMCache INFO:[0m L1 memory usage: 0.00/16.00 GiB (0.0%) [3m(eviction_controller.py:153:lmcache.v1.distributed.storage_controllers.eviction_controller)[0m
+[32;20m[2026-10-09 14:49:07,113] LMCache INFO:[0m L1 memory usage: 0.00/16.00 GiB (0.0%) [3m(eviction_controller.py:153:lmcache.v1.distributed.storage_controllers.eviction_controller)[0m
+[32;20m[2026-10-09 14:49:17,115] LMCache INFO:[0m L1 memory usage: 0.00/16.00 GiB (0.0%) [3m(eviction_controller.py:153:lmcache.v1.distributed.storage_controllers.eviction_controller)[0m
+[32;20m[2026-10-09 14:49:27,116] LMCache INFO:[0m L1 memory usage: 0.00/16.00 GiB (0.0%) [3m(eviction_controller.py:153:lmcache.v1.distributed.storage_controllers.eviction_controller)[0m
+[32;20m[2026-10-09 14:49:37,117] LMCache INFO:[0m L1 memory usage: 0.00/16.00 GiB (0.0%) [3m(eviction_controller.py:153:lmcache.v1.distributed.storage_controllers.eviction_controller)[0m
+[32;20m[2026-10-09 14:49:47,119] LMCache INFO:[0m L1 memory usage: 0.00/16.00 GiB (0.0%) [3m(eviction_controller.py:153:lmcache.v1.distributed.storage_controllers.eviction_controller)[0m
+[32;20m[2026-10-09 14:49:57,121] LMCache INFO:[0m L1 memory usage: 0.00/16.00 GiB (0.0%) [3m(eviction_controller.py:153:lmcache.v1.distributed.storage_controllers.eviction_controller)[0m
+[32;20m[2026-10-09 14:50:07,122] LMCache INFO:[0m L1 memory usage: 0.00/16.00 GiB (0.0%) [3m(eviction_controller.py:153:lmcache.v1.distributed.storage_controllers.eviction_controller)[0m
+[32;20m[2026-10-09 14:50:07,651] LMCache INFO:[0m Engine KV Format: EngineKVFormat.NL_X_NB_BS_NH_CS NL x [NB, BS, NH, CS] [3m(detection.py:69:lmcache.v1.gpu_connector.kv_format.detection)[0m
+[32;20m[2026-10-09 14:50:07,652] LMCache INFO:[0m Engine KV Format: EngineKVFormat.NL_X_NB_BS_NH_CS NL x [NB, BS, NH, CS] [3m(detection.py:69:lmcache.v1.gpu_connector.kv_format.detection)[0m
+[32;20m[2026-10-09 14:50:07,652] LMCache INFO:[0m Group 0 first-layer tensor: layer_idx=0 shape=(910, 16, 8, 256) stride=(32768, 2048, 256, 1) is_contiguous=True dtype=torch.bfloat16 device=cuda:0 storage_offset=0 numel=29818880 storage_nbytes=2146959360 padding_per_block=0 [3m(utils.py:650:lmcache.v1.gpu_connector.utils)[0m
+[32;20m[2026-10-09 14:50:07,652] LMCache INFO:[0m KV layer groups: ---
+KernelGroupInfo(layers=36, indices=0-35, shape_desc=(kv=1, nl=36, nb=910, bs=16, nh=8, hs=256, element_size=2, block_stride_elems=32768), dtype=torch.bfloat16, tokens_per_block=16, slots_per_block=16, engine_group_idx=0, sw_size_tokens=-1)
+--- [3m(kv_layer_groups.py:474:lmcache.v1.kv_layer_groups)[0m
+[32;20m[2026-10-09 14:50:07,939] LMCache INFO:[0m Registered KV cache for GPU ID 3668851007128954328 with 36 layers [3m(lmcache_driven_transfer.py:489:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-09 14:50:07,939] LMCache INFO:[0m Initialized cuda stream on device cuda:0 [3m(cache_context.py:463:lmcache.v1.platform.devices.cuda.cache_context)[0m
+[32;20m[2026-10-09 14:50:17,124] LMCache INFO:[0m L1 memory usage: 0.00/16.00 GiB (0.0%) [3m(eviction_controller.py:153:lmcache.v1.distributed.storage_controllers.eviction_controller)[0m
+[32;20m[2026-10-09 14:50:18,673] LMCache INFO:[0m AffinityThreadPool: affinity_key=4114044420379559864 assigned to worker slot 0 of 1 (thread affinity-pool-0-0); 1 distinct key(s) now bound [3m(affinity_pool.py:108:lmcache.v1.multiprocess.affinity_pool)[0m
+[32;20m[2026-10-09 14:50:18,685] LMCache INFO:[0m Stored 1536 tokens in 0.011 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-09 14:50:20,524] LMCache INFO:[0m Stored 1536 tokens in 0.002 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-09 14:50:21,081] LMCache INFO:[0m Stored 1536 tokens in 0.002 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-09 14:50:22,125] LMCache INFO:[0m L0<->L1 stats [cuda:0] last 10.0s: store ops=4 tokens=4608 size=0.68GB avg_copy=13.71GB/s | retrieve ops=0 tokens=0 size=0.00GB avg_copy=n/a [3m(extra_stats.py:159:lmcache.v1.mp_observability.subscribers.logging.extra_stats)[0m
+[32;20m[2026-10-09 14:50:22,125] LMCache INFO:[0m L0<->L1 stats [cuda:0] cumulative: store ops=4 tokens=4608 size=0.68GB avg_copy=13.71GB/s | retrieve ops=0 tokens=0 size=0.00GB avg_copy=n/a [3m(extra_stats.py:168:lmcache.v1.mp_observability.subscribers.logging.extra_stats)[0m
+[32;20m[2026-10-09 14:50:22,407] LMCache INFO:[0m Stored 1536 tokens in 0.001 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-09 14:50:22,967] LMCache INFO:[0m Stored 1536 tokens in 0.002 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-09 14:50:23,519] LMCache INFO:[0m Stored 1536 tokens in 0.002 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-09 14:50:24,671] LMCache INFO:[0m Stored 1536 tokens in 0.002 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-09 14:50:25,902] LMCache INFO:[0m Stored 1536 tokens in 0.002 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-09 14:50:27,125] LMCache INFO:[0m L1 memory usage: 1.69/16.00 GiB (10.5%) [3m(eviction_controller.py:153:lmcache.v1.distributed.storage_controllers.eviction_controller)[0m
+[32;20m[2026-10-09 14:50:27,890] LMCache INFO:[0m Stored 1536 tokens in 0.002 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[33;20m[2026-10-09 14:50:28,638] LMCache WARNING:[0m Session cp1:4133456893185807150:15:1f4f5ba373efd972913a3a7e150cc084:cmpl-b2518f977b8149d1-0-a4784568 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:28,672] LMCache WARNING:[0m Session cp1:4133456893185807150:16:78656527e12e98a020c844cce7b033ef:cmpl-a5552cd809ee6535-0-a4ced6b3 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:28,708] LMCache WARNING:[0m Session cp1:4133456893185807150:17:5327dc4d690e86f5fe91d8f3cb504631:cmpl-8c2e3b85e814fccd-0-9fb83142 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:28,742] LMCache WARNING:[0m Session cp1:4133456893185807150:18:9bbaf35d44dd5d964549125a61b193e9:cmpl-ad3f629682f54c8b-0-b91bd047 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:28,782] LMCache WARNING:[0m Session cp1:4133456893185807150:19:ed41259aa8b2e863545a0c1546611f0e:cmpl-b3ae4a219cfc2da8-0-a4cf1292 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:28,816] LMCache WARNING:[0m Session cp1:4133456893185807150:20:60505be7484ba0fecfb5edbc88a89c56:cmpl-92a04d8532bdc734-0-bf64e1db not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:28,852] LMCache WARNING:[0m Session cp1:4133456893185807150:21:5b43efec23c06675f46e723beda7cc70:cmpl-abbcb80487c65396-0-80d63d9d not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:28,888] LMCache WARNING:[0m Session cp1:4133456893185807150:22:e04ae96a731b26cc0d5f8733145bb6ae:cmpl-ba7bb7d35c164f59-0-90f8ef99 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:28,920] LMCache WARNING:[0m Session cp1:4133456893185807150:23:4c56c0f3f9013963a8cf6235cf7b88d6:cmpl-89f82027f794e9bd-0-97053bb2 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:28,955] LMCache WARNING:[0m Session cp1:4133456893185807150:24:753e0b3c8bba5af0a45c5cf2be6b9f64:cmpl-92c2f8a20776e752-0-82011891 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:28,991] LMCache WARNING:[0m Session cp1:4133456893185807150:25:f390734e84ea54d82345f6dcd33ec242:cmpl-98016693c57080ce-0-8b7d9866 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:29,030] LMCache WARNING:[0m Session cp1:4133456893185807150:26:e4e6f5cdbb5178afed79acacde8853e1:cmpl-8398dfb35d4a1044-0-a0467a28 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:29,066] LMCache WARNING:[0m Session cp1:4133456893185807150:27:7b0d4c5e6483ffbdec2bee443edde7fb:cmpl-a1689b398271705e-0-80859f4b not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:29,102] LMCache WARNING:[0m Session cp1:4133456893185807150:28:da1125ed543022964af1ee6da220f33c:cmpl-9d6a9b9438441eba-0-896c0142 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:29,136] LMCache WARNING:[0m Session cp1:4133456893185807150:29:5c0b9c13e26d498e93f617963f2fff9c:cmpl-8ccc63320afb50e0-0-894e801b not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:29,170] LMCache WARNING:[0m Session cp1:4133456893185807150:30:0889ed2ea4442ba643ba49456daad79c:cmpl-86f088f83ab387ed-0-87445b59 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:29,211] LMCache WARNING:[0m Session cp1:4133456893185807150:31:0c089db998a52a488dfb0df1f10778a2:cmpl-b7dccd6d59026e59-0-9a1465b4 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:29,246] LMCache WARNING:[0m Session cp1:4133456893185807150:32:865f04322e630bddb45aed5a773723c4:cmpl-b9b2cbe483828ccd-0-bce5d7ab not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:29,283] LMCache WARNING:[0m Session cp1:4133456893185807150:33:11c8fbe40c2250a1f5d94824fa1aa9de:cmpl-a1029deddabdddbe-0-8f1293d6 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:29,320] LMCache WARNING:[0m Session cp1:4133456893185807150:34:50d4450e5c22049ce01ae6d26ee63227:cmpl-95b89645ff52eac7-0-933a2f9e not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[32;20m[2026-10-09 14:50:29,793] LMCache INFO:[0m Stored 1536 tokens in 0.003 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[33;20m[2026-10-09 14:50:29,794] LMCache WARNING:[0m Session cp1:4133456893185807150:35:727b5e869b6ed2f0d800951c8f692483:cmpl-a9b369df16f69cc1-0-884a46e1 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:29,829] LMCache WARNING:[0m Session cp1:4133456893185807150:36:a873a2026c7b6021e5c30055e064bb53:cmpl-9f4eaa4aaa5f579f-0-b64711a2 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:29,864] LMCache WARNING:[0m Session cp1:4133456893185807150:37:b08e9a48c02179f5426a1f9fd4270f3b:cmpl-aa5dfb53b07b81f7-0-84b52aa2 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:29,898] LMCache WARNING:[0m Session cp1:4133456893185807150:38:a2b6286cc0ea4eaf126a311be5affbb5:cmpl-bfa86d8257229f4d-0-b20a02e4 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:29,938] LMCache WARNING:[0m Session cp1:4133456893185807150:39:6ce983abc8344143581846ef6faa290a:cmpl-87e83cb18bbf9f06-0-9e18afef not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:29,973] LMCache WARNING:[0m Session cp1:4133456893185807150:40:232e067318122ed3bb6cc7e31baaf6bd:cmpl-a4b364b13a07ac7b-0-99bf764e not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:30,007] LMCache WARNING:[0m Session cp1:4133456893185807150:41:6b1f45824f3002a93f7e27ed206028f5:cmpl-9d72bc02f0d617a9-0-bec9092b not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[32;20m[2026-10-09 14:50:30,628] LMCache INFO:[0m Stored 1536 tokens in 0.002 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[33;20m[2026-10-09 14:50:30,629] LMCache WARNING:[0m Session cp1:4133456893185807150:42:380a1b1b432d91180e78b8f67b546f93:cmpl-97d6d32d955cac94-0-961f66da not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[32;20m[2026-10-09 14:50:31,236] LMCache INFO:[0m Stored 1536 tokens in 0.001 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[33;20m[2026-10-09 14:50:31,237] LMCache WARNING:[0m Session cp1:4133456893185807150:43:9e37948a6b2225428710a4b7d7c6c993:cmpl-ae0ec44b3562e1c9-0-aa57c51f not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:31,276] LMCache WARNING:[0m Session cp1:4133456893185807150:44:4151a65249f1d3e9f23d3c58e1b7bf59:cmpl-9bd8a6ced44fc3a1-0-b79f5317 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:31,324] LMCache WARNING:[0m Session cp1:4133456893185807150:45:0c48959e9eadce688793586480f46316:cmpl-bd2d11bf90b2e94f-0-ad7b8ba2 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:31,363] LMCache WARNING:[0m Session cp1:4133456893185807150:46:7503504027feb14e23214b04ef9b295d:cmpl-ad6f66d899820903-0-acce613f not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:31,404] LMCache WARNING:[0m Session cp1:4133456893185807150:47:941aaa451ec89bb0508ec8dafbfb70bc:cmpl-81e80e0e745570f1-0-bfa21878 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:31,443] LMCache WARNING:[0m Session cp1:4133456893185807150:48:63137228495bd2e02abdf9122cfcb2cd:cmpl-bed775e5721a4e53-0-8c63c089 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:31,479] LMCache WARNING:[0m Session cp1:4133456893185807150:49:a49cf00c7535851866abc178f19c8772:cmpl-81f71690fed9a038-0-869be20e not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[32;20m[2026-10-09 14:50:31,918] LMCache INFO:[0m Stored 1536 tokens in 0.002 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[33;20m[2026-10-09 14:50:31,918] LMCache WARNING:[0m Session cp1:4133456893185807150:50:834fbe25020ee9dc98c85c665e3e908f:cmpl-b2940c70c3a1bf44-0-a4d9c68d not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:31,961] LMCache WARNING:[0m Session cp1:4133456893185807150:51:38b2459624602ac4fec211240da6aa1c:cmpl-869597cbe9bf02e5-0-bba86b40 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:32,001] LMCache WARNING:[0m Session cp1:4133456893185807150:52:d616edc5a83fe41b9df39ded6ef1a9e4:cmpl-8caa62e82277e2d2-0-933dfeb9 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:32,038] LMCache WARNING:[0m Session cp1:4133456893185807150:53:16c37e569759ed136a3c48accab75999:cmpl-a1e60e5a66209ce7-0-bf5dc629 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:32,076] LMCache WARNING:[0m Session cp1:4133456893185807150:54:e0b7f2816718c849bfdf805fa4e646d7:cmpl-905af76ba73fd288-0-b2e43741 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:32,112] LMCache WARNING:[0m Session cp1:4133456893185807150:55:d15aa2beceb7180fe27371d36c0c36c3:cmpl-b442edecbcb594b6-0-bf8cc55d not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[32;20m[2026-10-09 14:50:32,126] LMCache INFO:[0m L0<->L1 stats [cuda:0] last 10.0s: store ops=10 tokens=15360 size=2.26GB avg_copy=16.35GB/s | retrieve ops=0 tokens=0 size=0.00GB avg_copy=n/a [3m(extra_stats.py:159:lmcache.v1.mp_observability.subscribers.logging.extra_stats)[0m
+[32;20m[2026-10-09 14:50:32,126] LMCache INFO:[0m L0<->L1 stats [cuda:0] cumulative: store ops=14 tokens=19968 size=2.94GB avg_copy=15.66GB/s | retrieve ops=0 tokens=0 size=0.00GB avg_copy=n/a [3m(extra_stats.py:168:lmcache.v1.mp_observability.subscribers.logging.extra_stats)[0m
+[33;20m[2026-10-09 14:50:32,150] LMCache WARNING:[0m Session cp1:4133456893185807150:56:8e1a33da1787110d88b4d81bf2e61cf0:cmpl-b6ebcd633ba6d986-0-83410905 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:32,187] LMCache WARNING:[0m Session cp1:4133456893185807150:57:cb9e00af5d96ffebf31180e88be1df29:cmpl-bb262fb46be38684-0-b3fedeff not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:32,222] LMCache WARNING:[0m Session cp1:4133456893185807150:58:0c0bd2c71fa0c2e31b2ca1e9810eddd5:cmpl-ad63ac1548f1017f-0-b544097a not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:32,264] LMCache WARNING:[0m Session cp1:4133456893185807150:59:9740609baad5c5c4639d805a3945fe4a:cmpl-a82e29e38323e988-0-89b40721 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:32,301] LMCache WARNING:[0m Session cp1:4133456893185807150:60:0a3add6cb80604496fcfd6d99d8b1bca:cmpl-83b0dd463a1b1c06-0-a8321916 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:32,340] LMCache WARNING:[0m Session cp1:4133456893185807150:61:5f22d81f68610135213145143c0f863f:cmpl-b6917fffeb65775d-0-ae8fdcde not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:32,378] LMCache WARNING:[0m Session cp1:4133456893185807150:62:be73af9c1cbda8ee8722b7136287dffe:cmpl-ae104548bcb915e4-0-bfbc89cb not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:32,415] LMCache WARNING:[0m Session cp1:4133456893185807150:63:60726d313c9b381d158cf6da7847329e:cmpl-904adc3843ec2bb3-0-b39626d1 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:32,451] LMCache WARNING:[0m Session cp1:4133456893185807150:64:d257283fc5d4808171fdca74a7fee590:cmpl-a4962b0bfa582934-0-aedc6c2d not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:32,487] LMCache WARNING:[0m Session cp1:4133456893185807150:65:1890dc45588a150bd1c8a4f089c6335e:cmpl-9f8c1ab402bae9c7-0-9e2df3fc not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:32,523] LMCache WARNING:[0m Session cp1:4133456893185807150:66:60d01d8d88ddbac3154ebe0dbbe70739:cmpl-b66ff7cbe6113e82-0-93e96263 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:32,558] LMCache WARNING:[0m Session cp1:4133456893185807150:67:e8ab31a2da50022a789139e50c255f84:cmpl-a243237e3b7eab9f-0-af144bd9 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:32,596] LMCache WARNING:[0m Session cp1:4133456893185807150:68:787a38323b94f5d9f9fcf10b87145caf:cmpl-b42d87bc0db7f78f-0-9896bd7e not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:32,630] LMCache WARNING:[0m Session cp1:4133456893185807150:69:74255a025995ccd662a028020f0574e8:cmpl-95b327204ec54fa5-0-b57800fb not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:32,665] LMCache WARNING:[0m Session cp1:4133456893185807150:70:539f3254e072b85ac9d916cd157a4356:cmpl-96874bd9efd5d570-0-ba51acd6 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:32,700] LMCache WARNING:[0m Session cp1:4133456893185807150:71:6ad3811fd60028545d303c72d2d39e76:cmpl-8e851784593f37e4-0-ad619fb6 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:32,742] LMCache WARNING:[0m Session cp1:4133456893185807150:72:f0f90df1885dad0cc9d8b18328efe5f3:cmpl-96427f1bbeb00114-0-93812e2f not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:32,780] LMCache WARNING:[0m Session cp1:4133456893185807150:73:4cad274020cafc4c441e4894da6e63db:cmpl-ab61892ad10e33ec-0-a4a561ca not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:32,823] LMCache WARNING:[0m Session cp1:4133456893185807150:74:41e36d30b80cc661b28da516d454a209:cmpl-9410f2f2a203898e-0-9b4c9f80 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:32,861] LMCache WARNING:[0m Session cp1:4133456893185807150:75:dcab171a95e322b399ffd72d8a761d05:cmpl-98ab4081411f0aa1-0-b806802b not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:32,897] LMCache WARNING:[0m Session cp1:4133456893185807150:76:069b2b4ec6f987f52372e9fb79b5201b:cmpl-bd1dd94e8bfa8ee0-0-a0b4dfb6 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:32,941] LMCache WARNING:[0m Session cp1:4133456893185807150:77:709e89759f51764fc9e46128524cad8e:cmpl-8f62534efeb4a7c3-0-a6e259e5 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:32,988] LMCache WARNING:[0m Session cp1:4133456893185807150:78:15390b0954a3606e967f485b71f7d446:cmpl-be062f309caa70ec-0-90d926e7 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:33,030] LMCache WARNING:[0m Session cp1:4133456893185807150:79:a021aeeee5fcdc27592ee3515f953a54:cmpl-bae1ea834b01e4af-0-921ca281 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:33,071] LMCache WARNING:[0m Session cp1:4133456893185807150:80:59f838628f69656889eb4e6541dbb7a9:cmpl-927dd076f122e19f-0-860054d7 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:33,107] LMCache WARNING:[0m Session cp1:4133456893185807150:81:f9d94ecce56109a6fadff8ae82215c69:cmpl-a0b707555acd295d-0-b6048f51 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:33,146] LMCache WARNING:[0m Session cp1:4133456893185807150:82:ce43976a0e4894ce52fa3f34f589b190:cmpl-b7f2e90ab4edd5d9-0-abca5665 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:33,188] LMCache WARNING:[0m Session cp1:4133456893185807150:83:da0bac768c3e6326f9c3630760afbf2e:cmpl-9be3120aabf21d7a-0-8002ec35 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:33,232] LMCache WARNING:[0m Session cp1:4133456893185807150:84:8001be33373df2981ad74924c6e63d9a:cmpl-8622f7a5a7bc369b-0-bc214b5b not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:33,274] LMCache WARNING:[0m Session cp1:4133456893185807150:85:c3099f986906738de609247afc61c156:cmpl-8ed4d491fcb14b01-0-960f2c3c not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:33,321] LMCache WARNING:[0m Session cp1:4133456893185807150:86:339b84a53e425196f789b799253295e1:cmpl-99814a6ea25fa50b-0-b6b999e6 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:33,363] LMCache WARNING:[0m Session cp1:4133456893185807150:87:936a7e5c0baf716a60310f808368d395:cmpl-8124ecfab86850cc-0-a0924ce0 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:33,404] LMCache WARNING:[0m Session cp1:4133456893185807150:88:9da8ac0d4ecc180823567ecb2b6def9a:cmpl-8b29181b2a089e77-0-8c75b55a not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:33,450] LMCache WARNING:[0m Session cp1:4133456893185807150:89:5893b4e8f087e73d338b1d09e44b0b67:cmpl-910345362dd87a20-0-bd2bd89a not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:33,492] LMCache WARNING:[0m Session cp1:4133456893185807150:90:102917268ae93d551b69a09c66b0377c:cmpl-96b962c157722524-0-8744bec4 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:33,535] LMCache WARNING:[0m Session cp1:4133456893185807150:91:d1a01249d4ec7c4739131c19d53c0c09:cmpl-99a867f6d7f065f8-0-89e9f29d not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:33,579] LMCache WARNING:[0m Session cp1:4133456893185807150:92:4717a78ad9f9a4034aa4558a369d7652:cmpl-9a659128bb570c29-0-b91fcd12 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:33,618] LMCache WARNING:[0m Session cp1:4133456893185807150:93:feb9299d78b541e47986c4ba7e13f57d:cmpl-883f8be188feab81-0-b0958f9f not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[33;20m[2026-10-09 14:50:33,657] LMCache WARNING:[0m Session cp1:4133456893185807150:94:d8da3cdab3c320c06eca32165ed1c14d:cmpl-ace013db0b3b7b84-0-90396000 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+[32;20m[2026-10-09 14:50:33,675] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-09 14:50:33,675] LMCache INFO:[0m  - Total active allocations: 78 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-09 14:50:33,675] LMCache INFO:[0m  - Total allocated size: 2808.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-09 14:50:33,676] LMCache INFO:[0m  - Total free size: 13576.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:46620 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-09 14:50:33,684] LMCache INFO:[0m Unregistered KV cache for GPU ID 3668851007128954328 [3m(lmcache_driven_transfer.py:517:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-09 14:50:37,127] LMCache INFO:[0m L1 memory usage: 2.74/16.00 GiB (17.1%) [3m(eviction_controller.py:153:lmcache.v1.distributed.storage_controllers.eviction_controller)[0m
+[32;20m[2026-10-09 14:50:38,350] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-09 14:50:38,350] LMCache INFO:[0m  - Total active allocations: 78 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-09 14:50:38,350] LMCache INFO:[0m  - Total allocated size: 2808.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-09 14:50:38,350] LMCache INFO:[0m  - Total free size: 13576.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:39450 - "GET /status HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+[32;20m[2026-10-09 14:50:38,500] LMCache INFO:[0m Shutting down LMCache HTTP server... [3m(http_server.py:170:lmcache.v1.multiprocess.http_server)[0m
+[32;20m[2026-10-09 14:50:38,500] LMCache INFO:[0m Stopping PeriodicThread: lmcache-usage-continuous [3m(periodic_thread.py:267:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-09 14:50:38,500] LMCache INFO:[0m PeriodicThread lmcache-usage-continuous stopped during init_wait [3m(periodic_thread.py:298:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-09 14:50:39,373] LMCache INFO:[0m Stopping PeriodicThread: lmcache-usage-l2 [3m(periodic_thread.py:267:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-09 14:50:39,374] LMCache INFO:[0m PeriodicThread lmcache-usage-l2 stopped during init_wait [3m(periodic_thread.py:298:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-09 14:50:39,374] LMCache INFO:[0m Stopping PeriodicThread: lmcache-usage-l1 [3m(periodic_thread.py:267:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-09 14:50:39,375] LMCache INFO:[0m PeriodicThread lmcache-usage-l1 stopped during init_wait [3m(periodic_thread.py:298:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-09 14:50:39,691] LMCache INFO:[0m Stopping PeriodicThread: lmcache-mp-worker-reaper [3m(periodic_thread.py:267:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-09 14:50:39,691] LMCache INFO:[0m PeriodicThread lmcache-mp-worker-reaper loop stopped [3m(periodic_thread.py:372:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-09 14:50:39,691] LMCache INFO:[0m Stopping PeriodicThread: DeviceHostFuncDispatcher [3m(periodic_thread.py:267:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-09 14:50:39,691] LMCache INFO:[0m PeriodicThread DeviceHostFuncDispatcher loop stopped [3m(periodic_thread.py:372:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-09 14:50:39,692] LMCache INFO:[0m Stopping PeriodicThread: SessionManager-cleanup-thread-7f5cd670b320 [3m(periodic_thread.py:267:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-09 14:50:39,692] LMCache INFO:[0m PeriodicThread SessionManager-cleanup-thread-7f5cd670b320 loop stopped [3m(periodic_thread.py:372:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-09 14:50:41,447] LMCache INFO:[0m MPCacheServer closed [3m(server.py:118:lmcache.v1.multiprocess.server)[0m
+[32;20m[2026-10-09 14:50:41,447] LMCache INFO:[0m LMCache HTTP server stopped [3m(http_server.py:187:lmcache.v1.multiprocess.http_server)[0m
+INFO:     Application shutdown complete.
+INFO:     Finished server process [258]

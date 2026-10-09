@@ -12,6 +12,7 @@ case "$MODE" in
   immediate) CONFIG=lmcache-0.5.5-retrieve.json ;;
   owned-mp) CONFIG=owned-mp.json ;;
   owned-service) CONFIG=owned-service.json ;;
+  protection-zero) CONFIG=protection-zero.json ;;
   owned-service-preemption) CONFIG=owned-service-preemption.json ;;
   owned-service-preemption-deadline) CONFIG=owned-service-preemption-deadline.json ;;
   owned-server-reject) CONFIG=owned-server-reject.json ;;

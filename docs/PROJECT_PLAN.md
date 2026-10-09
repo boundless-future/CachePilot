@@ -219,7 +219,9 @@ CachePilot/
 
 上述未覆盖项仍是扩大运行范围与生产恢复的前置条件。它们不再阻塞限定范围的 3C 零预算接入；已通过的基础服务验证不能替代 3C 新增保护 pin、metadata 和 receipt 的正确性验收。自然终结等待窗口不等于硬件 DMA 执行期中断。
 
-### 阶段 3C：最终 CachePilot 策略原型（CPU 契约完成；受控 GPU 接入可开工）
+### 阶段 3C：最终 CachePilot 策略原型（零预算 GPU 交接通过；非零保护待实现）
+
+2026-10-09 完成 `ProtectionConnector` 的零预算真实 metadata/receipt 交接。默认 EVICTION_AWARE、保护关闭、开启但预算为零三组各 96 请求，默认 STORE 范围/次数及文本一致，各 6 chunk/216 层回载 KV 全等、14 批交接和资源闭合。完整 CUDA 回归 460 passed、115 subtests，见 [报告](experiments/2026-10-09/PROTECTION_ZERO.md)。本轮未增加保护 pin/STORE，使用固定短尾流量推动默认 pending 收尾，不覆盖旧 r6 的空闲边界。实际保护与性能结论仍待后续两步。
 
 首版纯 Python 状态机已完成预算回退、前缀闭合、身份复核和取消/回执所有权测试，见 [PROTECTION_STATE_MACHINE.md](experiments/2026-09-30/PROTECTION_STATE_MACHINE.md)。除简化模型外，已新增 16:1 物理 block/chunk 分组模型和七项测试。它们使用需求与身份oracle；后续已接真实库的CPU对象契约，但尚无运行在真实scheduler里的adapter，不能代替GPU接入或收益验证。
 
@@ -318,7 +320,7 @@ Trace 回放评估的是推理系统在同一请求负载下的行为，不评�
 
 原计划中的环境确认已经完成并固化在 `docs/ENVIRONMENT.md`。当前剩余事项按阻塞关系排列：
 
-1. 开始 3C 零保护预算的真实 Connector 交接，复用已通过受控门槛的所有权栈，验证无新增 pin/STORE、真实 metadata/receipt 以及资源闭合，再开启最多两个 chunk 的保护预算。见 [当前验收矩阵](experiments/2026-10-01/VALIDATION_MATRIX.md) 和 [开工顺序](3C_GPU_ENTRY.md)；
+1. 零保护预算的真实 Connector 交接已通过，下一步实现最多两个 chunk 的保护预算，验证 pin 前复核、真实分配边界、零步回滚、原回执及默认 manager 单次提交协调。见 [零预算验收](experiments/2026-10-09/PROTECTION_ZERO.md) 和 [开工顺序](3C_GPU_ENTRY.md)；
 2. 继续补齐 P2 的长 prefill、稳定 decode、容量扫描和 DMA/排队/重算分解；
 3. 继续记录 3B 支线限制：30 秒回执延迟的空闲 owner 收尾、真实 driver fault、永久 I/O 的自动恢复、L2 不确定提交异常的实机注入及可维护上游最小补丁。隔离研究实例可开始 3C；这些事项未完成，不能扩大为生产安全结论；
 4. 固定最终对照矩阵和验证 trace，重复运行并保留退化案例；

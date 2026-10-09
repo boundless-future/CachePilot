@@ -1,6 +1,6 @@
 # 待办与阶段验收
 
-更新：2026-10-01。未勾选项均未完整完成；历史设计与当前实测环境以 ENVIRONMENT.md 及对应日期的记录区分。
+更新：2026-10-09。未勾选项均未完整完成；历史设计与当前实测环境以 ENVIRONMENT.md 及对应日期的记录区分。
 
 ## 已完成
 
@@ -135,7 +135,7 @@
 - [x] 增加 16-token 物理 block / 256-token LMCache chunk 的 16:1 CPU 分组模型，七项测试验证整 chunk 预算、失效 block 停止前缀和回执范围；不是实际 GPU adapter。
 - [x] 真实 vLLM BlockPool 的纯 CPU 元数据桥接八项测试通过；新增同 request-id 跨代单在途限制及 [PROTECTION_ADAPTER_CONTRACT.md](PROTECTION_ADAPTER_CONTRACT.md)，明确 block/chunk hash、零步回滚和 worker 布尔回执限制。
 - [x] 从真实token ledger计算vLLM/LMCache两条hash链，6项测试含Request追加decode；新增真实STORE metadata CPU交接桥接，7项测试与原生tracker字段对照，不接GPU/RPC。
-- [ ] 首先实现 ProtectionConnector 零保护预算的真实 scheduler/worker 交接与配置开关；对照使用同一所有权栈的默认 EVICTION_AWARE，无新增保护 pin 或 STORE，逐轮审计资源终态。
+- [x] 实现 ProtectionConnector 零保护预算的真实 scheduler/worker 交接与配置开关；同一所有权栈的默认 EVICTION_AWARE、关闭和零预算三组各 96 请求、14 STORE 批次通过，范围/文本一致，各 216 层 KV 全等且资源闭合；新增 22 项测试，完整 CUDA 回归 460 passed、115 subtests。见 [零预算报告](experiments/2026-10-09/PROTECTION_ZERO.md)。无新增保护 pin/STORE；非零预算尚未支持，短尾流量不代表空闲收尾修复。
 - [ ] 再以最多两个完整 chunk 验证候选 hash/前缀复核、pin 前串行分配边界、PREPARED 零步回滚、单 request 跨代单在途 STORE、取消/失败/原回执 unpin 和预算回退。
 - [ ] 新增路径的 KV/输出正确性通过后，再关闭诊断日志做至少三次重复消融，报告 TTFT、实际 prefill、排队、搬运、保护/在途峰值与策略开销；没有性能收益则保留退化结果。
 
@@ -152,4 +152,4 @@
 
 ## 优先顺序
 
-当前优先进入 3C 零保护预算的真实 Connector 接入，再验证最多两个 chunk 的保护预算。3B 的 opt-in 实际服务已通过受控单卡准入，历史原生栈失败结论保留；30 秒延迟的空闲 owner 收尾、生产故障恢复、异步 reset API、编译输出差异根因仍开放。每轮实验必须隔离实例并检查原 token/job/pin/terminal 与 KV 内容，资源残留就停止该轮。`compute_slots` 和 lookup 状态仍不能当准入需求 oracle。随后补 P2 参数扫描和重复对照，最后再扩模型与评估上游 PR；目前不需要升级 GPU。
+3C 零保护预算真实交接已通过，当前优先实现并验证最多两个 chunk 的保护预算。3B 的 opt-in 实际服务已通过受控单卡准入，历史原生栈失败结论保留；30 秒延迟的空闲 owner 收尾、生产故障恢复、异步 reset API、编译输出差异根因仍开放。每轮实验必须隔离实例并检查原 token/job/pin/terminal 与 KV 内容，资源残留就停止该轮。`compute_slots` 和 lookup 状态仍不能当准入需求 oracle。随后补 P2 参数扫描和重复对照，最后再扩模型与评估上游 PR；目前不需要升级 GPU。

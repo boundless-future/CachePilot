@@ -10,7 +10,9 @@
 
 策略配置独立可关闭。保护预算为零必须回到同一所有权适配栈上的默认 EVICTION_AWARE 路径；比较新旧策略时两边使用相同的数据通路，避免把所有权修补的开销或效果算到策略贡献里。原生栈作为另一个基线保留。
 
-## 第一步：零保护预算与真实交接
+## 第一步：零保护预算与真实交接（2026-10-09 已通过）
+
+`ProtectionConnector` 已接入真实 metadata/receipt envelope。默认、关闭、零预算三组各 96 请求通过，14 个 STORE 批次的范围与次数一致；各 216 层回载 KV bitwise 一致、909 free 恢复，运行期 owner/job 归零。完整 CUDA 回归 460 passed、115 subtests。见 [验收报告](experiments/2026-10-09/PROTECTION_ZERO.md)。这一步没有保护 pin，非零预算仍拒绝；以下保留设计约定，当前优先执行第二步。
 
 实现外部 `ProtectionConnector` 的 scheduler / worker 交接框架，先不开启保护。复用 `protection_state_machine.py`、`chunk_protection_model.py` 的语义，以及 `token_prefix_proof.py` 和 `cpu_store_metadata_bridge.py` 已验证的字段约定。
 

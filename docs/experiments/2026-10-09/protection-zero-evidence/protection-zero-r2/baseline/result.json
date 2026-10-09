@@ -1,0 +1,215 @@
+{
+  "passed": true,
+  "mode": "baseline",
+  "eager": true,
+  "artificial_hold": false,
+  "protection_budget": 0,
+  "before_restore": {
+    "is_healthy": true,
+    "active_sessions": 0,
+    "registered_gpu_ids": [
+      121521069058576192
+    ],
+    "l1_read_locked": 0,
+    "l1_write_locked": 0,
+    "store_pending": 0,
+    "store_in_flight": 0,
+    "prefetch_in_flight": 0,
+    "prefetch_pending": 0,
+    "prefetch_lookup": 0,
+    "prefetch_load": 0,
+    "write_ttl_seconds": 600,
+    "read_ttl_seconds": 300,
+    "active_prefetch_jobs": 0,
+    "abandoned_prefetch_jobs": 0,
+    "reclaim_failed_jobs": 0,
+    "reclaim_completed_jobs": 0,
+    "reclaim_key_snapshots": 0,
+    "completed_results_count": 0,
+    "owned_jobs": 0,
+    "owned_controller_jobs": 0,
+    "owned_transfers": 0,
+    "owned_clients": 1,
+    "owned_deferred_contexts": 0,
+    "owned_store_batches": 0,
+    "owned_failed": 0,
+    "owned_read_pins": 0
+  },
+  "external_hit_tokens": 1536.0,
+  "gpu_hit_tokens": 0.0,
+  "running_final": {
+    "is_healthy": true,
+    "active_sessions": 0,
+    "registered_gpu_ids": [
+      121521069058576192
+    ],
+    "l1_read_locked": 0,
+    "l1_write_locked": 0,
+    "store_pending": 0,
+    "store_in_flight": 0,
+    "prefetch_in_flight": 0,
+    "prefetch_pending": 0,
+    "prefetch_lookup": 0,
+    "prefetch_load": 0,
+    "write_ttl_seconds": 600,
+    "read_ttl_seconds": 300,
+    "active_prefetch_jobs": 0,
+    "abandoned_prefetch_jobs": 0,
+    "reclaim_failed_jobs": 0,
+    "reclaim_completed_jobs": 0,
+    "reclaim_key_snapshots": 0,
+    "completed_results_count": 0,
+    "owned_jobs": 0,
+    "owned_controller_jobs": 0,
+    "owned_transfers": 0,
+    "owned_clients": 1,
+    "owned_deferred_contexts": 0,
+    "owned_store_batches": 0,
+    "owned_failed": 0,
+    "owned_read_pins": 0
+  },
+  "after_engine_stop": {
+    "is_healthy": true,
+    "active_sessions": 0,
+    "registered_gpu_ids": [],
+    "l1_read_locked": 0,
+    "l1_write_locked": 0,
+    "store_pending": 0,
+    "store_in_flight": 0,
+    "prefetch_in_flight": 0,
+    "prefetch_pending": 0,
+    "prefetch_lookup": 0,
+    "prefetch_load": 0,
+    "write_ttl_seconds": 600,
+    "read_ttl_seconds": 300,
+    "active_prefetch_jobs": 0,
+    "abandoned_prefetch_jobs": 0,
+    "reclaim_failed_jobs": 0,
+    "reclaim_completed_jobs": 0,
+    "reclaim_key_snapshots": 0,
+    "completed_results_count": 0,
+    "owned_jobs": 0,
+    "owned_controller_jobs": 0,
+    "owned_transfers": 0,
+    "owned_clients": 1,
+    "owned_deferred_contexts": 0,
+    "owned_store_batches": 0,
+    "owned_failed": 0,
+    "owned_read_pins": 0
+  },
+  "ownership": {
+    "passed": true,
+    "service_processes": 1,
+    "original_tokens": 12,
+    "dispositions": {
+      "RELEASED": 12
+    },
+    "transfer_terminals": 15,
+    "final_free_blocks": {
+      "owned-connector-766.jsonl": 909
+    },
+    "exactly_once": true,
+    "native_terminal_before_release": true
+  },
+  "handoff": {
+    "passed": true,
+    "batches": 14,
+    "failed_batches": 0,
+    "bypass_decisions": 0,
+    "added_protection_stores": 0,
+    "acquired_protection_pins": 0,
+    "store_signatures": [
+      {
+        "prefix_sha256": "0082b2f199854b5b34fe84d666870f1ed517efc30e70ab8d1412963d8d8b704a",
+        "start": 0,
+        "end": 1536,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "201ca88baee0e40f80177ede664a58d282cca49c6ff10c8eaa4c9e7c94e5e79f",
+        "start": 0,
+        "end": 1536,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "249e5aa8011c1e8a4ff68f20855e374a1c09802bbbb6646d25c56873bb0d639d",
+        "start": 0,
+        "end": 1536,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "3a8c2312a6e5daad1809199229093bafbada56f3e858c6cbb5c38c57001bca21",
+        "start": 0,
+        "end": 1536,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "3aebf45638548fe00455884e1d448b051b97ff9af94a33a6082edcea81319514",
+        "start": 0,
+        "end": 1536,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "516512d4a75d2e7cc19dfb6e45ce98278c994d97d57eb4fb63b14abc08fd3cdb",
+        "start": 0,
+        "end": 1536,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "5a335e2c257bbb11417e7fd45ebbd94e0ff7fc6a26bd9fc5af31e8241ba00117",
+        "start": 0,
+        "end": 1536,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "6463b0c5e3b9b6136ecf0072a0d403fb926b8dbbd3e5c822df0094b538a3f037",
+        "start": 0,
+        "end": 1536,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "7c93f231ab1545119500136a7cd9723a237be57688372e06bd0b22eb85209196",
+        "start": 0,
+        "end": 1536,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "89c551605d4105c466c6e17fe4fad51922b9863bd40f571e64d1272e5f94bd8f",
+        "start": 0,
+        "end": 1536,
+        "count": 2
+      },
+      {
+        "prefix_sha256": "994c5adc253ddbe6e8a013d0ac9c694574feeeeade2e1168f742fe0e65bedd55",
+        "start": 0,
+        "end": 1536,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "e2b37ff0893b8b8687922899150b7defe8cce22a945eb649cce7df1c8ab38748",
+        "start": 0,
+        "end": 1536,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "fe88db020627ccfc00d0dd7fedaed3e7b1bdb63b32329001aae213c2abb37a14",
+        "start": 0,
+        "end": 1536,
+        "count": 1
+      }
+    ]
+  },
+  "kv": {
+    "counts": {
+      "worker_layout_chunks": 1,
+      "before_store_chunks": 84,
+      "after_retrieve_chunks": 6,
+      "retrieved_layers": 216,
+      "equal_layers": 216
+    },
+    "missing_references": [],
+    "unequal_layers": [],
+    "covered_and_equal": true
+  },
+  "requests": 96
+}
