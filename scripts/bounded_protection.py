@@ -135,7 +135,12 @@ class BoundedProtection:
             ids = list(op.block_ids[0])
             if len(ids) != op.end // 16 or len(set(ids)) != len(ids):
                 continue
-            if len(ids) > left or self.pool.get_num_free_blocks() - len(ids) < reserve:
+            if len(ids) > left:
+                self.record("protection_fallback", reason="candidate_exceeds_budget",
+                    **describe(meta), required_blocks=len(ids), available_blocks=left,
+                    budget_blocks=self.budget, acquired_pins=0)
+                continue
+            if self.pool.get_num_free_blocks() - len(ids) < reserve:
                 continue
             blocks = [self.pool.blocks[i] for i in ids]
             # No live request reference, null block, reused hash or absent hash.

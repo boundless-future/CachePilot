@@ -1,6 +1,6 @@
 # CachePilot 总体设计与实施方案
 
-更新：2026-10-01
+更新：2026-10-10
 
 > 本文同时记录原始计划和开发后的修订路线。原始计划假设“自适应卸载窗口”会成为第一版主要机制；实际实验发现更关键的问题是异步 KV 回载的物理 block 分配与 LMCache lazy-offload 压力观测存在时间错位，因此当前主线已经调整为“先建立可验证的压力信号，再决定是否实施准入前保护策略”。
 
@@ -221,6 +221,8 @@ CachePilot/
 
 ### 阶段 3C：最终 CachePilot 策略原型（两 chunk 正常路径通过；专项与消融待完成）
 
+2026-10-10 整项超预算 GPU 回退对照通过：零预算/一个 chunk 各 348 请求，14 个默认 STORE 范围/次数及文本一致，各 720 层 KV 全等、909 free 恢复；17 个候选有 51 次预算拒绝，其中 14 个由默认 manager 保存，无保护 pin/STORE。完整 CUDA 回归 506 passed、115 subtests。见 [预算报告及下一组实验设计](experiments/2026-10-10/PROTECTION_BUDGET.md)。
+
 2026-10-09 继续完成最多两个 chunk 的真实分配前保护。零预算/两 chunk 各 348 请求、输出一致；保护组 9 个保护 STORE、峰值 32 block、19 次零步回滚，864 层回载 KV 全等，其中 7 个保护批次的 14 chunk/504 层有无中间 STORE 的严格来源证明。两组运行期资源归零、BlockPool 恢复 909。首版只选已结束、无外部引用、从 0 开始的一到两个完整 chunk，同步模型调度，保守按全活请求 footprint 留余量；尚不支持较大 STORE 拆分。见 [两 chunk 报告](experiments/2026-10-09/PROTECTION_TWO.md)。新增支线 r1：PREPARED 零步 unpin 刷新 LRU 导致 8 个 owner 残留，已修复并记录；r2 因 GPU 命中而无 H2D 覆盖失败，统一增加固定淘汰流量后 r3 通过。GPU 取消/失败/延迟专项与性能消融仍未完成，不能宣布 3C 完成。
 
 2026-10-10 完成新增保护 STORE 的回执专项。对第一批真实保护 future 分别注入 5 秒延迟和“真实成功后报告失败”：延迟加固定恢复流量时 508 请求、720 层 KV bitwise 全等，pin 在回执前保持；失败回执时 worker/scheduler 失败状态一致、pin 正确释放，864 层 KV 全等。无后续流量的延迟轮仍在空闲收尾留下 pending owner，失败证据保留。两种注入只覆盖回执交付诊断，不是 DMA 中断或真实 STORE 执行失败。见 [保护回执专项](experiments/2026-10-10/PROTECTED_RECEIPTS.md)。
@@ -324,7 +326,7 @@ Trace 回放评估的是推理系统在同一请求负载下的行为，不评�
 
 原计划中的环境确认已经完成并固化在 `docs/ENVIRONMENT.md`。当前剩余事项按阻塞关系排列：
 
-1. 零预算与两 chunk 正常路径已通过，回执延迟/失败诊断已完成但空闲延迟收尾仍开放；下一步对新增保护 STORE 做 GPU 取消、自然抢占、重复/跨代回执和预算回退专项，随后再扩较长前缀拆分。分配前 pin、真实分配边界、零步回滚和原回执已实测，CPU 专项不代替 GPU 专项。见 [两 chunk 验收](experiments/2026-10-09/PROTECTION_TWO.md)、[保护回执专项](experiments/2026-10-10/PROTECTED_RECEIPTS.md) 和 [开工顺序](3C_GPU_ENTRY.md)；
+1. 零预算与两 chunk 正常路径已通过，回执延迟/失败诊断已完成但空闲延迟收尾仍开放；整项超预算回退已通过，下一步验证共享前缀新请求的 GPU 取消、自然抢占及重复/跨代回执；在途预算耗尽和容量回退另保留，随后再扩较长前缀拆分。分配前 pin、真实分配边界、零步回滚和原回执已实测，CPU 专项不代替 GPU 专项。见 [两 chunk 验收](experiments/2026-10-09/PROTECTION_TWO.md)、[保护回执专项](experiments/2026-10-10/PROTECTED_RECEIPTS.md) 和 [开工顺序](3C_GPU_ENTRY.md)；
 2. 继续补齐 P2 的长 prefill、稳定 decode、容量扫描和 DMA/排队/重算分解；
 3. 继续记录 3B 支线限制：30 秒回执延迟的空闲 owner 收尾、真实 driver fault、永久 I/O 的自动恢复、L2 不确定提交异常的实机注入及可维护上游最小补丁。隔离研究实例可开始 3C；这些事项未完成，不能扩大为生产安全结论；
 4. 固定最终对照矩阵和验证 trace，重复运行并保留退化案例；

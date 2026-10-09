@@ -97,6 +97,12 @@ def test_invalid_or_unsupported_candidate_is_never_pinned(case, mutation):
     before = helper.pool.get_num_free_blocks()
     helper.prepare(scheduler)
     assert not helper.prepared and helper.pool.get_num_free_blocks() == before
+    if mutation == "budget":
+        fallback = next(r for r in rows if r["event"] == "protection_fallback")
+        assert fallback["reason"] == "candidate_exceeds_budget"
+        assert fallback["required_blocks"] == 32 and fallback["available_blocks"] == 16
+        assert fallback["acquired_pins"] == 0
+        assert helper.policy._pending["old"] and not helper.manager._requests.has_in_flight("old")
 
 
 def test_zero_token_step_restores_pending_and_capacity(case):

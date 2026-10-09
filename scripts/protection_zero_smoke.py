@@ -36,8 +36,9 @@ def run(out, mode, bounded_workload=False, receipt_probe=None, recovery_traffic=
     config = json.loads((ROOT / "configs/protection-zero.json").read_text())
     config["kv_connector_module_path"] = "scripts.protection_probe_connector"
     config["kv_connector"] = "ObservedEvictionProbeConnector" if mode == "baseline" else "ProtectionProbeConnector"
-    config["kv_connector_extra_config"]["cachepilot.protection.enabled"] = mode in ("zero", "two")
-    config["kv_connector_extra_config"]["cachepilot.protection.max_chunks"] = 2 if mode == "two" else 0
+    budget = {"one": 1, "two": 2}.get(mode, 0)
+    config["kv_connector_extra_config"]["cachepilot.protection.enabled"] = mode in ("zero", "one", "two")
+    config["kv_connector_extra_config"]["cachepilot.protection.max_chunks"] = budget
     if receipt_probe:
         os.environ["CACHEPILOT_PROTECTED_RECEIPT_PROBE"] = receipt_probe
         config["kv_connector_module_path"] = "scripts.protection_receipt_probe"
@@ -48,7 +49,7 @@ def run(out, mode, bounded_workload=False, receipt_probe=None, recovery_traffic=
         *(["--no-async-scheduling"] if bounded_workload else []),
         "--kv-transfer-config", json.dumps(config)], out / "vllm.log")
     result = dict(passed=False, mode=mode, eager=True, artificial_hold=False,
-        protection_budget=2 if mode == "two" else 0, bounded_workload=bounded_workload)
+        protection_budget=budget, bounded_workload=bounded_workload)
     result["receipt_probe"] = receipt_probe
     result["artificial_hold"] = receipt_probe == "delayed"
     result["recovery_traffic"] = recovery_traffic
@@ -134,8 +135,12 @@ def run(out, mode, bounded_workload=False, receipt_probe=None, recovery_traffic=
         result["ownership"] = audit_ownership(out)
         result["handoff"] = audit_handoff(events, allow_protection=mode == "two")
         assert result["handoff"]["failed_batches"] == (1 if receipt_probe == "failed-after-success" else 0)
-        if mode not in ("baseline", "two"):
+        if mode not in ("baseline", "one", "two"):
             assert result["handoff"]["bypass_decisions"] > 0
+        if mode == "one":
+            from audit_protection_budget import audit_rows as audit_budget
+            rows = [json.loads(line) for p in events.glob("handoff-*.jsonl") for line in p.read_text().splitlines()]
+            result["budget_fallback"] = audit_budget(rows)
         if mode == "two":
             from audit_bounded_protection import audit as audit_bounded
             result["protection"] = audit_bounded(events)
@@ -178,11 +183,11 @@ def main():
     parser.add_argument("--bounded-workload", action="store_true")
     parser.add_argument("--receipt-probe", choices=("delayed", "failed-after-success"))
     parser.add_argument("--recovery-traffic", action="store_true")
-    parser.add_argument("--modes", nargs="+", choices=("baseline", "disabled", "zero", "two"),
+    parser.add_argument("--modes", nargs="+", choices=("baseline", "disabled", "zero", "one", "two"),
                         default=["baseline", "disabled", "zero"])
     args = parser.parse_args()
-    if "two" in args.modes and not args.bounded_workload:
-        parser.error("two-chunk mode requires --bounded-workload")
+    if {"one", "two"}.intersection(args.modes) and not args.bounded_workload:
+        parser.error("nonzero-budget modes require --bounded-workload")
     if args.receipt_probe and (args.modes != ["two"] or not args.bounded_workload):
         parser.error("receipt probes require --bounded-workload --modes two")
     if args.recovery_traffic and not args.receipt_probe:
