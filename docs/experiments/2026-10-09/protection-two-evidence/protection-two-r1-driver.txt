@@ -1,0 +1,17 @@
+[zero] starting
+[zero] pressure complete; bounded short-request tail
+[zero] PASS: 11 batches; {'worker_layout_chunks': 1, 'before_store_chunks': 22, 'after_retrieve_chunks': 2, 'retrieved_layers': 72, 'equal_layers': 72}
+[two] starting
+[two] pressure complete; bounded short-request tail
+Traceback (most recent call last):
+  File "/root/CachePilot/scripts/protection_zero_smoke.py", line 167, in <module>
+    main()
+  File "/root/CachePilot/scripts/protection_zero_smoke.py", line 151, in main
+    results.append(run((args.output / mode).resolve(), mode, args.bounded_workload))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/CachePilot/scripts/protection_zero_smoke.py", line 93, in run
+    result["before_restore"] = wait_drained("before-restore-status")
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/CachePilot/scripts/protection_zero_smoke.py", line 75, in wait_drained
+    raise RuntimeError("Running service did not drain: " + name)
+RuntimeError: Running service did not drain: before-restore-status

@@ -1,8 +1,8 @@
-"""Real single-worker zero-budget integration on the owned MP service.
+"""Single-worker protection integration on the owned MP service.
 
-Default manager metadata and pin operations remain authoritative. Diagnostic
-envelopes add batch identity, never change STORE ranges or native receipts.
-Nonzero protection is rejected until its separate GPU safety gate exists.
+The native manager owns committed STORE pins and processes original receipts.
+Diagnostic envelopes carry batch identity across scheduler/worker boundaries.
+Nonzero protection uses the separate, bounded scheduler-owner adapter.
 """
 from dataclasses import dataclass, field
 import json
@@ -41,9 +41,20 @@ class HandoffObservedConnector(OwnedServiceConnector):
         self._handoff_serial = 0
         self._handoffs = HandoffLedger(self._handoff_record)
         self._bound_handoffs = []
+        self._bounded = None
         super().__init__(vllm_config, role, kv_cache_config)
         if self._group_tokens_per_block != [16]:
             raise ValueError("Protection handoff requires one 16-token dense group")
+        if self._protection_config.enabled and self._protection_config.max_chunks:
+            if type(self)._apply_protection is HandoffObservedConnector._apply_protection:
+                raise ValueError("Nonzero budget requires ProtectionConnector")
+            if (vllm_config.scheduler_config.async_scheduling
+                    or vllm_config.speculative_config is not None
+                    or vllm_config.lora_config is not None):
+                raise ValueError("Bounded protection requires synchronous text-only scheduling without speculation/LoRA")
+            if role.name == "SCHEDULER":
+                from scripts.bounded_protection import BoundedProtection
+                self._bounded = BoundedProtection(self, vllm_config)
         self._handoff_record("initialized", connector=type(self).__name__,
             enabled=self._protection_config.enabled, max_chunks=self._protection_config.max_chunks)
 
@@ -60,21 +71,30 @@ class HandoffObservedConnector(OwnedServiceConnector):
     def _apply_protection(self, metadata, scheduler_output):
         return metadata
 
+    def bind_kv_cache_manager(self, kv_cache_manager):
+        super().bind_kv_cache_manager(kv_cache_manager)
+        if getattr(self, "_bounded", None) is not None:
+            from scripts.bounded_protection import install_protection_scheduler
+            from vllm.v1.core.sched.scheduler import Scheduler
+            self._bounded.bind(kv_cache_manager)
+            install_protection_scheduler(Scheduler)
+
     def build_connector_meta(self, scheduler_output):
         metadata = super().build_connector_meta(scheduler_output)
         before = [describe(m) for m in metadata.requests]
         metadata = self._apply_protection(metadata, scheduler_output)
         after = [describe(m) for m in metadata.requests]
         if before != after:
-            raise RuntimeError("Zero budget changed the default metadata")
+            raise RuntimeError("Protection postprocessing changed the default metadata")
         batches = []
         for row in after:
             self._handoff_record("scheduler_metadata", **row)
             if row["direction"] != "STORE":
                 continue
             self._handoff_serial += 1
-            batch = dict(row, batch_id=f"{row['wire_id']}:{self._handoff_serial}",
-                         source="default_manager")
+            bounded = getattr(self, "_bounded", None)
+            source = "protection" if bounded and row["request_id"] in bounded.committed_this_step else "default_manager"
+            batch = dict(row, batch_id=f"{row['wire_id']}:{self._handoff_serial}", source=source)
             self._handoffs.accept(batch, "scheduler_built")
             batches.append(batch)
         metadata.cachepilot_handoffs_v1 = batches
@@ -118,12 +138,17 @@ class HandoffObservedConnector(OwnedServiceConnector):
         batches = self._handoffs.verify(meta.completed_store_requests,
             meta.failed_store_requests, meta.batch_ids)
         result = super().update_connector_output(connector_output)
+        bounded = getattr(self, "_bounded", None)
+        if bounded is not None:
+            bounded.receipts(batches, meta.failed_store_requests)
         self._handoffs.retire(batches, meta.failed_store_requests, "scheduler_receipt")
         return result
 
 
 class ProtectionConnector(HandoffObservedConnector):
     def _apply_protection(self, metadata, scheduler_output):
+        if self._protection_config.enabled and self._protection_config.max_chunks:
+            return metadata
         # Zero budget is a real, explicitly supported bypass. Do not install
         # the CPU pool harness, create a candidate, touch a block, or STORE.
         if metadata.requests:

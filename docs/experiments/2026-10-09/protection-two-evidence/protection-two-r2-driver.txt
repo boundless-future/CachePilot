@@ -1,0 +1,15 @@
+[zero] starting
+[zero] pressure complete; bounded short-request tail
+[zero] PASS: 14 batches; {'worker_layout_chunks': 1, 'before_store_chunks': 28, 'after_retrieve_chunks': 20, 'retrieved_layers': 720, 'equal_layers': 720}
+[two] starting
+[two] pressure complete; bounded short-request tail
+Traceback (most recent call last):
+  File "/root/CachePilot/scripts/protection_zero_smoke.py", line 186, in <module>
+    main()
+  File "/root/CachePilot/scripts/protection_zero_smoke.py", line 170, in main
+    results.append(run((args.output / mode).resolve(), mode, args.bounded_workload))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/CachePilot/scripts/protection_zero_smoke.py", line 99, in run
+    assert result["external_hit_tokens"] >= (512 if bounded_workload else 1536) and result["gpu_hit_tokens"] == 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

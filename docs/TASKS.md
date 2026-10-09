@@ -136,7 +136,9 @@
 - [x] 真实 vLLM BlockPool 的纯 CPU 元数据桥接八项测试通过；新增同 request-id 跨代单在途限制及 [PROTECTION_ADAPTER_CONTRACT.md](PROTECTION_ADAPTER_CONTRACT.md)，明确 block/chunk hash、零步回滚和 worker 布尔回执限制。
 - [x] 从真实token ledger计算vLLM/LMCache两条hash链，6项测试含Request追加decode；新增真实STORE metadata CPU交接桥接，7项测试与原生tracker字段对照，不接GPU/RPC。
 - [x] 实现 ProtectionConnector 零保护预算的真实 scheduler/worker 交接与配置开关；同一所有权栈的默认 EVICTION_AWARE、关闭和零预算三组各 96 请求、14 STORE 批次通过，范围/文本一致，各 216 层 KV 全等且资源闭合；新增 22 项测试，完整 CUDA 回归 460 passed、115 subtests。见 [零预算报告](experiments/2026-10-09/PROTECTION_ZERO.md)。无新增保护 pin/STORE；非零预算尚未支持，短尾流量不代表空闲收尾修复。
-- [ ] 再以最多两个完整 chunk 验证候选 hash/前缀复核、pin 前串行分配边界、PREPARED 零步回滚、单 request 跨代单在途 STORE、取消/失败/原回执 unpin 和预算回退。
+- [x] 最多两个完整 chunk 的真实分配前保护正常路径：两组各 348 请求、文本一致；保护组 9 STORE、32 block 峰值、19 次零步回滚、864 层 KV 全等，原回执及运行期资源闭合。严格保护来源 7 批/14 chunk/504 层。新增零步回滚刷新 LRU 问题已修，r1/r2 失败保留，见 [报告](experiments/2026-10-09/PROTECTION_TWO.md)。
+- [ ] 对新增保护 STORE 路径补 GPU 取消/自然抢占、失败、延迟/重复回执和预算回退专项；目前跨代/失败等主要由真实库 CPU 契约覆盖，旧 3B GPU 场景不能替代。
+- [ ] 设计并验证 >512-token pending 整项的 chunk 前缀拆分、已保存前缀账本和更广的候选范围；当前首版只保护已结束、无引用、从零开始的一至两个完整 chunk。
 - [ ] 新增路径的 KV/输出正确性通过后，再关闭诊断日志做至少三次重复消融，报告 TTFT、实际 prefill、排队、搬运、保护/在途峰值与策略开销；没有性能收益则保留退化结果。
 
 交付：可启用和禁用的实现、测试、消融及反例。性能门槛由基线噪声与实际需求决定，不先填加速目标。
@@ -152,4 +154,4 @@
 
 ## 优先顺序
 
-3C 零保护预算真实交接已通过，当前优先实现并验证最多两个 chunk 的保护预算。3B 的 opt-in 实际服务已通过受控单卡准入，历史原生栈失败结论保留；30 秒延迟的空闲 owner 收尾、生产故障恢复、异步 reset API、编译输出差异根因仍开放。每轮实验必须隔离实例并检查原 token/job/pin/terminal 与 KV 内容，资源残留就停止该轮。`compute_slots` 和 lookup 状态仍不能当准入需求 oracle。随后补 P2 参数扫描和重复对照，最后再扩模型与评估上游 PR；目前不需要升级 GPU。
+3C 零预算与两 chunk 正常路径已通过，当前优先补新增保护路径的 GPU 取消/失败/延迟专项，再扩前缀范围并做消融。3B 的 opt-in 实际服务已通过受控单卡准入，历史原生栈失败结论保留；30 秒延迟的空闲 owner 收尾、生产故障恢复、异步 reset API、编译输出差异根因仍开放。每轮实验必须隔离实例并检查原 token/job/pin/terminal 与 KV 内容，资源残留就停止该轮。`compute_slots` 和 lookup 状态仍不能当准入需求 oracle。随后补 P2 参数扫描和重复对照，最后再扩模型与评估上游 PR；目前不需要升级 GPU。

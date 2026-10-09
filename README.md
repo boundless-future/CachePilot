@@ -4,6 +4,8 @@
 
 当前状态：**已完成环境验收、固定轨迹回放、第一轮 24 组重复基线和自适应卸载窗口原型；原型已跑通但尚未证明收益。**
 
+2026-10-09 后续：**阶段 3C 两 chunk 实际保护正常路径通过。** 已接入真实 scheduler 分配前 pin、零步回滚、默认 manager 防重复 STORE 及原回执释放。零预算/两 chunk 各 348 请求输出一致，保护组 9 个保护 STORE、峰值 32 block、864 层回载 KV 全等，运行期资源清零。新增零步回滚刷新 LRU 的问题已修复，失败轮保留。当前仅支持已结束的短前缀；下一步为新增路径的 GPU 取消/失败/延迟专项，再做消融，尚无性能收益结论。见 [两 chunk 报告](docs/experiments/2026-10-09/PROTECTION_TWO.md)。
+
 2026-10-09：**阶段 3C 零预算真实 GPU 交接通过。** `ProtectionConnector` 默认对照、保护关闭、零预算三组各 96 请求，14 个 STORE 批次的范围/次数与输出一致；每组 216 层回载 KV 全等、909 free 恢复，完整 CUDA 回归 460 passed、115 subtests。未新增保护 pin/STORE，非零预算当前拒绝；下一步实现最多两个 chunk 的实际保护。本轮使用固定短尾流量，不代表长延迟空闲收尾已修复，也没有性能收益结论。见 [零预算报告](docs/experiments/2026-10-09/PROTECTION_ZERO.md)。
 
 2026-10-01：**可以开始阶段 3C 的受控单卡 GPU 接入。** 原 token/pin、实际 L2 controller、带原身份的 native terminal 与心跳失联回收已接入 opt-in MP 服务；八个受控场景按 r2/r3 通过，自然抢占两轮各 432 层回载 KV bitwise 一致，最终 CUDA 回归 438 passed、115 subtests。准入限定 eager、TP=1、单 full-attention、隔离实例和逐轮资源审计；30 秒回执延迟的空闲 owner 收尾与生产故障恢复仍未完成。GPU 保护策略尚未实现，下一步从零保护预算的 ProtectionConnector 交接开始。见 [当前验收矩阵](docs/experiments/2026-10-01/VALIDATION_MATRIX.md)、[实际服务报告](docs/experiments/2026-10-01/OWNED_SERVICE.md) 和 [3C 开工顺序](docs/3C_GPU_ENTRY.md)。
@@ -24,6 +26,7 @@
 
 - [总体设计与实施方案](docs/PROJECT_PLAN.md)
 - [待办与阶段验收](docs/TASKS.md)
+- [3C 两 chunk 实际保护验收与失败轮](docs/experiments/2026-10-09/PROTECTION_TWO.md)
 - [3C 零预算 GPU 交接验收](docs/experiments/2026-10-09/PROTECTION_ZERO.md)
 - [当前3B/3C验收矩阵](docs/experiments/2026-10-01/VALIDATION_MATRIX.md)
 - [3C GPU 接入顺序与限定范围](docs/3C_GPU_ENTRY.md)

@@ -1,0 +1,131 @@
+{
+  "passed": true,
+  "strict_chunks": 14,
+  "strict_equal_layers": 504,
+  "covered_batches": 7,
+  "protected_batches": 9,
+  "kv_bytes_per_block": 2359296,
+  "submitted_payload_bytes": {
+    "store": 1056964608,
+    "retrieve": 905969664
+  },
+  "strict_sources": [
+    {
+      "batch_id": "cp1:2154333909019651786:2:cdbd0768f4c78d3c952f22da2a32ac04:cmpl-ad95aa7431067ed6-0-b4f89691:13",
+      "token_prefix_sha256": "af0410b3d1ec706503a740b1abde2bc4e226fcc154b64cc406b3e0c5cff3ae98",
+      "start": 0,
+      "end": 256,
+      "equal_layers": 36,
+      "store_sequence": 13
+    },
+    {
+      "batch_id": "cp1:2154333909019651786:2:cdbd0768f4c78d3c952f22da2a32ac04:cmpl-ad95aa7431067ed6-0-b4f89691:13",
+      "token_prefix_sha256": "bb201d95a79867159f402cf98bd081f7bbd6cdf86f6443aa4cdf7923c68b6d03",
+      "start": 256,
+      "end": 512,
+      "equal_layers": 36,
+      "store_sequence": 13
+    },
+    {
+      "batch_id": "cp1:2154333909019651786:4:d37da4f2849cf9dceb86378e71f3c6ca:cmpl-9e1459d9da3b017b-0-a7c54514:3",
+      "token_prefix_sha256": "8fd9f18c654df1d3c3a2a6545a98a2a042d3fdbd1a744bbe31d0c94146d1f827",
+      "start": 0,
+      "end": 256,
+      "equal_layers": 36,
+      "store_sequence": 3
+    },
+    {
+      "batch_id": "cp1:2154333909019651786:4:d37da4f2849cf9dceb86378e71f3c6ca:cmpl-9e1459d9da3b017b-0-a7c54514:3",
+      "token_prefix_sha256": "d861ea26c69a6907d0043ee72834dc1d35420ded4c5240ba0f46917410872ad0",
+      "start": 256,
+      "end": 512,
+      "equal_layers": 36,
+      "store_sequence": 3
+    },
+    {
+      "batch_id": "cp1:2154333909019651786:6:b3a6cee9c37ce64c4e9d43c0e700d6af:cmpl-82f14738fd545efe-0-a68e1bcb:5",
+      "token_prefix_sha256": "275c01b3e13f90c6f380584f2df3c72d615178c3d229c1f41b7ae19ed458e93c",
+      "start": 0,
+      "end": 256,
+      "equal_layers": 36,
+      "store_sequence": 5
+    },
+    {
+      "batch_id": "cp1:2154333909019651786:6:b3a6cee9c37ce64c4e9d43c0e700d6af:cmpl-82f14738fd545efe-0-a68e1bcb:5",
+      "token_prefix_sha256": "1b0b5c3908c9c5b875abe0033bd9b34159293733a4c479696e2fe6e796d7c671",
+      "start": 256,
+      "end": 512,
+      "equal_layers": 36,
+      "store_sequence": 5
+    },
+    {
+      "batch_id": "cp1:2154333909019651786:8:c6e3e6c783d96a6d53f8c2381868ad9d:cmpl-9e4113f1c95056ed-0-b8d57302:7",
+      "token_prefix_sha256": "cbc7a7aea5c48d2264736b8a50af553fa03c041f654c19f56518a96c947d91d2",
+      "start": 0,
+      "end": 256,
+      "equal_layers": 36,
+      "store_sequence": 7
+    },
+    {
+      "batch_id": "cp1:2154333909019651786:8:c6e3e6c783d96a6d53f8c2381868ad9d:cmpl-9e4113f1c95056ed-0-b8d57302:7",
+      "token_prefix_sha256": "a2583134dd0248d93b891d4a66ea704c7f958d3790b4539698f0c6f10bc553c3",
+      "start": 256,
+      "end": 512,
+      "equal_layers": 36,
+      "store_sequence": 7
+    },
+    {
+      "batch_id": "cp1:2154333909019651786:10:0f91657f446ff849b65e626c10206170:cmpl-8353437c77b568bb-0-baa19531:9",
+      "token_prefix_sha256": "0b6190234923c84ce232b955d5e2825942563c328fd2cd22855c72184266ebf1",
+      "start": 0,
+      "end": 256,
+      "equal_layers": 36,
+      "store_sequence": 9
+    },
+    {
+      "batch_id": "cp1:2154333909019651786:10:0f91657f446ff849b65e626c10206170:cmpl-8353437c77b568bb-0-baa19531:9",
+      "token_prefix_sha256": "5446426a5353687ce800c6c0a26995b7a6715e92cd120c79dd1a571b5c5e312e",
+      "start": 256,
+      "end": 512,
+      "equal_layers": 36,
+      "store_sequence": 9
+    },
+    {
+      "batch_id": "cp1:2154333909019651786:12:c99d487ce0de5931788bf1215e5bc6cf:cmpl-be33c2fbbf9ce5c4-0-92cb1c9f:11",
+      "token_prefix_sha256": "55e495a53c7308f1d4c418b81d190fa60c5d86fd021d66c60afa203784eedbaf",
+      "start": 0,
+      "end": 256,
+      "equal_layers": 36,
+      "store_sequence": 11
+    },
+    {
+      "batch_id": "cp1:2154333909019651786:12:c99d487ce0de5931788bf1215e5bc6cf:cmpl-be33c2fbbf9ce5c4-0-92cb1c9f:11",
+      "token_prefix_sha256": "20896468b43e7e0999afbdeaea5f749b9b5ae086156394e2457bcd941e0a9f5b",
+      "start": 256,
+      "end": 512,
+      "equal_layers": 36,
+      "store_sequence": 11
+    },
+    {
+      "batch_id": "cp1:2154333909019651786:14:bce69b48be9645998e85d659b0485ad9:cmpl-971d8445060b1c45-0-896d6dd2:12",
+      "token_prefix_sha256": "e65510650a265a9748f8dbfd7b31dd6b2801483b7b0aaf25ddd2fc6a94ed9366",
+      "start": 0,
+      "end": 256,
+      "equal_layers": 36,
+      "store_sequence": 12
+    },
+    {
+      "batch_id": "cp1:2154333909019651786:14:bce69b48be9645998e85d659b0485ad9:cmpl-971d8445060b1c45-0-896d6dd2:12",
+      "token_prefix_sha256": "f42723c781d6b7ed3e94e2c8ac55d67be721a1d11a6d764624dc0d6b92b8b3d3",
+      "start": 256,
+      "end": 512,
+      "equal_layers": 36,
+      "store_sequence": 12
+    }
+  ],
+  "dma_bytes_after_first_target_restore": {
+    "h2d": 75497472.0,
+    "d2h": 905969664.0
+  },
+  "dma_checkpoint_scope": "Before pressure-prefix replay; not total experiment DMA"
+}

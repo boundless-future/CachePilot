@@ -12,7 +12,7 @@
 
 ## 第一步：零保护预算与真实交接（2026-10-09 已通过）
 
-`ProtectionConnector` 已接入真实 metadata/receipt envelope。默认、关闭、零预算三组各 96 请求通过，14 个 STORE 批次的范围与次数一致；各 216 层回载 KV bitwise 一致、909 free 恢复，运行期 owner/job 归零。完整 CUDA 回归 460 passed、115 subtests。见 [验收报告](experiments/2026-10-09/PROTECTION_ZERO.md)。这一步没有保护 pin，非零预算仍拒绝；以下保留设计约定，当前优先执行第二步。
+`ProtectionConnector` 已接入真实 metadata/receipt envelope。默认、关闭、零预算三组各 96 请求通过，14 个 STORE 批次的范围与次数一致；各 216 层回载 KV bitwise 一致、909 free 恢复，运行期 owner/job 归零。完整 CUDA 回归 460 passed、115 subtests。见 [验收报告](experiments/2026-10-09/PROTECTION_ZERO.md)。这一步没有保护 pin，当时非零预算拒绝；非零保护后续进展见第二步。
 
 实现外部 `ProtectionConnector` 的 scheduler / worker 交接框架，先不开启保护。复用 `protection_state_machine.py`、`chunk_protection_model.py` 的语义，以及 `token_prefix_proof.py` 和 `cpu_store_metadata_bridge.py` 已验证的字段约定。
 
@@ -21,6 +21,8 @@
 交付：独立配置开关、真实 metadata/receipt 账本、零保护预算的默认行为对照。此时保护 pin 和额外 STORE 数都应为零；默认 STORE 范围、失败语义和资源终态保持可解释。
 
 ## 第二步：小预算实际保护
+
+2026-10-09 正常路径首轮通过：两组各 348 请求，保护组 9 个保护 STORE、峰值 32 block、19 次零步回滚，864 层 KV 全等；其中 7 批/14 chunk/504 层证明保护来源且无中间 STORE。运行期资源清零、909 free 恢复。首版仅支持已结束且无外部引用、start=0/end=256 或 512 的整项，同步模型调度。新增零步回滚刷新 LRU 的 r1 问题已修，r2 因目标仍驻 GPU 未覆盖 H2D 而失败，均保留于 [报告](experiments/2026-10-09/PROTECTION_TWO.md)。本步的 GPU 取消/失败/延迟专项和较大前缀仍待验证，第三步尚未开始。
 
 先只选完整、连续前缀 chunk；物理 block 身份、vLLM hash、LMCache token/chunk hash 都要在 pin 前复核。已保存前缀、运行请求外部引用和在途 STORE 不能混用。首轮从最多两个 chunk 的额外保护预算开始，使用明确的 free-block 余量和预算回退。
 

@@ -4,7 +4,7 @@ from scripts.protection_handoff import HandoffLedger, ProtectionConfig
 
 @pytest.mark.parametrize("extra", [{"cachepilot.protection.enabled": 1},
     {"cachepilot.protection.max_chunks": True}, {"cachepilot.protection.max_chunks": -1},
-    {"cachepilot.protection.max_chunks": 2}, {"cachepilot.protection.max_chunks": 0.0}])
+    {"cachepilot.protection.max_chunks": 3}, {"cachepilot.protection.max_chunks": 0.0}])
 def test_unsupported_settings_fail_closed(extra):
     with pytest.raises(ValueError):
         ProtectionConfig.parse(extra)

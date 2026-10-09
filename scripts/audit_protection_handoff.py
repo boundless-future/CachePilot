@@ -8,7 +8,7 @@ STAGES = ("scheduler_built", "worker_bound", "worker_submit_returned",
           "worker_receipt", "scheduler_receipt")
 
 
-def audit_rows(rows):
+def audit_rows(rows, allow_protection=False):
     stages = {stage: {} for stage in STAGES}
     for row in rows:
         stage = row["event"]
@@ -32,17 +32,22 @@ def audit_rows(rows):
                         "block_ids", "prefix_sha256", "source"):
                 assert row[key] == original[key], ("changed handoff", stage, key)
         assert stages["worker_receipt"][identity]["failed"] == stages["scheduler_receipt"][identity]["failed"]
-        assert original["source"] == "default_manager" and original["direction"] == "STORE"
+        assert original["source"] in (("default_manager", "protection") if allow_protection else ("default_manager",))
+        assert original["direction"] == "STORE"
         semantic[(original["prefix_sha256"], original["start"], original["end"])] += 1
     bypass = [r for r in rows if r["event"] == "protection_bypass"]
     assert all(r["added_stores"] == r["acquired_protection_pins"] == 0 for r in bypass)
-    return dict(passed=True, batches=len(expected),
+    extra = sum(r["source"] == "protection" for r in expected.values())
+    pins = sum(r["acquired_pins"] for r in rows if r["event"] == "protection_prepared")
+    if not allow_protection:
+        assert pins == 0, "Unexpected protection pins on the zero-budget path"
+    return dict(passed=True, batches=len(expected), default_batches=len(expected)-extra,
         failed_batches=sum(r["failed"] for r in stages["scheduler_receipt"].values()),
-        bypass_decisions=len(bypass), added_protection_stores=0, acquired_protection_pins=0,
+        bypass_decisions=len(bypass), added_protection_stores=extra, acquired_protection_pins=pins,
         store_signatures=[dict(prefix_sha256=k[0], start=k[1], end=k[2], count=n)
                           for k, n in sorted(semantic.items())])
 
 
-def audit(directory):
+def audit(directory, allow_protection=False):
     return audit_rows([json.loads(line) for p in sorted(Path(directory).glob("handoff-*.jsonl"))
-                      for line in p.read_text().splitlines()])
+                      for line in p.read_text().splitlines()], allow_protection=allow_protection)

@@ -22,8 +22,8 @@ class ProtectionConfig:
         budget = extra.get("cachepilot.protection.max_chunks", 0)
         if type(enabled) is not bool or type(budget) is not int or budget < 0:
             raise ValueError("Protection requires boolean enabled and integer chunk budget")
-        if budget != 0:
-            raise ValueError("GPU protection currently supports zero budget only")
+        if budget > 2:
+            raise ValueError("GPU protection supports at most two chunks")
         return cls(enabled, budget)
 
 
