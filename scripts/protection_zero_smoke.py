@@ -21,7 +21,7 @@ from remote_lookup_cancel_smoke import cache_state
 from validate_environment import ROOT, Service, API, CACHE, PROMPT, snapshot, counter, write_json
 
 
-def run(out, mode, bounded_workload=False, receipt_probe=None, recovery_traffic=False):
+def run(out, mode, bounded_workload=False, receipt_probe=None, recovery_traffic=False, shared_cancel=False):
     out.mkdir(parents=True, exist_ok=False)
     events, probe = out / "events", out / "probe"
     events.mkdir()
@@ -43,6 +43,10 @@ def run(out, mode, bounded_workload=False, receipt_probe=None, recovery_traffic=
         os.environ["CACHEPILOT_PROTECTED_RECEIPT_PROBE"] = receipt_probe
         config["kv_connector_module_path"] = "scripts.protection_receipt_probe"
         config["kv_connector"] = "ReceiptProbeConnector"
+    if shared_cancel:
+        os.environ["CACHEPILOT_SHARED_CANCEL_GATE"] = str(out / "release-shared-receipt")
+        config["kv_connector_module_path"] = "scripts.protection_shared_cancel_probe"
+        config["kv_connector"] = "SharedCancelProbeConnector"
     write_json(out / "config.json", config)
     cache = Service(["bash", str(ROOT / "scripts/lmcache-server.sh")], out / "lmcache.log")
     engine = Service(["bash", str(ROOT / "scripts/serve.sh"), "baseline", "--enforce-eager",
@@ -53,9 +57,16 @@ def run(out, mode, bounded_workload=False, receipt_probe=None, recovery_traffic=
     result["receipt_probe"] = receipt_probe
     result["artificial_hold"] = receipt_probe == "delayed"
     result["recovery_traffic"] = recovery_traffic
+    result["shared_cancel"] = shared_cancel
+    result["artificial_hold"] |= shared_cancel
     responses = []
     tokenizer = AutoTokenizer.from_pretrained(ROOT / "models/Qwen3-4B")
     target = tokenizer.encode(PROMPT)[:576] if bounded_workload else PROMPT
+    cancel_driver = None
+    if shared_cancel:
+        from protection_shared_cancel_driver import SharedCancelDriver
+        cancel_driver = SharedCancelDriver(out, events, API, str(ROOT / "models/Qwen3-4B"),
+            tokenizer.encode(" Shared prefix cancellation probe.")[:16])
 
     def send(name, prompt, max_tokens=32):
         if bounded_workload and max_tokens != 1:
@@ -67,6 +78,8 @@ def run(out, mode, bounded_workload=False, receipt_probe=None, recovery_traffic=
         data = response.json()
         responses.append(dict(name=name, payload=payload, response=data))
         write_json(out / "responses.json", responses)
+        if cancel_driver is not None:
+            cancel_driver.maybe_cancel()
         return data["choices"][0]["text"]
 
     def state():
@@ -88,7 +101,11 @@ def run(out, mode, bounded_workload=False, receipt_probe=None, recovery_traffic=
         cache.start(CACHE + "/status")
         engine.start(API + "/health")
         cold = send("cold", target)
-        assert send("hot", target) == cold
+        if not shared_cancel:
+            assert send("hot", target) == cold
+        # The shared-cancel workload warms each source only once: two identical
+        # warmup requests can later emit separate lazy STOREs of the same KV,
+        # which would invalidate the original protected-source provenance.
         # First-token differences create distinct prefixes and real pressure.
         for i in range(12):
             prompt = f"Workload-{i}: " + PROMPT
@@ -107,6 +124,8 @@ def run(out, mode, bounded_workload=False, receipt_probe=None, recovery_traffic=
                 ids = tokenizer.encode(f"Recovery-tail-{i}: " + PROMPT)[:224]
                 send(f"recovery-tail-{i:02d}", ids, 1)
         result["before_restore"] = wait_drained("before-restore-status")
+        if cancel_driver is not None:
+            assert cancel_driver.done, "No shared-prefix cancellation coverage"
         before, _ = snapshot(out, "before-restore")
         restored = send("restored", target)
         after, _ = snapshot(out, "after-restore")
@@ -157,6 +176,15 @@ def run(out, mode, bounded_workload=False, receipt_probe=None, recovery_traffic=
             assert result["protected_prefixes_retrieved"], "No protected STORE prefix was actually restored"
             from audit_bounded_kv import audit as audit_sources
             result["strict_protected_sources"] = audit_sources(out)
+            if cancel_driver is not None:
+                from audit_protection_shared_cancel import audit_rows as audit_cancel
+                result["shared_cancel_audit"] = audit_cancel(handoffs)
+                shared_sources = [row for row in result["strict_protected_sources"]["strict_sources"]
+                    if row["batch_id"] == cancel_driver.target["batch_id"]]
+                assert {(row["start"], row["end"]) for row in shared_sources} == {
+                    (start, start + 256) for start in range(0, cancel_driver.target["end"], 256)
+                }, "Cancelled shared prefix lacks complete protected STORE-to-H2D coverage"
+                result["shared_cancel_audit"]["strict_sources"] = shared_sources
             if receipt_probe:
                 from audit_protected_receipt import audit_rows as audit_receipt
                 result["receipt_probe_audit"] = audit_receipt(handoffs, receipt_probe)
@@ -183,6 +211,7 @@ def main():
     parser.add_argument("--bounded-workload", action="store_true")
     parser.add_argument("--receipt-probe", choices=("delayed", "failed-after-success"))
     parser.add_argument("--recovery-traffic", action="store_true")
+    parser.add_argument("--shared-cancel", action="store_true")
     parser.add_argument("--modes", nargs="+", choices=("baseline", "disabled", "zero", "one", "two"),
                         default=["baseline", "disabled", "zero"])
     args = parser.parse_args()
@@ -192,13 +221,15 @@ def main():
         parser.error("receipt probes require --bounded-workload --modes two")
     if args.recovery_traffic and not args.receipt_probe:
         parser.error("recovery traffic requires a receipt probe")
+    if args.shared_cancel and (args.modes != ["two"] or not args.bounded_workload or args.receipt_probe):
+        parser.error("shared cancellation requires --bounded-workload --modes two without --receipt-probe")
     for port in (8000, 8080, 5555):
         with socket.socket() as s:
             assert s.connect_ex(("127.0.0.1", port)) != 0, ("occupied port", port)
     args.output.mkdir(parents=True, exist_ok=False)
     results = []
     for mode in args.modes:
-        results.append(run((args.output / mode).resolve(), mode, args.bounded_workload, args.receipt_probe, args.recovery_traffic))
+        results.append(run((args.output / mode).resolve(), mode, args.bounded_workload, args.receipt_probe, args.recovery_traffic, args.shared_cancel))
         write_json(args.output / "summary.json", results)
     if len(results) > 1:
         reference = json.loads((args.output / args.modes[0] / "responses.json").read_text())

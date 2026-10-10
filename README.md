@@ -4,6 +4,8 @@
 
 当前状态：**已完成环境验收、固定轨迹回放、第一轮 24 组重复基线和自适应卸载窗口原型；原型已跑通但尚未证明收益。**
 
+2026-10-10 最新：**共享受保护 GPU 前缀的新请求取消专项通过。** 同一组 32 个 block 引用按 2→1→0 变化，原回执恰好释放保护引用；347 个完整响应和 1 个取消请求，936 层回载 KV 全等，原批次两个 chunk/72 层有严格来源证明，资源清零、909 free 恢复。完整 CUDA 回归 525 passed、115 subtests。两轮实验流程失败保留；下一步为自然抢占和重复/跨代回执，仍无性能收益结论。见 [共享取消报告](docs/experiments/2026-10-10/PROTECTION_SHARED_CANCEL.md)。
+
 2026-10-10 后续：**整项超预算回退 GPU 对照通过。** 零预算/一个 chunk 各 348 请求，输入/输出及 14 个默认 STORE 范围一致，各 720 层 KV 全等，资源归零。完整 CUDA 回归 506 passed、115 subtests。仍未进入性能消融，下一步为共享前缀新请求取消/抢占和回执身份专项。见 [预算回退报告](docs/experiments/2026-10-10/PROTECTION_BUDGET.md)。
 
 2026-10-10：**新增保护 STORE 的回执专项已完成首轮。** 真实 STORE 成功后延迟 5 秒再交付回执，继续产生固定恢复流量时 508 请求、720 层 KV 全等并闭合；空闲等待仍留下 pending owner，失败轮保留。失败回执注入验证 worker/scheduler 状态一致、pin 正确释放。两种注入都不模拟真实 DMA 中断或 STORE 执行失败，下一步为新增保护路径的取消、自然抢占、重复/跨代回执和预算回退 GPU 验证。见 [保护回执专项](docs/experiments/2026-10-10/PROTECTED_RECEIPTS.md)。
@@ -30,6 +32,7 @@
 
 - [总体设计与实施方案](docs/PROJECT_PLAN.md)
 - [待办与阶段验收](docs/TASKS.md)
+- [3C 共享受保护前缀取消验收与失败轮](docs/experiments/2026-10-10/PROTECTION_SHARED_CANCEL.md)
 - [3C 两 chunk 实际保护验收与失败轮](docs/experiments/2026-10-09/PROTECTION_TWO.md)
 - [3C 保护 STORE 回执专项](docs/experiments/2026-10-10/PROTECTED_RECEIPTS.md)
 - [3C 零预算 GPU 交接验收](docs/experiments/2026-10-09/PROTECTION_ZERO.md)
