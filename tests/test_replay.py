@@ -23,13 +23,17 @@ def trace():
 
 class TimingTests(unittest.IsolatedAsyncioTestCase):
     async def asyncSetUp(self):
+        self.payloads=[]
+        self.wrong_id=False
         async def handler(request):
             import json
             payload=await request.json()
+            self.payloads.append(payload)
             response=web.StreamResponse(headers={'Content-Type':'text/event-stream'})
             await response.prepare(request)
             # Empty choices must not be mistaken for the first token.
-            await response.write(b'data: {"choices":[]}\n\n')
+            response_id='cmpl-' + ('wrong' if self.wrong_id else payload.get('request_id','default'))
+            await response.write(('data: '+json.dumps({'choices':[],'id':response_id})+'\n\n').encode())
             await asyncio.sleep(.04)
             message='data: '+json.dumps({'choices':[{'text':'hello'}]})+'\n\n'
             # Split across network writes; receiver must reconstruct the line.
@@ -59,6 +63,32 @@ class TimingTests(unittest.IsolatedAsyncioTestCase):
     async def test_truncated_stream_fails(self):
         async def broken(): yield b'data: {"choices":[]}\n'
         with self.assertRaises(RuntimeError): await consume_sse(broken(),lambda _:None)
+
+    async def test_default_payload_omits_request_identity(self):
+        rows=(await replay(trace(),self.url,'test'))['results']
+        self.assertTrue(all('request_id' not in p for p in self.payloads))
+        self.assertTrue(all('api_request_id' not in r for r in rows))
+
+    async def test_explicit_identity_replays_same_ids(self):
+        ids={0:'old-0',1:'old-1'}
+        for _ in range(2):
+            rows=(await replay(trace(),self.url,'test',request_ids=ids))['results']
+            self.assertTrue(all(r['error'] is None for r in rows))
+            self.assertEqual([r['response_id'] for r in rows],['cmpl-old-0','cmpl-old-1'])
+        for start in (0,2):
+            self.assertEqual(sorted(p['request_id'] for p in self.payloads[start:start+2]),
+                             ['old-0','old-1'])
+
+    async def test_incomplete_or_duplicate_ids_rejected_before_requests(self):
+        for ids in ({0:'one'}, {0:'one',1:'one'}, {0:'one',1:''}):
+            with self.assertRaises(ValueError):
+                await replay(trace(),self.url,'test',request_ids=ids)
+        self.assertEqual(self.payloads,[])
+
+    async def test_response_identity_mismatch_fails_request(self):
+        self.wrong_id=True
+        rows=(await replay(trace(),self.url,'test',request_ids={0:'a',1:'b'}))['results']
+        self.assertTrue(all('diagnostic request ID' in r['error'] for r in rows))
 
 
 class SchemaTests(unittest.TestCase):

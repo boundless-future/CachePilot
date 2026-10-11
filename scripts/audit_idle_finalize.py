@@ -106,6 +106,34 @@ def check_events(rows, drops):
                 native_terminal_before_read_release=True)
 
 
+def check_raw_id_reuse(first, repeat, rows, drops):
+    assert first.keys() == repeat.keys()
+    lookups = [r for r in rows if r['event'] == 'lookup_registered']
+    reclaimed = {r['request_id']: r for r in rows if r['event'] == 'lookup_reclaimed'}
+    reentered_drops = []
+    identities = []
+    for key, original in first.items():
+        successor = repeat[key]
+        api_id = original['api_request_id']
+        assert successor['api_request_id'] == api_id
+        assert original['response_id'] == successor['response_id'] == 'cmpl-' + api_id
+        raw_id = 'cmpl-' + api_id + '-0'
+        pair = sorted((r for r in lookups if r['request_id'].split(':', 4)[-1] == raw_id),
+                      key=lambda r: r['monotonic_ns'])
+        assert len(pair) == 2, ('Expected two actual raw-ID generations', raw_id)
+        old, new = pair
+        assert old['request_id'] != new['request_id'], 'Wire generation reused'
+        assert reclaimed[old['request_id']]['monotonic_ns'] < new['monotonic_ns'], 'Old owner not closed before reentry'
+        identities.append(dict(raw_id=raw_id, old_wire_id=old['request_id'],
+                               new_wire_id=new['request_id']))
+        if any(d['wire_id'] == old['request_id'] for d in drops):
+            reentered_drops.append(raw_id)
+    assert reentered_drops, 'No actual idle-dropped generation reentered'
+    return dict(raw_ids=len(identities), distinct_generations=True,
+                old_reclaimed_before_new_lookup=True,
+                dropped_generation_reentry=reentered_drops, identities=identities)
+
+
 def audit(directory):
     plan = read(directory / 'diagnostic-plan.json')
     cells = list(directory.glob('*/result.json'))
@@ -119,7 +147,8 @@ def audit(directory):
     assert len(service_files) == 1, 'Expected isolated server evidence'
     drops = [r for r in records((directory / 'handoffs').glob('*.jsonl'))
              if r['event'] == 'idle_pending_dropped']
-    lifecycle = check_events(records(service_files), drops)
+    service_rows = records(service_files)
+    lifecycle = check_events(service_rows, drops)
     assert not result['service_errors'] and result['protection_summary']['shutdown_closed']
     for process in result['protection_summary']['raw']:
         for key in ('pending_handoffs_before_shutdown', 'prepared_blocks_before_shutdown',
@@ -146,6 +175,8 @@ def audit(directory):
         summary['repeat_requests'] = len(repeat)
         summary['repeat_output_hash_mismatch_ids'] = [
             key for key in first if first[key]['output_sha256'] != repeat[key]['output_sha256']]
+        if plan.get('reuse_request_ids', False):
+            summary['raw_id_reuse'] = check_raw_id_reuse(first, repeat, service_rows, drops)
     summary['passed'] = summary['coverage_passed'] and result['passed']
     return summary
 

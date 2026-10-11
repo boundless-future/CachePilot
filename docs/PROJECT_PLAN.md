@@ -272,6 +272,8 @@ CachePilot/
 
 空闲收尾候选进一步通过 2.5 GiB two/15 秒宽限的共同覆盖诊断：首轮＋重入 136 请求、9 次保护提交/原回执、2 次 idle drop，137 job/280 reservation/84 transfer 全部闭合。两种动作的 wire identity 不相交，只证明同实例兼容；重复文本 hash 8/68 差异保留，不作性能或 KV bitwise 结论。首次 SSH PATH 缺少 vllm 的启动失败 a 归档，修正环境后的 b 通过。完整显式 CUDA 回归 686 passed、115 subtests。下一门槛仍是实际 raw ID 复用/取消与失败回执交互；这组诊断不恢复或改写原 2.5 GiB 性能扫描。
 
+补充检查点：已完成空闲收尾后 68 对实际 raw ID 的两代回放，136 请求中每个旧 owner 都在新 lookup 前回收，含实际 idle-drop 后重入；9 保护提交/回执及 137 job/282 reservation/91 transfer 闭合。文本 hash 差异 8/68 原样保留，完整显式 CUDA 回归 703 passed/115 subtests。接下来按 [晚间记录](experiments/2026-10-11/EVENING_PROGRESS.md) 验证原回执延迟/失败及共享取消负载与候选组合；这仍属于阶段 4 的生命周期验证，阶段 5 未开始。
+
 ### 阶段 5：项目收尾与上游评估（未开始）
 
 整理环境、源码快照、原始 trace、运行命令、结果图表和个人贡献；重新核查 LMCache/vLLM 上游状态。只有在问题仍可复现、存在最小可维护修复并有回归测试时，才提交 issue/PR，不把上游贡献作为当前实验前置条件。

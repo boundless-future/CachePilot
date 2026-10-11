@@ -118,10 +118,33 @@
       "two-r0/trace.json": "904bfbe0cbb1aff87ce8748bc85ab4e5251229deff384c95a779586c7ac821de",
       "two-r0/vllm.log": "362ac45b1e8d10d5d2dc9afd944ee6dbc1c448707d210bbc3c4ae9b32747f5a8",
       "two-r0/warmup.json": "276ca120388f72e7ea31d13fcc1c36125b7e57f37621d676b895414046e5d2a4"
+    },
+    "idle-finalize-raw-id-20261011a": {
+      "after-repeat.json": "6d85eb644b9bd5335bb7179117d2b031540c8f51374d5e66dd6c9936af38aeb5",
+      "before-repeat.json": "5d281e490ab374015c54d36d7b83177fa8b77b4c80635360324f199e6ef7fb16",
+      "diagnostic-plan.json": "4354ed7fe4a7f141e619048ef13a0e991147b6195918195b53699eb28b4c6db7",
+      "handoffs/handoff-35901-SCHEDULER.jsonl": "a7ed64ebd6eb13fba80b7279d71fe879b394b3123fa0fe105054297d281fc830",
+      "handoffs/handoff-35901-WORKER.jsonl": "6869752ddb1485871d5155de1fcd3ea153bcf69a8b4e6e26e41db7956f00a075",
+      "repeat-requests.json": "27f71ea5d2bd2ab0e26e06b62020251ac337fab8f4e0839544ed1ea23a580744",
+      "status-timeline.jsonl": "a3f9317d986263ffc64b44ee1f0300cca865a6fe33e327cb4d1d3ceea8e8038e",
+      "two-r0/config.json": "0b9a3c82269eb8c770b9e79677f114fe2164c65a038cc0d4015c2609fbe98d73",
+      "two-r0/lmcache.log": "9779d9007179a43279e61e269ef65af2922d7676a61fdf42bbfe34141ee83f68",
+      "two-r0/owned-events/owned-service-35799.jsonl": "0b9514c839c468be63912cc1b29405fc5768ef4f3cd6cc8aa84a37bcdf8f019a",
+      "two-r0/protection-summary/protection-35901-SCHEDULER.json": "5fd4de0b12f0063726d22afbfb23fa4523e6fa3f807bd46c3c54e795d641595b",
+      "two-r0/protection-summary/protection-35901-WORKER.json": "1bb9ef6837c0a6d19c35cdb2f68366d89b9006e756b9d49410b0607cca037a91",
+      "two-r0/requests.json": "497b091f4ab342b4e16c1ab8c3fac3b0bbe0aa85a8d52f345d234d6fa3ac5b09",
+      "two-r0/result.json": "1a60583df2d3b4396a9ad51089a63fe383efe9bafae54626dc4bc487411b26e5",
+      "two-r0/run-manifest.json": "0191afdaec35fc83658ea0b7e861a9dda4ae7b8e38fa373fe96fe8242931f99e",
+      "two-r0/shutdown-context.json": "537b727afc7a5a559b0cdf2a4db02dbc0013c26998f926a2c64b86923b6409d7",
+      "two-r0/trace.json": "904bfbe0cbb1aff87ce8748bc85ab4e5251229deff384c95a779586c7ac821de",
+      "two-r0/vllm.log": "4eb3584ab74e5ab29dd009db8cf6a1ccdcb1fb578af47ce3c74ebba363dfefee",
+      "two-r0/warmup.json": "869c73d648cbdfe43f2d761f62d413efe775647106c69f5981fac7154d689058"
     }
   },
   "local_archives_sha256": {
     "idle-finalize-grace15-20261011a.tar.gz": "5a797e4b30afaf48bb3d65a5addb52304de799bbf8509e0973b93be3b5fd6bdc",
+    "idle-finalize-raw-id-20261011a.tar.gz": "51bc9218f0d59b4f8a3e28df2cb21e14edfd6b45df91a6b94060907227b16d77",
+    "idle-finalize-raw-id-source-20261011.tar.gz": "6306d1366f0d77d0e67b3d2043d0046e3a9bd3ae11d330143c9d4d137832e376",
     "idle-finalize-source-20261011.tar.gz": "5ae24569d342daa7f83757ed0b1d6586a520969f846c247dbde70b6be2f12cc5",
     "idle-finalize-two-2p5g-reentry-20261011a.tar.gz": "af67128fa4b1923808f925cf8a572ff3dd4b0dcfdab731db5181db30d2d27830",
     "idle-finalize-two-2p5g-reentry-20261011b.tar.gz": "0cb760bee4ecd31de7a3b724ff0ca0739e30361ac7d6f5f507fb6880bce232b5",

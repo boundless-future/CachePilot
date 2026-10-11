@@ -71,9 +71,13 @@ def run():
     parser.add_argument('--kv-cache-bytes', type=int, default=2684354560)
     parser.add_argument('--repeat-after-idle', action='store_true',
                         help='Replay the same trace after the first idle drain; diagnostic only.')
+    parser.add_argument('--reuse-request-ids', action='store_true',
+                        help='Reuse actual API request IDs after idle; isolated diagnostic only.')
     args = parser.parse_args()
     if args.repeat_after_idle and args.resume_pressure:
         parser.error('Choose only one post-idle intervention')
+    if args.reuse_request_ids and not (args.repeat_after_idle and args.idle_finalize):
+        parser.error('Request ID reuse requires --repeat-after-idle and --idle-finalize')
     if (not math.isfinite(args.idle_grace_seconds) or args.idle_grace_seconds < 0
             or (args.idle_grace_seconds and not args.idle_finalize)):
         parser.error('Nonnegative finite grace requires --idle-finalize')
@@ -84,6 +88,9 @@ def run():
     trace = json.loads(args.trace.read_text())
     ablation.validate_trace(trace)
     ablation.ports_free()
+    if args.reuse_request_ids:
+        ablation.replay = functools.partial(ablation.replay,
+            request_ids={e['event_id']: f"cp-idle-{e['event_id']}" for e in trace['events']})
     write_json(output / 'diagnostic-plan.json', dict(
         purpose='Observe capacity/idle owner lifecycle; not performance data',
         source_trace=str(args.trace), kv_cache_bytes=args.kv_cache_bytes, mode=args.mode,
@@ -93,11 +100,14 @@ def run():
         idle_finalize=args.idle_finalize,
         idle_grace_seconds=args.idle_grace_seconds,
         repeat_after_idle=args.repeat_after_idle,
+        reuse_request_ids=args.reuse_request_ids,
         drain_timeout_seconds=45))
 
     class DiagnosticService(Service):
         def start(self, health, timeout=900):
             os.environ['CACHEPILOT_OWNED_EVENT_LOG'] = '1'
+            if args.reuse_request_ids:
+                os.environ['VLLM_DISABLE_REQUEST_ID_RANDOMIZATION'] = '1'
             if args.idle_finalize:
                 os.environ['CACHEPILOT_HANDOFF_DIR'] = str(output / 'handoffs')
             if self.log.name == 'lmcache.log':

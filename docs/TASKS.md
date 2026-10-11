@@ -2,6 +2,8 @@
 
 更新：2026-10-11。未勾选项均未完整完成；历史设计与当前实测环境以 ENVIRONMENT.md 及对应日期的记录区分。
 
+晚间持续推进至北京时间 22:00，最新步骤、运行目录与下一步见 [晚间记录](experiments/2026-10-11/EVENING_PROGRESS.md)。恢复执行前检查服务器进程，避免与在途实验重复。
+
 ## 已完成
 
 - [x] 明确项目角色：接入现有推理栈的卸载决策模块。
@@ -161,6 +163,7 @@
 - [x] 独立诊断 2.5 GiB zero 的 owned job/session 残留：两轮观测复现已结束请求保留 `[0,1024)` pending STORE 且无 in-flight，第三轮追加 3 个固定压力请求后观察到 STORE→terminal→END→reclaim 并归零；新增零 token pending 契约测试。诊断结果不并入性能聚合，见 [CAPACITY_OWNER_DIAGNOSIS](experiments/2026-10-11/CAPACITY_OWNER_DIAGNOSIS.md)。
 - [x] 设计并以 opt-in 方式实现空闲 pending STORE 的有界丢弃/结束候选；立即收尾反例、15 秒宽限 GPU 轮及 zero/two trace 重入已归档。候选保留提交批次身份和资源安全，不释放 GPU block、不 touch/free、不修改已提交 batch；见 [IDLE_FINALIZE](experiments/2026-10-11/IDLE_FINALIZE.md)。
 - [x] 2.5 GiB two/15 秒宽限交互专项：136 请求、9 个保护提交/回执、288 次保护 pin 释放、2 次 idle drop，137 个 job/280 个原 reservation/84 个 transfer 终结闭合；输出 hash 差异 8/68 保留。两种动作的 wire identity 不相交，不宣称同请求先保护再丢弃；启动环境失败 a 单列，b 通过。完整显式 CUDA 回归 686 passed、115 subtests。
+- [x] 空闲收尾后实际 raw ID 复用：136 请求、68 对不同 wire generation，旧 reclaim 均早于新 lookup；含 1 个实际 idle-dropped raw ID 重入，9 个保护提交/回执，137 job/282 reservation/91 transfer 闭合。输出 hash 8/68 差异保留；完整显式 CUDA 回归 703 passed、115 subtests（含下一专项配置测试）。不覆盖在途 ID 重叠。见 [空闲收尾报告](experiments/2026-10-11/IDLE_FINALIZE.md)。
 - [ ] 扩展空闲收尾门槛：多进程/异步调度、共享前缀、取消/抢占、失败回执、多个 pending chunk、长空闲窗口和真实 driver fault；当前候选只允许固定版本单卡同步 text-only 实例，默认关闭。
 - [ ] 在更多到达模式上多次重复；再增加长 prefill、稳定 decode 和集中恢复。
 - [ ] 用 Qwen3-8B＋5090 复核；如要区分模型/硬件效应，需要额外控制变量实验。

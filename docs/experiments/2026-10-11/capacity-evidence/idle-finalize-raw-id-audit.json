@@ -1,0 +1,405 @@
+{
+  "scope": "Lifecycle and coverage diagnosis; no KV content or performance claim",
+  "runs": [
+    {
+      "run": "idle-finalize-raw-id-20261011a",
+      "grace_seconds": 15.0,
+      "mode": "two",
+      "kv_cache_bytes": 2684354560,
+      "requests": 68,
+      "lifecycle": {
+        "jobs": 137,
+        "reservations": 282,
+        "transfers": 91,
+        "idle_drops": 1,
+        "native_terminal_before_read_release": true
+      },
+      "drops": [
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 22184702486099,
+          "pid": 35901,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-cp-idle-67-0",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:805895878760272284:69:664a5431726db1bc9b34d40a25b9f8d0:cmpl-cp-idle-67-0"
+        }
+      ],
+      "first_h2d_bytes": 1660944384.0,
+      "first_d2h_bytes": 2189426688.0,
+      "reported_passed": true,
+      "coverage_passed": true,
+      "repeat_requests": 68,
+      "repeat_output_hash_mismatch_ids": [
+        11,
+        36,
+        39,
+        41,
+        42,
+        45,
+        46,
+        49
+      ],
+      "raw_id_reuse": {
+        "raw_ids": 68,
+        "distinct_generations": true,
+        "old_reclaimed_before_new_lookup": true,
+        "dropped_generation_reentry": [
+          "cmpl-cp-idle-67-0"
+        ],
+        "identities": [
+          {
+            "raw_id": "cmpl-cp-idle-0-0",
+            "old_wire_id": "cp1:805895878760272284:2:cb2f3ce1d58677151c2db9476423b264:cmpl-cp-idle-0-0",
+            "new_wire_id": "cp1:805895878760272284:70:c3759e80b65744594efb1c27c4317766:cmpl-cp-idle-0-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-1-0",
+            "old_wire_id": "cp1:805895878760272284:3:6993a83f6e01a0e3c9fb7650e1fa5921:cmpl-cp-idle-1-0",
+            "new_wire_id": "cp1:805895878760272284:71:26ab8307b93d394a3b781bc0e39a425f:cmpl-cp-idle-1-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-2-0",
+            "old_wire_id": "cp1:805895878760272284:4:babe73e5b6f7b73ca9bac2fb66c352ec:cmpl-cp-idle-2-0",
+            "new_wire_id": "cp1:805895878760272284:72:47691daa7dab83b6d6ad96ab62ffcc82:cmpl-cp-idle-2-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-3-0",
+            "old_wire_id": "cp1:805895878760272284:5:92638a3896d73bc095bfd33c3fa78b05:cmpl-cp-idle-3-0",
+            "new_wire_id": "cp1:805895878760272284:73:373977342eb7b6034bd2ea0d85a7f1a8:cmpl-cp-idle-3-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-4-0",
+            "old_wire_id": "cp1:805895878760272284:6:821024b9f6dd1ab8b900197c2da991f1:cmpl-cp-idle-4-0",
+            "new_wire_id": "cp1:805895878760272284:74:495629bcd5a06261794d5faac7bb0605:cmpl-cp-idle-4-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-5-0",
+            "old_wire_id": "cp1:805895878760272284:7:a88cf7a126082bff125369d205d25226:cmpl-cp-idle-5-0",
+            "new_wire_id": "cp1:805895878760272284:75:da844cb4367e997984cbd153738dd22c:cmpl-cp-idle-5-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-6-0",
+            "old_wire_id": "cp1:805895878760272284:8:f6b451b4d1de0b4fa7edbf2d30cfa08a:cmpl-cp-idle-6-0",
+            "new_wire_id": "cp1:805895878760272284:76:0da0cfdec50ddf9d64e91a9bec254637:cmpl-cp-idle-6-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-7-0",
+            "old_wire_id": "cp1:805895878760272284:9:33fb818d8a7a2a7f2cab4e7367f52e08:cmpl-cp-idle-7-0",
+            "new_wire_id": "cp1:805895878760272284:77:4265a36b34c8038c69c1ee51b604c033:cmpl-cp-idle-7-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-8-0",
+            "old_wire_id": "cp1:805895878760272284:10:b72949ba42572363edc5b69bcc82be2d:cmpl-cp-idle-8-0",
+            "new_wire_id": "cp1:805895878760272284:78:f89308f690a183ef0b5463de5c2d281c:cmpl-cp-idle-8-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-9-0",
+            "old_wire_id": "cp1:805895878760272284:11:37d80c0044fb914608365e32b1d7d523:cmpl-cp-idle-9-0",
+            "new_wire_id": "cp1:805895878760272284:79:20b5f620b74d508996fb3a8b53b995a5:cmpl-cp-idle-9-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-10-0",
+            "old_wire_id": "cp1:805895878760272284:12:6fa60555dd2e6e18ff819d04996c227f:cmpl-cp-idle-10-0",
+            "new_wire_id": "cp1:805895878760272284:80:0dcda089ed520bb8c77727f98bf18708:cmpl-cp-idle-10-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-11-0",
+            "old_wire_id": "cp1:805895878760272284:13:f2d7883160081823ff029b054890e9bf:cmpl-cp-idle-11-0",
+            "new_wire_id": "cp1:805895878760272284:81:906f3c09a7ea3cab4344d31b87615a88:cmpl-cp-idle-11-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-12-0",
+            "old_wire_id": "cp1:805895878760272284:14:56b17af643379e2d97ab2e64f7167811:cmpl-cp-idle-12-0",
+            "new_wire_id": "cp1:805895878760272284:82:5fe77edff2eeed0a5829a441646e5def:cmpl-cp-idle-12-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-13-0",
+            "old_wire_id": "cp1:805895878760272284:15:7ad8013fb091702b4b2b5215e7c7e679:cmpl-cp-idle-13-0",
+            "new_wire_id": "cp1:805895878760272284:83:8225a54b1b61c43ec603adb2bf2fe59d:cmpl-cp-idle-13-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-14-0",
+            "old_wire_id": "cp1:805895878760272284:16:038b64fea2aa23c850b56cbb0b457960:cmpl-cp-idle-14-0",
+            "new_wire_id": "cp1:805895878760272284:84:27831f0fee3c5ea2598614cc466b0036:cmpl-cp-idle-14-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-15-0",
+            "old_wire_id": "cp1:805895878760272284:17:dae2563c455b62199a30effc335f4355:cmpl-cp-idle-15-0",
+            "new_wire_id": "cp1:805895878760272284:85:4eb8ed90f1c7944695969cb8c36c94a8:cmpl-cp-idle-15-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-16-0",
+            "old_wire_id": "cp1:805895878760272284:18:e7c2612d9eabd05d6709db0f2fc16839:cmpl-cp-idle-16-0",
+            "new_wire_id": "cp1:805895878760272284:86:05e043040741b6dd7f376bd6425e8193:cmpl-cp-idle-16-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-17-0",
+            "old_wire_id": "cp1:805895878760272284:19:a42d9e0d9285f7952b9cd6a056fba9d6:cmpl-cp-idle-17-0",
+            "new_wire_id": "cp1:805895878760272284:87:5bb265e8a7e3f6d6264028d4c4478574:cmpl-cp-idle-17-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-18-0",
+            "old_wire_id": "cp1:805895878760272284:20:10cc8fe288e524b4740c653e3b9454c7:cmpl-cp-idle-18-0",
+            "new_wire_id": "cp1:805895878760272284:88:19c0fcaac8744d9c95ee5267228a9fe1:cmpl-cp-idle-18-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-19-0",
+            "old_wire_id": "cp1:805895878760272284:21:e14bb8acc9cc7447d8f3d695a2bb31c1:cmpl-cp-idle-19-0",
+            "new_wire_id": "cp1:805895878760272284:89:6d83961cb588d105f024d0ad916f157c:cmpl-cp-idle-19-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-20-0",
+            "old_wire_id": "cp1:805895878760272284:22:37c6db5abb05be9f9d1757ea9886f8be:cmpl-cp-idle-20-0",
+            "new_wire_id": "cp1:805895878760272284:90:e5230dbb10d72306898cc50893fe55a8:cmpl-cp-idle-20-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-21-0",
+            "old_wire_id": "cp1:805895878760272284:23:865eefe58f79045805540a0a77656cfb:cmpl-cp-idle-21-0",
+            "new_wire_id": "cp1:805895878760272284:91:ca0f16fc39ee3b9d134de6846b180308:cmpl-cp-idle-21-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-22-0",
+            "old_wire_id": "cp1:805895878760272284:24:8027965681c63424b08f0db1cd1f2ce4:cmpl-cp-idle-22-0",
+            "new_wire_id": "cp1:805895878760272284:92:18eb7dc84451173088de2c2c172cc9cc:cmpl-cp-idle-22-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-23-0",
+            "old_wire_id": "cp1:805895878760272284:25:1fcec36384393731da9a670f8c4d8175:cmpl-cp-idle-23-0",
+            "new_wire_id": "cp1:805895878760272284:93:f19d47a7573f0b37c07655a94b0090ee:cmpl-cp-idle-23-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-24-0",
+            "old_wire_id": "cp1:805895878760272284:26:80834144019be73555d281d0d1206929:cmpl-cp-idle-24-0",
+            "new_wire_id": "cp1:805895878760272284:94:6b34d42ba2a10e42104e9593841404ef:cmpl-cp-idle-24-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-25-0",
+            "old_wire_id": "cp1:805895878760272284:27:e41da79d358ae378f89b97513c4a74d4:cmpl-cp-idle-25-0",
+            "new_wire_id": "cp1:805895878760272284:95:aa5b79aae017c578cce8f5190cf727cd:cmpl-cp-idle-25-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-26-0",
+            "old_wire_id": "cp1:805895878760272284:28:5cc63f98206fc63040d179abaa091716:cmpl-cp-idle-26-0",
+            "new_wire_id": "cp1:805895878760272284:96:1f63dcef92ad8cf9e13d777daaa0eec3:cmpl-cp-idle-26-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-27-0",
+            "old_wire_id": "cp1:805895878760272284:29:8bf254c50be0ad8b184e3ba85cb4098c:cmpl-cp-idle-27-0",
+            "new_wire_id": "cp1:805895878760272284:97:4fefbadbc054ddc4dca9c3895506391b:cmpl-cp-idle-27-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-28-0",
+            "old_wire_id": "cp1:805895878760272284:30:399e61a5b1b95f3206fc56fab933f483:cmpl-cp-idle-28-0",
+            "new_wire_id": "cp1:805895878760272284:98:f8d2e8cc66c6264dfc5914999e24ed8f:cmpl-cp-idle-28-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-29-0",
+            "old_wire_id": "cp1:805895878760272284:31:7ac50167be6208b31a565c73455c2c11:cmpl-cp-idle-29-0",
+            "new_wire_id": "cp1:805895878760272284:99:6dc7e724e96faeff5acd6e91173efb1a:cmpl-cp-idle-29-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-30-0",
+            "old_wire_id": "cp1:805895878760272284:32:66560376e2605e7a151f8e05ed166ced:cmpl-cp-idle-30-0",
+            "new_wire_id": "cp1:805895878760272284:100:00f32b8ee0ae17988d41fb1789c2a71b:cmpl-cp-idle-30-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-31-0",
+            "old_wire_id": "cp1:805895878760272284:33:248dfa80c3034352d72ae48cf412e56c:cmpl-cp-idle-31-0",
+            "new_wire_id": "cp1:805895878760272284:101:a924566f7070068bcf53085e93d4b26f:cmpl-cp-idle-31-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-32-0",
+            "old_wire_id": "cp1:805895878760272284:34:0e1e75f9a1bcae189852b48a1fa891d9:cmpl-cp-idle-32-0",
+            "new_wire_id": "cp1:805895878760272284:102:a44bc01607caa9a7785c22783d3b976a:cmpl-cp-idle-32-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-33-0",
+            "old_wire_id": "cp1:805895878760272284:35:220bd1e025229ece4cc5b928fee47ac9:cmpl-cp-idle-33-0",
+            "new_wire_id": "cp1:805895878760272284:103:6d5f462f6d6ea88633c16e3bf614a1fa:cmpl-cp-idle-33-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-34-0",
+            "old_wire_id": "cp1:805895878760272284:36:adfc3ae13a5e59dba77060ba09bf96bb:cmpl-cp-idle-34-0",
+            "new_wire_id": "cp1:805895878760272284:104:4a23cc86efe479c90a0102e198afa447:cmpl-cp-idle-34-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-35-0",
+            "old_wire_id": "cp1:805895878760272284:37:719af3efcde649a4d5c6ac40c9b003ce:cmpl-cp-idle-35-0",
+            "new_wire_id": "cp1:805895878760272284:105:be2867ff7ffeb51aa4d24e28c4c1c6e8:cmpl-cp-idle-35-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-36-0",
+            "old_wire_id": "cp1:805895878760272284:38:d1312ca7fc000cbe4507426098408a70:cmpl-cp-idle-36-0",
+            "new_wire_id": "cp1:805895878760272284:106:ce4f3a84a6ee7d11460af4adfa80293f:cmpl-cp-idle-36-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-37-0",
+            "old_wire_id": "cp1:805895878760272284:39:8157909f513ffa1334dfdccc10e0c455:cmpl-cp-idle-37-0",
+            "new_wire_id": "cp1:805895878760272284:107:9d9dfc3abd6d08aaddd73cd002fe98c0:cmpl-cp-idle-37-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-38-0",
+            "old_wire_id": "cp1:805895878760272284:40:2e9d0d15cc99fda83e223b9a13e0dd8e:cmpl-cp-idle-38-0",
+            "new_wire_id": "cp1:805895878760272284:108:0ba8cae2b5cb8ef9ea04a67d98269789:cmpl-cp-idle-38-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-39-0",
+            "old_wire_id": "cp1:805895878760272284:41:530c62e7c67894d258dfe31ec679c27d:cmpl-cp-idle-39-0",
+            "new_wire_id": "cp1:805895878760272284:109:a7243bf8eaf47c3c60e80f77ed4033a9:cmpl-cp-idle-39-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-40-0",
+            "old_wire_id": "cp1:805895878760272284:42:578836aec5bb3a96b845f55f3ecfbce8:cmpl-cp-idle-40-0",
+            "new_wire_id": "cp1:805895878760272284:110:e8cadd9b57c5e19e757d4d27a96acfda:cmpl-cp-idle-40-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-41-0",
+            "old_wire_id": "cp1:805895878760272284:43:dcbec92574240caa50d81518d3071dd5:cmpl-cp-idle-41-0",
+            "new_wire_id": "cp1:805895878760272284:111:e782059d1b888c27711df94537cb4ed5:cmpl-cp-idle-41-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-42-0",
+            "old_wire_id": "cp1:805895878760272284:44:4fb31d93279a93881273192824155826:cmpl-cp-idle-42-0",
+            "new_wire_id": "cp1:805895878760272284:112:f7785e931b9f365d8af1e2c73712f4a4:cmpl-cp-idle-42-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-43-0",
+            "old_wire_id": "cp1:805895878760272284:45:6d800963603e0f5ec7532934677f241c:cmpl-cp-idle-43-0",
+            "new_wire_id": "cp1:805895878760272284:113:4f5b6e22118327817a5821f3c184b6d4:cmpl-cp-idle-43-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-44-0",
+            "old_wire_id": "cp1:805895878760272284:46:804ed6d141470c5d5dd353c9a8c11776:cmpl-cp-idle-44-0",
+            "new_wire_id": "cp1:805895878760272284:114:6db95d36b85c07a41435a5f3bbf93a40:cmpl-cp-idle-44-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-45-0",
+            "old_wire_id": "cp1:805895878760272284:47:1edb8b681bc5c8a866ca275acaf4e4f6:cmpl-cp-idle-45-0",
+            "new_wire_id": "cp1:805895878760272284:115:4a8610f2decce3ce28a342b8dbc49373:cmpl-cp-idle-45-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-46-0",
+            "old_wire_id": "cp1:805895878760272284:48:2d8df64997c28b96b1fc453adce8126b:cmpl-cp-idle-46-0",
+            "new_wire_id": "cp1:805895878760272284:116:9def300cf78cc5c0defd464b58f70fc7:cmpl-cp-idle-46-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-47-0",
+            "old_wire_id": "cp1:805895878760272284:49:2a3fccf9aebcc0890b005e71da0de81d:cmpl-cp-idle-47-0",
+            "new_wire_id": "cp1:805895878760272284:117:5758d8b573a1151a6a1c446a42b81b1d:cmpl-cp-idle-47-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-48-0",
+            "old_wire_id": "cp1:805895878760272284:50:423e993d60d4f0ac22b96a7f6d6b58f7:cmpl-cp-idle-48-0",
+            "new_wire_id": "cp1:805895878760272284:118:b79e2e823918d7e98a067f582687879a:cmpl-cp-idle-48-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-49-0",
+            "old_wire_id": "cp1:805895878760272284:51:be33de9f1249975afa6771a445896d13:cmpl-cp-idle-49-0",
+            "new_wire_id": "cp1:805895878760272284:119:0108bc2ea876c26c4c1c8962c19babd2:cmpl-cp-idle-49-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-50-0",
+            "old_wire_id": "cp1:805895878760272284:52:b75c8dce208c64262e408d9098b4779a:cmpl-cp-idle-50-0",
+            "new_wire_id": "cp1:805895878760272284:120:20f1274269c2e3bdfe26a783ee6eea75:cmpl-cp-idle-50-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-51-0",
+            "old_wire_id": "cp1:805895878760272284:53:6662db1f75dadc0ec52a39d7b820dd1f:cmpl-cp-idle-51-0",
+            "new_wire_id": "cp1:805895878760272284:121:86a2046029f76115120b313550f007bd:cmpl-cp-idle-51-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-52-0",
+            "old_wire_id": "cp1:805895878760272284:54:852ea3b8669d9ef79604e469f190f5aa:cmpl-cp-idle-52-0",
+            "new_wire_id": "cp1:805895878760272284:122:240dd63e91b8465e0bef9aed616caeab:cmpl-cp-idle-52-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-53-0",
+            "old_wire_id": "cp1:805895878760272284:55:2f922d73b51a2d066ade75c257497f8c:cmpl-cp-idle-53-0",
+            "new_wire_id": "cp1:805895878760272284:123:f59c92fa77e5387e0392b80ff18a9414:cmpl-cp-idle-53-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-54-0",
+            "old_wire_id": "cp1:805895878760272284:56:27d0458a885ad42b38f05143b4cd24d0:cmpl-cp-idle-54-0",
+            "new_wire_id": "cp1:805895878760272284:124:470c5a92d3f937ee300e76f857042f0f:cmpl-cp-idle-54-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-55-0",
+            "old_wire_id": "cp1:805895878760272284:57:b797baefbf5cf8a443c42d9b4394e23a:cmpl-cp-idle-55-0",
+            "new_wire_id": "cp1:805895878760272284:125:64c071760bad7e46934c59b77db995a2:cmpl-cp-idle-55-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-56-0",
+            "old_wire_id": "cp1:805895878760272284:58:16686690f42f713c46ad5ae8486f0446:cmpl-cp-idle-56-0",
+            "new_wire_id": "cp1:805895878760272284:126:d37253659d190b815de82aa860969d99:cmpl-cp-idle-56-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-57-0",
+            "old_wire_id": "cp1:805895878760272284:59:6a03418b5fb1d2f8883c549694828d68:cmpl-cp-idle-57-0",
+            "new_wire_id": "cp1:805895878760272284:127:a1286c13858eaa4aa7ec160dcaadace7:cmpl-cp-idle-57-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-58-0",
+            "old_wire_id": "cp1:805895878760272284:60:315473b78ad652cc0b0ca753c7d90f85:cmpl-cp-idle-58-0",
+            "new_wire_id": "cp1:805895878760272284:128:dadb26b18d3d2cfa6f16801b869033c6:cmpl-cp-idle-58-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-59-0",
+            "old_wire_id": "cp1:805895878760272284:61:18028e6cb04ebf81d116105f7a7359d4:cmpl-cp-idle-59-0",
+            "new_wire_id": "cp1:805895878760272284:129:2cadead40c0f6f0f740c0662a87f551c:cmpl-cp-idle-59-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-60-0",
+            "old_wire_id": "cp1:805895878760272284:62:8ead4affd57a68aec41358463ddda148:cmpl-cp-idle-60-0",
+            "new_wire_id": "cp1:805895878760272284:130:ee236bafb8e5c284198f8994372173d5:cmpl-cp-idle-60-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-61-0",
+            "old_wire_id": "cp1:805895878760272284:63:46ee4ca1905be0b365b16e1e4ae6e6a4:cmpl-cp-idle-61-0",
+            "new_wire_id": "cp1:805895878760272284:131:45894b871b520cba9399935693b5fe5e:cmpl-cp-idle-61-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-62-0",
+            "old_wire_id": "cp1:805895878760272284:64:9ff79cdb43dd8b9c90a90a0c4f0f84e9:cmpl-cp-idle-62-0",
+            "new_wire_id": "cp1:805895878760272284:132:c14be0d779420ec55e3adf7c461670b8:cmpl-cp-idle-62-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-63-0",
+            "old_wire_id": "cp1:805895878760272284:65:45ede009d732f09ff7f8c2e990de3309:cmpl-cp-idle-63-0",
+            "new_wire_id": "cp1:805895878760272284:133:c371dd81be5cfe32d25d21b811199dd3:cmpl-cp-idle-63-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-64-0",
+            "old_wire_id": "cp1:805895878760272284:66:064300a70b6bcf02c21284df065e43f5:cmpl-cp-idle-64-0",
+            "new_wire_id": "cp1:805895878760272284:134:556d7a9fb1013b6ecfadc1bf94e69cd9:cmpl-cp-idle-64-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-65-0",
+            "old_wire_id": "cp1:805895878760272284:67:26ccde7d2e02c08018b1742cd107e838:cmpl-cp-idle-65-0",
+            "new_wire_id": "cp1:805895878760272284:135:966b078b51e2c01773d4902f0b805cb2:cmpl-cp-idle-65-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-66-0",
+            "old_wire_id": "cp1:805895878760272284:68:cac0c6efa76ab0b0c3cf0c25c597e92b:cmpl-cp-idle-66-0",
+            "new_wire_id": "cp1:805895878760272284:136:ac5d9dfa6a826c7c6ce7f504c8781a5d:cmpl-cp-idle-66-0"
+          },
+          {
+            "raw_id": "cmpl-cp-idle-67-0",
+            "old_wire_id": "cp1:805895878760272284:69:664a5431726db1bc9b34d40a25b9f8d0:cmpl-cp-idle-67-0",
+            "new_wire_id": "cp1:805895878760272284:137:12e3a218005c32d0c9b0afdfb63ff661:cmpl-cp-idle-67-0"
+          }
+        ]
+      },
+      "passed": true
+    }
+  ]
+}

@@ -3,6 +3,7 @@ from copy import deepcopy
 import pytest
 
 from scripts.audit_idle_finalize import check_events
+from scripts.audit_idle_finalize import check_raw_id_reuse
 
 
 @pytest.fixture
@@ -48,3 +49,31 @@ def test_rejects_incomplete_or_misattributed_lifecycle(evidence,fault):
     elif fault=='unknown_drop': drops[0]['wire_id']='new-generation'
     else: next(r for r in rows if r['event']=='transfer_submitted')['read_pins']=2
     with pytest.raises(AssertionError): check_events(rows,drops)
+
+
+@pytest.fixture
+def reuse():
+    first={0:dict(api_request_id='same',response_id='cmpl-same')}
+    repeat=deepcopy(first)
+    old,new='cp1:1:1:old:cmpl-same-0','cp1:1:2:new:cmpl-same-0'
+    rows=[dict(event='lookup_registered',request_id=old,monotonic_ns=1),
+          dict(event='lookup_reclaimed',request_id=old,monotonic_ns=2),
+          dict(event='lookup_registered',request_id=new,monotonic_ns=3)]
+    return first,repeat,rows,[dict(wire_id=old)]
+
+
+def test_raw_id_proof_pairs_reclaimed_generation(reuse):
+    result=check_raw_id_reuse(*reuse)
+    assert result['raw_ids']==1
+    assert result['dropped_generation_reentry']==['cmpl-same-0']
+
+
+@pytest.mark.parametrize('fault',['no_drop','late_reclaim','same_generation','different_api','missing_lookup'])
+def test_raw_id_proof_rejects_weak_or_missing_evidence(reuse,fault):
+    first,repeat,rows,drops=reuse
+    if fault=='no_drop': drops.clear()
+    elif fault=='late_reclaim': rows[1]['monotonic_ns']=4
+    elif fault=='same_generation': rows[2]['request_id']=rows[0]['request_id']
+    elif fault=='different_api': repeat[0]['api_request_id']='new'
+    else: rows.pop()
+    with pytest.raises(AssertionError): check_raw_id_reuse(first,repeat,rows,drops)

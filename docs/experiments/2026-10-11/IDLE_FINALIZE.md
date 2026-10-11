@@ -67,3 +67,11 @@ b 首轮及重入各 68 请求，输入/输出 token 合约、服务错误与资
 重入相对首轮输出 hash 有 8/68 差异，固定 token 不代表文本等价。本专项没有逐层 KV 探针，不宣称传输内容全等或性能收益。五个实际运行的候选诊断共 544 个 trace 请求，另有五个 warmup；启动失败 a 单列，不计作有效运行。专项通过后仍保留真实 raw ID 复用、共享前缀取消/失败回执交互及旧 30 秒延迟边界，尚未恢复 2.5 GiB 正式容量计时。
 
 证据：[生命周期与覆盖审计](capacity-evidence/idle-finalize-two-2p5g-audit.json)、[保护引用审计](capacity-evidence/idle-finalize-two-2p5g-protection-audit.json)、[b 原始归档](capacity-evidence/idle-finalize-two-2p5g-reentry-20261011b.tar.gz)。归档下载逐文件 hash 与服务器核对；校验值见 [归档清单](capacity-evidence/idle-finalize-archive-manifest.json)。候选源文件、测试、审计入口及 runner 另存 [源码快照](capacity-evidence/idle-finalize-source-20261011.tar.gz)，与 Git 版本一起使用。
+
+## 空闲收尾后的实际 raw ID 复用
+
+新增显式诊断选项 `--reuse-request-ids`，两遍 68-request trace 使用同一组 API ID，并仅在隔离实例禁用 vLLM ID randomization。客户端检查 SSE response ID 是否保留指定值；正常 replay 不发送该字段，输入、到达与 token 合约不改变。
+
+`idle-finalize-raw-id-20261011a` 的 two/2.5 GiB/15 秒宽限轮完成 136 请求。68 对实际 raw ID 分别对应不同 wire generation，服务事件逐项证明旧 reclaim 先于新 lookup。第一遍被空闲丢弃的 `cmpl-cp-idle-67-0` 在第二遍重新注册，没有继承旧终态。全服务 137 个 job、282 个原 reservation、91 个 transfer/native terminal 闭合，9 次保护提交/回执、峰值 32 block；资源归零。首轮 H2D=1,660,944,384 B，重复输出 hash 差异 8/68 保留。本轮证明已回收后复用，不覆盖旧 STORE 仍在途、旧回执迟到或实际 DMA 故障；无逐层 KV 探针。
+
+审计：[raw ID 生命周期](capacity-evidence/idle-finalize-raw-id-audit.json)；[原始证据](capacity-evidence/idle-finalize-raw-id-20261011a.tar.gz)；[源文件与测试快照](capacity-evidence/idle-finalize-raw-id-source-20261011.tar.gz)。完整显式 CUDA 回归为 **703 passed、115 subtests**，含已准备的回执/取消组合配置测试；[测试日志](capacity-evidence/idle-finalize-raw-id-regression-20261011.txt)。新的客户端测试使用本地实际 SSE 服务器，验证默认 payload、两遍显式身份和错误响应 ID；没有把并发请求的到达顺序当作身份保证。

@@ -24,8 +24,16 @@ async def consume_sse(content, on_chunk):
     if not done: raise RuntimeError('truncated SSE stream (missing DONE)')
 
 
-async def replay(trace, base_url, model, mode='open', limit=64):
+async def replay(trace, base_url, model, mode='open', limit=64, *, request_ids=None):
     validate_trace(trace)
+    # Explicit diagnostic opt-in. Normal trace replay keeps server-generated IDs.
+    if request_ids is not None:
+        events = trace['events']
+        if (len({e['event_id'] for e in events}) != len(events)
+                or set(request_ids) != {e['event_id'] for e in events}
+                or any(not isinstance(v, str) or not v for v in request_ids.values())
+                or len(set(request_ids.values())) != len(events)):
+            raise ValueError('Diagnostic request IDs must uniquely cover every event')
     start=time.perf_counter()
     completions={}
     for e in trace['events']: completions[(e['session_id'],e['turn'])]=asyncio.Event()
@@ -44,10 +52,16 @@ async def replay(trace, base_url, model, mode='open', limit=64):
             # It is a serving workload, not a live causally executing Agent.
             row={k:e[k] for k in ['event_id','session_id','turn','arrival_ms','prompt_sha256','prompt_tokens','max_tokens']}
             row.update(scheduled_ms=(scheduled-start)*1000,error=None,usage=None)
+            if request_ids is not None:
+                row['api_request_id']=request_ids[e['event_id']]
             first=None; text=[]; chunks=[]; usage=None; finish_reason=None
             def receive(chunk):
                 nonlocal first,usage,finish_reason
                 if chunk.get('error'): raise RuntimeError(str(chunk['error']))
+                if request_ids is not None and chunk.get('id') is not None:
+                    if chunk['id'] != 'cmpl-' + row['api_request_id']:
+                        raise RuntimeError('Response did not preserve diagnostic request ID')
+                    row['response_id']=chunk['id']
                 if chunk.get('usage'): usage=chunk['usage']
                 for choice in chunk.get('choices',[]):
                     piece=choice.get('text','')
@@ -62,11 +76,15 @@ async def replay(trace, base_url, model, mode='open', limit=64):
                 row['sent_ms']=(sent-start)*1000
                 payload=dict(model=model,prompt=e['prompt'],max_tokens=e['max_tokens'],temperature=0,
                     seed=e['seed'],ignore_eos=True,stream=True,stream_options={'include_usage':True})
+                if request_ids is not None:
+                    payload['request_id']=row['api_request_id']
                 try:
                     async with client.post(base_url+'/v1/completions',json=payload) as response:
                         row['http_status']=response.status
                         response.raise_for_status()
                         await consume_sse(response.content,receive)
+                    if request_ids is not None and 'response_id' not in row:
+                        raise RuntimeError('Missing diagnostic response ID')
                     if not usage or usage['completion_tokens']!=e['max_tokens']:
                         raise RuntimeError(f'output budget mismatch: {usage}')
                     if usage['prompt_tokens']!=e['prompt_tokens']:

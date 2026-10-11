@@ -14,7 +14,7 @@
 python scripts/diagnose_capacity_owner.py --output artifacts/idle-finalize-two-2p5g-reentry-20261011a --trace artifacts/capacity-pilot-2p5g-20261011a/trace.json --idle-finalize --idle-grace-seconds 15 --mode two --kv-cache-bytes 2684354560 --repeat-after-idle
 ```
 
-18:49 北京时间补记：a 在 engine.start 时因 SSH 的 PATH 缺少 Conda bin 而失败，`serve.sh: exec: vllm: not found`，没有模型请求或策略覆盖。保留原目录和原始错误；允许在 b 新目录、同源码/配置/trace/门槛下仅修正启动环境后重试。此操作不补救运行中的资源或覆盖失败。
+补记（a 启动失败后、b 重试前）：a 在 engine.start 时因 SSH 的 PATH 缺少 Conda bin 而失败，`serve.sh: exec: vllm: not found`，没有模型请求或策略覆盖。保留原目录和原始错误；允许在 b 新目录、同源码/配置/trace/门槛下仅修正启动环境后重试。此操作不补救运行中的资源或覆盖失败。
 
 ```bash
 export PATH=/usr/local/miniconda3/envs/cachepilot/bin:$PATH
