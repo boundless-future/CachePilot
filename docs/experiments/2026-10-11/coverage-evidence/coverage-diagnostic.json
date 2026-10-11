@@ -1,0 +1,214 @@
+{
+  "diagnostic_checks": {
+    "measurements": true,
+    "resources": true,
+    "h2d": true,
+    "no_service_errors": true,
+    "protection_closed": true,
+    "observations_valid": true
+  },
+  "diagnostic_passed": true,
+  "original_performance_gate_passed": false,
+  "caught": "RuntimeError('cell failed resource or replay gate: /root/CachePilot/artifacts/protection-coverage-diagnostic-20261011a')",
+  "observation": {
+    "passed": true,
+    "errors": [],
+    "observations": [
+      {
+        "wire_id": "cp1:1870582115709202140:2:cccf0e991346859a6866f6de5b9fd822:cmpl-b0003da2d5cbc77b-0-97425944",
+        "free": 704,
+        "reserve": 1502,
+        "required": 16,
+        "reserve_shortfall": 814,
+        "budget_available": 16,
+        "inflight": 0,
+        "acquired_pins": 0,
+        "later_default_batches": 1
+      },
+      {
+        "wire_id": "cp1:1870582115709202140:3:421acec09950d183938f8cdcab625029:cmpl-88dc538d1ee5acb6-0-952c9e0b",
+        "free": 582,
+        "reserve": 2208,
+        "required": 16,
+        "reserve_shortfall": 1642,
+        "budget_available": 16,
+        "inflight": 0,
+        "acquired_pins": 0,
+        "later_default_batches": 1
+      },
+      {
+        "wire_id": "cp1:1870582115709202140:50:cc5e8c55fd4b81dc709946996bffc1d0:cmpl-98a58c49597d9b8d-0-b24d8352",
+        "free": 703,
+        "reserve": 972,
+        "required": 16,
+        "reserve_shortfall": 285,
+        "budget_available": 16,
+        "inflight": 0,
+        "acquired_pins": 0,
+        "later_default_batches": 1
+      },
+      {
+        "wire_id": "cp1:1870582115709202140:51:8b97ce580e66fe0f188f1b3a37f11a1a:cmpl-901cface33b80be1-0-9b52605d",
+        "free": 497,
+        "reserve": 1366,
+        "required": 16,
+        "reserve_shortfall": 885,
+        "budget_available": 16,
+        "inflight": 0,
+        "acquired_pins": 0,
+        "later_default_batches": 1
+      },
+      {
+        "wire_id": "cp1:1870582115709202140:53:7969cac84e9f6047e44837252bdcb18a:cmpl-9955be61027ac827-0-926ef992",
+        "free": 423,
+        "reserve": 1516,
+        "required": 16,
+        "reserve_shortfall": 1109,
+        "budget_available": 16,
+        "inflight": 0,
+        "acquired_pins": 0,
+        "later_default_batches": 1
+      },
+      {
+        "wire_id": "cp1:1870582115709202140:54:f270e8eceb0d769d2cbc79d5f4abee8f:cmpl-8269f1cb88f17edc-0-b26ad9cc",
+        "free": 486,
+        "reserve": 1816,
+        "required": 16,
+        "reserve_shortfall": 1346,
+        "budget_available": 16,
+        "inflight": 0,
+        "acquired_pins": 0,
+        "later_default_batches": 1
+      },
+      {
+        "wire_id": "cp1:1870582115709202140:55:53f312effcbf6e84094baac63a5ee692:cmpl-955d6ed33635483a-0-95e91f91",
+        "free": 486,
+        "reserve": 1816,
+        "required": 16,
+        "reserve_shortfall": 1346,
+        "budget_available": 16,
+        "inflight": 0,
+        "acquired_pins": 0,
+        "later_default_batches": 1
+      },
+      {
+        "wire_id": "cp1:1870582115709202140:56:629a87a066235df67216b24ed5e82c63:cmpl-95f17d21ce136a63-0-96575ae4",
+        "free": 486,
+        "reserve": 1816,
+        "required": 16,
+        "reserve_shortfall": 1346,
+        "budget_available": 16,
+        "inflight": 0,
+        "acquired_pins": 0,
+        "later_default_batches": 1
+      },
+      {
+        "wire_id": "cp1:1870582115709202140:57:0f286326da11b3605a1c4a7d2dbb6fbb:cmpl-bcea41d3efb848d2-0-afacfb37",
+        "free": 542,
+        "reserve": 1682,
+        "required": 16,
+        "reserve_shortfall": 1156,
+        "budget_available": 16,
+        "inflight": 0,
+        "acquired_pins": 0,
+        "later_default_batches": 1
+      }
+    ],
+    "scope": "First capacity fallback per wire; not every attempt or allocator demand proof"
+  },
+  "zero_coverage_reproduced": true,
+  "summary": {
+    "processes": 2,
+    "events": {
+      "initialized": 2,
+      "protection_fallback": 9,
+      "scheduler_built": 43,
+      "scheduler_metadata": 55,
+      "scheduler_receipt": 43,
+      "worker_bound": 43,
+      "worker_receipt": 43,
+      "worker_submit_returned": 43
+    },
+    "fallbacks": {
+      "capacity": 9
+    },
+    "prepared_batches": 0,
+    "committed_batches": 0,
+    "receipts": 0,
+    "failed_receipts": 0,
+    "peak_pinned_blocks": 0,
+    "peak_inflight_blocks": 0,
+    "raw": [
+      {
+        "committed_batches": 0,
+        "events": {
+          "initialized": 1,
+          "protection_fallback": 9,
+          "scheduler_built": 43,
+          "scheduler_metadata": 55,
+          "scheduler_receipt": 43
+        },
+        "failed_receipts": 0,
+        "fallbacks": {
+          "capacity": 9
+        },
+        "inflight_blocks_before_shutdown": 0,
+        "peak_inflight_blocks": 0,
+        "peak_pinned_blocks": 0,
+        "pending_handoffs_before_shutdown": 0,
+        "pid": 60391,
+        "prepared_batches": 0,
+        "prepared_blocks_before_shutdown": 0,
+        "receipts": 0,
+        "role": "SCHEDULER",
+        "shutdown_complete": true,
+        "timings": {
+          "commit": {
+            "calls": 864,
+            "cpu_ns": 2322900,
+            "wall_ns": 2364457
+          },
+          "prepare": {
+            "calls": 864,
+            "cpu_ns": 82615835,
+            "wall_ns": 85991127
+          },
+          "receipts": {
+            "calls": 31,
+            "cpu_ns": 107624,
+            "wall_ns": 109609
+          },
+          "rollback": {
+            "calls": 20,
+            "cpu_ns": 81492,
+            "wall_ns": 90951
+          }
+        }
+      },
+      {
+        "committed_batches": 0,
+        "events": {
+          "initialized": 1,
+          "worker_bound": 43,
+          "worker_receipt": 43,
+          "worker_submit_returned": 43
+        },
+        "failed_receipts": 0,
+        "fallbacks": {},
+        "inflight_blocks_before_shutdown": 0,
+        "peak_inflight_blocks": 0,
+        "peak_pinned_blocks": 0,
+        "pending_handoffs_before_shutdown": 0,
+        "pid": 60391,
+        "prepared_batches": 0,
+        "prepared_blocks_before_shutdown": 0,
+        "receipts": 0,
+        "role": "WORKER",
+        "shutdown_complete": true,
+        "timings": {}
+      }
+    ],
+    "shutdown_closed": true
+  },
+  "scope": "Diagnostic logging; never aggregate its latency into performance matrices"
+}

@@ -1,4 +1,4 @@
-"""Frozen compressed-arrival follow-up; reuse established reference measurements."""
+"""Frozen workload follow-ups; reuse established reference measurements."""
 import argparse
 import copy
 from datetime import datetime, timezone
@@ -25,6 +25,32 @@ def compress_arrivals(base):
     return trace
 
 
+def extend_prefill(base, tokenizer):
+    """Prepend fixed session-specific evidence; preserve arrivals and decode budgets."""
+    if digest(base) != BASE_TRACE_SHA:
+        raise ValueError("Expected preregistered reference trace")
+    trace = copy.deepcopy(base)
+    trace["trace_id"] += "-prefill-plus3072"
+    trace["workload_variant"] = "long-prefill"
+    prefixes = {}
+    for event in trace["events"]:
+        session = event["session_id"]
+        if session not in prefixes:
+            text = (f"Long context evidence for {session}.\n" + "\n".join(
+                f"Record {i}: inspect deterministic repository evidence for session {session}."
+                for i in range(1024)))
+            ids = tokenizer.encode(text, add_special_tokens=False)[:3072]
+            if len(ids) != 3072:
+                raise ValueError("Insufficient fixed prefix material")
+            prefixes[session] = tokenizer.decode(ids) + "\n"
+        event["prompt"] = prefixes[session] + event["prompt"]
+        event["prompt_sha256"] = hashlib.sha256(event["prompt"].encode()).hexdigest()
+        event["prompt_tokens"] = len(tokenizer.encode(event["prompt"], add_special_tokens=False))
+        if event["prompt_tokens"] + event["max_tokens"] > 8192:
+            raise ValueError("Extended prefill exceeds unchanged context limit")
+    return trace
+
+
 def validate_pilot(directory, signature, cases):
     from summarize_reference_matrix import collect
     plan = json.loads((directory / "plan.json").read_text())
@@ -38,6 +64,8 @@ def validate_pilot(directory, signature, cases):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--stage", choices=("pilot", "formal"), required=True)
+    parser.add_argument("--workload", choices=("compressed-arrivals", "long-prefill"),
+                        default="compressed-arrivals")
     parser.add_argument("--reference", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--pilot", type=Path)
@@ -65,11 +93,19 @@ def main():
     cases = cases_for(selection["selected"], "unprotected")
     if prior["cases"] != cases:
         raise ValueError("Reference configuration selection differs")
-    trace = compress_arrivals(read(args.reference / "trace.json"))
+    base = read(args.reference / "trace.json")
+    if args.workload == "long-prefill":
+        from transformers import AutoTokenizer
+        trace = extend_prefill(base, AutoTokenizer.from_pretrained(
+            str(ablation.ROOT / "models/Qwen3-4B"), local_files_only=True))
+    else:
+        trace = compress_arrivals(base)
     ablation.validate_trace(trace)
     signature = dict(source_sha256=sources, kv_cache_bytes=KV_BYTES,
-        trace_sha256=digest(trace), cases=cases, gate="arrival-half-v1",
-        scope="compressed-arrivals", base_trace_sha256=BASE_TRACE_SHA, arrival_scale=0.5)
+        trace_sha256=digest(trace), cases=cases, gate=args.workload + "-v1",
+        scope=args.workload, base_trace_sha256=BASE_TRACE_SHA,
+        intervention=({"prefix_material_tokens": 3072} if args.workload == "long-prefill"
+                      else {"arrival_scale": 0.5}))
     if args.pilot:
         validate_pilot(args.pilot, signature, cases)
     ablation.ports_free()
@@ -77,7 +113,7 @@ def main():
     repeats = 1 if args.stage == "pilot" else 3
     write_json(args.output / "trace.json", trace)
     write_json(args.output / "plan.json", dict(stage=args.stage, signature=signature,
-        cases=cases, repeats=repeats, selection=selection, scope="compressed-arrivals",
+        cases=cases, repeats=repeats, selection=selection, scope=args.workload,
         reference=str(args.reference), cutoff=args.stop_starting_at,
         pilot=str(args.pilot) if args.pilot else None))
     current = None

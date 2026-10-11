@@ -25,6 +25,32 @@ def test_unknown_trace_is_rejected():
         arrival.compress_arrivals(dict(trace_id="unknown", events=[]))
 
 
+def test_long_prefill_preserves_schedule_decode_and_session_prefix(monkeypatch):
+    class Tokenizer:
+        def encode(self, text, add_special_tokens=False):
+            return list(map(ord, text))
+        def decode(self, tokens):
+            return ''.join(map(chr, tokens))
+    base = dict(trace_id="sample", events=[
+        dict(session_id="s0", turn=0, arrival_ms=0, prompt="Original", max_tokens=48),
+        dict(session_id="s0", turn=1, arrival_ms=1800, prompt="Original continuation", max_tokens=48),
+        dict(session_id="s1", turn=0, arrival_ms=20, prompt="Different", max_tokens=48)])
+    original = copy.deepcopy(base)
+    monkeypatch.setattr(arrival, "BASE_TRACE_SHA", arrival.digest(base))
+    result = arrival.extend_prefill(base, Tokenizer())
+    assert original == base
+    for before, after in zip(base['events'],result['events']):
+        assert after['arrival_ms'] == before['arrival_ms'] and after['max_tokens'] == before['max_tokens']
+        assert after['prompt'].endswith(before['prompt'])
+        assert after['prompt_tokens'] == 3073 + len(before['prompt'])
+    assert result['events'][1]['prompt'].startswith(result['events'][0]['prompt'])
+    assert result['events'][0]['prompt'][:3072] != result['events'][2]['prompt'][:3072]
+    base['events'][0]['prompt'] = 'a' * 8192
+    monkeypatch.setattr(arrival, "BASE_TRACE_SHA", arrival.digest(base))
+    with pytest.raises(ValueError, match='context limit'):
+        arrival.extend_prefill(base, Tokenizer())
+
+
 def test_pilot_requires_independent_audit_not_only_pass_flags(tmp_path, monkeypatch):
     monkeypatch.syspath_prepend(str(Path(__file__).resolve().parents[1] / "scripts"))
     import summarize_reference_matrix

@@ -1,0 +1,530 @@
+{
+  "matrix_complete": false,
+  "expected_cells": 4,
+  "passed_cells": 2,
+  "aggregates": {},
+  "trace_sha256": "d15108f305834554a7cd3cbe7da5103ee3a8348e587594300db5bf37d29e3cd0",
+  "prompt_tokens": 284772,
+  "prompt_min": 4129,
+  "prompt_max": 4261,
+  "completed_requests": 204,
+  "timing_checks": [
+    {
+      "cell": "native-r0",
+      "passed": true,
+      "requests": 68,
+      "errors": [],
+      "recomputed": {
+        "ttft_ms": {
+          "p50": 11114.789097999164,
+          "p95": 20106.65540755126,
+          "p99": 21808.480417401403,
+          "mean": 11037.921417632413
+        },
+        "ready_to_first_ms": {
+          "p50": 11115.616583500014,
+          "p95": 20107.507067650113,
+          "p99": 21809.557420222627,
+          "mean": 11038.781840045083
+        },
+        "e2e_ms": {
+          "p50": 12500.980220500423,
+          "p95": 21596.471580201247,
+          "p99": 23255.45586466069,
+          "mean": 12469.201992749784
+        },
+        "ready_to_end_ms": {
+          "p50": 12501.508400500825,
+          "p95": 21597.323240300102,
+          "p99": 23256.532867481914,
+          "mean": 12470.062415162454
+        },
+        "client_queue_ms": {
+          "p50": 0.7631264998053666,
+          "p95": 1.9326246991113294,
+          "p99": 2.025596911662433,
+          "mean": 0.860422412669697
+        },
+        "cold_ttft_ms": {
+          "p50": 5657.006060000639,
+          "p95": 16289.509263998298
+        },
+        "reuse_ttft_ms": {
+          "p50": 11274.06987699942,
+          "p95": 21047.25439315025
+        },
+        "session_completion_ms": {
+          "p95": 40537.230765901404,
+          "mean": 29046.34615755058
+        }
+      }
+    },
+    {
+      "cell": "owned-immediate-r0",
+      "passed": true,
+      "requests": 68,
+      "errors": [],
+      "recomputed": {
+        "ttft_ms": {
+          "p50": 7921.194027498132,
+          "p95": 14436.947982801032,
+          "p99": 15600.815059540691,
+          "mean": 7502.727114573538
+        },
+        "ready_to_first_ms": {
+          "p50": 7921.634647002065,
+          "p95": 14438.002031700309,
+          "p99": 15602.04753153248,
+          "mean": 7503.605802383711
+        },
+        "e2e_ms": {
+          "p50": 8977.550689000054,
+          "p95": 15549.899561900382,
+          "p99": 17014.255154211496,
+          "mean": 8716.208092470559
+        },
+        "ready_to_end_ms": {
+          "p50": 8977.991308503988,
+          "p95": 15550.953610799661,
+          "p99": 17015.487626203285,
+          "mean": 8717.086780280732
+        },
+        "client_queue_ms": {
+          "p50": 0.7298350028577261,
+          "p95": 1.8961982012115186,
+          "p99": 2.0758235190078267,
+          "mean": 0.878687810173313
+        },
+        "cold_ttft_ms": {
+          "p50": 5793.969009499052,
+          "p95": 10191.463837149968
+        },
+        "reuse_ttft_ms": {
+          "p50": 8893.475135499102,
+          "p95": 15143.667768300655
+        },
+        "session_completion_ms": {
+          "p95": 32765.754777649818,
+          "mean": 22534.406678150663
+        }
+      }
+    },
+    {
+      "cell": "h2p5-d64-r0",
+      "passed": true,
+      "requests": 68,
+      "errors": [],
+      "recomputed": {
+        "ttft_ms": {
+          "p50": 9051.054560999546,
+          "p95": 16635.571834849725,
+          "p99": 17834.800949590644,
+          "mean": 8933.648156411704
+        },
+        "ready_to_first_ms": {
+          "p50": 9051.521460000004,
+          "p95": 16636.118011946386,
+          "p99": 17835.40225106979,
+          "mean": 8934.455877072383
+        },
+        "e2e_ms": {
+          "p50": 10333.30150799884,
+          "p95": 18148.744628500754,
+          "p99": 21148.92482457184,
+          "mean": 10376.133332058838
+        },
+        "ready_to_end_ms": {
+          "p50": 10333.530340498328,
+          "p95": 18149.397933847104,
+          "p99": 21149.565145750348,
+          "mean": 10376.941052719518
+        },
+        "client_queue_ms": {
+          "p50": 0.6545134983753087,
+          "p95": 1.9251845496910391,
+          "p99": 2.1375964699473116,
+          "mean": 0.8077206606792648
+        },
+        "cold_ttft_ms": {
+          "p50": 6321.578534500078,
+          "p95": 11928.435665999861
+        },
+        "reuse_ttft_ms": {
+          "p50": 10163.737356000638,
+          "p95": 16964.87417044973
+        },
+        "session_completion_ms": {
+          "p95": 35294.511919297656,
+          "mean": 24725.394466848775
+        }
+      }
+    }
+  ],
+  "failure_cell": "h2p5-d64-r0",
+  "resource_gate": false,
+  "h2d_bytes": 20988297216.0,
+  "d2h_bytes": 9852420096.0,
+  "preemptions": 12.0,
+  "before": {
+    "is_healthy": true,
+    "engine_type": "MPCacheServer",
+    "chunk_size": 256,
+    "hash_algorithm": "blake3",
+    "active_sessions": 11,
+    "storage_manager": {
+      "is_healthy": true,
+      "l1_manager": {
+        "is_healthy": true,
+        "total_object_count": 261,
+        "write_locked_count": 0,
+        "read_locked_count": 0,
+        "temporary_count": 0,
+        "memory_used_bytes": 9852420096,
+        "memory_total_bytes": 17179869184,
+        "memory_configured_bytes": 17179869184,
+        "memory_usage_ratio": 0.573486328125,
+        "write_ttl_seconds": 600,
+        "read_ttl_seconds": 300
+      },
+      "store_controller": {
+        "is_healthy": true,
+        "thread_alive": true,
+        "pending_keys_count": 0,
+        "in_flight_task_count": 0,
+        "num_l2_adapters": 0,
+        "num_active_adapters": 0,
+        "num_draining_adapters": 0
+      },
+      "prefetch_controller": {
+        "is_healthy": true,
+        "thread_alive": true,
+        "max_in_flight": 8,
+        "submission_queue_size": 0,
+        "pending_queue_size": 0,
+        "in_flight_request_count": 0,
+        "lookup_phase_count": 0,
+        "load_phase_count": 0,
+        "completed_results_count": 0,
+        "num_l2_adapters": 0,
+        "num_active_adapters": 0,
+        "num_draining_adapters": 0
+      },
+      "l1_eviction_controller": {
+        "is_healthy": true,
+        "thread_alive": true,
+        "eviction_policy": "LRU",
+        "trigger_watermark": 0.8,
+        "eviction_ratio": 0.2
+      },
+      "l2_eviction_controller": {
+        "is_healthy": true,
+        "thread_alive": true,
+        "adapters": []
+      },
+      "l2_adapters": [],
+      "num_l2_adapters": 0
+    },
+    "active_prefetch_jobs": 0,
+    "owned_jobs": 1,
+    "owned_controller_jobs": 0,
+    "owned_transfers": 0,
+    "owned_clients": 1,
+    "owned_deferred_contexts": 0,
+    "owned_store_batches": 0,
+    "owned_failed": 0,
+    "owned_read_pins": 0,
+    "active_p2p_lookup_jobs": 0,
+    "p2p_enabled": false,
+    "p2p_state": "unregistered",
+    "p2p_peer_count": 0,
+    "p2p_peers": [],
+    "worker_liveness": {
+      "enabled": true,
+      "reap_timeout_seconds": 120.0,
+      "registration_grace_seconds": 3600.0,
+      "tracked_instances": 0
+    },
+    "registered_gpu_ids": [],
+    "cache_context_meta": {}
+  },
+  "after": {
+    "is_healthy": true,
+    "engine_type": "MPCacheServer",
+    "chunk_size": 256,
+    "hash_algorithm": "blake3",
+    "active_sessions": 11,
+    "storage_manager": {
+      "is_healthy": true,
+      "l1_manager": {
+        "is_healthy": true,
+        "total_object_count": 261,
+        "write_locked_count": 0,
+        "read_locked_count": 0,
+        "temporary_count": 0,
+        "memory_used_bytes": 9852420096,
+        "memory_total_bytes": 17179869184,
+        "memory_configured_bytes": 17179869184,
+        "memory_usage_ratio": 0.573486328125,
+        "write_ttl_seconds": 600,
+        "read_ttl_seconds": 300
+      },
+      "store_controller": {
+        "is_healthy": true,
+        "thread_alive": true,
+        "pending_keys_count": 0,
+        "in_flight_task_count": 0,
+        "num_l2_adapters": 0,
+        "num_active_adapters": 0,
+        "num_draining_adapters": 0
+      },
+      "prefetch_controller": {
+        "is_healthy": true,
+        "thread_alive": true,
+        "max_in_flight": 8,
+        "submission_queue_size": 0,
+        "pending_queue_size": 0,
+        "in_flight_request_count": 0,
+        "lookup_phase_count": 0,
+        "load_phase_count": 0,
+        "completed_results_count": 0,
+        "num_l2_adapters": 0,
+        "num_active_adapters": 0,
+        "num_draining_adapters": 0
+      },
+      "l1_eviction_controller": {
+        "is_healthy": true,
+        "thread_alive": true,
+        "eviction_policy": "LRU",
+        "trigger_watermark": 0.8,
+        "eviction_ratio": 0.2
+      },
+      "l2_eviction_controller": {
+        "is_healthy": true,
+        "thread_alive": true,
+        "adapters": []
+      },
+      "l2_adapters": [],
+      "num_l2_adapters": 0
+    },
+    "active_prefetch_jobs": 0,
+    "owned_jobs": 1,
+    "owned_controller_jobs": 0,
+    "owned_transfers": 0,
+    "owned_clients": 1,
+    "owned_deferred_contexts": 0,
+    "owned_store_batches": 0,
+    "owned_failed": 0,
+    "owned_read_pins": 0,
+    "active_p2p_lookup_jobs": 0,
+    "p2p_enabled": false,
+    "p2p_state": "unregistered",
+    "p2p_peer_count": 0,
+    "p2p_peers": [],
+    "worker_liveness": {
+      "enabled": true,
+      "reap_timeout_seconds": 120.0,
+      "registration_grace_seconds": 3600.0,
+      "tracked_instances": 0
+    },
+    "registered_gpu_ids": [],
+    "cache_context_meta": {}
+  },
+  "service_errors": [
+    {
+      "file": "vllm.log",
+      "line": 278,
+      "text": "(EngineCore pid=61987) ERROR 10-11 13:42:01 [core.py:1368] EngineCore encountered a fatal error."
+    },
+    {
+      "file": "vllm.log",
+      "line": 279,
+      "text": "(EngineCore pid=61987) ERROR 10-11 13:42:01 [core.py:1368] Traceback (most recent call last):"
+    },
+    {
+      "file": "vllm.log",
+      "line": 280,
+      "text": "(EngineCore pid=61987) ERROR 10-11 13:42:01 [core.py:1368]   File \"/root/CachePilot/scripts/idle_finalize.py\", line 87, in get"
+    },
+    {
+      "file": "vllm.log",
+      "line": 281,
+      "text": "(EngineCore pid=61987) ERROR 10-11 13:42:01 [core.py:1368]     return self.original.get(block=True, timeout=grace)"
+    },
+    {
+      "file": "vllm.log",
+      "line": 282,
+      "text": "(EngineCore pid=61987) ERROR 10-11 13:42:01 [core.py:1368]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "file": "vllm.log",
+      "line": 283,
+      "text": "(EngineCore pid=61987) ERROR 10-11 13:42:01 [core.py:1368]   File \"/usr/local/miniconda3/envs/cachepilot/lib/python3.12/queue.py\", line 179, in get"
+    },
+    {
+      "file": "vllm.log",
+      "line": 284,
+      "text": "(EngineCore pid=61987) ERROR 10-11 13:42:01 [core.py:1368]     raise Empty"
+    },
+    {
+      "file": "vllm.log",
+      "line": 285,
+      "text": "(EngineCore pid=61987) ERROR 10-11 13:42:01 [core.py:1368] _queue.Empty"
+    },
+    {
+      "file": "vllm.log",
+      "line": 286,
+      "text": "(EngineCore pid=61987) ERROR 10-11 13:42:01 [core.py:1368] "
+    },
+    {
+      "file": "vllm.log",
+      "line": 287,
+      "text": "(EngineCore pid=61987) ERROR 10-11 13:42:01 [core.py:1368] During handling of the above exception, another exception occurred:"
+    },
+    {
+      "file": "vllm.log",
+      "line": 288,
+      "text": "(EngineCore pid=61987) ERROR 10-11 13:42:01 [core.py:1368] "
+    },
+    {
+      "file": "vllm.log",
+      "line": 289,
+      "text": "(EngineCore pid=61987) ERROR 10-11 13:42:01 [core.py:1368] Traceback (most recent call last):"
+    },
+    {
+      "file": "vllm.log",
+      "line": 290,
+      "text": "(EngineCore pid=61987) ERROR 10-11 13:42:01 [core.py:1368]   File \"/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/vllm/v1/engine/core.py\", line 1352, in run_engine_core"
+    },
+    {
+      "file": "vllm.log",
+      "line": 291,
+      "text": "(EngineCore pid=61987) ERROR 10-11 13:42:01 [core.py:1368]     engine_core.run_busy_loop()"
+    },
+    {
+      "file": "vllm.log",
+      "line": 292,
+      "text": "(EngineCore pid=61987) ERROR 10-11 13:42:01 [core.py:1368]   File \"/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/vllm/v1/fault_tolerance/engine_core_sentinel.py\", line 179, in run_with_fault_tolerance"
+    },
+    {
+      "file": "vllm.log",
+      "line": 293,
+      "text": "(EngineCore pid=61987) ERROR 10-11 13:42:01 [core.py:1368]     busy_loop_func(self)"
+    },
+    {
+      "file": "vllm.log",
+      "line": 294,
+      "text": "(EngineCore pid=61987) ERROR 10-11 13:42:01 [core.py:1368]   File \"/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/vllm/v1/engine/core.py\", line 1407, in run_busy_loop"
+    },
+    {
+      "file": "vllm.log",
+      "line": 295,
+      "text": "(EngineCore pid=61987) ERROR 10-11 13:42:01 [core.py:1368]     self._process_input_queue()"
+    },
+    {
+      "file": "vllm.log",
+      "line": 296,
+      "text": "(EngineCore pid=61987) ERROR 10-11 13:42:01 [core.py:1368]   File \"/root/CachePilot/scripts/idle_finalize.py\", line 106, in process"
+    },
+    {
+      "file": "vllm.log",
+      "line": 297,
+      "text": "(EngineCore pid=61987) ERROR 10-11 13:42:01 [core.py:1368]     return original(core)"
+    },
+    {
+      "file": "vllm.log",
+      "line": 298,
+      "text": "(EngineCore pid=61987) ERROR 10-11 13:42:01 [core.py:1368]            ^^^^^^^^^^^^^^"
+    },
+    {
+      "file": "vllm.log",
+      "line": 299,
+      "text": "(EngineCore pid=61987) ERROR 10-11 13:42:01 [core.py:1368]   File \"/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/vllm/v1/engine/core.py\", line 1445, in _process_input_queue"
+    },
+    {
+      "file": "vllm.log",
+      "line": 300,
+      "text": "(EngineCore pid=61987) ERROR 10-11 13:42:01 [core.py:1368]     req = self.input_queue.get(block=block)"
+    },
+    {
+      "file": "vllm.log",
+      "line": 301,
+      "text": "(EngineCore pid=61987) ERROR 10-11 13:42:01 [core.py:1368]           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "file": "vllm.log",
+      "line": 302,
+      "text": "(EngineCore pid=61987) ERROR 10-11 13:42:01 [core.py:1368]   File \"/root/CachePilot/scripts/idle_finalize.py\", line 90, in get"
+    },
+    {
+      "file": "vllm.log",
+      "line": 303,
+      "text": "(EngineCore pid=61987) ERROR 10-11 13:42:01 [core.py:1368]     finalize_idle_pending(c, self.core.scheduler)"
+    },
+    {
+      "file": "vllm.log",
+      "line": 304,
+      "text": "(EngineCore pid=61987) ERROR 10-11 13:42:01 [core.py:1368]   File \"/root/CachePilot/scripts/idle_finalize.py\", line 33, in finalize_idle_pending"
+    },
+    {
+      "file": "vllm.log",
+      "line": 305,
+      "text": "(EngineCore pid=61987) ERROR 10-11 13:42:01 [core.py:1368]     raise RuntimeError('Idle pending differs from current wire identity')"
+    },
+    {
+      "file": "vllm.log",
+      "line": 306,
+      "text": "(EngineCore pid=61987) ERROR 10-11 13:42:01 [core.py:1368] RuntimeError: Idle pending differs from current wire identity"
+    },
+    {
+      "file": "vllm.log",
+      "line": 310,
+      "text": "(APIServer pid=61941) ERROR 10-11 13:42:01 [async_llm.py:843] AsyncLLM output_handler failed."
+    },
+    {
+      "file": "vllm.log",
+      "line": 311,
+      "text": "(APIServer pid=61941) ERROR 10-11 13:42:01 [async_llm.py:843] Traceback (most recent call last):"
+    },
+    {
+      "file": "vllm.log",
+      "line": 312,
+      "text": "(APIServer pid=61941) ERROR 10-11 13:42:01 [async_llm.py:843]   File \"/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/vllm/v1/engine/async_llm.py\", line 789, in output_handler"
+    },
+    {
+      "file": "vllm.log",
+      "line": 313,
+      "text": "(APIServer pid=61941) ERROR 10-11 13:42:01 [async_llm.py:843]     outputs = await engine_core.get_output_async()"
+    },
+    {
+      "file": "vllm.log",
+      "line": 314,
+      "text": "(APIServer pid=61941) ERROR 10-11 13:42:01 [async_llm.py:843]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "file": "vllm.log",
+      "line": 315,
+      "text": "(APIServer pid=61941) ERROR 10-11 13:42:01 [async_llm.py:843]   File \"/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/vllm/v1/engine/core_client.py\", line 1175, in get_output_async"
+    },
+    {
+      "file": "vllm.log",
+      "line": 316,
+      "text": "(APIServer pid=61941) ERROR 10-11 13:42:01 [async_llm.py:843]     raise self._format_exception(outputs) from None"
+    },
+    {
+      "file": "vllm.log",
+      "line": 317,
+      "text": "(APIServer pid=61941) ERROR 10-11 13:42:01 [async_llm.py:843] vllm.v1.engine.exceptions.EngineDeadError: EngineCore encountered an issue. See stack trace (above) for the root cause."
+    },
+    {
+      "file": "vllm.log",
+      "line": 320,
+      "text": "(EngineCore pid=61987) Traceback (most recent call last):"
+    },
+    {
+      "file": "vllm.log",
+      "line": 330,
+      "text": "(EngineCore pid=61987) Traceback (most recent call last):"
+    }
+  ],
+  "scope": "Partial pilot; no timing aggregates; identity mismatch branch observed, lifecycle cause unproven"
+}

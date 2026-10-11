@@ -1,0 +1,80 @@
+{
+  "captured_at": "2026-10-11T13:33:17.708465+00:00",
+  "python": "3.12.14 | packaged by Anaconda, Inc. | (main, Aug 27 2026, 14:46:43) [GCC 14.3.0]",
+  "platform": "Linux-5.15.0-113-generic-x86_64-with-glibc2.35",
+  "packages": {
+    "torch": "2.13.0",
+    "vllm": "0.30.0",
+    "lmcache": "0.5.5+g1a4b40b1d",
+    "transformers": "5.17.0",
+    "tokenizers": "0.23.2",
+    "requests": "2.34.2",
+    "aiohttp": "3.14.3",
+    "pytest": "9.1.1",
+    "msgspec": "0.21.1"
+  },
+  "installed_sources": {
+    "vllm/v1/core/sched/scheduler.py": "c1db45f3bbad3a875dd8638331b8870c4380ac1ab4734265ba5c863833a82884",
+    "vllm/v1/core/kv_cache_manager.py": "58800535eda854580d84e1025bf32fe01b2a43ce0bba501b4f3d125e4f2c8afa",
+    "vllm/v1/engine/core.py": "268bf40534a853812867ae8e80040f190983cb364b41182b55969aace20c93f5",
+    "lmcache/integration/vllm/lmcache_mp_connector.py": "99e58e36d120176efae7b8c86804953f8f41d975a433bf79d4dfbb22514fb83f",
+    "lmcache/integration/vllm/lazy_offload_manager.py": "e611da21991cd29757e553acfaeabbdd1332d4743f036f6b35ed0e85c80c5bcd",
+    "lmcache/integration/vllm/lazy_offload_state.py": "1785139617dde03861341dba16528be252bba60d41aa998eee0c8a05717d3289",
+    "lmcache/integration/vllm/lazy_offload_policy/eviction_aware.py": "f75df38b9f3bf3eaa364b7ec3dbcb4fc1229eec54ad3db35509591a19a150f33",
+    "lmcache/integration/vllm/vllm_multi_process_adapter.py": "63fe75512185c17e990c49c172d2a381741cc6cbc0eb6f8c534cc9ff5df2912c"
+  },
+  "model_files": {
+    "tokenizer_config.json": {
+      "resolved_path": "/root/CachePilot/models/Qwen3-4B/tokenizer_config.json",
+      "sha256": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101"
+    },
+    "config.json": {
+      "resolved_path": "/root/CachePilot/models/Qwen3-4B/config.json",
+      "sha256": "8ba006f74fecfaaeb392872a60f4a480e7ec9860153d2e1b769ec81f9a147f8a"
+    },
+    "model.safetensors.index.json": {
+      "resolved_path": "/root/CachePilot/models/Qwen3-4B/model.safetensors.index.json",
+      "sha256": "6dc0981b8829fead746441f68f38f24c5ca4a3a66351f652c26c6df0efc43ab2"
+    },
+    "vocab.json": {
+      "resolved_path": "/root/CachePilot/models/Qwen3-4B/vocab.json",
+      "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+    },
+    "tokenizer.json": {
+      "resolved_path": "/root/CachePilot/models/Qwen3-4B/tokenizer.json",
+      "sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4"
+    },
+    "generation_config.json": {
+      "resolved_path": "/root/CachePilot/models/Qwen3-4B/generation_config.json",
+      "sha256": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+    }
+  },
+  "native_build": {
+    "source_sha256": "4060f83d4d5fb7b88620e303d9b7961bd371e208f916099ae54fc1e3bc5ac84c",
+    "binary_sha256": "3eb61c696490f34f80ce4f9c452769dc6988c705b099d50a5c37c51d0d8f3b8a",
+    "binary": "cachepilot_reservation_native.cpython-312-x86_64-linux-gnu.so",
+    "python": "3.12.14 | packaged by Anaconda, Inc. | (main, Aug 27 2026, 14:46:43) [GCC 14.3.0]",
+    "command": [
+      "g++",
+      "-O2",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-std=c++17",
+      "-shared",
+      "-fPIC",
+      "-pthread",
+      "-I/usr/local/miniconda3/envs/cachepilot/include/python3.12",
+      "-I/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/torch/include",
+      "/root/CachePilot/native/reservation_lock.cpp",
+      "-o",
+      "/root/CachePilot/artifacts/reservation-native/cachepilot_reservation_native.cpython-312-x86_64-linux-gnu.so.pending"
+    ],
+    "compiler": "g++ (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0"
+  },
+  "native_source_sha256": "4060f83d4d5fb7b88620e303d9b7961bd371e208f916099ae54fc1e3bc5ac84c",
+  "native_binary_sha256": "3eb61c696490f34f80ce4f9c452769dc6988c705b099d50a5c37c51d0d8f3b8a",
+  "native_build_matches": true,
+  "gpu": "NVIDIA GeForce RTX 4090, 595.80, 24564 MiB",
+  "scope": "Read-only closing snapshot; not a retroactive per-cell environment measurement"
+}

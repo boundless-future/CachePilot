@@ -1,5 +1,13 @@
 # 接入位置与基线启动
 
+## 2026-10-11 当前实现入口
+
+下文保留最初基线接入方案。“将来 CachePilot”描述历史设计，不表示策略尚未实现。当前外部 `ProtectionConnector` 已有受控单卡零/一/两 chunk 保护；`IdleFinalizeConnector` 增加默认关闭的空闲收尾候选。它们通过 scheduler 的固定版本适配接入，尚未加入上游 `OffloadPolicy` 工厂分支。最新结构与代码见 [IMPLEMENTATION_MAP](IMPLEMENTATION_MAP.md)，真实结论见 [STATUS](STATUS.md)。
+
+当前性能 runner 使用 `scripts/lmcache-server.sh` 的 `CACHEPILOT_OWNED_SERVICE_DIR` 分支启动 `scripts/owned_service.py`，并配对相应外部 Connector。需先在锁定 Linux 环境执行 `python scripts/build_reservation_native.py`；不要把所有权 Connector 连接到不支持该协议的普通 MP server。runner 自管进程、签名与资源验收，最新离线复核入口见 [晚间复核说明](experiments/2026-10-11/REPRODUCE_EVENING.md)。
+
+## 原始基线接入说明
+
 运行环境和验收记录见 [ENVIRONMENT.md](ENVIRONMENT.md)。以下脚本在容器内激活 `cachepilot` 环境后使用；它们负责前台启动服务，自动验收脚本负责依次启停自己的测试进程。
 
 ## 进程与职责

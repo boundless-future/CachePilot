@@ -81,3 +81,34 @@ def test_new_generation_after_finalization_stays_independent(case):
     helper.manager.on_request_finished('old')
     assert finalize_idle_pending(c,s)==1
     assert ended==[old_identity,wire_id(new)]
+
+
+@pytest.mark.parametrize('identity_state', ['ended', 'replacement'])
+def test_stale_pending_identity_preserves_real_manager_and_does_not_end_new_owner(case, identity_state):
+    """Characterize the long-prefill guard, without claiming its live event cause."""
+    from dataclasses import replace
+    from scripts.owned_service_protocol import OwnedRequestClient
+    from test_owned_service_protocol import Client
+    helper,s,blocks,rows=case
+    c,ended,client,meta=setup(helper,s)
+    transport=Client()
+    proxy=OwnedRequestClient(transport,7)
+    proxy.lookup(meta)
+    if identity_state=='ended':
+        proxy.end_session('old')
+    else:
+        replacement=replace(meta,request_configs=dict(meta.request_configs,
+            **{GENERATION_CONFIG:'b'*32}))
+        proxy.lookup(replacement)
+    c.scheduler_adapter.req_clients={'url':proxy}
+    c.scheduler_adapter.end_session=proxy.end_session
+    before_pool=pool_state(helper.pool)
+    before_rpc=list(transport.calls)
+    original_pending=helper.policy._pending['old']
+    with pytest.raises(RuntimeError,match='current wire identity'):
+        finalize_idle_pending(c,s)
+    assert pool_state(helper.pool)==before_pool
+    assert helper.policy._pending['old'] is original_pending
+    assert helper.manager._requests.is_finished('old')
+    assert transport.calls==before_rpc and not ended
+    assert not any(r['event']=='idle_pending_dropped' for r in rows)

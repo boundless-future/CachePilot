@@ -86,3 +86,15 @@ GPU 结果：`idle-finalize-raw-id-20261011a` 完成两遍各 68 请求；68 组
 21:00 左右：unprotected reference formal 完成 12/12 格、816 请求；服务器 summarize 与 timing audit 均通过，本地下载归档后独立复算一致。原始归档 SHA256 为 `20bbabfa7a307e5f76fa299c6266d0b8454237b075c9e947ce594b5eb6138ca1`。native TTFT P95 均值 6732.95 ms；默认 h2.5/d64 为 7250.16 ms；开发集选中 h5.0/d1 为 7187.49 ms。报告见 `UNPROTECTED_REFERENCES.md`；该 scope 不评价保护策略。
 
 21:04：完成到达时间压缩 follow-up 的 runner、预注册和 18 项 CPU/审计测试；唯一干预为把同一 reference trace 的开放环 `arrival_ms` 乘 0.5。服务器 pilot 4/4 格独立审计通过，formal 已按轮转启动；21:50 后不启动新 cell。首次 pilot 启动曾因非交互 SSH PATH 缺少 `bash` 而无请求失败，按环境启动错误单列，修正 PATH 后重启为 `arrival-half-pilot-20261011b`，不把 a 纳入结果。
+
+21:27–21:31：压缩到达 formal 12/12 格、816 请求完成，服务器与本地独立资源/测量报告一致；归档 SHA256 `8ccb222f931101818eefe5b49237ee809c5ca71906e1effe55d0e6c5cd6577ea`。native TTFT P95 9503.55 ms，另外三组高 3.47–5.81%；原与新矩阵单独聚合。冻结源码逐字节匹配 reference 173 项、arrival 174 项。
+
+21:29–21:31：单次零覆盖诊断复现保护 0/0，9 个首次容量回退，free 423–704、reserve 972–2208；保护预算未占用，所有观察随后有默认 STORE。原 performance gate 仍 false，诊断请求/资源/原始事件审计通过。真实 CUDA/native 全量回归 734 passed、115 subtests，17.30 秒；本地全量因缺 lmcache/msgspec 收集失败，单独保留。
+
+21:37：继续原计划的长 prefill 准入试点，新增每 session 固定前置材料，不改变到达和 48 decode tokens。四组各一次，今晚不启动正式矩阵。输出 `long-prefill-pilot-20261011a`，本地 SSH session 1009。此前压缩到达源码已归档；新 runner 签名单独冻结，禁止在该 pilot 期间改远程 scripts/configs。新增服务器 CPU 测试 4 passed。README、接入文档与实现地图同步到实际 Connector/所有权/空闲收尾关系。
+
+21:42–21:47：长 prefill pilot 第三格失败并停止，前两格通过，第三格 68 请求/token/H2D 均通过，但宽限收尾触发 `Idle pending differs from current wire identity`，EngineCore fatal；1 owned job/11 sessions 未清。不是正常关闭竞态，没有运行 h5.0/d1 或 formal。部分归档 SHA256 `15a2e9e7ed86fcf75ba52f925f519880c83f20e4f8e143a521e4351cc139f0f2`，原矩阵 2/4、无均值。新增真实 manager 的缺失/新代映射特征测试，737 passed/115 subtests 全量通过；并未修复该 GPU 失败。
+
+随后准备仅在原 guard 抛错后记录身份的观察器及 `diagnose_idle_identity.py`；4 项 CPU 测试、编译与 CLI 检查通过，没有启动 GPU 观察。下一轮先区分当前 mapping 缺失还是新代替换，再追完整生命周期因果，不能直接删 guard。
+
+21:50 起不再启动 GPU 工作。21:52 独立收尾快照确认实验进程为空、8000/8080/5555 均关闭、GPU 1 MiB/0%、无计算进程。容器保持开机，已停止的是自有实验服务；退出后空闲不改写失败轮内的 1 job/11 sessions 残留。源码/环境快照、原始失败与全部新文档链接均已核对。见 `long-prefill-evidence/closeout-2152-20261011.json`。

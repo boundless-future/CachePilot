@@ -16,7 +16,7 @@ CachePilot 是 vLLM＋LMCache 的外部实验 Connector 和小预算 KV 卸载�
 | P2/3A 观测与候选 | 固定 trace、profiling、分配与 lookup 诊断；六点固定参数开发调优 24 格完成，选中 h5.0/d1 | 固定选择的新文本验证未通过覆盖门槛；更多到达分布、耗时分解 |
 | 3B 所有权支线 | 受控单卡服务链路、原身份 native terminal、L2/取消/失联和资源审计；满足限定 3C 准入 | 真实 driver/DMA 故障、永久 I/O 自动恢复、多 worker/异步范围 |
 | 3C 保护策略 | 零/一/两 chunk、预算与物理容量回退、共享取消/抢占、raw ID 跨代、长前缀拆分和受控 host exception；首轮正式消融 | 生产级全面正确性、可泛化收益结论 |
-| P4 复核 | 首轮新文本/容量重复、新栈 2.5 GiB 九格、固定参数 24 格、无保护 reference 12 格和边界专项 | 原新文本因 one 零保护覆盖停止；到达时间压缩 formal 进行中，再补长 prefill/稳定 decode |
+| P4 复核 | 首轮新文本/容量重复、新栈 2.5 GiB 九格、固定参数 24 格、无保护 reference 12 格和边界专项 | 原新文本因 one 零保护覆盖停止；到达压缩 formal 已完成；长 prefill pilot 因空闲身份校验失败停止，需独立定位；稳定 decode/真实结构压力待补 |
 | P5 展示/上游 | 原始证据持续归档 | 最终复现入口、整体图表、最小可维护上游补丁评估 |
 
 ## 能支持的结论
@@ -31,6 +31,9 @@ CachePilot 是 vLLM＋LMCache 的外部实验 Connector 和小预算 KV 卸载�
 | 同栈六点固定参数开发调优 | 24 格、1,632 请求通过；h5.0/d1 均值最低，one/two 相对它 +0.88%/-0.19% | [调优报告](experiments/2026-10-11/FIXED_BASELINES.md)；差异小、波动大，未证明保护优于调优固定策略 |
 | 固定选择后的新文本验证 | 前两格通过；one 的 8 次候选均容量回退，保护 0/0，矩阵按规则停止 | 请求和资源通过、H2D 存在；整体未完成，无性能聚合，不重跑筛选 |
 | 无保护 reference 四组 | 12 格、816 请求全部通过；native TTFT P95 6732.95 ms，h5.0/d1 7187.49 ms | [独立报告](experiments/2026-10-11/UNPROTECTED_REFERENCES.md)；整套配置对照，不评价保护策略 |
+| 到达时间减半 | 12 格、816 请求通过；native 9503.55 ms，其余三组高 3.47–5.81% | [到达报告](experiments/2026-10-11/ARRIVAL_COMPRESSION.md)；缓存组少算 prefill，但整体及回访标签组均未改善 |
+| 零覆盖单次独立诊断 | 9 个首次容量回退，预算充足、在途 pin 为零，之后默认 STORE；保护仍 0/0 | [诊断](experiments/2026-10-11/COVERAGE_DIAGNOSTIC.md)；安全预留限制触发范围，未修改 reserve |
+| 长 prefill pilot | 前两格通过；默认 fixed 68 请求后在空闲身份预检 fatal，剩 1 owned job/11 sessions | [失败报告](experiments/2026-10-11/LONG_PREFILL.md)；2/4 格、无均值，选中 fixed 与 formal 均未运行 |
 
 各性能组仍存在输出 hash 差异；固定输入、48 decode token、HTTP 200 或资源闭合不等于输出完全确定。独立诊断曾验证多组回载 KV bitwise 全等，但不能代替所有性能请求的逐层正确性证明。编译相关输出差异根因仍开放。
 
@@ -39,13 +42,13 @@ CachePilot 是 vLLM＋LMCache 的外部实验 Connector 和小预算 KV 卸载�
 - 空闲收尾后相同 raw ID 的 68 对 generation：旧 reclaim 均早于新 lookup；包括实际 idle-dropped 请求重入。只覆盖旧代完整结束后的复用。
 - 失败回执与共享取消组合分别通过 864/936 层 KV 比较和资源审计，但 idle drop=0，只算兼容性。
 - 延迟回执组合有实际 idle drop 且资源回收，但恢复命中仍在 GPU、H2D 未覆盖，整体失败。详见 [组合矩阵](experiments/2026-10-11/IDLE_RECEIPT_MATRIX.md)。
-- 最近完整显式 CUDA 回归为 703 passed、115 subtests；随后新增 runner 的 CPU 专项单独记录，不伪称重新执行了完整 GPU 回归。
+- 最新完整 CUDA/native 回归 737 passed、115 subtests；之后新增身份观察器的 4 项 CPU 测试单列。全量通过没有修复长 prefill 的 GPU 失败。
 
 ## 接下来按顺序推进
 
 1. 新栈 2.5 GiB formal 九格已经独立审计、归档；保留原失败和新栈结论之间的版本边界。
 2. 六点开发调优完成，后续新文本验证因保护覆盖失败停止；保留原始反例与无均值审计，不将状态改为通过。
-3. 无保护 reference 已按独立预注册完成：12/12 格通过，native 在该 trace 最低；到达时间压缩 pilot 4/4 通过，formal 正在运行。随后补长 prefill、稳定 decode、集中恢复；不因单一 trace 最优设置生产默认。
-4. 之后再做模型/硬件扩展、性能归因与展示；上游问题只在复现和维护边界明确后评估 issue/PR。
+3. 无保护 reference 已按独立预注册完成：12/12 格通过，native 在该 trace 最低；到达时间压缩 formal 12/12 完成，native 仍有最低整体 TTFT；长 prefill pilot 在默认 fixed 的空闲身份检查处失败，按规则停止。先定位该新边界，再补稳定 decode、集中恢复；不因单一 trace 最优设置生产默认。
+4. 下一项具体执行是 [长 prefill 身份观察](experiments/2026-10-11/LONG_PREFILL.md)：原 guard 不改，先区分 mapping 缺失/新代替换；已有观察器与 runner，GPU 尚未执行。之后再做模型/硬件扩展、性能归因与展示；上游问题只在复现和维护边界明确后评估 issue/PR。
 
 今天北京时间 21:50 后停止启动新实验格，22:00 安全收尾，所有部分矩阵明确标记未完成。授权持续推进不等于放宽正确性或统计门槛。

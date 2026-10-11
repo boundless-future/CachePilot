@@ -1,0 +1,93 @@
+{
+  "updated_at": "2026-10-11",
+  "scope": "Evening checkpoints; independent matrices, not pooled samples",
+  "matrices": [
+    {
+      "id": "idle-capacity-formal",
+      "status": "complete_formal",
+      "report": "IDLE_CAPACITY.md",
+      "archive": "capacity-evidence/idle-capacity-formal-2p5g-20261011a.tar.gz",
+      "sha256": "e27f1969d119c48b2c0022e7d27823ea92cd20f1525ed7e93e7d5a84a8fd52a8",
+      "audit": "capacity-evidence/idle-capacity-formal-2p5g-20261011a-analysis.json",
+      "matrix_complete": true,
+      "expected_cells": 9,
+      "passed_cells": 9,
+      "descriptive_formal_aggregation_eligible": true
+    },
+    {
+      "id": "fixed-baseline-formal",
+      "status": "complete_formal",
+      "report": "FIXED_BASELINES.md",
+      "archive": "fixed-baseline-evidence/fixed-baseline-formal-20261011a.tar.gz",
+      "sha256": "ba9e66d1a8097e77d5b3f9dc647ae5563202e732bc5028acceb7d99f8a956e52",
+      "audit": "fixed-baseline-evidence/fixed-baseline-formal-independent.json",
+      "matrix_complete": true,
+      "expected_cells": 24,
+      "passed_cells": 24,
+      "descriptive_formal_aggregation_eligible": true
+    },
+    {
+      "id": "fixed-baseline-validation",
+      "status": "incomplete_validation",
+      "report": "FIXED_BASELINES.md",
+      "archive": "fixed-baseline-evidence/fixed-baseline-validation-20261011a-partial.tar.gz",
+      "sha256": "554e4e371737625f2f78d7739f77864de0a55ee37193135ca82100238ba010be",
+      "audit": "fixed-baseline-evidence/fixed-baseline-validation-partial-independent.json",
+      "matrix_complete": false,
+      "expected_cells": 12,
+      "passed_cells": 2,
+      "descriptive_formal_aggregation_eligible": false
+    },
+    {
+      "id": "unprotected-reference",
+      "status": "complete_formal",
+      "report": "UNPROTECTED_REFERENCES.md",
+      "archive": "unprotected-reference-evidence/unprotected-references-formal-20261011a.tar.gz",
+      "sha256": "20bbabfa7a307e5f76fa299c6266d0b8454237b075c9e947ce594b5eb6138ca1",
+      "audit": "unprotected-reference-evidence/unprotected-references-formal-20261011a-independent.json",
+      "matrix_complete": true,
+      "expected_cells": 12,
+      "passed_cells": 12,
+      "descriptive_formal_aggregation_eligible": true
+    },
+    {
+      "id": "arrival-half",
+      "status": "complete_formal",
+      "report": "ARRIVAL_COMPRESSION.md",
+      "archive": "arrival-half-evidence/arrival-half-formal-20261011a.tar.gz",
+      "sha256": "8ccb222f931101818eefe5b49237ee809c5ca71906e1effe55d0e6c5cd6577ea",
+      "audit": "arrival-half-evidence/arrival-half-formal-20261011a-independent.json",
+      "matrix_complete": true,
+      "expected_cells": 12,
+      "passed_cells": 12,
+      "descriptive_formal_aggregation_eligible": true
+    },
+    {
+      "id": "long-prefill",
+      "status": "failed_pilot",
+      "report": "LONG_PREFILL.md",
+      "archive": "long-prefill-evidence/long-prefill-pilot-20261011a-partial.tar.gz",
+      "sha256": "15a2e9e7ed86fcf75ba52f925f519880c83f20e4f8e143a521e4351cc139f0f2",
+      "audit": "long-prefill-evidence/long-prefill-pilot-20261011a-partial-independent.json",
+      "matrix_complete": false,
+      "expected_cells": 4,
+      "passed_cells": 2,
+      "descriptive_formal_aggregation_eligible": false
+    }
+  ],
+  "diagnostics": [
+    {
+      "report": "COVERAGE_DIAGNOSTIC.md",
+      "audit": "coverage-evidence/coverage-diagnostic.json",
+      "original_performance_gate_passed": false
+    }
+  ],
+  "tests": {
+    "full_cuda_passed": 737,
+    "subtests_passed": 115,
+    "subsequent_cpu_observer_passed": 4,
+    "full_log": "long-prefill-evidence/evening-final-regression-20261011.txt"
+  },
+  "next_action": "Observe original long-prefill idle wire-identity guard without changing policy; GPU not run",
+  "source_snapshot": "long-prefill-evidence/long-prefill-source-20261011.tar.gz"
+}

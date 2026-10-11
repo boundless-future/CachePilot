@@ -44,7 +44,7 @@
 - [x] A：vLLM 原生前缀缓存；4/12 会话、各 4 轮、三次重复初始测量。
 - [x] B：相同 GPU KV 预算下，LMCache 默认延迟卸载；另加入立即卸载对照。
 - [x] 固定 horizon=2.5/5.0 两点初测，共 24 个实验单元、768 个测量请求；结果见 experiments/2026-09-24/REPORT.md。
-- [ ] C：扫描固定 horizon/提交上限，得到合理调优的基线。 已冻结 [六点扫描＋同期候选和新文本验证方案](experiments/2026-10-11/FIXED_BASELINE_PREREGISTRATION.md)，runner 与准入/独立审计测试本地通过；容量 formal 已结束，固定基线 pilot 八格于北京时间 19:40 左右启动。
+- [x] C：完成六点 horizon/提交上限开发调优，pilot 八格与 formal 24 格通过，按预注册选中 h5.0/d1；新文本保护验证未通过覆盖门槛，未将调优完成写成泛化成功。见 [固定基线报告](experiments/2026-10-11/FIXED_BASELINES.md)。
 - [x] 测工作集小于 GPU、超过 GPU 两个区间（GPU KV 人为固定 2 GiB）。
 - [ ] 补测超过总缓存区间及更多 GPU KV 容量点。
 - [ ] 加入长 prefill 突发、稳定 decode、多轮集中恢复。
@@ -172,7 +172,11 @@
 - [x] 六点固定参数开发调优及 one/two 同期对照：pilot 八格、formal 24 格全部通过；1,632 个正式请求独立时间戳/资源复算通过，按预注册选择 h5.0/d1。one/two 对选中项 +0.88%/-0.19%，未证明保护优于调优固定基线，见 [FIXED_BASELINES](experiments/2026-10-11/FIXED_BASELINES.md)。
 - [ ] 固定选择后的新文本验证：原 12 格在第三格 one 零保护覆盖处停止（8 次 capacity fallback）；已有三个 cell 请求与资源通过，整体未完成，原失败和九个未运行格保留，不重跑筛选。
 - [x] 独立无保护 reference 四组（原生、同所有权栈立即卸载、默认 fixed、选中 fixed）：pilot→formal 共 12 格、816 请求通过；native TTFT P95 最低，整套 lazy 仍有搬运/接入成本，见 [UNPROTECTED_REFERENCES](experiments/2026-10-11/UNPROTECTED_REFERENCES.md)。不替代前述保护验证。
-- [ ] 到达时间压缩对照：pilot 4/4 通过，formal 12 格正在运行；仅压缩固定开放环 arrival_ms，不改变输入和 decode 预算，见 [预注册](experiments/2026-10-11/ARRIVAL_COMPRESSION_PREREGISTRATION.md)。
+- [x] 到达时间压缩对照：pilot 4/4、formal 12/12 格通过；816 正式请求独立复算一致，native 最低，缓存组 TTFT 高 3.47–5.81%，见 [报告](experiments/2026-10-11/ARRIVAL_COMPRESSION.md)。
+- [x] 原新文本零覆盖的一次独立观测：9 个首次 capacity fallback、free 423–704、reserve 972–2208，预算可用且无在途 pin；全部随后默认 STORE。68 请求/资源通过，保护仍 0/0，未改变原性能失败，见 [诊断](experiments/2026-10-11/COVERAGE_DIAGNOSTIC.md)。
+- [ ] 长 prefill 四组 pilot：2/4 格通过后停止；默认 fixed 的 68 请求返回后在 idle wire identity 预检 fatal，残留 1 owned job/11 sessions。源 trace、部分归档、失败补审计已保存，未运行选中 fixed 与 formal，见 [失败报告](experiments/2026-10-11/LONG_PREFILL.md)。
+- [x] 为长 prefill 身份失败补两个真实 manager/BlockPool 特征测试；最新完整 CUDA/native 回归 737 passed、115 subtests。准备异常后只读身份观察器及独立 runner，另 4 项 CPU 测试通过；GPU 观察尚未执行。
+- [ ] 下一步在独立实例执行 long-prefill 身份观测，区别 mapping 缺失/新代替换，再补产生该状态的 lookup/END/reset 时序和最小修复；不能删除 guard 或把原失败改为通过。
 - [ ] 用 Qwen3-8B＋5090 复核；如要区分模型/硬件效应，需要额外控制变量实验。
 - [x] 开发和验证消融已统计客户端 ready-to-first/ready-to-end 及会话完成时间；原始值与聚合均归档，不将入口等待隐藏。新容量和到达负载继续沿用该口径。
 - [ ] 整理复现文档、版本清单、原始数据、图表和个人贡献。
@@ -181,4 +185,6 @@
 
 ## 优先顺序
 
-3C 零/一/两 chunk 正常路径、整项超预算回退、长 pending 前缀拆分、共享受保护前缀取消、自然抢占、实际 raw ID 跨代隔离和受控 server STORE 执行失败已通过；延迟有流量恢复/失败回执诊断通过，空闲延迟失败保留。固定实现后的开发/验证消融及 1.5 GiB 容量重复已完成；2.5 GiB zero 残留已通过独立观测和恢复流量干预定位到空闲未提交 pending STORE；opt-in 有界收尾候选已实现并完成立即丢弃反例、15 秒宽限和 zero/two 重入初步 GPU 验证，诊断数据不并入性能聚合。当前补齐候选的边界门槛，再补调优基线和到达负载。3B 的 opt-in 实际服务已通过受控单卡准入，历史原生栈失败结论保留；30 秒延迟的空闲 owner 收尾、生产故障恢复、异步 reset API、真实 driver/DMA fault、编译输出差异根因仍开放。每轮实验必须隔离实例并检查原 token/job/pin/terminal 与 KV 内容，资源残留就停止该轮。`compute_slots` 和 lookup 状态仍不能当准入需求 oracle。随后补 P2 参数扫描和重复对照，最后再扩模型与评估上游 PR；目前不需要升级 GPU。
+最新阻塞是长 prefill pilot 第三格的空闲 wire identity 失配：请求完成但 EngineCore fatal，原矩阵停止于 2/4。下一步先执行已准备的只读身份观察，再追 lookup/END/reset/pending 的代际时序，形成最小重现和修复门槛；不删除 guard、不覆盖原失败。修复后另立新栈 pilot，才能开展长 prefill formal。短上下文的容量、固定调优、无保护 reference 与压缩到达正式矩阵已经完成，各自范围和退化保留。
+
+保护 v1 在调优固定基线上尚无稳定收益，零覆盖独立诊断说明保守 reserve 限制触发范围；暂不扩大预算或削减预留。之后补稳定 decode、真实结构压力和耗时分解，再决定是否扩模型/GPU。3B 的单卡限定验收继续保留，真实 driver/DMA fault、多 worker/异步、永久 I/O 自动恢复和编译输出差异仍开放。当前不需要升级 GPU；上游 PR 在最小修复和维护边界明确后评估。

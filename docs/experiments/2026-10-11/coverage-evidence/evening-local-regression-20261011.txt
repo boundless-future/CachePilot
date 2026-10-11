@@ -1,0 +1,31 @@
+
+=================================== ERRORS ====================================
+_______________ ERROR collecting tests/test_owned_mp_bridge.py ________________
+ImportError while importing test module 'D:\oss-projects\future\CachePilot\tests\test_owned_mp_bridge.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+D:\Python312\Lib\importlib\__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_owned_mp_bridge.py:5: in <module>
+    from scripts.owned_mp_connector import GENERATION_CONFIG, OwnedMPConnector
+scripts\owned_mp_connector.py:11: in <module>
+    from lmcache.integration.vllm.lmcache_mp_connector import LMCacheMPConnector
+E   ModuleNotFoundError: No module named 'lmcache'
+_____________ ERROR collecting tests/test_owned_service_state.py ______________
+ImportError while importing test module 'D:\oss-projects\future\CachePilot\tests\test_owned_service_state.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+D:\Python312\Lib\importlib\__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_owned_service_state.py:11: in <module>
+    from owned_service import Owner, ReadLock, ServiceOwnership, WriteLock
+scripts\owned_service.py:21: in <module>
+    import msgspec
+E   ModuleNotFoundError: No module named 'msgspec'
+=========================== short test summary info ===========================
+ERROR tests/test_owned_mp_bridge.py
+ERROR tests/test_owned_service_state.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 2 errors during collection !!!!!!!!!!!!!!!!!!!
+6 skipped, 2 errors in 1.07s
