@@ -74,3 +74,7 @@ GPU 结果：`idle-finalize-raw-id-20261011a` 完成两遍各 68 请求；68 组
 19:51：固定参数 pilot 8/8 格通过，544 请求的独立 source/trace/资源/回执与原始时间戳复算通过；归档 SHA256 为 9b0e34eaa483b333150536e07d58c4e2146b4d2c73117e7fa5840cc7efe53460。已开始 fixed-baseline-formal-20261011a，24 格、各配置三次、按冻结顺序轮转；本地 shell session 19961。源码继续冻结，未同步离线审计器或后续 reference runner。
 
 19:55：固定参数 formal 已完成前 4 格（`h1p25-d1-r0`、`h1p25-d64-r0`、`h2p5-d1-r0`、`h2p5-d64-r0`），当前仍按冻结顺序运行；远端进程和 GPU 服务健康，未发现新的失败格。同步完成本地 10 项固定矩阵/容量/审计测试；离线 `audit_replay_measurements.py` 的测试文件名为 `tests/test_replay_measurement_audit.py`，不能使用不存在的 `test_replay_audit.py`。本地新增的 reference 预注册和 formal timing audit 文件尚未提交，待本轮 formal/归档完成后与进度记录一并提交。
+
+20:10：检查后续 reference runner 时确认 formal→validation 的源码签名必须严格相同；任何新增或修改 `scripts/`、`configs/` 文件都会使 validation 不能复用 formal 计划。因此后续 reference 审计器只在 validation 完成后恢复，当前服务器与本地源码保持冻结。
+
+20:25：固定参数 formal 24/24 格全部通过；远程独立统计和本地复算均为 `matrix_complete=true`、`passed_cells=24`，原始归档 SHA256 为 `ba9e66d1a8097e77d5b3f9dc647ae5563202e732bc5028acceb7d99f8a956e52`。24 格共 1,632 请求，独立时间戳/token/hash 审计 24/24 通过；两格已知关闭竞态按精确规则分类，未见运行期 fatal error。六个固定 zero 基线依开发集 TTFT P95 均值选择 `h5p0-d1`（7119.688 ms，个体 7182.285/7169.758/7007.021 ms，SD 97.773）；one/two 未参与选择。各点搬运与输出 hash 差异完整保留于 `fixed-baseline-evidence/`。已按预注册启动 validation，当前 `h2p5-d64-r0` 正在运行，服务器源码仍冻结。
