@@ -68,19 +68,94 @@ def cache_drained(state):
         state.get(key) == 0 for key in owned)
 
 
-def service_errors(out):
-    """An HTTP success and final drain cannot hide a failed RPC handler."""
-    errors = []
+def _clean_log_line(line):
+    return re.sub(r"\x1b\[[0-9;]*m", "", line)
+
+
+def _known_shutdown_output_handler_ranges(name, lines, context):
+    """Return only the vLLM output-handler race seen after an orderly SIGTERM.
+
+    EngineCore can exit after the API-side output handler has already entered
+    ``get_output_async``. vLLM then logs EngineDeadError while completing its
+    own shutdown. This does not excuse an EngineDeadError during request
+    processing: the full shutdown ordering and known traceback shape are
+    required before classifying lines separately from service failures.
+    """
+    if (name != "vllm.log" or not context or
+            context.get("requests_complete") is not True or
+            context.get("runtime_drained") is not True or
+            context.get("process_alive") is not True or
+            context.get("returncode") != 0 or
+            type(context.get("log_lines_before_stop")) is not int):
+        return []
+    clean = [_clean_log_line(line) for line in lines]
+    offset = context["log_lines_before_stop"]
+    if not 0 <= offset <= len(clean):
+        return []
+    api = re.escape(f"(APIServer pid={context.get('pid')})")
+    prefix = api + r" ERROR \d{2}-\d{2} \d{2}:\d{2}:\d{2} \[async_llm.py:\d+\] "
+    # Match exactly one complete known traceback. Adjacent or interleaved
+    # errors must never be swallowed by a broad contiguous-ERROR rule.
+    payloads = (
+        r"AsyncLLM output_handler failed\.",
+        r"Traceback \(most recent call last\):",
+        r'  File "[^"\r\n]+/vllm/v1/engine/async_llm.py", line \d+, in output_handler',
+        r"    outputs = await engine_core.get_output_async\(\)",
+        r" +\^+",
+        r'  File "[^"\r\n]+/vllm/v1/engine/core_client.py", line \d+, in get_output_async',
+        r"    raise self._format_exception\(outputs\) from None",
+        r"vllm.v1.engine.exceptions.EngineDeadError: EngineCore encountered an issue\. See stack trace \(above\) for the root cause\.",
+    )
+    required_before = (
+        "API server: shutdown triggered",
+        "Process manager: send sigterm to process EngineCore",
+        "EngineCore: trigger received signal=SIGTERM",
+        "EngineCore: request processing complete; starting resource teardown",
+        "MPClient: engine manager stopped",
+    )
+    ranges = []
+    for start, line in enumerate(clean):
+        if "AsyncLLM output_handler failed." not in line:
+            continue
+        cursor = offset
+        for marker in required_before:
+            index = next((i for i in range(cursor, start) if marker in clean[i]), None)
+            if index is None:
+                break
+            cursor = index + 1
+        else:
+            end = start + len(payloads)
+            if (end <= len(clean) and all(re.fullmatch(prefix + pattern, entry)
+                    for pattern, entry in zip(payloads, clean[start:end])) and
+                    any(re.fullmatch(api + r" INFO: +Application shutdown complete\.", entry)
+                        for entry in clean[end:])):
+                ranges.append((start + 1, end))
+            continue
+    return ranges
+
+
+def service_error_report(out, shutdown_context=None):
+    """Keep request-time errors fatal and retain a narrowly identified teardown race."""
+    fatal_errors, shutdown_teardown_errors = [], []
     for name in ("lmcache.log", "vllm.log"):
         path = out / name
         if not path.exists():
-            errors.append(dict(file=name, line=0, text="missing service log"))
+            fatal_errors.append(dict(file=name, line=0, text="missing service log"))
             continue
-        for number, line in enumerate(path.read_text(errors="replace").splitlines(), 1):
-            clean = re.sub(r"\x1b\[[0-9;]*m", "", line)
+        lines = path.read_text(errors="replace").splitlines()
+        known_ranges = _known_shutdown_output_handler_ranges(name, lines, shutdown_context)
+        known_lines = {number for start, end in known_ranges for number in range(start, end + 1)}
+        for number, line in enumerate(lines, 1):
+            clean = _clean_log_line(line)
             if re.search(r"\bERROR\b|Traceback \(most recent call last\)", clean):
-                errors.append(dict(file=name, line=number, text=clean))
-    return errors
+                target = shutdown_teardown_errors if number in known_lines else fatal_errors
+                target.append(dict(file=name, line=number, text=clean))
+    return dict(fatal_errors=fatal_errors, shutdown_teardown_errors=shutdown_teardown_errors)
+
+
+def service_errors(out, shutdown_context=None):
+    """Backward-compatible fatal subset for existing gates and callers."""
+    return service_error_report(out, shutdown_context)["fatal_errors"]
 
 
 def wait_drained(timeout=45):
@@ -233,7 +308,19 @@ def run_cell(out, mode, repeat, trace, model, kv_bytes):
         state_before_stop = wait_drained()
         result["status_before_engine_stop"] = state_before_stop
         result["runtime_drained"] = cache_drained(state_before_stop)
+        result["shutdown_context"] = dict(
+            requested_unix=time.time(), pid=engine.process.pid,
+            process_alive=engine.process.poll() is None,
+            requests_complete=(len(data["results"]) == len(trace["events"]) and all(
+                row.get("error") is None and
+                (row.get("usage") or {}).get("completion_tokens") == row["max_tokens"]
+                for row in data["results"])),
+            runtime_drained=result["runtime_drained"],
+            log_lines_before_stop=len((out / "vllm.log").read_text(errors="replace").splitlines()))
+        write_json(out / "shutdown-context.json", result["shutdown_context"])
         engine.stop()
+        result["shutdown_context"]["returncode"] = engine.process.returncode
+        write_json(out / "shutdown-context.json", result["shutdown_context"])
         deadline = time.monotonic() + 30
         state_after = state_before_stop
         while time.monotonic() < deadline:
@@ -251,7 +338,9 @@ def run_cell(out, mode, repeat, trace, model, kv_bytes):
         result["protection_observed"] = (mode == "zero" or
             result["protection_summary"]["committed_batches"] > 0)
         result["retrieval_observed"] = result["h2d_bytes"] > 0
-        result["service_errors"] = service_errors(out)
+        log_report = service_error_report(out, result.get("shutdown_context"))
+        result["service_errors"] = log_report["fatal_errors"]
+        result["shutdown_teardown_errors"] = log_report["shutdown_teardown_errors"]
         result["passed"] = (result["errors"] == 0 and result["resource_drained"]
                             and result["protection_observed"] and
                             result["retrieval_observed"] and not result["service_errors"] and
@@ -266,7 +355,9 @@ def run_cell(out, mode, repeat, trace, model, kv_bytes):
     finally:
         engine.stop()
         cache.stop()
-        result["service_errors"] = service_errors(out)
+        log_report = service_error_report(out, result.get("shutdown_context"))
+        result["service_errors"] = log_report["fatal_errors"]
+        result["shutdown_teardown_errors"] = log_report["shutdown_teardown_errors"]
         if result["service_errors"]:
             result["passed"] = False
         write_json(out / "result.json", result)

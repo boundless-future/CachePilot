@@ -6,7 +6,7 @@ from pathlib import Path
 import statistics
 
 from analyze_replay import percentile
-from run_protection_ablation import cache_drained, service_errors
+from run_protection_ablation import cache_drained, service_error_report
 
 
 def mean(values):
@@ -40,7 +40,8 @@ def main():
             continue
         summary = result["protection_summary"]
         contract = token_contract(cell)
-        logs = service_errors(cell)
+        log_report = service_error_report(cell, result.get("shutdown_context"))
+        logs = log_report["fatal_errors"]
         drained = (cache_drained(result["status_before_engine_stop"]) and
                    cache_drained(result["status_after_engine_stop"]) and
                    result["status_after_engine_stop"].get("registered_gpu_ids") == [])
@@ -55,6 +56,7 @@ def main():
         delta = result["vllm_delta"]
         row = dict(cell=cell.name, mode=result["mode"], repeat=result["repeat"],
             passed=bool(accepted), excluded=not accepted, errors=result["errors"], service_errors=logs,
+            shutdown_teardown_errors=log_report["shutdown_teardown_errors"],
             trace_sha256=result.get("trace_sha256"),
             ttft_p50_ms=result["ttft_ms"]["p50"], ttft_p95_ms=result["ttft_ms"]["p95"],
             reuse_ttft_p95_ms=result["reuse_ttft_ms"]["p95"],

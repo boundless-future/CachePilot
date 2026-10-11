@@ -2,7 +2,8 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from run_protection_ablation import staged_trace, cache_drained, metric, merge_protection_summary, service_errors
+from run_protection_ablation import (staged_trace, cache_drained, metric, merge_protection_summary,
+                                     service_errors, service_error_report)
 import json
 import pytest
 
@@ -81,3 +82,88 @@ def test_rpc_error_log_fails_even_when_http_succeeds(tmp_path):
     assert len(errors) == 1 and errors[0]["file"] == "lmcache.log"
     (tmp_path / "lmcache.log").write_text('INFO shutdown complete\n')
     assert not service_errors(tmp_path)
+
+
+
+@pytest.fixture
+def shutdown_log(tmp_path):
+    before = [
+        "INFO [shutdown] API server: shutdown triggered",
+        "INFO [shutdown] Process manager: send sigterm to process EngineCore",
+        "INFO [shutdown] EngineCore: trigger received signal=SIGTERM",
+        "INFO [shutdown] EngineCore: request processing complete; starting resource teardown",
+        "INFO [shutdown] MPClient: engine manager stopped",
+    ]
+    payload = [
+        "AsyncLLM output_handler failed.",
+        "Traceback (most recent call last):",
+        '  File "/site/vllm/v1/engine/async_llm.py", line 789, in output_handler',
+        "    outputs = await engine_core.get_output_async()",
+        "              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        '  File "/site/vllm/v1/engine/core_client.py", line 1175, in get_output_async',
+        "    raise self._format_exception(outputs) from None",
+        "vllm.v1.engine.exceptions.EngineDeadError: EngineCore encountered an issue. See stack trace (above) for the root cause.",
+    ]
+    error = ["(APIServer pid=123) ERROR 10-11 08:09:35 [async_llm.py:843] " + p for p in payload]
+    end = ["(APIServer pid=123) INFO:     Application shutdown complete."]
+    (tmp_path / "lmcache.log").write_text("INFO complete\n")
+    (tmp_path / "vllm.log").write_text("\n".join(before + error + end))
+    context = dict(pid=123, log_lines_before_stop=0, returncode=0,
+                   requests_complete=True, process_alive=True, runtime_drained=True)
+    return tmp_path, before, error, end, context
+
+
+def test_only_known_orderly_shutdown_output_handler_race_is_separated(shutdown_log):
+    path, _, _, _, context = shutdown_log
+    report = service_error_report(path, context)
+    assert not report["fatal_errors"]
+    assert len(report["shutdown_teardown_errors"]) == 8
+    # Old failed artifacts have no runner boundary: never reinterpret them.
+    assert len(service_errors(path)) == 8
+
+
+@pytest.mark.parametrize("change", [
+    {"requests_complete": False}, {"runtime_drained": False}, {"process_alive": False},
+    {"returncode": -9}, {"returncode": None}, {"pid": 999},
+    {"log_lines_before_stop": 6}, {"log_lines_before_stop": -1},
+])
+def test_missing_or_invalid_runner_evidence_fails_closed(shutdown_log, change):
+    path, _, _, _, context = shutdown_log
+    context.update(change)
+    assert len(service_errors(path, context)) == 8
+
+
+@pytest.mark.parametrize("mutation", ["reordered", "missing_marker", "runtime", "incomplete",
+                                       "other_exception", "missing_exit", "interleaved"])
+def test_unknown_or_runtime_errors_are_fatal(shutdown_log, mutation):
+    path, before, error, end, context = shutdown_log
+    if mutation == "reordered":
+        before.reverse()
+    elif mutation == "missing_marker":
+        before.pop(2)
+    elif mutation == "runtime":
+        before, error = error, before
+    elif mutation == "incomplete":
+        error.pop(4)
+    elif mutation == "other_exception":
+        error[-1] = error[-1].replace("EngineDeadError", "RuntimeError")
+    elif mutation == "missing_exit":
+        end = []
+    elif mutation == "interleaved":
+        error.insert(3, "ERROR CUDA illegal memory access")
+    (path / "vllm.log").write_text("\n".join(before + error + end))
+    report = service_error_report(path, context)
+    assert report["fatal_errors"]
+    assert not report["shutdown_teardown_errors"]
+
+
+@pytest.mark.parametrize("file", ["vllm.log", "lmcache.log"])
+def test_adjacent_unrelated_error_is_never_swallowed(shutdown_log, file):
+    path, before, error, end, context = shutdown_log
+    if file == "vllm.log":
+        (path / file).write_text("\n".join(before + error + ["ERROR CUDA illegal memory access"] + end))
+    else:
+        (path / file).write_text("ERROR Error in blocking handler")
+    report = service_error_report(path, context)
+    assert len(report["fatal_errors"]) == 1
+    assert len(report["shutdown_teardown_errors"]) == 8
