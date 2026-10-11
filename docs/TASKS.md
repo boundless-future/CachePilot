@@ -158,7 +158,8 @@
 
 - [x] 固定开发 trace，完成 prompt SHA 无交集、到达结构相同的合成验证输入 zero/one/two 各三次重复；九格 612 请求及资源门槛通过，三格严格分类的关闭竞态单列。整体 TTFT P95 相对 zero 为 one -0.57%、two +0.31%，未稳定复现开发集改善，不作泛化结论。见 [独立输入复核](experiments/2026-10-11/PROTECTION_ABLATION_VALIDATION.md)。这不是独立真实 Agent 数据或新到达分布。
 - [x] 完成 1.5 GiB 容量点 zero/one/two 试点及三次正式重复（12 格、816 请求），保留 zero/one/two、输出 hash 差异、H2D/D2H 和资源证据；one/two TTFT P95 相对 zero 为 -5.09%/-3.99%，但 H2D 增加 8.92%/6.49%，不作默认预算结论。2.5 GiB zero 试点 68 请求因 1 个 owned job/session 未闭合而按预注册规则停止，one/two 未运行；见 [容量扫描](experiments/2026-10-11/CAPACITY_SCAN.md)。
-- [ ] 独立诊断 2.5 GiB zero 的 owned job/session 残留，记录 job/request 身份与 LOOKUP/QUERY/END/terminal/idle/shutdown 时序；诊断结果不并入性能聚合。
+- [x] 独立诊断 2.5 GiB zero 的 owned job/session 残留：两轮观测复现已结束请求保留 `[0,1024)` pending STORE 且无 in-flight，第三轮追加 3 个固定压力请求后观察到 STORE→terminal→END→reclaim 并归零；新增零 token pending 契约测试。诊断结果不并入性能聚合，见 [CAPACITY_OWNER_DIAGNOSIS](experiments/2026-10-11/CAPACITY_OWNER_DIAGNOSIS.md)。
+- [ ] 设计并以 opt-in 方式验证空闲 pending STORE 的有界丢弃/结束策略；必须保留提交批次身份和资源安全，重新覆盖请求重入、共享前缀、跨代回执及 GPU 回归。
 - [ ] 在更多到达模式上多次重复；再增加长 prefill、稳定 decode 和集中恢复。
 - [ ] 用 Qwen3-8B＋5090 复核；如要区分模型/硬件效应，需要额外控制变量实验。
 - [x] 开发和验证消融已统计客户端 ready-to-first/ready-to-end 及会话完成时间；原始值与聚合均归档，不将入口等待隐藏。新容量和到达负载继续沿用该口径。
@@ -168,4 +169,4 @@
 
 ## 优先顺序
 
-3C 零/一/两 chunk 正常路径、整项超预算回退、长 pending 前缀拆分、共享受保护前缀取消、自然抢占、实际 raw ID 跨代隔离和受控 server STORE 执行失败已通过；延迟有流量恢复/失败回执诊断通过，空闲延迟失败保留。固定实现后的开发/验证消融及 1.5 GiB 容量重复已完成；当前优先独立诊断 2.5 GiB zero 试点的 owned job/session 残留，再补调优基线和到达负载。3B 的 opt-in 实际服务已通过受控单卡准入，历史原生栈失败结论保留；30 秒延迟的空闲 owner 收尾、生产故障恢复、异步 reset API、真实 driver/DMA fault、编译输出差异根因仍开放。每轮实验必须隔离实例并检查原 token/job/pin/terminal 与 KV 内容，资源残留就停止该轮。`compute_slots` 和 lookup 状态仍不能当准入需求 oracle。随后补 P2 参数扫描和重复对照，最后再扩模型与评估上游 PR；目前不需要升级 GPU。
+3C 零/一/两 chunk 正常路径、整项超预算回退、长 pending 前缀拆分、共享受保护前缀取消、自然抢占、实际 raw ID 跨代隔离和受控 server STORE 执行失败已通过；延迟有流量恢复/失败回执诊断通过，空闲延迟失败保留。固定实现后的开发/验证消融及 1.5 GiB 容量重复已完成；2.5 GiB zero 残留已通过独立观测和恢复流量干预定位到空闲未提交 pending STORE；当前优先设计 opt-in 有界收尾契约，再补调优基线和到达负载。3B 的 opt-in 实际服务已通过受控单卡准入，历史原生栈失败结论保留；30 秒延迟的空闲 owner 收尾、生产故障恢复、异步 reset API、真实 driver/DMA fault、编译输出差异根因仍开放。每轮实验必须隔离实例并检查原 token/job/pin/terminal 与 KV 内容，资源残留就停止该轮。`compute_slots` 和 lookup 状态仍不能当准入需求 oracle。随后补 P2 参数扫描和重复对照，最后再扩模型与评估上游 PR；目前不需要升级 GPU。

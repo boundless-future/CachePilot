@@ -264,7 +264,7 @@ CachePilot/
 
 2026-10-11 固定策略后完成独立文本 namespace 的 zero/one/two 各三次复核：68 条 prompt 与开发集 SHA 交集为零，结构/到达/输出 token 合约一致，输入 token 总数从 74,652 变为 75,604。九格 612 请求通过运行期和退出后资源门槛；三格已主动关闭后的精确 vLLM traceback 按新门槛单列，历史失败不改写。TTFT P95 均值为 zero 7148.41、one 7107.42、two 7170.89 ms，相对变化 -0.57%/+0.31%，开发集 -6.22%/-3.45% 的改善没有稳定复现。三组 prefill、hit 和 H2D 相同，不证明减少重算或回载，也不证明策略普遍无效。输出差异、原始重复和完整限制见 [独立输入复核](experiments/2026-10-11/PROTECTION_ABLATION_VALIDATION.md)。这是同生成结构的输入复核，不是真实 Agent 泛化；当前不选生产默认预算。
 
-随后按预注册方案完成 1.5 GiB GPU KV 容量扫描：zero/one/two 试点各一次及三次正式重复，共 12 格、816 请求全部通过 token/H2D/资源/日志门槛。正式 TTFT P95 相对 zero 为 one -5.09%、two -3.99%，但 H2D 增加 8.92%/6.49%，one 波动更大，n=3 不作显著性或生产默认结论。2.5 GiB zero 试点完成 68/68 请求且无 service error，但运行期和退出后各留下 1 个 owned job 与 1 个 active session，资源门槛失败；按规则停止 one/two 和正式重复，证据与限制见 [容量扫描](experiments/2026-10-11/CAPACITY_SCAN.md)。这不是 GPU 传输仍在执行的证明，也不能直接归因于保护策略。下一步为独立生命周期诊断，不把修复后数据并入当前容量统计。
+随后按预注册方案完成 1.5 GiB GPU KV 容量扫描：zero/one/two 试点各一次及三次正式重复，共 12 格、816 请求全部通过 token/H2D/资源/日志门槛。正式 TTFT P95 相对 zero 为 one -5.09%、two -3.99%，但 H2D 增加 8.92%/6.49%，one 波动更大，n=3 不作显著性或生产默认结论。2.5 GiB zero 试点完成 68/68 请求且无 service error，但运行期和退出后各留下 1 个 owned job 与 1 个 active session，资源门槛失败；按规则停止 one/two 和正式重复。独立诊断两轮定位到最后完成请求的 pending `[0,1024)` lazy STORE 未提交，空闲零 token 步不会推进；追加三个压力请求后观察到 STORE/terminal/END/reclaim 归零。证据与限制见 [容量扫描](experiments/2026-10-11/CAPACITY_SCAN.md) 和 [owner 诊断](experiments/2026-10-11/CAPACITY_OWNER_DIAGNOSIS.md)。这不是 GPU 传输仍在执行的证明，也不能直接归因于保护策略。下一步为 opt-in 的有界 pending 丢弃/结束设计，不把诊断干预并入当前容量统计。
 
 在阶段 3C 通过后，固定相同 trace、版本、资源和日志设置，对比原生 vLLM、立即卸载、默认 EVICTION_AWARE、调优固定策略、allocation signal 消融和最终策略；每个关键配置至少三次重复，保留退化和失败案例。然后使用 Qwen3-8B + RTX 5090 32GB 做扩展复核，单独分析模型规模和显存变化的影响。
 
@@ -346,7 +346,7 @@ Trace 回放评估的是推理系统在同一请求负载下的行为，不评�
 
 原计划中的环境确认已经完成并固化在 `docs/ENVIRONMENT.md`。当前剩余事项按阻塞关系排列：
 
-1. 开发集和首个独立文本验证 trace 已固定，验证中整体 TTFT 改善未稳定复现。先冻结策略；按 [容量扫描结果](experiments/2026-10-11/CAPACITY_SCAN.md)，1.5 GiB 试点及三次重复已完成，2.5 GiB zero 试点因 owned job/session 残留停止。先独立诊断该终态问题，再补同所有权栈的立即卸载、固定参数对照和长 prefill、稳定 decode、集中恢复。保留无保护/无回载覆盖、退化和失败点，不为通过门槛挑选结果；若调整策略，另建未见验证集合，不据现有结果选生产默认值；
+1. 开发集和首个独立文本验证 trace 已固定，验证中整体 TTFT 改善未稳定复现。先冻结策略；按 [容量扫描结果](experiments/2026-10-11/CAPACITY_SCAN.md)，1.5 GiB 试点及三次重复已完成，2.5 GiB zero 试点因 owned job/session 残留停止。独立诊断已定位空闲未提交 pending STORE；先设计 opt-in 有界收尾契约，再补同所有权栈的立即卸载、固定参数对照和长 prefill、稳定 decode、集中恢复。保留无保护/无回载覆盖、退化和失败点，不为通过门槛挑选结果；若调整策略，另建未见验证集合，不据现有结果选生产默认值；
 2. 使用 Qwen3-8B + RTX 5090 32GB 做扩展复核，并分开分析模型规模、显存和 PCIe 链路差异；
 3. 继续补齐 P2 的 DMA/排队/重算分解，避免把 D2H 或服务端队列变化误认作唯一原因；
 4. 继续记录 3B 支线限制：30 秒回执延迟的空闲 owner 收尾、真实 driver fault、永久 I/O 的自动恢复、L2 不确定提交异常的实机注入及可维护上游最小补丁。限定隔离研究结论不扩大为生产安全结论；
