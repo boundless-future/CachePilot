@@ -18,6 +18,11 @@ def test_case_selection_keeps_native_and_immediate_without_double_default():
     assert len(other) == 6 and "h2p5-d64" in other and "h1p25-d1" in other
     with pytest.raises(ValueError):
         cases_for("protect-one")
+    unprotected = cases_for("h5p0-d1", "unprotected")
+    assert list(unprotected) == ["native", "owned-immediate", "h2p5-d64", "h5p0-d1"]
+    assert all(case.get("mode", "zero") == "zero" for case in unprotected.values())
+    with pytest.raises(ValueError):
+        cases_for("h5p0-d1", "unknown")
 
 
 def test_immediate_preserves_owned_identity_path_without_mutating_input():

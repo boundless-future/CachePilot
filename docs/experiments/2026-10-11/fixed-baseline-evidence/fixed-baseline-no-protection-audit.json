@@ -1,0 +1,148 @@
+{
+  "cell": "protect-one-r0",
+  "passed": true,
+  "requests": 68,
+  "errors": [],
+  "recomputed": {
+    "ttft_ms": {
+      "p50": 2632.8039370018814,
+      "p95": 7002.441427950544,
+      "p99": 7384.711175038574,
+      "mean": 3102.9210774557964
+    },
+    "ready_to_first_ms": {
+      "p50": 2633.0775344995345,
+      "p95": 7003.296002049137,
+      "p99": 7385.413027965625,
+      "mean": 3103.596758116135
+    },
+    "e2e_ms": {
+      "p50": 3856.2811170013447,
+      "p95": 8078.213729652089,
+      "p99": 8443.674693400317,
+      "mean": 4221.835062838289
+    },
+    "ready_to_end_ms": {
+      "p50": 3856.554714498998,
+      "p95": 8079.068303750682,
+      "p99": 8444.376546327367,
+      "mean": 4222.510743498628
+    },
+    "client_queue_ms": {
+      "p50": 0.5966284988971893,
+      "p95": 1.1318699496769113,
+      "p99": 2.5217002084536944,
+      "mean": 0.6756806603388053
+    },
+    "cold_ttft_ms": {
+      "p50": 1326.0671450007067,
+      "p95": 2671.406816001581
+    },
+    "reuse_ttft_ms": {
+      "p50": 4070.005814499382,
+      "p95": 7359.921802500686
+    },
+    "session_completion_ms": {
+      "p95": 31440.894791049323,
+      "mean": 18987.68509939855
+    }
+  },
+  "matrix_passed": false,
+  "failure_reason": "protection_coverage_absent",
+  "resources": true,
+  "protection_summary": {
+    "processes": 2,
+    "events": {
+      "initialized": 2,
+      "protection_fallback": 8,
+      "scheduler_built": 42,
+      "scheduler_metadata": 54,
+      "scheduler_receipt": 42,
+      "worker_bound": 42,
+      "worker_receipt": 42,
+      "worker_submit_returned": 42
+    },
+    "fallbacks": {
+      "capacity": 8
+    },
+    "prepared_batches": 0,
+    "committed_batches": 0,
+    "receipts": 0,
+    "failed_receipts": 0,
+    "peak_pinned_blocks": 0,
+    "peak_inflight_blocks": 0,
+    "raw": [
+      {
+        "committed_batches": 0,
+        "events": {
+          "initialized": 1,
+          "protection_fallback": 8,
+          "scheduler_built": 42,
+          "scheduler_metadata": 54,
+          "scheduler_receipt": 42
+        },
+        "failed_receipts": 0,
+        "fallbacks": {
+          "capacity": 8
+        },
+        "inflight_blocks_before_shutdown": 0,
+        "peak_inflight_blocks": 0,
+        "peak_pinned_blocks": 0,
+        "pending_handoffs_before_shutdown": 0,
+        "pid": 51200,
+        "prepared_batches": 0,
+        "prepared_blocks_before_shutdown": 0,
+        "receipts": 0,
+        "role": "SCHEDULER",
+        "shutdown_complete": true,
+        "timings": {
+          "commit": {
+            "calls": 864,
+            "cpu_ns": 2331465,
+            "wall_ns": 2336727
+          },
+          "prepare": {
+            "calls": 864,
+            "cpu_ns": 81267913,
+            "wall_ns": 91947367
+          },
+          "receipts": {
+            "calls": 29,
+            "cpu_ns": 98292,
+            "wall_ns": 100771
+          },
+          "rollback": {
+            "calls": 20,
+            "cpu_ns": 114022,
+            "wall_ns": 124654
+          }
+        }
+      },
+      {
+        "committed_batches": 0,
+        "events": {
+          "initialized": 1,
+          "worker_bound": 42,
+          "worker_receipt": 42,
+          "worker_submit_returned": 42
+        },
+        "failed_receipts": 0,
+        "fallbacks": {},
+        "inflight_blocks_before_shutdown": 0,
+        "peak_inflight_blocks": 0,
+        "peak_pinned_blocks": 0,
+        "pending_handoffs_before_shutdown": 0,
+        "pid": 51200,
+        "prepared_batches": 0,
+        "prepared_blocks_before_shutdown": 0,
+        "receipts": 0,
+        "role": "WORKER",
+        "shutdown_complete": true,
+        "timings": {}
+      }
+    ],
+    "shutdown_closed": true
+  },
+  "h2d_bytes": 1811939328.0,
+  "service_errors": []
+}

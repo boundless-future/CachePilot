@@ -78,3 +78,5 @@ GPU 结果：`idle-finalize-raw-id-20261011a` 完成两遍各 68 请求；68 组
 20:10：检查后续 reference runner 时确认 formal→validation 的源码签名必须严格相同；任何新增或修改 `scripts/`、`configs/` 文件都会使 validation 不能复用 formal 计划。因此后续 reference 审计器只在 validation 完成后恢复，当前服务器与本地源码保持冻结。
 
 20:25：固定参数 formal 24/24 格全部通过；远程独立统计和本地复算均为 `matrix_complete=true`、`passed_cells=24`，原始归档 SHA256 为 `ba9e66d1a8097e77d5b3f9dc647ae5563202e732bc5028acceb7d99f8a956e52`。24 格共 1,632 请求，独立时间戳/token/hash 审计 24/24 通过；两格已知关闭竞态按精确规则分类，未见运行期 fatal error。六个固定 zero 基线依开发集 TTFT P95 均值选择 `h5p0-d1`（7119.688 ms，个体 7182.285/7169.758/7007.021 ms，SD 97.773）；one/two 未参与选择。各点搬运与输出 hash 差异完整保留于 `fixed-baseline-evidence/`。已按预注册启动 validation，当前 `h2p5-d64-r0` 正在运行，服务器源码仍冻结。
+
+20:31–20:34：validation 第三格 `protect-one-r0` 因零保护覆盖停止。68 请求与资源均通过，但 8 次 capacity fallback，保护提交/回执 0/0；原失败不改写，后续九格未运行。部分归档 SHA256 `554e4e371737625f2f78d7739f77864de0a55ee37193135ca82100238ba010be`，独立矩阵审计 2/12 通过、无均值；三个已有格的原始测量复算均通过。进程已退出，GPU 1 MiB。详见 FIXED_BASELINES.md。原六组 reference 的 validation 前置条件未满足；不直接启动它。

@@ -1,0 +1,222 @@
+{
+  "passed": false,
+  "expected_cells": 12,
+  "passed_cells": 3,
+  "rows": [
+    {
+      "cell": "h2p5-d64-r0",
+      "passed": true,
+      "requests": 68,
+      "errors": [],
+      "recomputed": {
+        "ttft_ms": {
+          "p50": 2686.8826570007514,
+          "p95": 7412.88338800241,
+          "p99": 7797.628809218913,
+          "mean": 3238.5241885294818
+        },
+        "ready_to_first_ms": {
+          "p50": 2687.4558159979642,
+          "p95": 7413.637875551286,
+          "p99": 7797.818887206414,
+          "mean": 3239.187986440169
+        },
+        "e2e_ms": {
+          "p50": 3952.011447499899,
+          "p95": 8506.651489951037,
+          "p99": 8884.804311159496,
+          "mean": 4386.257028323598
+        },
+        "ready_to_end_ms": {
+          "p50": 3952.584606497112,
+          "p95": 8507.405977499911,
+          "p99": 8884.994389146996,
+          "mean": 4386.920826234285
+        },
+        "client_queue_ms": {
+          "p50": 0.5942864991084207,
+          "p95": 1.4686877992062364,
+          "p99": 1.955300419795094,
+          "mean": 0.6637979106873151
+        },
+        "cold_ttft_ms": {
+          "p50": 1390.058909999425,
+          "p95": 2726.963719300693
+        },
+        "reuse_ttft_ms": {
+          "p50": 4166.504800501571,
+          "p95": 7773.384599550627
+        },
+        "session_completion_ms": {
+          "p95": 31468.75881079868,
+          "mean": 19030.229188348858
+        }
+      }
+    },
+    {
+      "cell": "h5p0-d1-r0",
+      "passed": true,
+      "requests": 68,
+      "errors": [],
+      "recomputed": {
+        "ttft_ms": {
+          "p50": 2790.119595500073,
+          "p95": 7241.56957084997,
+          "p99": 7634.999023110214,
+          "mean": 3214.970862956119
+        },
+        "ready_to_first_ms": {
+          "p50": 2791.0501645001204,
+          "p95": 7242.23887435237,
+          "p99": 7635.8051522381,
+          "mean": 3215.804502412164
+        },
+        "e2e_ms": {
+          "p50": 4030.8898064995446,
+          "p95": 8350.905955800226,
+          "p99": 8727.261510641547,
+          "mean": 4351.826800426619
+        },
+        "ready_to_end_ms": {
+          "p50": 4031.820375499592,
+          "p95": 8351.575259302626,
+          "p99": 8728.067639769433,
+          "mean": 4352.660439882664
+        },
+        "client_queue_ms": {
+          "p50": 0.6681710019620368,
+          "p95": 1.8815757986885728,
+          "p99": 2.9996810503143934,
+          "mean": 0.8336394560448004
+        },
+        "cold_ttft_ms": {
+          "p50": 1410.873315500794,
+          "p95": 2826.8731705516984
+        },
+        "reuse_ttft_ms": {
+          "p50": 4186.373783499221,
+          "p95": 7610.572880251857
+        },
+        "session_completion_ms": {
+          "p95": 31432.885543299195,
+          "mean": 19043.237140600104
+        }
+      }
+    },
+    {
+      "cell": "protect-one-r0",
+      "passed": true,
+      "requests": 68,
+      "errors": [],
+      "recomputed": {
+        "ttft_ms": {
+          "p50": 2632.8039370018814,
+          "p95": 7002.441427950544,
+          "p99": 7384.711175038574,
+          "mean": 3102.9210774557964
+        },
+        "ready_to_first_ms": {
+          "p50": 2633.0775344995345,
+          "p95": 7003.296002049137,
+          "p99": 7385.413027965625,
+          "mean": 3103.596758116135
+        },
+        "e2e_ms": {
+          "p50": 3856.2811170013447,
+          "p95": 8078.213729652089,
+          "p99": 8443.674693400317,
+          "mean": 4221.835062838289
+        },
+        "ready_to_end_ms": {
+          "p50": 3856.554714498998,
+          "p95": 8079.068303750682,
+          "p99": 8444.376546327367,
+          "mean": 4222.510743498628
+        },
+        "client_queue_ms": {
+          "p50": 0.5966284988971893,
+          "p95": 1.1318699496769113,
+          "p99": 2.5217002084536944,
+          "mean": 0.6756806603388053
+        },
+        "cold_ttft_ms": {
+          "p50": 1326.0671450007067,
+          "p95": 2671.406816001581
+        },
+        "reuse_ttft_ms": {
+          "p50": 4070.005814499382,
+          "p95": 7359.921802500686
+        },
+        "session_completion_ms": {
+          "p95": 31440.894791049323,
+          "mean": 18987.68509939855
+        }
+      }
+    },
+    {
+      "cell": "protect-two-r0",
+      "passed": false,
+      "errors": [
+        "FileNotFoundError(2, 'No such file or directory')"
+      ]
+    },
+    {
+      "cell": "h2p5-d64-r1",
+      "passed": false,
+      "errors": [
+        "FileNotFoundError(2, 'No such file or directory')"
+      ]
+    },
+    {
+      "cell": "h5p0-d1-r1",
+      "passed": false,
+      "errors": [
+        "FileNotFoundError(2, 'No such file or directory')"
+      ]
+    },
+    {
+      "cell": "protect-one-r1",
+      "passed": false,
+      "errors": [
+        "FileNotFoundError(2, 'No such file or directory')"
+      ]
+    },
+    {
+      "cell": "protect-two-r1",
+      "passed": false,
+      "errors": [
+        "FileNotFoundError(2, 'No such file or directory')"
+      ]
+    },
+    {
+      "cell": "h2p5-d64-r2",
+      "passed": false,
+      "errors": [
+        "FileNotFoundError(2, 'No such file or directory')"
+      ]
+    },
+    {
+      "cell": "h5p0-d1-r2",
+      "passed": false,
+      "errors": [
+        "FileNotFoundError(2, 'No such file or directory')"
+      ]
+    },
+    {
+      "cell": "protect-one-r2",
+      "passed": false,
+      "errors": [
+        "FileNotFoundError(2, 'No such file or directory')"
+      ]
+    },
+    {
+      "cell": "protect-two-r2",
+      "passed": false,
+      "errors": [
+        "FileNotFoundError(2, 'No such file or directory')"
+      ]
+    }
+  ],
+  "tolerance_ms": 1e-05,
+  "scope": "Raw timing/token/hash audit; excludes KV bitwise equivalence and DMA timing."
+}

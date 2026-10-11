@@ -24,11 +24,14 @@ except ImportError:
         read, select_fixed, strict_idle, token_gate, validate_completed)
 
 
-def cases_for(selected):
+def cases_for(selected, scope="all"):
     if selected not in CASES or CASES[selected]["mode"] != "zero":
         raise ValueError("Reference selection must be a fixed baseline")
     cases = {"native": dict(kind="native"), "owned-immediate": dict(kind="immediate")}
-    for name in dict.fromkeys((DEFAULT_CASE, selected, "protect-one", "protect-two")):
+    if scope not in ("all", "unprotected"):
+        raise ValueError("Unknown reference scope")
+    names = (DEFAULT_CASE, selected) + (("protect-one", "protect-two") if scope == "all" else ())
+    for name in dict.fromkeys(names):
         cases[name] = dict(kind="lazy", **CASES[name])
     return cases
 
@@ -167,6 +170,8 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--stage", required=True, choices=("pilot", "formal"))
     parser.add_argument("--tuning", required=True, type=Path)
+    parser.add_argument("--scope", choices=("all", "unprotected"), default="all")
+    parser.add_argument("--validation", type=Path)
     parser.add_argument("--trace", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--pilot", type=Path)
@@ -174,6 +179,8 @@ def main():
     args = parser.parse_args()
     if (args.stage == "formal") != (args.pilot is not None):
         parser.error("Only formal requires --pilot")
+    if args.scope == "all" and args.validation is None:
+        parser.error("The original all-case scope requires completed --validation")
     cutoff = datetime.fromisoformat(args.stop_starting_at)
     if cutoff.utcoffset() is None:
         parser.error("Cutoff requires a timezone")
@@ -181,15 +188,24 @@ def main():
     from validate_environment import Service, write_json
     tuning_plan = read(args.tuning / "plan.json")
     selection = select_fixed(validate_completed(args.tuning, tuning_plan["signature"], "formal", CASES, 3))
+    if args.scope == "all":
+        prior_validation = read(args.validation / "plan.json")
+        heldout_cases = {name: CASES[name] for name in dict.fromkeys(
+            (DEFAULT_CASE, selection["selected"], "protect-one", "protect-two"))}
+        validate_completed(args.validation, prior_validation["signature"], "validation", heldout_cases, 3)
+        if prior_validation["selection"] != selection:
+            raise ValueError("Held-out validation selection differs")
     sources = ablation.source_sha()
     if any(sources.get(k) != v for k, v in tuning_plan["signature"]["source_sha256"].items()):
         raise ValueError("An existing source changed since fixed-parameter tuning")
-    cases = cases_for(selection["selected"])
+    cases = cases_for(selection["selected"], args.scope)
     trace = read(args.trace)
     ablation.validate_trace(trace)
+    if args.scope == "unprotected" and hashlib.sha256(json.dumps(trace, sort_keys=True).encode()).hexdigest() != "015c2148973855fe2fa1e0cb7cef4ecb136f69ecf41fde2212b61bbb9e5acd6b":
+        raise ValueError("Unprotected follow-up requires its preregistered trace")
     signature = dict(source_sha256=sources, kv_cache_bytes=KV_BYTES,
         trace_sha256=hashlib.sha256(json.dumps(trace, sort_keys=True).encode()).hexdigest(),
-        cases=cases, gate="references-v1")
+        cases=cases, gate="references-v1", scope=args.scope)
     if args.pilot:
         prior = read(args.pilot / "plan.json")
         if prior["signature"] != signature or prior["stage"] != "pilot" or prior["repeats"] != 1:
@@ -204,7 +220,7 @@ def main():
     repeats = 1 if args.stage == "pilot" else 3
     write_json(args.output / "trace.json", trace)
     write_json(args.output / "plan.json", dict(stage=args.stage, signature=signature, cases=cases,
-        repeats=repeats, selection=selection, cutoff=args.stop_starting_at,
+        repeats=repeats, selection=selection, scope=args.scope, cutoff=args.stop_starting_at,
         tuning=str(args.tuning), pilot=str(args.pilot) if args.pilot else None))
     current = None
     class ReferenceService(Service):
