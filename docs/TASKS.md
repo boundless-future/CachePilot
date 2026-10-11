@@ -176,7 +176,8 @@
 - [x] 原新文本零覆盖的一次独立观测：9 个首次 capacity fallback、free 423–704、reserve 972–2208，预算可用且无在途 pin；全部随后默认 STORE。68 请求/资源通过，保护仍 0/0，未改变原性能失败，见 [诊断](experiments/2026-10-11/COVERAGE_DIAGNOSTIC.md)。
 - [ ] 长 prefill 四组 pilot：2/4 格通过后停止；默认 fixed 的 68 请求返回后在 idle wire identity 预检 fatal，残留 1 owned job/11 sessions。源 trace、部分归档、失败补审计已保存，未运行选中 fixed 与 formal，见 [失败报告](experiments/2026-10-11/LONG_PREFILL.md)。
 - [x] 为长 prefill 身份失败补两个真实 manager/BlockPool 特征测试；最新完整 CUDA/native 回归 737 passed、115 subtests。准备异常后只读身份观察器及独立 runner，另 4 项 CPU 测试通过；GPU 观察尚未执行。
-- [ ] 下一步在独立实例执行 long-prefill 身份观测，区别 mapping 缺失/新代替换，再补产生该状态的 lookup/END/reset 时序和最小修复；不能删除 guard 或把原失败改为通过。
+- [x] 完成两轮独立 long-prefill 诊断和真实 tracker/manager 最小复现：抢占后新 tracker 生成新 wire，但原生 PREEMPTED 路径跳过 lookup，mapping 仍旧代；timeline 观察 4 个 STORE-only wire 未 END、4 sessions 残留。完整 CUDA/native 746 passed、115 subtests；离线审计另 5 项通过。见 [身份缺口报告](experiments/2026-10-11/PREEMPTED_IDENTITY.md)。两轮均未再次触发 idle fatal，资源均失败，不算修复。
+- [ ] 实现独立身份终结候选：分离 lookup 路由与各 generation session 登记，覆盖旧 STORE 迟到提交/回执、连续抢占、raw ID 重用及 END 部分失败；不只覆盖 mapping、不删除 guard。逐身份服务端审计通过后，另立新栈长 prefill pilot。
 - [ ] 用 Qwen3-8B＋5090 复核；如要区分模型/硬件效应，需要额外控制变量实验。
 - [x] 开发和验证消融已统计客户端 ready-to-first/ready-to-end 及会话完成时间；原始值与聚合均归档，不将入口等待隐藏。新容量和到达负载继续沿用该口径。
 - [ ] 整理复现文档、版本清单、原始数据、图表和个人贡献。
@@ -185,6 +186,6 @@
 
 ## 优先顺序
 
-最新阻塞是长 prefill pilot 第三格的空闲 wire identity 失配：请求完成但 EngineCore fatal，原矩阵停止于 2/4。下一步先执行已准备的只读身份观察，再追 lookup/END/reset/pending 的代际时序，形成最小重现和修复门槛；不删除 guard、不覆盖原失败。修复后另立新栈 pilot，才能开展长 prefill formal。短上下文的容量、固定调优、无保护 reference 与压缩到达正式矩阵已经完成，各自范围和退化保留。
+最新阻塞已从未知身份失配推进到可重建调用链：抢占后 tracker 新代跳过 lookup，client 保留旧代 mapping，STORE 与 END 分属不同 wire。真实 GPU 时序和两项真实库 CPU 复现已归档；原 pilot 仍失败，两个独立诊断资源也未通过。下一步实现分离 lookup 路由和 session 终结身份的独立候选，补迟到旧批次、连续抢占、复用及部分失败，再逐身份 GPU 审计；冻结后重开新的长 prefill pilot，不能直接 formal。短上下文已完成矩阵和其退化结论不变。
 
 保护 v1 在调优固定基线上尚无稳定收益，零覆盖独立诊断说明保守 reserve 限制触发范围；暂不扩大预算或削减预留。之后补稳定 decode、真实结构压力和耗时分解，再决定是否扩模型/GPU。3B 的单卡限定验收继续保留，真实 driver/DMA fault、多 worker/异步、永久 I/O 自动恢复和编译输出差异仍开放。当前不需要升级 GPU；上游 PR 在最小修复和维护边界明确后评估。

@@ -376,3 +376,8 @@ Trace 回放评估的是推理系统在同一请求负载下的行为，不评�
 5. 至少一个 workload 上能解释性地改善目标指标，或明确证明保护策略不值得启用；
 6. 提供默认、固定调优、allocation 消融、最终策略、立即卸载和退化案例；
 7. 代码结构能说明 vLLM、LMCache 和自研策略的职责边界，并可由第三方复现至少一组对照。
+
+
+## 2026-10-11 22:54 身份支线更新
+
+长 prefill 独立时序定位了我们适配层的缺口：真实抢占重建 tracker 生成新 generation，底层 PREEMPTED 路径跳过 lookup，因此 lookup-only mapping 未更新；新代 STORE 与旧代 END 分离。两项真实 Connector/manager CPU 复现通过，完整 CUDA/native 746 passed；两个 GPU 诊断资源仍失败，尚未修复。下一步先分离 lookup 路由与所有 session 代际终结登记，验证迟到旧 STORE/回执、连续抢占、raw ID 复用、取消及 END 部分失败，再逐身份实机验收。此项是所有权适配支线，不算保护策略改进；通过后另立新栈长 prefill pilot，不能改写原失败或直接启动 formal。详见 [报告](experiments/2026-10-11/PREEMPTED_IDENTITY.md)。

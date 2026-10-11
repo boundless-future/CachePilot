@@ -37,3 +37,8 @@ native 与 owned-immediate 两格通过；第三格 h2.5/d64 的 68 个请求和
 - [当时运行源码](long-prefill-evidence/long-prefill-source-20261011.tar.gz)，SHA256 `b64d710de9471146023a7910b029063c4d1176a9c8a09f124bacbd127e1c50e2`。
 - 从该源码包独立核对 [177 项 manifest](long-prefill-evidence/source-verification.json) 全部匹配；68 个原事件除 prompt/token/hash 外的字段与 reference 完全一致。
 - [新增特征测试后的全量日志](long-prefill-evidence/evening-final-regression-20261011.txt)。
+
+
+## 22:54 后续独立定位
+
+用户重新授权后已完成两轮独立诊断及真实库最小复现，详见 [PREEMPTED_IDENTITY](PREEMPTED_IDENTITY.md)。原 guard 未改；实际观察到抢占重建 tracker 后跳过 lookup，新代 STORE 与旧代 END 分离。两次新重放没有再次触发原 idle fatal，但分别残留 9/4 sessions；不算修复。下一步是独立代际终结登记候选和迟到批次回归，原 pilot 始终维持 2/4 失败。

@@ -1,0 +1,86 @@
+{
+  "diagnostic_chain_observed": true,
+  "original_cell_passed": false,
+  "requests": 68,
+  "natural_preemptions": 6.0,
+  "lookup_identities": 69,
+  "store_identities": 24,
+  "stores_without_lookup": [
+    {
+      "request_id": "cmpl-befef627e9436977-0-bd243299",
+      "store_wire": "cp1:2478741804875902893:15:a2af9e583c48a2098aeb26c98d978f46:cmpl-befef627e9436977-0-bd243299",
+      "reset_ns": 35823603495755,
+      "tracker_ns": 35823604439421,
+      "first_admission_ns": 35823605174572,
+      "admission_mappings": [
+        {
+          "tcp://127.0.0.1:5555": "cp1:2478741804875902893:9:889e13e73b525238713324bbd1e3f6eb:cmpl-befef627e9436977-0-bd243299"
+        },
+        {
+          "tcp://127.0.0.1:5555": "cp1:2478741804875902893:9:889e13e73b525238713324bbd1e3f6eb:cmpl-befef627e9436977-0-bd243299"
+        },
+        {
+          "tcp://127.0.0.1:5555": "cp1:2478741804875902893:9:889e13e73b525238713324bbd1e3f6eb:cmpl-befef627e9436977-0-bd243299"
+        }
+      ],
+      "ended": false
+    },
+    {
+      "request_id": "cmpl-8098e6c7245c8bd4-0-90846b00",
+      "store_wire": "cp1:2478741804875902893:16:d7f90929820020ba62e70d8512434a11:cmpl-8098e6c7245c8bd4-0-90846b00",
+      "reset_ns": 35823863613730,
+      "tracker_ns": 35823864192492,
+      "first_admission_ns": 35823890951662,
+      "admission_mappings": [
+        {
+          "tcp://127.0.0.1:5555": "cp1:2478741804875902893:5:df91d856fa9315cd429981951fd0a35d:cmpl-8098e6c7245c8bd4-0-90846b00"
+        }
+      ],
+      "ended": false
+    },
+    {
+      "request_id": "cmpl-8098e6c7245c8bd4-0-90846b00",
+      "store_wire": "cp1:2478741804875902893:17:05db9138bdeea4a94bd8e2ee7d45f51e:cmpl-8098e6c7245c8bd4-0-90846b00",
+      "reset_ns": 35824043195377,
+      "tracker_ns": 35824043668017,
+      "first_admission_ns": 35824044633456,
+      "admission_mappings": [
+        {
+          "tcp://127.0.0.1:5555": "cp1:2478741804875902893:5:df91d856fa9315cd429981951fd0a35d:cmpl-8098e6c7245c8bd4-0-90846b00"
+        },
+        {
+          "tcp://127.0.0.1:5555": "cp1:2478741804875902893:5:df91d856fa9315cd429981951fd0a35d:cmpl-8098e6c7245c8bd4-0-90846b00"
+        }
+      ],
+      "ended": false
+    },
+    {
+      "request_id": "cmpl-997a2483e43be99b-0-ac1eec8f",
+      "store_wire": "cp1:2478741804875902893:63:16558947a09da1b628b908c7fa5d6b24:cmpl-997a2483e43be99b-0-ac1eec8f",
+      "reset_ns": 35845578952403,
+      "tracker_ns": 35845579463958,
+      "first_admission_ns": 35845580307933,
+      "admission_mappings": [
+        {
+          "tcp://127.0.0.1:5555": "cp1:2478741804875902893:57:1bbc380acb30fb056bdcb42ea98d6b15:cmpl-997a2483e43be99b-0-ac1eec8f"
+        },
+        {
+          "tcp://127.0.0.1:5555": "cp1:2478741804875902893:57:1bbc380acb30fb056bdcb42ea98d6b15:cmpl-997a2483e43be99b-0-ac1eec8f"
+        },
+        {
+          "tcp://127.0.0.1:5555": "cp1:2478741804875902893:57:1bbc380acb30fb056bdcb42ea98d6b15:cmpl-997a2483e43be99b-0-ac1eec8f"
+        }
+      ],
+      "ended": false
+    }
+  ],
+  "unended_store_identities": [
+    "cp1:2478741804875902893:15:a2af9e583c48a2098aeb26c98d978f46:cmpl-befef627e9436977-0-bd243299",
+    "cp1:2478741804875902893:16:d7f90929820020ba62e70d8512434a11:cmpl-8098e6c7245c8bd4-0-90846b00",
+    "cp1:2478741804875902893:17:05db9138bdeea4a94bd8e2ee7d45f51e:cmpl-8098e6c7245c8bd4-0-90846b00",
+    "cp1:2478741804875902893:63:16558947a09da1b628b908c7fa5d6b24:cmpl-997a2483e43be99b-0-ac1eec8f"
+  ],
+  "active_sessions_before_stop": 4,
+  "idle_exception_reproduced": false,
+  "scope": "Client dispatch ordering only; END return is not server acknowledgement. Matching residual count does not identify server sessions. No performance aggregation."
+}

@@ -100,3 +100,8 @@ GPU 结果：`idle-finalize-raw-id-20261011a` 完成两遍各 68 请求；68 组
 21:50 起不再启动 GPU 工作。21:52 独立收尾快照确认实验进程为空、8000/8080/5555 均关闭、GPU 1 MiB/0%、无计算进程。容器保持开机，已停止的是自有实验服务；退出后空闲不改写失败轮内的 1 job/11 sessions 残留。源码/环境快照、原始失败与全部新文档链接均已核对。见 `long-prefill-evidence/closeout-2152-20261011.json`。
 
 22:00 截止收尾：再次确认所有实验进程和三个端口均关闭，GPU 1 MiB/0%，无计算进程；快照为 `long-prefill-evidence/closeout-2200-20261011.json`。本次持续推进结束，heartbeat 已暂停。下一步按 LONG_PREFILL.md 执行只读身份观察，未启动新 GPU 实验。
+
+
+## 22:38–22:54 用户重新授权后的推进
+
+未重启 heartbeat。执行 failure-only 和 lifecycle timeline 两次长 prefill 独立诊断，各 68 请求，资源分别残留 9/4 sessions；没有再次触发 idle fatal。逐身份时序确认抢占 tracker 新代跳过 lookup，旧 mapping 导致 STORE/END 分离；两项真实 Connector/manager CPU 最小复现通过。完整 CUDA/native 746 passed、115 subtests；随后离线审计 5 项另计。原始包、SHA256、报告和计划更新已保存，未改 guard、未实现修复、未启动 formal。22:53 所有自有实验服务停止、GPU 1 MiB/0%，容器保持开机。见 [详细报告](PREEMPTED_IDENTITY.md)。

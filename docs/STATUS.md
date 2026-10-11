@@ -1,6 +1,6 @@
 # CachePilot 当前状态
 
-更新：2026-10-11 晚间。逐步执行记录见 [EVENING_PROGRESS](experiments/2026-10-11/EVENING_PROGRESS.md)，完整阶段与未完成项见 [TASKS](TASKS.md)。本页区分实现、正确性范围和性能证据，历史日期的“下一步”不能代替当前计划。
+更新：2026-10-11 22:54。逐步执行记录见 [EVENING_PROGRESS](experiments/2026-10-11/EVENING_PROGRESS.md)，完整阶段与未完成项见 [TASKS](TASKS.md)。本页区分实现、正确性范围和性能证据，历史日期的“下一步”不能代替当前计划。
 
 ## 项目定位与实现
 
@@ -42,13 +42,13 @@ CachePilot 是 vLLM＋LMCache 的外部实验 Connector 和小预算 KV 卸载�
 - 空闲收尾后相同 raw ID 的 68 对 generation：旧 reclaim 均早于新 lookup；包括实际 idle-dropped 请求重入。只覆盖旧代完整结束后的复用。
 - 失败回执与共享取消组合分别通过 864/936 层 KV 比较和资源审计，但 idle drop=0，只算兼容性。
 - 延迟回执组合有实际 idle drop 且资源回收，但恢复命中仍在 GPU、H2D 未覆盖，整体失败。详见 [组合矩阵](experiments/2026-10-11/IDLE_RECEIPT_MATRIX.md)。
-- 最新完整 CUDA/native 回归 737 passed、115 subtests；之后新增身份观察器的 4 项 CPU 测试单列。全量通过没有修复长 prefill 的 GPU 失败。
+- 最新完整 CUDA/native 回归 746 passed、115 subtests；之后新增离线身份审计 5 项 CPU 测试单列。真实库重建了抢占后跳过 lookup 导致 STORE/END 身份分离；全量通过没有修复长 prefill 的 GPU 失败。
 
 ## 接下来按顺序推进
 
 1. 新栈 2.5 GiB formal 九格已经独立审计、归档；保留原失败和新栈结论之间的版本边界。
 2. 六点开发调优完成，后续新文本验证因保护覆盖失败停止；保留原始反例与无均值审计，不将状态改为通过。
 3. 无保护 reference 已按独立预注册完成：12/12 格通过，native 在该 trace 最低；到达时间压缩 formal 12/12 完成，native 仍有最低整体 TTFT；长 prefill pilot 在默认 fixed 的空闲身份检查处失败，按规则停止。先定位该新边界，再补稳定 decode、集中恢复；不因单一 trace 最优设置生产默认。
-4. 下一项具体执行是 [长 prefill 身份观察](experiments/2026-10-11/LONG_PREFILL.md)：原 guard 不改，先区分 mapping 缺失/新代替换；已有观察器与 runner，GPU 尚未执行。之后再做模型/硬件扩展、性能归因与展示；上游问题只在复现和维护边界明确后评估 issue/PR。
+4. 两轮独立身份诊断已执行，定位抢占新 tracker 跳过 lookup 后沿用旧 mapping：实际出现新代 STORE、旧代 END，真实库最小复现通过；两轮资源仍失败。详见 [身份缺口报告](experiments/2026-10-11/PREEMPTED_IDENTITY.md)。下一步实现独立 session 代际终结登记及迟到批次回归，再准入新长 prefill pilot；尚未修复。
 
-今天北京时间 21:50 后停止启动新实验格，22:00 安全收尾，所有部分矩阵明确标记未完成。授权持续推进不等于放宽正确性或统计门槛。
+原 22:00 持续推进已收尾、heartbeat 已暂停；用户随后再次要求继续，本轮追加两次独立诊断。22:53 实验服务均停止，GPU 空闲，容器保持开机。所有旧失败保持不变。
