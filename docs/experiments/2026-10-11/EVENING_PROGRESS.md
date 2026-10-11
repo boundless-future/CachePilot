@@ -59,3 +59,12 @@ GPU 结果：`idle-finalize-raw-id-20261011a` 完成两遍各 68 请求；68 组
 19:21 独立复算 pilot：204/204 token 合约通过；zero/one/two H2D 分别为 1,358,954,496 / 1,698,693,120 / 1,509,949,440 B，保护提交/回执为 0/0、5/5、4/4。one 关闭后有 8 行精确分类的已知 teardown traceback，运行期无 fatal error；该分类原始日志保留。当前 formal shell session **45268**，禁止改服务器 scripts/configs。
 
 下一阶段预注册和本地实现已完成：固定基线 3 horizon × 2 drain 上限、one/two 同期对照；pilot 8 格→formal 24 格→锁定最佳固定参数后新文本验证 9/12 格。新输入已在服务器 artifacts 生成，不修改在途 scripts/configs。四个新 CPU 测试与三个 idle-capacity 测试本地共 7 passed；当前尚未上传新 runner 或执行该扫描。
+
+## 19:34–19:42：新栈容量 formal 独立复核与固定参数 pilot
+
+- formal 九格完成；612 请求及源码/trace/token/H2D/保护回执/资源独立检查均通过，每格 idle drop=1。one/two TTFT P95 均值相对 zero 为 -3.07%/-2.00%；首组重复均慢于 zero，输出 hash 差异和两格退出 traceback 保留，见 IDLE_CAPACITY.md。
+- 原始归档已下载，服务器/本地 SHA256 均为 e27f1969d119c48b2c0022e7d27823ea92cd20f1525ed7e93e7d5a84a8fd52a8。原始目录不改写。
+- 确认原 runner 不在运行且 GPU 回到 1 MiB 后，上传已提交的固定参数 runner/统计器，启动 fixed-baseline-pilot-20261011a；本地 shell session 5289。当前按预注册串行扫描，21:50 后不启新格。源目录再次冻结，pilot/formal/validation 完成前不更新服务器 scripts/configs。
+- 六点固定 baseline + one/two 一共八配置，pilot 不计入均值。等待完整准入后才允许 formal。
+
+该检查点本地专项测试：`python -m pytest tests/test_fixed_baselines.py tests/test_policy_matrix.py tests/test_idle_capacity.py -q`，10 passed（0.54 秒）。未声称重跑完整 CUDA 回归。

@@ -44,7 +44,7 @@
 - [x] A：vLLM 原生前缀缓存；4/12 会话、各 4 轮、三次重复初始测量。
 - [x] B：相同 GPU KV 预算下，LMCache 默认延迟卸载；另加入立即卸载对照。
 - [x] 固定 horizon=2.5/5.0 两点初测，共 24 个实验单元、768 个测量请求；结果见 experiments/2026-09-24/REPORT.md。
-- [ ] C：扫描固定 horizon/提交上限，得到合理调优的基线。 已冻结 [六点扫描＋同期候选和新文本验证方案](experiments/2026-10-11/FIXED_BASELINE_PREREGISTRATION.md)，runner 与准入/独立审计测试本地通过，等待当前容量 formal 结束后启动。
+- [ ] C：扫描固定 horizon/提交上限，得到合理调优的基线。 已冻结 [六点扫描＋同期候选和新文本验证方案](experiments/2026-10-11/FIXED_BASELINE_PREREGISTRATION.md)，runner 与准入/独立审计测试本地通过；容量 formal 已结束，固定基线 pilot 八格于北京时间 19:40 左右启动。
 - [x] 测工作集小于 GPU、超过 GPU 两个区间（GPU KV 人为固定 2 GiB）。
 - [ ] 补测超过总缓存区间及更多 GPU KV 容量点。
 - [ ] 加入长 prefill 突发、稳定 decode、多轮集中恢复。
@@ -166,7 +166,7 @@
 - [x] 空闲收尾后实际 raw ID 复用：136 请求、68 对不同 wire generation，旧 reclaim 均早于新 lookup；含 1 个实际 idle-dropped raw ID 重入，9 个保护提交/回执，137 job/282 reservation/91 transfer 闭合。输出 hash 8/68 差异保留；完整显式 CUDA 回归 703 passed、115 subtests（含下一专项配置测试）。不覆盖在途 ID 重叠。见 [空闲收尾报告](experiments/2026-10-11/IDLE_FINALIZE.md)。
 - [x] 固定原负载验证候选与失败回执、共享取消的兼容性：分别 348/347 完整请求、864/936 层 KV 全等，资源及严格来源通过，但两格 idle drop=0；延迟回执 a 资源局部通过却仍在 GPU 命中 512、H2D 未覆盖，失败保留。见 [组合矩阵](experiments/2026-10-11/IDLE_RECEIPT_MATRIX.md)，不将三格概括为全通过。
 - [x] 按 [新栈容量预注册](experiments/2026-10-11/IDLE_CAPACITY_PREREGISTRATION.md) 完成 2.5 GiB pilot 三格；zero/one/two 均通过源码签名、token、H2D、active session/temporary 清零门槛，每格 idle drop=1。formal 九格已启动，尚未完成；诊断/旧性能/新性能分开，任一资源或覆盖失败就停止该轮。
-- [ ] 完成新栈 2.5 GiB formal 九格、独立复算和原始证据归档；当前正在执行，不能用 pilot 替代正式重复。
+- [x] 完成新栈 2.5 GiB formal 九格、612 请求及独立复算/原始证据归档；每格 idle drop=1，运行期及退出后 session/temporary 清零。one/two TTFT P95 均值相对 zero 为 -3.07%/-2.00%，第一组重复均更慢，输出 hash 差异和两格退出 traceback 保留，见 [正式报告](experiments/2026-10-11/IDLE_CAPACITY.md)。
 - [ ] 扩展空闲收尾门槛：多进程/异步调度、共享前缀、取消/抢占、失败回执、多个 pending chunk、长空闲窗口和真实 driver fault；当前候选只允许固定版本单卡同步 text-only 实例，默认关闭。
 - [ ] 在更多到达模式上多次重复；再增加长 prefill、稳定 decode 和集中恢复。
 - [ ] 用 Qwen3-8B＋5090 复核；如要区分模型/硬件效应，需要额外控制变量实验。

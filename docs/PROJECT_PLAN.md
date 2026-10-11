@@ -266,7 +266,7 @@ CachePilot/
 
 随后按预注册方案完成 1.5 GiB GPU KV 容量扫描：zero/one/two 试点各一次及三次正式重复，共 12 格、816 请求全部通过 token/H2D/资源/日志门槛。正式 TTFT P95 相对 zero 为 one -5.09%、two -3.99%，但 H2D 增加 8.92%/6.49%，one 波动更大，n=3 不作显著性或生产默认结论。2.5 GiB zero 试点完成 68/68 请求且无 service error，但运行期和退出后各留下 1 个 owned job 与 1 个 active session，资源门槛失败；按规则停止 one/two 和正式重复。独立诊断两轮定位到最后完成请求的 pending `[0,1024)` lazy STORE 未提交，空闲零 token 步不会推进；追加三个压力请求后观察到 STORE/terminal/END/reclaim 归零。证据与限制见 [容量扫描](experiments/2026-10-11/CAPACITY_SCAN.md) 和 [owner 诊断](experiments/2026-10-11/CAPACITY_OWNER_DIAGNOSIS.md)。这不是 GPU 传输仍在执行的证明，也不能直接归因于保护策略。
 
-在上述诊断基础上预注册了同栈 2.5 GiB 空闲收尾容量试点：固定 15 秒宽限和同一 68-request trace，zero/one/two 仅改变保护预算；额外要求运行期与退出后的 `active_sessions=0`、`temporary_count=0`，三格 pilot 全通过后才允许九格 formal。pilot/formal 使用独立目录，源代码 SHA 和 trace SHA 在每格冻结校验；任何一格失败即停止，不把历史失败或诊断数据并入性能均值。pilot 三格已通过，formal 九格已启动，结果以 [容量预注册](experiments/2026-10-11/IDLE_CAPACITY_PREREGISTRATION.md) 和晚间记录为准。
+在上述诊断基础上预注册了同栈 2.5 GiB 空闲收尾容量试点：固定 15 秒宽限和同一 68-request trace，zero/one/two 仅改变保护预算；额外要求运行期与退出后的 `active_sessions=0`、`temporary_count=0`，三格 pilot 全通过后才允许九格 formal。pilot/formal 使用独立目录，源代码 SHA 和 trace SHA 在每格冻结校验；任何一格失败即停止，不把历史失败或诊断数据并入性能均值。pilot 三格及 formal 九格均已通过独立复算；formal 612 请求、每格 idle drop=1，one/two TTFT P95 均值相对 zero 为 -3.07%/-2.00%，但首组重复退化。两格退出 traceback 和输出 hash 差异保留，见 [正式报告](experiments/2026-10-11/IDLE_CAPACITY.md)。
 
 针对该边界实现了默认关闭的 opt-in 空闲 pending STORE 收尾候选：仅在同步单卡 text-only、scheduler 真正 quiescent、无 manager/保护在途时处理已结束且 wire identity 一致的 pending 条目；使用原 policy `drop_request()`，不释放 GPU block、不修改已提交 batch，随后清理 session 并发送 END。立即收尾的 68-request 轮以 H2D=0 失败，保留为过早丢弃反例；15 秒宽限轮 68/68 完成、只丢弃 1 个条目、H2D=1,509,949,440 B 且资源归零。zero 重入和 two-chunk 重入均完成首轮及重复轮，job/session/transfer/read pin 归零；重复输出 hash 差异分别保留 5/68 和 6/68。该候选只完成固定单卡初步验证，诊断结果不并入容量性能聚合；多进程/异步调度、共享前缀、取消/抢占、失败回执和真实 driver fault 仍开放。详见 [空闲收尾候选](experiments/2026-10-11/IDLE_FINALIZE.md)。
 
@@ -274,7 +274,7 @@ CachePilot/
 
 空闲收尾候选进一步通过 2.5 GiB two/15 秒宽限的共同覆盖诊断：首轮＋重入 136 请求、9 次保护提交/原回执、2 次 idle drop，137 job/280 reservation/84 transfer 全部闭合。两种动作的 wire identity 不相交，只证明同实例兼容；重复文本 hash 8/68 差异保留，不作性能或 KV bitwise 结论。首次 SSH PATH 缺少 vllm 的启动失败 a 归档，修正环境后的 b 通过。完整显式 CUDA 回归 686 passed、115 subtests。下一门槛仍是实际 raw ID 复用/取消与失败回执交互；这组诊断不恢复或改写原 2.5 GiB 性能扫描。
 
-补充检查点：已完成空闲收尾后 68 对实际 raw ID 的两代回放，136 请求中每个旧 owner 都在新 lookup 前回收，含实际 idle-drop 后重入；9 保护提交/回执及 137 job/282 reservation/91 transfer 闭合。文本 hash 差异 8/68 原样保留，完整显式 CUDA 回归 703 passed、115 subtests。随后完成原回执延迟/失败及共享取消组合矩阵：失败轮和 idle drop=0 的兼容性轮均原样保留，不能概括为矩阵全通过，见 [组合矩阵](experiments/2026-10-11/IDLE_RECEIPT_MATRIX.md)。上述冻结后的 2.5 GiB pilot 三格已通过，formal 九格正在执行；这仍属于阶段 4 的生命周期/容量验证，阶段 5 未开始。
+补充检查点：已完成空闲收尾后 68 对实际 raw ID 的两代回放，136 请求中每个旧 owner 都在新 lookup 前回收，含实际 idle-drop 后重入；9 保护提交/回执及 137 job/282 reservation/91 transfer 闭合。文本 hash 差异 8/68 原样保留，完整显式 CUDA 回归 703 passed、115 subtests。随后完成原回执延迟/失败及共享取消组合矩阵：失败轮和 idle drop=0 的兼容性轮均原样保留，不能概括为矩阵全通过，见 [组合矩阵](experiments/2026-10-11/IDLE_RECEIPT_MATRIX.md)。上述冻结后的 2.5 GiB pilot 三格和 formal 九格已通过；当前按预注册开始六个固定参数点与 one/two 同期对照的 pilot，随后三次 formal 与新文本留出验证。这仍属于阶段 4 的对照验证，阶段 5 未开始。
 
 ### 阶段 5：项目收尾与上游评估（未开始）
 
@@ -356,7 +356,7 @@ Trace 回放评估的是推理系统在同一请求负载下的行为，不评�
 
 原计划中的环境确认已经完成并固化在 `docs/ENVIRONMENT.md`。当前剩余事项按阻塞关系排列：
 
-1. 开发集和首个独立文本验证 trace 已固定，验证中整体 TTFT 改善未稳定复现。先冻结策略；按 [容量扫描结果](experiments/2026-10-11/CAPACITY_SCAN.md)，1.5 GiB 试点及三次重复已完成，2.5 GiB zero 试点因 owned job/session 残留停止。独立诊断已定位空闲未提交 pending STORE；opt-in 收尾候选已通过 15 秒宽限与 zero/two 重入初步验证，立即收尾 H2D=0 反例保留。先补候选输入队列/关闭与资源事件审计，以及实际触发 drop 的保护交互，再另行预注册容量复测；随后补同所有权栈的立即卸载、固定参数对照和长 prefill、稳定 decode、集中恢复。保留无保护/无回载覆盖、退化和失败点，不为通过门槛挑选结果；若调整策略，另建未见验证集合，不据现有结果选生产默认值；
+1. 开发集和首个独立文本验证 trace 已固定，验证中整体 TTFT 改善未稳定复现。先冻结策略；按 [容量扫描结果](experiments/2026-10-11/CAPACITY_SCAN.md)，1.5 GiB 试点及三次重复已完成，2.5 GiB zero 试点因 owned job/session 残留停止。独立诊断已定位空闲未提交 pending STORE；opt-in 收尾候选已通过 15 秒宽限与 zero/two 重入初步验证，立即收尾 H2D=0 反例保留。候选输入队列/关闭与资源事件审计、实际 drop 与保护的同实例交互，以及另行预注册的新栈容量复测已完成。当前先执行六点固定参数扫描与新文本验证，再补同所有权栈的立即卸载、原生对照和长 prefill、稳定 decode、集中恢复。保留无保护/无回载覆盖、退化和失败点，不为通过门槛挑选结果；若调整策略，另建未见验证集合，不据现有结果选生产默认值；
 2. 使用 Qwen3-8B + RTX 5090 32GB 做扩展复核，并分开分析模型规模、显存和 PCIe 链路差异；
 3. 继续补齐 P2 的 DMA/排队/重算分解，避免把 D2H 或服务端队列变化误认作唯一原因；
 4. 继续记录 3B 支线限制：30 秒回执延迟的空闲 owner 收尾、真实 driver fault、永久 I/O 的自动恢复、L2 不确定提交异常的实机注入及可维护上游最小补丁。限定隔离研究结论不扩大为生产安全结论；
