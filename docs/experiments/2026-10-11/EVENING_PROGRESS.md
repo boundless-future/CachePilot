@@ -98,3 +98,5 @@ GPU 结果：`idle-finalize-raw-id-20261011a` 完成两遍各 68 请求；68 组
 随后准备仅在原 guard 抛错后记录身份的观察器及 `diagnose_idle_identity.py`；4 项 CPU 测试、编译与 CLI 检查通过，没有启动 GPU 观察。下一轮先区分当前 mapping 缺失还是新代替换，再追完整生命周期因果，不能直接删 guard。
 
 21:50 起不再启动 GPU 工作。21:52 独立收尾快照确认实验进程为空、8000/8080/5555 均关闭、GPU 1 MiB/0%、无计算进程。容器保持开机，已停止的是自有实验服务；退出后空闲不改写失败轮内的 1 job/11 sessions 残留。源码/环境快照、原始失败与全部新文档链接均已核对。见 `long-prefill-evidence/closeout-2152-20261011.json`。
+
+22:00 截止收尾：再次确认所有实验进程和三个端口均关闭，GPU 1 MiB/0%，无计算进程；快照为 `long-prefill-evidence/closeout-2200-20261011.json`。本次持续推进结束，heartbeat 已暂停。下一步按 LONG_PREFILL.md 执行只读身份观察，未启动新 GPU 实验。
