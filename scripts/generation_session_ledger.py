@@ -4,9 +4,9 @@ Tickets capture acquisition identity. A scheduler barrier must seal a generation
 only after every possible producer has registered its work. END submission is
 not acknowledgement and cannot establish server resource reclamation.
 """
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 
-from scripts.owned_service_protocol import parse_id
+from scripts.owned_service_protocol import parse_id, wire_id
 
 
 @dataclass(frozen=True)
@@ -157,3 +157,52 @@ are never evicted: a fresh client incarnation is required at the lifetime limit.
                 generation.end_state = 'submitted'
                 submitted.append(generation.wire)
         return submitted
+
+
+class LedgerRequestClient:
+    """Opt-in request-client boundary backed by the ledger.
+
+    This adapter is deliberately small: completion callbacks must call
+    ``terminal(ticket)`` on the scheduler thread. It never turns a transport
+    return into a terminal event and it has no raw-ID END fallback.
+    """
+    def __init__(self, client, ledger=None):
+        self.client = client
+        self.ledger = ledger or GenerationSessionLedger()
+        self.tickets = {}
+
+    def __getattr__(self, name):
+        return getattr(self.client, name)
+
+    def _wire(self, key):
+        return wire_id(key)
+
+    def _register(self, key):
+        wire = self._wire(key)
+        self.ledger.register(key.request_id, wire)
+        return wire
+
+    def lookup(self, key, *args, **kwargs):
+        wire = self._register(key)
+        ticket = self.ledger.begin(wire, 'lookup')
+        self.tickets[ticket.serial] = ticket
+        try:
+            return self.client.lookup(replace(key, request_id=wire), *args, **kwargs)
+        except Exception:
+            # A failed submission is not a successful terminal; retain the
+            # ticket for explicit scheduler resolution.
+            raise
+
+    def store(self, key, *args, **kwargs):
+        wire = self._register(key)
+        ticket = self.ledger.begin(wire, 'pending_store')
+        self.tickets[ticket.serial] = ticket
+        self.ledger.submit_store(ticket)
+        return self.client.store(replace(key, request_id=wire), *args, **kwargs)
+
+    def terminal(self, ticket):
+        self.ledger.terminal(ticket)
+
+    def end_generation(self, wire):
+        self.ledger.seal(wire)
+        return self.ledger.submit_ends(self.client.end_session)

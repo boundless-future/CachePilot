@@ -6,6 +6,9 @@ Implemented `scripts/generation_session_ledger.py` as an opt-in candidate. It is
 not imported by `OwnedServiceConnector`, so the production and GPU paths are
 unchanged. The ledger separates the current lookup route from every historical
 generation and stores acquisition-time wire identities on immutable tickets.
+`LedgerRequestClient` now exercises the intended adapter boundary: a resumed
+tracker may STORE with generation B without a lookup, while END accepts only an
+exact wire identity.
 
 The CPU contract covers two successive preemptions, multiple pending chunks,
 late STORE completion after a successor lookup, cancellation, raw-ID reuse,
@@ -17,7 +20,8 @@ capacity and are not silently evicted.
 
 Validation:
 
-* `tests/test_generation_session_ledger.py`: 17 passed
+* `tests/test_generation_session_ledger.py` and
+  `tests/test_generation_session_ledger_adapter.py`: 19 passed
 * Existing protocol tests: 15 passed
 * Existing preemption identity test: skipped locally because LMCache is only
   installed in the GPU environment
