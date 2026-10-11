@@ -16,7 +16,7 @@ class Tokenizer:
 
 
 def test_staged_trace_reuses_after_separate_pressure_phase():
-    trace = staged_trace(Tokenizer(), 64, 8)
+    trace = staged_trace(Tokenizer(), 64, 8, "validation")
     events = trace["events"]
     early = [event for event in events if event["session_id"].startswith("s") and event["turn"] < 4]
     pressure = [event for event in events if event["session_id"].startswith("pressure-")]
@@ -25,6 +25,8 @@ def test_staged_trace_reuses_after_separate_pressure_phase():
     assert max(event["arrival_ms"] for event in early) < min(event["arrival_ms"] for event in pressure)
     assert max(event["arrival_ms"] for event in pressure) < min(event["arrival_ms"] for event in revisit)
     assert not {e["prompt_sha256"] for e in early} & {e["prompt_sha256"] for e in pressure}
+    assert trace["trace_id"].startswith("staged-validation-")
+    assert all(e["prompt"].startswith("Workload validation. ") for e in events)
 
 
 def healthy():

@@ -136,7 +136,7 @@ def ports_free():
                 raise RuntimeError(f"Port {port} is occupied")
 
 
-def staged_trace(tokenizer, context_tokens, pressure_sessions):
+def staged_trace(tokenizer, context_tokens, pressure_sessions, workload_label="development"):
     """Protect a moderate working set, then evict it before one final reuse.
 
     A single saturated 13+ session open loop leaves no safe reserve for a
@@ -161,10 +161,18 @@ def staged_trace(tokenizer, context_tokens, pressure_sessions):
     for index, event in enumerate(revisit):
         event["arrival_ms"] = 28000 + index * 20
     events = early + pressure["events"] + revisit
+    if workload_label:
+        # Keep validation inputs disjoint from the development trace without
+        # changing the staged pressure, timing, or append-only session shape.
+        prefix = f"Workload {workload_label}. "
+        for event in events:
+            event["prompt"] = prefix + event["prompt"]
+            event["prompt_sha256"] = hashlib.sha256(event["prompt"].encode()).hexdigest()
+            event["prompt_tokens"] = len(tokenizer.encode(event["prompt"], add_special_tokens=False))
     for index, event in enumerate(events):
         event["event_id"] = index
     trace = dict(schema_version=2,
-        trace_id=f"staged-s12-p{pressure_sessions}-c{context_tokens}",
+        trace_id=f"staged-{workload_label or 'unlabeled'}-s12-p{pressure_sessions}-c{context_tokens}",
         semantics=("Fixed append-only Agent prompts. Early reusable sessions are followed "
                    "by unique pressure prompts and then a delayed fixed reuse."),
         events=events)
@@ -277,6 +285,8 @@ def main():
     parser.add_argument("--context-tokens", type=int, default=1024)
     parser.add_argument("--trace-kind", choices=("open-loop", "staged"), default="staged")
     parser.add_argument("--pressure-sessions", type=int, default=8)
+    parser.add_argument("--workload-label", default="development",
+                        help="Fixed prompt namespace; use a distinct label for held-out validation.")
     parser.add_argument("--kv-cache-bytes", type=int, default=2147483648)
     args = parser.parse_args()
     if min(args.repeats, args.sessions, args.turns, args.context_tokens, args.pressure_sessions) < 1:
@@ -286,7 +296,7 @@ def main():
     model = str(ROOT / "models/Qwen3-4B")
     from transformers import AutoTokenizer
     tokenizer = AutoTokenizer.from_pretrained(model)
-    trace = (staged_trace(tokenizer, args.context_tokens, args.pressure_sessions)
+    trace = (staged_trace(tokenizer, args.context_tokens, args.pressure_sessions, args.workload_label)
              if args.trace_kind == "staged" else
              generate(tokenizer, args.sessions, args.turns, args.context_tokens,
                       period_ms=1800, think_ms=100, session_gap_ms=20))
