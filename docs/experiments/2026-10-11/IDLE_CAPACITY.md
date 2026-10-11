@@ -28,6 +28,7 @@ ready-to-first P95 均值分别为 7310.74 / 7086.60 / 7164.90 ms；ready-to-end
 ## 原始证据与复算
 
 - [pilot 独立审计](capacity-evidence/idle-capacity-pilot-independent.json)：3/3 格、204 请求，只用于准入。
+- [原始时间戳独立复算](capacity-evidence/idle-capacity-formal-timing-audit.json)：612 请求的 SSE/client 时间戳、输入/token/输出 hash、全部分位数与会话跨度复算通过；未调用原统计 helper。
 - [formal 独立统计与逐格检查](capacity-evidence/idle-capacity-formal-2p5g-20261011a-analysis.json)：9/9 格，含每次指标、标准差、输出差异和完整检查项。
 - [formal 原始归档](capacity-evidence/idle-capacity-formal-2p5g-20261011a.tar.gz)：服务器与本地 SHA256 一致，为 `e27f1969d119c48b2c0022e7d27823ea92cd20f1525ed7e93e7d5a84a8fd52a8`。含 trace、源码清单、launch config、请求、metrics、日志、资源状态和 runner 结果。
 

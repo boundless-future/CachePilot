@@ -68,3 +68,7 @@ GPU 结果：`idle-finalize-raw-id-20261011a` 完成两遍各 68 请求；68 组
 - 六点固定 baseline + one/two 一共八配置，pilot 不计入均值。等待完整准入后才允许 formal。
 
 该检查点本地专项测试：`python -m pytest tests/test_fixed_baselines.py tests/test_policy_matrix.py tests/test_idle_capacity.py -q`，10 passed（0.54 秒）。未声称重跑完整 CUDA 回归。
+
+19:47：新增离线 `audit_replay_measurements.py`，直接从 SSE/client 时间戳重建 TTFT、入口等待、端到端和会话指标；独立 inclusive quantile 与原结果核对，额外检查输入、实际 token 和输出 hash。四个篡改/分位数测试通过，新栈容量 formal 612 请求复算全通过。新脚本仅在本地使用，未改变在途服务器源码签名。
+
+19:51：固定参数 pilot 8/8 格通过，544 请求的独立 source/trace/资源/回执与原始时间戳复算通过；归档 SHA256 为 9b0e34eaa483b333150536e07d58c4e2146b4d2c73117e7fa5840cc7efe53460。已开始 fixed-baseline-formal-20261011a，24 格、各配置三次、按冻结顺序轮转；本地 shell session 19961。源码继续冻结，未同步离线审计器或后续 reference runner。
