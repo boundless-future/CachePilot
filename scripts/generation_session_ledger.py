@@ -170,9 +170,10 @@ class LedgerRequestClient:
         self.client = client
         self.ledger = ledger or GenerationSessionLedger()
         self.tickets = {}
+        self.store_keys = {}
 
-    def __getattr__(self, name):
-        return getattr(self.client, name)
+    def end_session(self, request_id):
+        raise RuntimeError('Raw-ID END is unsupported; use exact generation')
 
     def _wire(self, key):
         return wire_id(key)
@@ -186,19 +187,24 @@ class LedgerRequestClient:
         wire = self._register(key)
         ticket = self.ledger.begin(wire, 'lookup')
         self.tickets[ticket.serial] = ticket
-        try:
-            return self.client.lookup(replace(key, request_id=wire), *args, **kwargs)
-        except Exception:
-            # A failed submission is not a successful terminal; retain the
-            # ticket for explicit scheduler resolution.
-            raise
+        # A failed submission retains its unresolved ticket.
+        return self.client.lookup(replace(key, request_id=wire), *args, **kwargs)
 
-    def store(self, key, *args, **kwargs):
+    def reserve_store(self, key):
         wire = self._register(key)
         ticket = self.ledger.begin(wire, 'pending_store')
         self.tickets[ticket.serial] = ticket
+        self.store_keys[ticket] = replace(key, request_id=wire,
+                                         request_configs=dict(key.request_configs))
+        return ticket
+
+    def submit_store(self, ticket, *args, **kwargs):
+        key = self.store_keys[ticket]
         self.ledger.submit_store(ticket)
-        return self.client.store(replace(key, request_id=wire), *args, **kwargs)
+        return self.client.store(key, *args, **kwargs)
+
+    def store(self, key, *args, **kwargs):
+        return self.submit_store(self.reserve_store(key), *args, **kwargs)
 
     def terminal(self, ticket):
         self.ledger.terminal(ticket)

@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 from concurrent.futures import Future
+import pytest
 
 from scripts.generation_session_ledger import LedgerRequestClient
 from scripts.owned_service_protocol import CLIENT_CONFIG, GENERATION_CONFIG, SEQUENCE_CONFIG, wire_id
@@ -39,7 +40,7 @@ def test_tracker_rebuild_store_and_end_keep_exact_generations():
     new = Key(request_configs={CLIENT_CONFIG: 7, SEQUENCE_CONFIG: 2,
                                GENERATION_CONFIG: 'b' * 32})
     new_wire = wire_id(new)
-    new_store = client.store(new)
+    client.store(new)
     new_ticket = next(t for t in client.tickets.values() if t.wire == new_wire)
     client.terminal(new_ticket)
     old_lookup = next(t for t in client.tickets.values() if t.wire == old_wire)
@@ -61,3 +62,29 @@ def test_successor_end_waits_for_its_unresolved_store():
     assert client.end_generation(wire_id(old)) == [wire_id(old)]
     assert client.end_generation(wire_id(new)) == []
     assert [kind for kind, _ in raw.calls] == ['lookup', 'store', 'end_session']
+
+
+def test_reserved_old_store_submits_after_successor_with_original_identity():
+    raw = RecordingClient()
+    client = LedgerRequestClient(raw)
+    old = Key()
+    identity = wire_id(old)
+    ticket = client.reserve_store(old)
+    new = Key(request_configs={CLIENT_CONFIG: 7, SEQUENCE_CONFIG: 2,
+                               GENERATION_CONFIG: 'b' * 32})
+    client.lookup(new)
+    old.request_configs[GENERATION_CONFIG] = 'c' * 32
+    client.submit_store(ticket)
+    assert raw.calls[-1] == ('store', identity)
+    assert client.ledger.current['same'] == wire_id(new)
+    assert client.end_generation(identity) == []
+    client.terminal(ticket)
+    assert client.end_generation(identity) == [identity]
+
+
+def test_raw_end_cannot_bypass_ledger_via_delegate():
+    raw = RecordingClient()
+    client = LedgerRequestClient(raw)
+    with pytest.raises(RuntimeError, match='Raw-ID'):
+        client.end_session('same')
+    assert raw.calls == []

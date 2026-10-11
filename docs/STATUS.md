@@ -42,7 +42,7 @@ CachePilot 是 vLLM＋LMCache 的外部实验 Connector 和小预算 KV 卸载�
 - 空闲收尾后相同 raw ID 的 68 对 generation：旧 reclaim 均早于新 lookup；包括实际 idle-dropped 请求重入。只覆盖旧代完整结束后的复用。
 - 失败回执与共享取消组合分别通过 864/936 层 KV 比较和资源审计，但 idle drop=0，只算兼容性。
 - 延迟回执组合有实际 idle drop 且资源回收，但恢复命中仍在 GPU、H2D 未覆盖，整体失败。详见 [组合矩阵](experiments/2026-10-11/IDLE_RECEIPT_MATRIX.md)。
-- 最新完整 CUDA/native 回归 746 passed、115 subtests；之后新增离线身份审计 5 项 CPU 测试单列。真实库重建了抢占后跳过 lookup 导致 STORE/END 身份分离；全量通过没有修复长 prefill 的 GPU 失败。新增默认关闭的 generation/session ledger 候选，CPU 17 项及服务器真实库身份测试 19 项通过；尚未接入生产 adapter，不能算长 prefill 修复。
+- 最新完整 CUDA/native 回归 746 passed、115 subtests；之后新增离线身份审计 5 项 CPU 测试单列。新增默认关闭的 generation/session ledger 及显式 client 边界，服务器专项 39 passed（含 22 项新增账本/边界/真实库手动交接测试）；原失败路径仍可复现。真实 tracker/manager 交接验证 A/B 分代 END，但 terminal/seal 由测试交付，尚未接入生产 adapter，不能算长 prefill 修复。
 
 ## 接下来按顺序推进
 
