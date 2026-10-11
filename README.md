@@ -8,6 +8,8 @@
 
 2026-10-11 最新：**真实 HTTP raw request ID 复用后的跨代回执隔离通过。** 在关闭 vLLM 默认 request-ID 随机化的隔离诊断中，同一个 API ID 的两代真实请求拥有不同 generation wire identity；旧代回执不会破坏新代 pending prefix，四种旧 envelope 均被拒绝。正常旧回执与“实际 STORE 成功、但报告失败”的回执各通过一轮，第二代两个 chunk 均实际回载且 72 层 KV bitwise 全等。该专项不代表真实 STORE/DMA 故障，也没有性能收益结论。见 [raw ID 复用报告](docs/experiments/2026-10-11/RAW_ID_REUSE.md)。
 
+2026-10-11 最新：**保护 STORE 的 server 执行失败路径通过。** 一个受保护 STORE 在真实 CUDA copy enqueue 后触发受控 server host exception；LMCache 内层向未重写的 worker future 交付原始 `false`，native terminal、32 个 pin 释放及 worker/protection/scheduler 三层失败回执均闭合。348 请求中 864 层 KV 回载 bitwise 全等、26 个 terminal 和 909 free block 均闭合。该专项不是 CUDA driver fault、DMA/PCIe 中断或自然硬件故障，仍无性能收益结论。见 [server STORE 故障报告](docs/experiments/2026-10-11/PROTECTION_SERVER_STORE_FAULT.md)。
+
 2026-10-11 最新：**阶段 3C 的保护窗口自然抢占及 GPU 回执身份专项通过。** 共享前缀请求被真实容量压力抢占时，32 个保护 block 引用 2→1→0，39 次分配未复用，504 层回载 KV 全等且资源闭合；错误代际与重复 envelope 在真实 scheduler 被拒绝。实际 raw ID 复用和真实执行故障仍开放，尚无新策略性能收益结论。见 [共享抢占](docs/experiments/2026-10-11/SHARED_PREEMPTION.md)、[无共享抢占](docs/experiments/2026-10-11/PROTECTED_PREEMPTION.md)和[回执身份](docs/experiments/2026-10-11/RECEIPT_IDENTITY.md)。
 
 同日，一个 chunk 的真实 GPU 保护对照也通过：单 chunk 组七个保护 STORE、峰值 16 block，六批/216 层有严格来源，输入输出与零预算对照一致，资源闭合。见 [单 chunk 报告](docs/experiments/2026-10-11/PROTECTION_ONE_CHUNK.md)。
@@ -41,6 +43,7 @@
 - [3C 物理容量回退](docs/experiments/2026-10-11/CAPACITY_FALLBACK.md)
 - [3C 在途预算耗尽](docs/experiments/2026-10-11/INFLIGHT_BUDGET.md)
 - [3C 实际 raw ID 复用与跨代回执隔离](docs/experiments/2026-10-11/RAW_ID_REUSE.md)
+- [3C 保护 STORE server 执行故障](docs/experiments/2026-10-11/PROTECTION_SERVER_STORE_FAULT.md)
 - [总体设计与实施方案](docs/PROJECT_PLAN.md)
 - [待办与阶段验收](docs/TASKS.md)
 - [3C 共享前缀自然抢占验收](docs/experiments/2026-10-11/SHARED_PREEMPTION.md)

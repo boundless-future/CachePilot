@@ -50,8 +50,12 @@ def install_fault(service):
     def copy(*args, **kwargs):
         nonlocal dropped_payload
         task = getattr(service.local, "task", None)
+        target_path = os.environ.get("CACHEPILOT_OWNED_FAULT_TARGET")
+        target_matches = not target_path or (Path(target_path).exists() and task
+            and Path(target_path).read_text().strip() == task["owner"].request_id)
         selected = (task and task["payload"].kind == kind and len(injected) < limit
                     and task["payload"].sequence not in injected
+                    and target_matches
                     and (directory / "armed-transfer").exists())
         if selected:
             injected.add(task["payload"].sequence)

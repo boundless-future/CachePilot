@@ -147,7 +147,8 @@
 - [x] 在途保护占满 32-block 预算时，另一 32-block 候选零新增 pin 回退，原回执后被拒候选由默认 manager 保存；347 请求、864 层 KV 全等，原保护两个 chunk/72 层严格来源，资源闭合。见 [在途预算报告](experiments/2026-10-11/INFLIGHT_BUDGET.md)。
 - [x] 物理容量不足 GPU 回退：1.25 GiB KV 池、预算仍有 32 block 且无在途保护时，free=439 小于 reserve+required=452，候选零 pin 回退并随后由默认 manager 保存；347 请求、936 层 KV 全等、保护 14 chunk/504 层严格来源，资源闭合。完整 CUDA 回归 585 passed、115 subtests。见 [容量报告](experiments/2026-10-11/CAPACITY_FALLBACK.md)。
 - [x] 实际 HTTP raw ID 复用后的跨代回执隔离：关闭 vLLM 默认 ID 随机化的隔离诊断中，同 API ID 的两代真实请求拥有不同 wire identity；旧成功、旧失败、重复旧成功和终结后的重复 envelope 均被拒绝，第二代 pending prefix 保留并实际回载 72 层 KV。正常旧回执和“实际 STORE 成功、报告失败”的旧回执各通过一轮，见 [报告](experiments/2026-10-11/RAW_ID_REUSE.md)。这不覆盖真实 STORE/DMA 执行故障。
-- [ ] 补真实 STORE 执行失败或 driver/DMA fault 的边界；不能用成功 future 后修改 receipt 语义替代。
+- [x] 真实保护 STORE 在 CUDA copy enqueue 后的受控 server host exception：LMCache 向未改写 worker future 交付原始 `false`，native terminal、32 个 pin 释放和 worker/protection/scheduler 失败回执闭合；348 请求、864 层回载 KV bitwise 全等、909 free 恢复。它不覆盖 driver/DMA/PCIe fault 或自然硬件故障，见 [报告](experiments/2026-10-11/PROTECTION_SERVER_STORE_FAULT.md)。
+- [ ] 补真实 CUDA driver/DMA/PCIe fault 的边界；不能用成功 future 后修改 receipt 语义，或受控 host exception，替代。
 - [ ] 设计并验证 >512-token pending 整项的 chunk 前缀拆分、已保存前缀账本和更广的候选范围；当前首版只保护已结束、无引用、从零开始的一至两个完整 chunk。
 - [ ] 新增路径的 KV/输出正确性通过后，再关闭诊断日志做至少三次重复消融，报告 TTFT、实际 prefill、排队、搬运、保护/在途峰值与策略开销；没有性能收益则保留退化结果。
 
@@ -164,4 +165,4 @@
 
 ## 优先顺序
 
-3C 零预算、两 chunk 正常路径、整项超预算回退、共享受保护前缀取消、自然抢占和实际 raw ID 跨代隔离已通过；延迟有流量恢复/失败回执诊断通过，空闲延迟失败保留。当前优先验证真实 STORE 执行失败边界，再扩前缀范围并做消融。3B 的 opt-in 实际服务已通过受控单卡准入，历史原生栈失败结论保留；30 秒延迟的空闲 owner 收尾、生产故障恢复、异步 reset API、编译输出差异根因仍开放。每轮实验必须隔离实例并检查原 token/job/pin/terminal 与 KV 内容，资源残留就停止该轮。`compute_slots` 和 lookup 状态仍不能当准入需求 oracle。随后补 P2 参数扫描和重复对照，最后再扩模型与评估上游 PR；目前不需要升级 GPU。
+3C 零预算、两 chunk 正常路径、整项超预算回退、共享受保护前缀取消、自然抢占、实际 raw ID 跨代隔离和受控 server STORE 执行失败已通过；延迟有流量恢复/失败回执诊断通过，空闲延迟失败保留。当前优先设计并验证 >512-token 前缀拆分，再做消融。3B 的 opt-in 实际服务已通过受控单卡准入，历史原生栈失败结论保留；30 秒延迟的空闲 owner 收尾、生产故障恢复、异步 reset API、真实 driver/DMA fault、编译输出差异根因仍开放。每轮实验必须隔离实例并检查原 token/job/pin/terminal 与 KV 内容，资源残留就停止该轮。`compute_slots` 和 lookup 状态仍不能当准入需求 oracle。随后补 P2 参数扫描和重复对照，最后再扩模型与评估上游 PR；目前不需要升级 GPU。

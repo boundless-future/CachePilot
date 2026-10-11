@@ -24,7 +24,7 @@ from validate_environment import ROOT, Service, API, CACHE, PROMPT, snapshot, co
 def run(out, mode, bounded_workload=False, receipt_probe=None, recovery_traffic=False, shared_cancel=False,
         protected_preemption=False, receipt_identity=False, shared_preemption=False, one_chunk=False,
         inflight_budget=False, capacity_fallback=False, kv_cache_bytes=2147483648,
-        reuse_id=False, reuse_old_failure=False):
+        reuse_id=False, reuse_old_failure=False, server_store_fault=False):
     out.mkdir(parents=True, exist_ok=False)
     events, probe = out / "events", out / "probe"
     events.mkdir()
@@ -64,6 +64,12 @@ def run(out, mode, bounded_workload=False, receipt_probe=None, recovery_traffic=
     if reuse_id:
         config["kv_connector_module_path"] = "scripts.protection_reuse_probe"
         config["kv_connector"] = "ReuseProbeConnector"
+    if server_store_fault:
+        os.environ.update(CACHEPILOT_OWNED_FAULT_KIND="store",
+            CACHEPILOT_OWNED_HOST_EXCEPTION="1",
+            CACHEPILOT_OWNED_FAULT_TARGET=str(events / "protected-fault-target"))
+        config["kv_connector_module_path"] = "scripts.protection_store_fault_probe"
+        config["kv_connector"] = "StoreFaultProbeConnector"
     write_json(out / "config.json", config)
     cache = Service(["bash", str(ROOT / "scripts/lmcache-server.sh")], out / "lmcache.log")
     engine = Service(["bash", str(ROOT / "scripts/serve.sh"), "baseline", "--enforce-eager",
@@ -85,6 +91,7 @@ def run(out, mode, bounded_workload=False, receipt_probe=None, recovery_traffic=
     result["kv_cache_bytes"] = kv_cache_bytes
     result["reuse_id"] = reuse_id
     result["reuse_old_failure"] = reuse_old_failure
+    result["server_store_fault"] = server_store_fault
     result["artificial_hold"] |= shared_cancel or protected_preemption or receipt_identity or shared_preemption or inflight_budget or reuse_id
     responses = []
     tokenizer = AutoTokenizer.from_pretrained(ROOT / "models/Qwen3-4B")
@@ -206,7 +213,7 @@ def run(out, mode, bounded_workload=False, receipt_probe=None, recovery_traffic=
         result["ownership"] = audit_ownership(out)
         protection_expected = mode == "two" or (mode == "one" and one_chunk)
         result["handoff"] = audit_handoff(events, allow_protection=protection_expected)
-        assert result["handoff"]["failed_batches"] == (1 if receipt_probe == "failed-after-success" or reuse_old_failure else 0)
+        assert result["handoff"]["failed_batches"] == (1 if receipt_probe == "failed-after-success" or reuse_old_failure or server_store_fault else 0)
         if mode not in ("baseline", "one", "two"):
             assert result["handoff"]["bypass_decisions"] > 0
         if mode == "one" and not one_chunk:
@@ -264,6 +271,9 @@ def run(out, mode, bounded_workload=False, receipt_probe=None, recovery_traffic=
             if reuse_id:
                 from audit_protection_reuse import audit as audit_reuse
                 result["reuse_audit"] = audit_reuse(out)
+            if server_store_fault:
+                from audit_protection_store_fault import audit as audit_store_fault
+                result["server_store_fault_audit"] = audit_store_fault(out)
         result.update(passed=True, requests=len(responses))
         print(f"[{mode}] PASS: {result['handoff']['batches']} batches; {result['kv']['counts']}", flush=True)
     except Exception as exc:
@@ -296,6 +306,7 @@ def main():
     parser.add_argument("--capacity-fallback", action="store_true")
     parser.add_argument("--reuse-id", action="store_true")
     parser.add_argument("--reuse-old-failure", action="store_true")
+    parser.add_argument("--server-store-fault", action="store_true")
     parser.add_argument("--kv-cache-bytes", type=int, default=2147483648)
     parser.add_argument("--modes", nargs="+", choices=("baseline", "disabled", "zero", "one", "two"),
                         default=["baseline", "disabled", "zero"])
@@ -338,6 +349,11 @@ def main():
         parser.error("raw ID reuse requires bounded two mode without other probes")
     if args.reuse_old_failure and not args.reuse_id:
         parser.error("reuse old failure requires raw ID reuse")
+    if args.server_store_fault and (args.modes != ["two"] or not args.bounded_workload
+            or args.receipt_probe or args.shared_cancel or args.protected_preemption
+            or args.receipt_identity or args.shared_preemption or args.inflight_budget
+            or args.capacity_fallback or args.one_chunk or args.reuse_id):
+        parser.error("server STORE fault requires bounded two mode without other probes")
     if args.kv_cache_bytes != 2147483648 and not args.capacity_fallback:
         parser.error("custom KV capacity is only supported by capacity fallback")
     for port in (8000, 8080, 5555):
@@ -350,7 +366,7 @@ def main():
             args.recovery_traffic, args.shared_cancel, args.protected_preemption, args.receipt_identity,
             args.shared_preemption, args.one_chunk, args.inflight_budget,
             args.capacity_fallback, args.kv_cache_bytes, args.reuse_id,
-            args.reuse_old_failure))
+            args.reuse_old_failure, args.server_store_fault))
         write_json(args.output / "summary.json", results)
     if len(results) > 1:
         reference = json.loads((args.output / args.modes[0] / "responses.json").read_text())

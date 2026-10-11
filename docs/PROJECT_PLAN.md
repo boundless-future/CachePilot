@@ -219,9 +219,11 @@ CachePilot/
 
 上述未覆盖项仍是扩大运行范围与生产恢复的前置条件。它们不再阻塞限定范围的 3C 零预算接入；已通过的基础服务验证不能替代 3C 新增保护 pin、metadata 和 receipt 的正确性验收。自然终结等待窗口不等于硬件 DMA 执行期中断。
 
-### 阶段 3C：最终 CachePilot 策略原型（两 chunk正常路径、关键生命周期专项通过；真实执行故障与消融待完成）
+### 阶段 3C：最终 CachePilot 策略原型（两 chunk 正常路径和受控 server 执行故障通过；前缀扩展与消融待完成）
 
-2026-10-11 在途保护预算耗尽 GPU 专项通过：原成功 future 回执被诊断门延迟、占满 32-block 预算；不同请求的 32-block 候选零 pin 回退，原回执随后释放预算，候选之后由默认 manager 保存。347 请求、864 层 KV 全等，原保护两个 chunk/72 层严格来源，运行期资源闭合；见 [在途预算报告](experiments/2026-10-11/INFLIGHT_BUDGET.md)。这只验证预算耗尽，不验证真实执行故障。
+2026-10-11 在途保护预算耗尽 GPU 专项通过：原成功 future 回执被诊断门延迟、占满 32-block 预算；不同请求的 32-block 候选零 pin 回退，原回执随后释放预算，候选之后由默认 manager 保存。347 请求、864 层 KV 全等，原保护两个 chunk/72 层严格来源，运行期资源闭合；见 [在途预算报告](experiments/2026-10-11/INFLIGHT_BUDGET.md)。这只验证预算耗尽，不验证执行故障。
+
+同日完成保护 STORE 的受控 server 执行故障 r3：服务仅锁定一个真实受保护 batch，在 LMCache 的实际 CUDA copy enqueue 后抛出 host exception；未改写的 worker future 收到原始 `false`。LMCache 内层捕获该异常，服务记录 native terminal 并以 `transfer_retired.succeeded=false` 交付失败。worker、protection 与 scheduler receipt 全部失败，32 个保护 pin 恰好释放。整轮 348 请求、864 层回载 KV bitwise 全等、26 个 native terminal 与 909 free block 闭合。此项不覆盖 CUDA driver fault、DMA/PCIe 中断或自然硬件故障，见 [server STORE 故障报告](experiments/2026-10-11/PROTECTION_SERVER_STORE_FAULT.md)。
 
 同日物理容量不足 GPU 专项通过：1.25 GiB KV 池中，合格 32-block 候选仍有全部预算且无在途 pin，但 free=439 小于 reserve+required=452，零 pin 回退后由默认 manager 保存。347 请求、936 层 KV 全等，14 chunk/504 层具备严格保护来源，运行期资源闭合；见 [容量报告](experiments/2026-10-11/CAPACITY_FALLBACK.md)。这是受控压力下的回退验证，不是性能结论。
 
@@ -338,7 +340,7 @@ Trace 回放评估的是推理系统在同一请求负载下的行为，不评�
 
 原计划中的环境确认已经完成并固化在 `docs/ENVIRONMENT.md`。当前剩余事项按阻塞关系排列：
 
-1. 3C 的零/一/两 chunk 正常路径、整项超预算、在途预算耗尽与物理容量不足回退、共享取消和自然抢占、诊断错误代际/重复回执、实际 raw ID 跨代隔离均已通过。剩余真实执行故障、空闲延迟收尾，以及 >512-token 前缀拆分。分配前 pin、真实分配边界、零步回滚和原回执已实测；CPU 专项不代替 GPU 专项。见 [raw ID 复用](experiments/2026-10-11/RAW_ID_REUSE.md)、[在途预算](experiments/2026-10-11/INFLIGHT_BUDGET.md)、[物理容量](experiments/2026-10-11/CAPACITY_FALLBACK.md)和[开工顺序](3C_GPU_ENTRY.md)；
+1. 3C 的零/一/两 chunk 正常路径、整项超预算、在途预算耗尽与物理容量不足回退、共享取消和自然抢占、诊断错误代际/重复回执、实际 raw ID 跨代隔离，以及受控 server 执行失败均已通过。剩余空闲延迟收尾、真实 driver/DMA 故障边界，以及 >512-token 前缀拆分。分配前 pin、真实分配边界、零步回滚和原回执已实测；CPU 专项不代替 GPU 专项。见 [raw ID 复用](experiments/2026-10-11/RAW_ID_REUSE.md)、[server STORE 故障](experiments/2026-10-11/PROTECTION_SERVER_STORE_FAULT.md)、[在途预算](experiments/2026-10-11/INFLIGHT_BUDGET.md)、[物理容量](experiments/2026-10-11/CAPACITY_FALLBACK.md)和[开工顺序](3C_GPU_ENTRY.md)；
 2. 继续补齐 P2 的长 prefill、稳定 decode、容量扫描和 DMA/排队/重算分解；
 3. 继续记录 3B 支线限制：30 秒回执延迟的空闲 owner 收尾、真实 driver fault、永久 I/O 的自动恢复、L2 不确定提交异常的实机注入及可维护上游最小补丁。隔离研究实例可开始 3C；这些事项未完成，不能扩大为生产安全结论；
 4. 固定最终对照矩阵和验证 trace，重复运行并保留退化案例；
