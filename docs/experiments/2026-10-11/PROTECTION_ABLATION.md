@@ -2,6 +2,8 @@
 
 日期：2026-10-11。此报告完成 CachePilot 保护预算 `zero`、`one`、`two` chunk 的第一轮正式性能消融。它检验的是一个固定合成多轮 Agent trace 上的端到端服务延迟，不将功能成功、KV 一致性或 D2H 下降单独解释为性能收益。
 
+后续复核：同日完成 prompt 不重合、结构相同的 [独立输入验证](PROTECTION_ABLATION_VALIDATION.md)，one/two 的整体 TTFT P95 相对 zero 为 -0.57%/+0.31%，本报告的改善没有稳定复现。以下数据保留为开发集观察，不作为一般加速结论。
+
 ## 环境与负载
 
 - 单卡 RTX 4090 24GB，Qwen3-4B BF16，vLLM 0.30.0，固定 LMCache 研究提交 `1a4b40b1d79b0e76244f127f96ee0982f8bd270f`。

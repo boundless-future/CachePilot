@@ -1,0 +1,31 @@
+{
+  "development_trace_id": "staged-s12-p8-c1024",
+  "validation_trace_id": "staged-validation-20261011a-s12-p8-c1024",
+  "events": [
+    68,
+    68
+  ],
+  "prompt_sha256_intersection": 0,
+  "prompt_token_totals": [
+    74652,
+    75604
+  ],
+  "matching_fields": {
+    "event_id": true,
+    "session_id": true,
+    "turn": true,
+    "arrival_ms": true,
+    "think_ms": true,
+    "max_tokens": true,
+    "temperature": true,
+    "seed": true
+  },
+  "source_changes": [
+    "scripts/run_protection_ablation.py",
+    "scripts/summarize_protection_ablation.py"
+  ],
+  "manifest_trace_sha256": [
+    "49f2c9cb0b2faba83806a53727ef2280fa2bf38351154041f18847c3b0b056af",
+    "079c9507c9585a5e5397affc8750c42603ee7efeeca3127d1cafafc2b1c54eb5"
+  ]
+}
