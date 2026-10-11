@@ -1,0 +1,1399 @@
+{
+  "scope": "Lifecycle and coverage diagnosis; no KV content or performance claim",
+  "runs": [
+    {
+      "run": "idle-finalize-zero-20261011a",
+      "grace_seconds": 0,
+      "mode": "zero",
+      "kv_cache_bytes": 2684354560,
+      "requests": 68,
+      "lifecycle": {
+        "jobs": 69,
+        "reservations": 0,
+        "transfers": 0,
+        "idle_drops": 68,
+        "native_terminal_before_read_release": true
+      },
+      "drops": [
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248130568245,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-b7ebf22270ef1dfa-0-a16cd015",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:2:943315d66a413e692174a78b73f53275:cmpl-b7ebf22270ef1dfa-0-a16cd015"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248130847835,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-a6d67f0ec513ef0a-0-87de7ff4",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:3:ea8c1d60eacabcf3af8ae61c71259553:cmpl-a6d67f0ec513ef0a-0-87de7ff4"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248131374574,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-b4590be1b528ae4a-0-9f170a63",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:4:470665be9dc751240b946feb747d321f:cmpl-b4590be1b528ae4a-0-9f170a63"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248131804224,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-8c43c3e4e6db969d-0-822c1577",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:5:bbcd379bd1fa63addad6b692ab83c579:cmpl-8c43c3e4e6db969d-0-822c1577"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248132379375,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-9a538654512f7684-0-a2850f32",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:6:791fb708e7a097a340396166d443fa7e:cmpl-9a538654512f7684-0-a2850f32"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248132927756,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-b72a413de5fd0bf8-0-9c9e88ec",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:7:71e994ea4998df27cb9ca69bbac7da2c:cmpl-b72a413de5fd0bf8-0-9c9e88ec"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248133504771,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-8f2e1f389edab9ad-0-8d7f3fe2",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:8:cb6b7e827e9d98df7ae15ee73b14aee1:cmpl-8f2e1f389edab9ad-0-8d7f3fe2"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248133867062,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-abe0ac992a43a176-0-ab0027d6",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:9:0de4c7b4dc4e70590dc3b2525eb6d619:cmpl-abe0ac992a43a176-0-ab0027d6"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248134440680,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-9132101d199e6d32-0-8b850f5b",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:10:0f5a7c9e3e61e5dd28137dbf7d4cb0ff:cmpl-9132101d199e6d32-0-8b850f5b"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248135176242,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-973c9704833344aa-0-83649e21",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:11:c04be9e6e79546cd69cdfeac74a282d0:cmpl-973c9704833344aa-0-83649e21"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248135479088,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-b8e3bba87469e941-0-a8304d30",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:12:2b17da0487b3c51d045c3ccc1ee63f26:cmpl-b8e3bba87469e941-0-a8304d30"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248135830297,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-b09c46124ff82d87-0-aefd684c",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:13:346ec1fd7efb78cc9926252a55937f6d:cmpl-b09c46124ff82d87-0-aefd684c"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248136097734,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-94099cdf661d0718-0-88be71f1",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:14:b71fbea0573c8ea00ea90ac01df5dc6d:cmpl-94099cdf661d0718-0-88be71f1"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248136457139,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-a5776d9ae35dae17-0-8c537ce4",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:15:29ab11de5240546f949da32fa1b5e08e:cmpl-a5776d9ae35dae17-0-8c537ce4"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248136787557,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-87529226e49638b1-0-b6d01610",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:16:d3428660c41f885b547c3f455922404e:cmpl-87529226e49638b1-0-b6d01610"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248137240213,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-beba7d066b63f902-0-a9c0bd81",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:17:3abdbaa96d29b2dc864c8bfdf39a962b:cmpl-beba7d066b63f902-0-a9c0bd81"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248137528349,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-9c284d48d03f3fe2-0-ba993427",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:18:87c7ce01bf72dbe2c431be2a08f355cc:cmpl-9c284d48d03f3fe2-0-ba993427"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248138015552,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-9ef992bdb4e3b90f-0-b6ea5298",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:19:f42b077f82765a9d8e1d51aaecc25bfd:cmpl-9ef992bdb4e3b90f-0-b6ea5298"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248138429842,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-805a90b1faf32724-0-a503de9f",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:20:76641e929bdf49fc0b022141390fa696:cmpl-805a90b1faf32724-0-a503de9f"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248138687270,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-9597e79fe4c3a256-0-a7f6c30b",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:21:93f9baf2721e2d09e521785ca5080a1f:cmpl-9597e79fe4c3a256-0-a7f6c30b"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248139123313,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-99b9a5ddf56c6a43-0-a96c5eae",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:22:120ec9fc551a967591ed8f17185ce713:cmpl-99b9a5ddf56c6a43-0-a96c5eae"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248139403485,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-829b1076e11b4fb7-0-a4b6fc71",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:23:3c8da3448f4f2676a415ab6115e73349:cmpl-829b1076e11b4fb7-0-a4b6fc71"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248139799040,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-87f64d7338433675-0-871666f3",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:24:bfd80728ce54844589d010bbb2790804:cmpl-87f64d7338433675-0-871666f3"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248140092467,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-8b28945680bb62af-0-b5d54429",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:25:dedd45ad76b6c776b456e79dbbb65b15:cmpl-8b28945680bb62af-0-b5d54429"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248140557806,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-8d1a98f095a056dd-0-83ac368d",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:26:f4fe6973640e79ac5c245cb1bf5b4d0e:cmpl-8d1a98f095a056dd-0-83ac368d"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248141043875,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-a53578682e6c4e36-0-a9beea49",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:27:ed45727afd940435312720d6469d3bc1:cmpl-a53578682e6c4e36-0-a9beea49"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248141307024,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-a19dd3a55cf57f22-0-88b6c516",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:28:35b389cc8b91e5ca1e296ddf9cb0900d:cmpl-a19dd3a55cf57f22-0-88b6c516"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248141556847,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-a38afeac9ef7b492-0-af6f8448",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:29:28cc5969f823492721eb950a8dfeee50:cmpl-a38afeac9ef7b492-0-af6f8448"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248141810879,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-a304d873e57fd169-0-8b030583",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:30:66fa1dccfe860dcbdb777c2079248a7a:cmpl-a304d873e57fd169-0-8b030583"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248142130245,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-83e5f7ddab5738a4-0-b93c7910",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:31:74a2120938b87dbbc2c7454cca2ccaad:cmpl-83e5f7ddab5738a4-0-b93c7910"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248142380049,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-8996704212627fac-0-ba7b045d",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:32:ab6215cfb89ea301894fdcc0dad9c816:cmpl-8996704212627fac-0-ba7b045d"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248142605995,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-bdfc47f05fbdb861-0-840ef0a4",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:33:0c95735849933dabca446b7edee937bf:cmpl-bdfc47f05fbdb861-0-840ef0a4"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248142866018,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-b5df2764c586358e-0-a4cdc3d0",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:34:75e8f07f75d2254f9fd3e37a4c39e9e0:cmpl-b5df2764c586358e-0-a4cdc3d0"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248143105230,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-8122b06249a82b7a-0-b3b53dd3",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:35:9ef12bc1eb6353a4325c6f302f9dc79f:cmpl-8122b06249a82b7a-0-b3b53dd3"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248143331257,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-9c21e37037360950-0-afbb032f",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:36:0937b42017a2af0db319155705a6331e:cmpl-9c21e37037360950-0-afbb032f"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248143572674,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-97a188dc0b9db944-0-8a0bd7a8",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:37:a1586b43e6c63915bcbdbcd327579574:cmpl-97a188dc0b9db944-0-8a0bd7a8"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248143822267,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-a42796fb771b6428-0-b6860fc8",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:38:b1f671b4dcbbb3b45da6202ed0278195:cmpl-a42796fb771b6428-0-b6860fc8"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248144104422,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-b5922efb935fc535-0-833685ba",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:39:7cc04a35ebc259d029b734f2462e87c9:cmpl-b5922efb935fc535-0-833685ba"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248144382048,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-a56d9b4735ec0b0b-0-9d97436a",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:40:f9d5a5dc1712fb24fd48f028dda24f8d:cmpl-a56d9b4735ec0b0b-0-9d97436a"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248144605160,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-90508d8af7ea6e6a-0-b5ac8c74",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:41:2490241e7486ac7a9ac49d1556cbd8b9:cmpl-90508d8af7ea6e6a-0-b5ac8c74"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248144850985,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-9d24ef4125d28da6-0-b8289a5c",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:42:184135b2676ea979720d1402cd27b076:cmpl-9d24ef4125d28da6-0-b8289a5c"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248145115586,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-91ec054d66c2d2aa-0-9f43a924",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:43:e3171b16144d523fe59d7bd4f67b7e7b:cmpl-91ec054d66c2d2aa-0-9f43a924"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248145335552,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-a4b5c6ac5554c769-0-9ba99a29",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:44:eb7a554ee672d5209e3eae297c50cc66:cmpl-a4b5c6ac5554c769-0-9ba99a29"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248145595584,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-a06ccae81280e162-0-8596ed52",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:45:8183a7399b0631f53834888cdb27350b:cmpl-a06ccae81280e162-0-8596ed52"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248145814839,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-b9d57b2a9668a6f5-0-a96b88e2",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:46:978a64672c4f77c2f4d1c1a9c5b37249:cmpl-b9d57b2a9668a6f5-0-a96b88e2"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248146088848,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-b383df2d22498ffb-0-b673c716",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:47:a84327a7944b033f5a3f33c2efbcfcae:cmpl-b383df2d22498ffb-0-b673c716"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248146309465,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-a2ce8d70911f5715-0-b42bd9f1",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:48:09fc37d7ac8b25100f28e43bf4531311:cmpl-a2ce8d70911f5715-0-b42bd9f1"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19248146552454,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-a6bcd4541c1804dc-0-bd6fde67",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:49:c7beab30430069c7e77eb711fdc340c4:cmpl-a6bcd4541c1804dc-0-bd6fde67"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19252361469269,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-af42436f9f6a837f-0-9fefb82d",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:50:b9a3f418a233c26e2ea90983a2575574:cmpl-af42436f9f6a837f-0-9fefb82d"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19252361961380,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-9d44b2d83d6659d3-0-a2a76017",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:51:9bda5b451bd5b4bb186396ccb17466d3:cmpl-9d44b2d83d6659d3-0-a2a76017"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 2,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19252362305776,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              768
+            ],
+            [
+              768,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-ae838dc484fd0bbc-0-a3763712",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:52:6a5887323194065a9a983bd2b1ae7d4b:cmpl-ae838dc484fd0bbc-0-a3763712"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19252362692874,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-9ceb2c4ae13a2b20-0-bc309d55",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:53:57620b857ca7260d34051636f996dc87:cmpl-9ceb2c4ae13a2b20-0-bc309d55"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19252362994447,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-b6decd40b7f4804d-0-9bbde39d",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:54:17566af3af5eb04fdf34de64d92a3465:cmpl-b6decd40b7f4804d-0-9bbde39d"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19252363300458,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-8fe49dd17abba04d-0-9c1a6115",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:55:7ddd92d57a6ba30a5a2b8416d1289266:cmpl-8fe49dd17abba04d-0-9c1a6115"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19252363757742,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-8e8c6c59de5d2ebd-0-a8fcdb08",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:56:5c681e5fa69ee8c37ecb607b4bbd102a:cmpl-8e8c6c59de5d2ebd-0-a8fcdb08"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 2,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19252364075125,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              768
+            ],
+            [
+              768,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-afadec1e35dc9054-0-a83727a8",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:57:35bbb79e13de680c0e6f9da8d45f5a2d:cmpl-afadec1e35dc9054-0-a83727a8"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19265688649205,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-b28e833d03217205-0-8ede2020",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:58:6cbd408c7234b5994e6d62a2b493348d:cmpl-b28e833d03217205-0-8ede2020"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19265689229356,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-8e5e7e123c48bb13-0-bfd31a3d",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:59:dfbd9843c676f341a93f42959355e1c9:cmpl-8e5e7e123c48bb13-0-bfd31a3d"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 2,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19265689617295,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              768
+            ],
+            [
+              768,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-9552b888172d6f9d-0-9303ae14",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:60:c791c8eef2fb3045473977473d468197:cmpl-9552b888172d6f9d-0-9303ae14"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19265690003321,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-9af6134f9793a97b-0-8b05cc53",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:61:97700796a2b771e66f99abc6b75a3503:cmpl-9af6134f9793a97b-0-8b05cc53"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19265690379238,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-9f38554d0f4b3874-0-9f54ce06",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:62:8f8b7efc1e011a014f715d55c5b9c3ed:cmpl-9f38554d0f4b3874-0-9f54ce06"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19265690697292,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-b09961aa042a1ee8-0-ad9c3721",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:63:cbc59a9d80db34e54fd4baff0ecf2a68:cmpl-b09961aa042a1ee8-0-ad9c3721"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19265691087816,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-a354b782c0f4d0cd-0-a795fc0c",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:64:a3f65b073ec8e47b5a00ad1b260f1f16:cmpl-a354b782c0f4d0cd-0-a795fc0c"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 2,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19265691398686,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              768
+            ],
+            [
+              768,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-b6413d450cedb67c-0-afb3f318",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:65:a55ae5dfcff90381c51fa013043f2b90:cmpl-b6413d450cedb67c-0-afb3f318"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19265691745676,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-8c2b5e2e5050de5e-0-b82a122a",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:66:fa10f749e06fd7af090ff55c9ba0e44e:cmpl-8c2b5e2e5050de5e-0-b82a122a"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19265692434667,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-99e0b70139c0998b-0-971ea15e",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:67:1972df1aeb29df0155dc3d1a0253456e:cmpl-99e0b70139c0998b-0-971ea15e"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19265692734286,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-a42c4bb66c881db2-0-988ac7fa",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:68:8310e9e325f36d82ce8c92202a895ffa:cmpl-a42c4bb66c881db2-0-988ac7fa"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19265693153426,
+          "pid": 32420,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-b6a28279094c1065-0-a4ef621b",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:214495242017082683:69:13a1fa049bb02f41ad807eeb1ee05b43:cmpl-b6a28279094c1065-0-a4ef621b"
+        }
+      ],
+      "first_h2d_bytes": 0.0,
+      "first_d2h_bytes": 0.0,
+      "reported_passed": false,
+      "coverage_passed": false,
+      "passed": false
+    },
+    {
+      "run": "idle-finalize-grace15-20261011a",
+      "grace_seconds": 15.0,
+      "mode": "zero",
+      "kv_cache_bytes": 2684354560,
+      "requests": 68,
+      "lifecycle": {
+        "jobs": 69,
+        "reservations": 44,
+        "transfers": 58,
+        "idle_drops": 1,
+        "native_terminal_before_read_release": true
+      },
+      "drops": [
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19567272492746,
+          "pid": 32902,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-8acc494acb6acd24-0-bffb1e3b",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:2471168531926539512:69:8d6b9f00fc522f8cb4434c75f1dc7848:cmpl-8acc494acb6acd24-0-bffb1e3b"
+        }
+      ],
+      "first_h2d_bytes": 1509949440.0,
+      "first_d2h_bytes": 2264924160.0,
+      "reported_passed": true,
+      "coverage_passed": true,
+      "passed": true
+    },
+    {
+      "run": "idle-finalize-zero-reentry-20261011a",
+      "grace_seconds": 15.0,
+      "mode": "zero",
+      "kv_cache_bytes": 2684354560,
+      "requests": 68,
+      "lifecycle": {
+        "jobs": 137,
+        "reservations": 292,
+        "transfers": 82,
+        "idle_drops": 2,
+        "native_terminal_before_read_release": true
+      },
+      "drops": [
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 19967776608195,
+          "pid": 34198,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-865f1435797cb1de-0-abff7dff",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:2055311714895233021:69:d50dd9e08c6a4256871ba5f3439bd258:cmpl-865f1435797cb1de-0-abff7dff"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 20014660096813,
+          "pid": 34198,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-8c8914c44c3a7c5f-0-a1744956",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:2055311714895233021:137:66322de3ce6b985760da12631f2a38d7:cmpl-8c8914c44c3a7c5f-0-a1744956"
+        }
+      ],
+      "first_h2d_bytes": 1509949440.0,
+      "first_d2h_bytes": 2717908992.0,
+      "reported_passed": true,
+      "coverage_passed": true,
+      "repeat_requests": 68,
+      "repeat_output_hash_mismatch_ids": [
+        4,
+        46,
+        48,
+        49,
+        50
+      ],
+      "passed": true
+    },
+    {
+      "run": "idle-finalize-two-reentry-20261011a",
+      "grace_seconds": 15.0,
+      "mode": "two",
+      "kv_cache_bytes": 2147483648,
+      "requests": 68,
+      "lifecycle": {
+        "jobs": 137,
+        "reservations": 400,
+        "transfers": 71,
+        "idle_drops": 0,
+        "native_terminal_before_read_release": true
+      },
+      "drops": [],
+      "first_h2d_bytes": 1811939328.0,
+      "first_d2h_bytes": 3019898880.0,
+      "reported_passed": true,
+      "coverage_passed": true,
+      "repeat_requests": 68,
+      "repeat_output_hash_mismatch_ids": [
+        6,
+        11,
+        44,
+        45,
+        46,
+        49
+      ],
+      "passed": true
+    }
+  ]
+}

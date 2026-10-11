@@ -2,6 +2,7 @@
 import argparse
 import functools
 import json
+import math
 import os
 from pathlib import Path
 import sys
@@ -62,34 +63,60 @@ def run():
     parser.add_argument('--observe-scheduler', action='store_true')
     parser.add_argument('--resume-pressure', action='store_true',
                         help='After the unchanged idle gate, add three diagnostic requests.')
+    parser.add_argument('--idle-finalize', action='store_true',
+                        help='Run the opt-in pending STORE finalization candidate.')
+    parser.add_argument('--idle-grace-seconds', type=float, default=0,
+                        help='Idle wait before finalization; only with --idle-finalize.')
+    parser.add_argument('--mode', choices=['zero', 'one', 'two'], default='zero')
+    parser.add_argument('--kv-cache-bytes', type=int, default=2684354560)
+    parser.add_argument('--repeat-after-idle', action='store_true',
+                        help='Replay the same trace after the first idle drain; diagnostic only.')
     args = parser.parse_args()
+    if args.repeat_after_idle and args.resume_pressure:
+        parser.error('Choose only one post-idle intervention')
+    if (not math.isfinite(args.idle_grace_seconds) or args.idle_grace_seconds < 0
+            or (args.idle_grace_seconds and not args.idle_finalize)):
+        parser.error('Nonnegative finite grace requires --idle-finalize')
+    if args.kv_cache_bytes <= 0:
+        parser.error('KV capacity must be positive')
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
     trace = json.loads(args.trace.read_text())
     ablation.validate_trace(trace)
     ablation.ports_free()
     write_json(output / 'diagnostic-plan.json', dict(
-        purpose='Observe 2.5 GiB zero-budget owner lifecycle; not performance data',
-        source_trace=str(args.trace), kv_cache_bytes=2684354560,
+        purpose='Observe capacity/idle owner lifecycle; not performance data',
+        source_trace=str(args.trace), kv_cache_bytes=args.kv_cache_bytes, mode=args.mode,
         modifications=['server lifecycle events', 'read-only owner snapshots'],
         observe_scheduler=args.observe_scheduler,
         resume_pressure=args.resume_pressure,
+        idle_finalize=args.idle_finalize,
+        idle_grace_seconds=args.idle_grace_seconds,
+        repeat_after_idle=args.repeat_after_idle,
         drain_timeout_seconds=45))
 
     class DiagnosticService(Service):
         def start(self, health, timeout=900):
             os.environ['CACHEPILOT_OWNED_EVENT_LOG'] = '1'
+            if args.idle_finalize:
+                os.environ['CACHEPILOT_HANDOFF_DIR'] = str(output / 'handoffs')
             if self.log.name == 'lmcache.log':
                 self.command = [sys.executable, str(Path(__file__).resolve()),
                     'server', '--host', '127.0.0.1', '--port', '5555',
                     '--http-host', '127.0.0.1', '--http-port', '8080',
                     '--l1-size-gb', '16', '--l1-init-size-gb', '16',
                     '--eviction-policy', 'LRU', '--enable-extra-logging']
-            elif args.observe_scheduler:
+            elif args.observe_scheduler or args.idle_finalize:
                 index = self.command.index('--kv-transfer-config') + 1
                 config = json.loads(self.command[index])
-                config['kv_connector'] = 'CapacityOwnerConnector'
-                config['kv_connector_module_path'] = 'scripts.capacity_owner_connector'
+                if args.idle_finalize:
+                    config['kv_connector'] = 'IdleFinalizeConnector'
+                    config['kv_connector_module_path'] = 'scripts.idle_finalize_connector'
+                    config['kv_connector_extra_config']['cachepilot.idle_finalize'] = True
+                    config['kv_connector_extra_config']['cachepilot.idle_finalize_grace_seconds'] = args.idle_grace_seconds
+                else:
+                    config['kv_connector'] = 'CapacityOwnerConnector'
+                    config['kv_connector_module_path'] = 'scripts.capacity_owner_connector'
                 self.command[index] = json.dumps(config)
                 write_json(self.log.parent / 'config.json', config)
             return super().start(health, timeout)
@@ -105,6 +132,27 @@ def run():
         return data
     ablation.Service = DiagnosticService
     ablation.json_url = snapshot
+    if args.repeat_after_idle:
+        idle_gate = ablation.wait_drained
+
+        def repeat_trace():
+            import asyncio
+            before = idle_gate()
+            write_json(output / 'before-repeat.json', before)
+            if not ablation.cache_drained(before):
+                raise RuntimeError('Original idle gate failed before repeat')
+            metrics = ablation.text(ablation.CACHE + '/metrics')
+            data = asyncio.run(ablation.replay(trace, ablation.API,
+                str(ablation.ROOT / 'models/Qwen3-4B'), 'open'))
+            data['lmcache_before'] = metrics
+            data['lmcache_after'] = ablation.text(ablation.CACHE + '/metrics')
+            write_json(output / 'repeat-requests.json', data)
+            if any(r['error'] for r in data['results']):
+                raise RuntimeError('Repeated trace failed token contract')
+            after = idle_gate()
+            write_json(output / 'after-repeat.json', after)
+            return after
+        ablation.wait_drained = repeat_trace
     if args.resume_pressure:
         idle_gate = ablation.wait_drained
 
@@ -137,8 +185,8 @@ def run():
             write_json(output / 'after-resume.json', after)
             return after
         ablation.wait_drained = resume
-    ablation.run_cell(output / 'zero-r0', 'zero', 0, trace,
-                     str(ablation.ROOT / 'models/Qwen3-4B'), 2684354560)
+    ablation.run_cell(output / (args.mode + '-r0'), args.mode, 0, trace,
+                     str(ablation.ROOT / 'models/Qwen3-4B'), args.kv_cache_bytes)
 
 
 if __name__ == '__main__':

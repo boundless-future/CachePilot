@@ -1,0 +1,73 @@
+{
+  "scope": "Lifecycle and coverage diagnosis; no KV content or performance claim",
+  "runs": [
+    {
+      "run": "idle-finalize-two-2p5g-reentry-20261011b",
+      "grace_seconds": 15.0,
+      "mode": "two",
+      "kv_cache_bytes": 2684354560,
+      "requests": 68,
+      "lifecycle": {
+        "jobs": 137,
+        "reservations": 280,
+        "transfers": 84,
+        "idle_drops": 2,
+        "native_terminal_before_read_release": true
+      },
+      "drops": [
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 21514455836053,
+          "pid": 35475,
+          "ranges": [
+            [
+              0,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-b5dfb866cea39764-0-800b8ef1",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:4126768620588997675:69:a1af6d089ea8d12a5685bc52a9d167a1:cmpl-b5dfb866cea39764-0-800b8ef1"
+        },
+        {
+          "acquired_pins": 0,
+          "dropped": 1,
+          "event": "idle_pending_dropped",
+          "monotonic_ns": 21561153273753,
+          "pid": 35475,
+          "ranges": [
+            [
+              512,
+              1024
+            ]
+          ],
+          "reason": "scheduler_quiescent",
+          "request_id": "cmpl-90ea34aec1558483-0-a67bd5db",
+          "role": "SCHEDULER",
+          "submitted_stores": 0,
+          "wire_id": "cp1:4126768620588997675:137:3d9a09996bcdc7da1a71635d87970e71:cmpl-90ea34aec1558483-0-a67bd5db"
+        }
+      ],
+      "first_h2d_bytes": 1660944384.0,
+      "first_d2h_bytes": 2189426688.0,
+      "reported_passed": true,
+      "coverage_passed": true,
+      "repeat_requests": 68,
+      "repeat_output_hash_mismatch_ids": [
+        11,
+        41,
+        42,
+        43,
+        45,
+        46,
+        49,
+        50
+      ],
+      "passed": true
+    }
+  ]
+}
