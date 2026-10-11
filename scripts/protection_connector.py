@@ -42,6 +42,7 @@ class HandoffObservedConnector(OwnedServiceConnector):
         self._handoffs = HandoffLedger(self._handoff_record)
         self._bound_handoffs = []
         self._bounded = None
+        self._protection_summary = None
         super().__init__(vllm_config, role, kv_cache_config)
         if self._group_tokens_per_block != [16]:
             raise ValueError("Protection handoff requires one 16-token dense group")
@@ -60,13 +61,49 @@ class HandoffObservedConnector(OwnedServiceConnector):
 
     def _handoff_record(self, event, **fields):
         directory = os.environ.get("CACHEPILOT_HANDOFF_DIR")
-        if not directory:
-            return
-        path = Path(directory)
-        path.mkdir(parents=True, exist_ok=True)
-        with (path / f"handoff-{os.getpid()}-{self._handoff_role}.jsonl").open("a") as f:
-            f.write(json.dumps(dict(event=event, pid=os.getpid(), role=self._handoff_role,
-                monotonic_ns=time.monotonic_ns(), **fields), sort_keys=True) + "\n")
+        if directory:
+            path = Path(directory)
+            path.mkdir(parents=True, exist_ok=True)
+            with (path / f"handoff-{os.getpid()}-{self._handoff_role}.jsonl").open("a") as f:
+                f.write(json.dumps(dict(event=event, pid=os.getpid(), role=self._handoff_role,
+                    monotonic_ns=time.monotonic_ns(), **fields), sort_keys=True) + "\n")
+        summary = os.environ.get("CACHEPILOT_PROTECTION_SUMMARY_PATH")
+        if summary:
+            # Keep measurement-path writes off the scheduler hot path. Each
+            # process flushes its aggregate once during normal connector close.
+            if self._protection_summary is None:
+                self._protection_summary = dict(pid=os.getpid(), role=self._handoff_role, events={},
+                    fallbacks={}, prepared_batches=0, committed_batches=0,
+                    receipts=0, failed_receipts=0, peak_pinned_blocks=0,
+                    peak_inflight_blocks=0)
+            state = self._protection_summary
+            state["events"][event] = state["events"].get(event, 0) + 1
+            if event == "protection_fallback":
+                reason = fields.get("reason", "unknown")
+                state["fallbacks"][reason] = state["fallbacks"].get(reason, 0) + 1
+            if event == "protection_prepared":
+                state["prepared_batches"] += 1
+            if event == "protection_metadata_committed":
+                state["committed_batches"] += 1
+            if event == "protection_receipt":
+                state["receipts"] += 1
+                state["failed_receipts"] += int(fields.get("failed", False))
+            if event == "protection_prepared":
+                state["peak_pinned_blocks"] = max(state["peak_pinned_blocks"],
+                    int(fields.get("acquired_pins", 0)))
+            if event == "protection_metadata_committed":
+                state["peak_inflight_blocks"] = max(state["peak_inflight_blocks"],
+                    int(fields.get("owned_pins", 0)))
+
+    def shutdown(self):
+        result = super().shutdown()
+        directory = os.environ.get("CACHEPILOT_PROTECTION_SUMMARY_PATH")
+        if directory and self._protection_summary is not None:
+            path = Path(directory)
+            path.mkdir(parents=True, exist_ok=True)
+            target = path / f"protection-{os.getpid()}-{self._handoff_role}.json"
+            target.write_text(json.dumps(self._protection_summary, indent=2, sort_keys=True) + "\n")
+        return result
 
     def _apply_protection(self, metadata, scheduler_output):
         return metadata
