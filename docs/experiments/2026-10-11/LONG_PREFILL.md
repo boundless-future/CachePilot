@@ -35,4 +35,5 @@ native 与 owned-immediate 两格通过；第三格 h2.5/d64 的 68 个请求和
 - [部分 pilot 原始包](long-prefill-evidence/long-prefill-pilot-20261011a-partial.tar.gz)，SHA256 `15a2e9e7ed86fcf75ba52f925f519880c83f20e4f8e143a521e4351cc139f0f2`。
 - [原独立矩阵审计](long-prefill-evidence/long-prefill-pilot-20261011a-partial-independent.json)、[失败格和三格原始测量补审计](long-prefill-evidence/failure-audit.json)。204 个已完成请求的时间戳/token 检查均通过，不能因此将矩阵判通过。
 - [当时运行源码](long-prefill-evidence/long-prefill-source-20261011.tar.gz)，SHA256 `b64d710de9471146023a7910b029063c4d1176a9c8a09f124bacbd127e1c50e2`。
+- 从该源码包独立核对 [177 项 manifest](long-prefill-evidence/source-verification.json) 全部匹配；68 个原事件除 prompt/token/hash 外的字段与 reference 完全一致。
 - [新增特征测试后的全量日志](long-prefill-evidence/evening-final-regression-20261011.txt)。
