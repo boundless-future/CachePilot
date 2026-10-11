@@ -51,4 +51,4 @@ CachePilot 是 vLLM＋LMCache 的外部实验 Connector 和小预算 KV 卸载�
 3. 无保护 reference 已按独立预注册完成：12/12 格通过，native 在该 trace 最低；到达时间压缩 formal 12/12 完成，native 仍有最低整体 TTFT；长 prefill pilot 在默认 fixed 的空闲身份检查处失败，按规则停止。先定位该新边界，再补稳定 decode、集中恢复；不因单一 trace 最优设置生产默认。
 4. 两轮独立身份诊断已执行，定位抢占新 tracker 跳过 lookup 后沿用旧 mapping：实际出现新代 STORE、旧代 END，真实库最小复现通过；两轮资源仍失败。已实现 [generation ledger 候选](experiments/2026-10-11/GENERATION_LEDGER_CANDIDATE.md)，下一步是将其接到 adapter 的真实 tracker/manager 回调并做逐身份 server 审计，再准入新长 prefill pilot；尚未修复。
 
-原 22:00 持续推进已收尾、heartbeat 已暂停；用户随后再次要求继续，本轮追加两次独立诊断。22:53 实验服务均停止，GPU 空闲，容器保持开机。所有旧失败保持不变。
+原 22:00 持续推进已收尾、heartbeat 已暂停；本轮完成 generation ledger 候选及 39 项服务器专项契约。23:24 收尾确认实验服务和遗留 SSH shell 均停止，GPU 1 MiB/0%，容器可关机；Jupyter 仍由 supervisor 管理。所有旧失败保持不变，见 [收尾记录](experiments/2026-10-11/LEDGER_CLOSEOUT.md)。
