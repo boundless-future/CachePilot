@@ -81,3 +81,25 @@ def test_zero_budget_cannot_mutate_default_operation(monkeypatch):
     with pytest.raises(RuntimeError, match="changed the default"):
         obj.build_connector_meta(NS(total_num_scheduled_tokens=1))
     assert not obj._handoffs.pending
+
+
+def test_summary_counts_total_concurrent_pins_without_hot_path_files(monkeypatch, tmp_path):
+    import json
+    monkeypatch.delenv("CACHEPILOT_HANDOFF_DIR", raising=False)
+    monkeypatch.setenv("CACHEPILOT_PROTECTION_SUMMARY_PATH", str(tmp_path))
+    obj = object.__new__(ProtectionConnector)
+    obj._protection_summary = None
+    obj._handoff_role = "SCHEDULER"
+    obj._handoffs = NS(pending={})
+    obj._bounded = NS(prepared={"a": NS(blocks=list(range(16)))},
+        inflight={"b": NS(blocks=list(range(16)))})
+    obj._handoff_record("protection_prepared", acquired_pins=16)
+    assert obj._protection_summary["peak_pinned_blocks"] == 32
+    assert obj._protection_summary["peak_inflight_blocks"] == 16
+    assert not list(tmp_path.iterdir())
+    obj._bounded.prepared.clear()
+    obj._bounded.inflight.clear()
+    monkeypatch.setattr(OwnedServiceConnector, "shutdown", lambda self: None)
+    obj.shutdown()
+    state = json.loads(next(tmp_path.glob("*.json")).read_text())
+    assert state["shutdown_complete"] and state["inflight_blocks_before_shutdown"] == 0

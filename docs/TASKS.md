@@ -150,13 +150,13 @@
 - [x] 真实保护 STORE 在 CUDA copy enqueue 后的受控 server host exception：LMCache 向未改写 worker future 交付原始 `false`，native terminal、32 个 pin 释放和 worker/protection/scheduler 失败回执闭合；348 请求、864 层回载 KV bitwise 全等、909 free 恢复。它不覆盖 driver/DMA/PCIe fault 或自然硬件故障，见 [报告](experiments/2026-10-11/PROTECTION_SERVER_STORE_FAULT.md)。
 - [ ] 补真实 CUDA driver/DMA/PCIe fault 的边界；不能用成功 future 后修改 receipt 语义，或受控 host exception，替代。
 - [x] >512-token pending STORE 的 chunk 前缀拆分：`[0,1024)` 先保护 `[0,512)`，成功 receipt 后默认 manager drain `[512,1024)`；前缀失败则丢弃 suffix，policy ledger 和 prefix closure 均闭合。成功及真实 CUDA copy enqueue 后 server host exception 两条 GPU 路径均通过，见 [报告](experiments/2026-10-11/PROTECTION_LONG_PREFIX.md)。范围仍是已结束、无外部引用、从零开始的前两个完整 chunk。
-- [ ] 新增路径的 KV/输出正确性通过后，再关闭诊断日志做至少三次重复消融，报告 TTFT、实际 prefill、排队、搬运、保护/在途峰值与策略开销；没有性能收益则保留退化结果。
+- [x] 新增路径的 KV/输出正确性通过后，关闭诊断日志完成 zero/one/two chunk 各三次重复消融，报告 TTFT、实际 prefill、排队、搬运、保护/在途峰值与策略开销；九个 cell 都通过严格资源与服务错误门槛，one chunk 在该固定 trace 的 TTFT P95 均值相对 zero 低 6.22%，two chunk 低 3.45%。保留输出哈希差异和范围限制，见 [正式报告](experiments/2026-10-11/PROTECTION_ABLATION.md)。
 
 交付：可启用和禁用的实现、测试、消融及反例。性能门槛由基线噪声与实际需求决定，不先填加速目标。
 
 ## P4：复核与展示
 
-- [ ] 固定开发/验证会话集合，多次重复，保留退化配置。
+- [ ] 将当前 trace 固定为开发集，建立独立验证会话集合，在更多 KV 容量和到达模式上多次重复，并保留 zero、one、two chunk 与退化配置。
 - [ ] 用 Qwen3-8B＋5090 复核；如要区分模型/硬件效应，需要额外控制变量实验。
 - [ ] 统计客户端就绪到响应及会话总完成时间，不将等待隐藏到入口外。
 - [ ] 整理复现文档、版本清单、原始数据、图表和个人贡献。

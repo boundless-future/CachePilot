@@ -131,8 +131,13 @@ class ServiceOwnership:
         self.client_timeout, self.shutdown_timeout = client_timeout, shutdown_timeout
         self.output = Path(directory) / f"owned-service-{os.getpid()}.jsonl"
         self.output.parent.mkdir(parents=True, exist_ok=True)
+        self.trace_events = os.environ.get("CACHEPILOT_OWNED_EVENT_LOG", "1") != "0"
 
     def record(self, event, request_id="", **fields):
+        if not self.trace_events and event not in (
+                "ownership_unresolved", "owned_shutdown_blocked", "owned_shutdown_drained",
+                "terminal_rejected", "transfer_call_failed"):
+            return
         with self.gate, self.output.open("a", encoding="utf-8") as stream:
             stream.write(json.dumps(dict(event=event, request_id=request_id,
                 monotonic_ns=time.monotonic_ns(), unix_time=time.time(), **fields)) + "\n")
@@ -257,6 +262,21 @@ class ServiceOwnership:
             raise RuntimeError("Completion bitmap differs from captured reservations")
         self.record("prefetch_collected", owner.request_id, objects=len(expected))
         return True
+
+    def free_lookup(self, ctx, key):
+        with self.gate:
+            owner = self.jobs.get(key.request_id)
+            if owner is None or owner.abandoned or owner.error:
+                return
+            if not owner.consumed:
+                raise RuntimeError("FREE before completion consumption")
+            # Scheduler cleanup has no worker rank. Use the upstream resolver
+            # for precisely the matched range, then release original tokens.
+            from lmcache.v1.multiprocess.modules.lookup import resolve_prefetched_obj_keys
+            session = ctx.session_manager.get_or_create(key.request_id)
+            keys = resolve_prefetched_obj_keys(ctx, key, session.prefetch_hit_chunks,
+                                              session.prefetch_locked_gids)
+            self.release(owner, keys)
 
     def end(self, request_id):
         client, sequence = parse_id(request_id)
@@ -618,15 +638,7 @@ def install_service(directory):
 
     def free(method):
         def invoke(self, key, tp_size):
-            with service.gate:
-                owner = service.jobs.get(key.request_id)
-                if owner is None or owner.abandoned or owner.error:
-                    return
-                if not owner.consumed:
-                    raise RuntimeError("FREE before completion consumption")
-                groups = {k.object_group_id for k in owner.keys}
-                keys = set(k for group in self._ctx.resolve_obj_keys(key, sorted(groups)) for k in group)
-                service.release(owner, keys)
+            service.free_lookup(self._ctx, key)
         return invoke
     patch(LookupModule, "free_lookup_locks", free)
 

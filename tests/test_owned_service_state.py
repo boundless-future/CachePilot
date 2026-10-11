@@ -11,6 +11,47 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from owned_service import Owner, ReadLock, ServiceOwnership, WriteLock
 
 
+@pytest.mark.parametrize("worker_id", [None, 0])
+def test_lookup_free_partial_range_keeps_other_reader_and_suffix(tmp_path, worker_id):
+    from unittest.mock import Mock
+    from lmcache.v1.multiprocess.custom_types import IPCCacheServerKey
+    from lmcache.v1.multiprocess.modules.lookup import resolve_prefetched_obj_keys
+    from lmcache.v1.distributed.api import AttnWindowDesc
+    from lmcache.v1.distributed.error import L1Error
+    service = ServiceOwnership(tmp_path)
+    ipc = IPCCacheServerKey.from_token_ids("test", 1, worker_id,
+        list(range(768)), end=512, request_id="r", num_kv_readers=1)
+    ctx = Mock(chunk_size=256)
+    ctx.token_hasher.compute_chunk_hashes.return_value = [b'a', b'b']
+    ctx.layout_desc_registry.find_attn_desc.return_value = AttnWindowDesc([-1])
+    ctx.session_manager.get_or_create.return_value = SimpleNamespace(
+        prefetch_hit_chunks=3, prefetch_locked_gids=(0,))
+    objects = resolve_prefetched_obj_keys(ctx, ipc, 3, (0,))
+    suffix = "suffix"
+    owner, other = Owner("r", consumed=True), Owner("other", consumed=True)
+    service.jobs["r"] = owner
+    locks = {k: ReadLock(service, k, 60000) for k in [*objects, suffix]}
+    for reader in (owner, other):
+        with service.bind(reader):
+            for lock in locks.values():
+                lock.lock()
+    def finish(keys, read_locks):
+        for k in keys:
+            for _ in range(read_locks):
+                locks[k].unlock()
+        return {k: L1Error.SUCCESS for k in keys}
+    l1 = SimpleNamespace(_lock=service.gate,
+        _objects={k: SimpleNamespace(read_lock=v) for k, v in locks.items()}, finish_read=finish)
+    service.storage = SimpleNamespace(_l1_manager=l1)
+    service.free_lookup(ctx, ipc)
+    service.free_lookup(ctx, ipc)  # Duplicate free cannot touch the other reader.
+    assert [r[0] for r in owner.reads] == [suffix]
+    assert len(other.reads) == 3 and all(lock.is_locked() for lock in locks.values())
+    service.release(owner)
+    service.release(other)
+    assert not any(lock.is_locked() for lock in locks.values())
+
+
 def key(sequence):
     return SimpleNamespace(request_id=f"cp1:7:{sequence}:{'a' * 32}:r")
 

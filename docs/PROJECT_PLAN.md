@@ -219,7 +219,7 @@ CachePilot/
 
 上述未覆盖项仍是扩大运行范围与生产恢复的前置条件。它们不再阻塞限定范围的 3C 零预算接入；已通过的基础服务验证不能替代 3C 新增保护 pin、metadata 和 receipt 的正确性验收。自然终结等待窗口不等于硬件 DMA 执行期中断。
 
-### 阶段 3C：最终 CachePilot 策略原型（长 pending 前缀拆分通过；消融待完成）
+### 阶段 3C：最终 CachePilot 策略原型（首轮消融完成；外部复核待完成）
 
 2026-10-11 在途保护预算耗尽 GPU 专项通过：原成功 future 回执被诊断门延迟、占满 32-block 预算；不同请求的 32-block 候选零 pin 回退，原回执随后释放预算，候选之后由默认 manager 保存。347 请求、864 层 KV 全等，原保护两个 chunk/72 层严格来源，运行期资源闭合；见 [在途预算报告](experiments/2026-10-11/INFLIGHT_BUDGET.md)。这只验证预算耗尽，不验证执行故障。
 
@@ -237,7 +237,9 @@ CachePilot/
 
 2026-10-10 整项超预算 GPU 回退对照通过：零预算/一个 chunk 各 348 请求，14 个默认 STORE 范围/次数及文本一致，各 720 层 KV 全等、909 free 恢复；17 个候选有 51 次预算拒绝，其中 14 个由默认 manager 保存，无保护 pin/STORE。完整 CUDA 回归 506 passed、115 subtests。见 [预算报告及下一组实验设计](experiments/2026-10-10/PROTECTION_BUDGET.md)。
 
-2026-10-09 继续完成最多两个 chunk 的真实分配前保护。零预算/两 chunk 各 348 请求、输出一致；保护组 9 个保护 STORE、峰值 32 block、19 次零步回滚，864 层回载 KV 全等，其中 7 个保护批次的 14 chunk/504 层有无中间 STORE 的严格来源证明。两组运行期资源归零、BlockPool 恢复 909。首版只选已结束、无外部引用、从 0 开始的一到两个完整 chunk，同步模型调度，保守按全活请求 footprint 留余量；尚不支持较大 STORE 拆分。见 [两 chunk 报告](experiments/2026-10-09/PROTECTION_TWO.md)。新增支线 r1：PREPARED 零步 unpin 刷新 LRU 导致 8 个 owner 残留，已修复并记录；r2 因 GPU 命中而无 H2D 覆盖失败，统一增加固定淘汰流量后 r3 通过。GPU 取消/失败/延迟专项与性能消融仍未完成，不能宣布 3C 完成。
+2026-10-09 继续完成最多两个 chunk 的真实分配前保护。零预算/两 chunk 各 348 请求、输出一致；保护组 9 个保护 STORE、峰值 32 block、19 次零步回滚，864 层回载 KV 全等，其中 7 个保护批次的 14 chunk/504 层有无中间 STORE 的严格来源证明。两组运行期资源归零、BlockPool 恢复 909。首版只选已结束、无外部引用、从 0 开始的一到两个完整 chunk，同步模型调度，保守按全活请求 footprint 留余量；尚不支持较大 STORE 拆分。见 [两 chunk 报告](experiments/2026-10-09/PROTECTION_TWO.md)。新增支线 r1：PREPARED 零步 unpin 刷新 LRU 导致 8 个 owner 残留，已修复并记录；r2 因 GPU 命中而无 H2D 覆盖失败，统一增加固定淘汰流量后 r3 通过。GPU 取消/失败/延迟专项已经完成；首轮性能消融见下一段。
+
+2026-10-11 完成隔离、无诊断日志的正式性能消融：zero、one、two chunk 均跑三次，按 repeat 轮转服务启动顺序。固定 68 请求的两阶段 trace 先建立 12 个可复用 session 的 STORE，再用 8 个独立 pressure session 驱逐，最后回访以产生 H2D。九个 cell 都有 68/68 完整响应、固定 token 合约、1,811,939,328 B H2D、资源闭合和零服务错误；非零组都有保护 commit/receipt。one chunk 的 TTFT P95 均值为 6979.65 ms，较 zero 的 7442.47 ms 低 6.22%；two chunk 为 7185.36 ms，低 3.45%。所有组 prefill、GPU/external hit 和 H2D 相同，one/two 的 D2H 分别低 3.07%/14.03%。输出哈希仍有跨配置差异，三次重复不支持统计显著性或泛化结论。完整表格、原始归档与限制见 [保护预算消融](experiments/2026-10-11/PROTECTION_ABLATION.md)。这满足受控 3C 首轮的性能交付，但不关闭独立验证和生产资源边界。
 
 2026-10-10 完成新增保护 STORE 的回执专项。对第一批真实保护 future 分别注入 5 秒延迟和“真实成功后报告失败”：延迟加固定恢复流量时 508 请求、720 层 KV bitwise 全等，pin 在回执前保持；失败回执时 worker/scheduler 失败状态一致、pin 正确释放，864 层 KV 全等。无后续流量的延迟轮仍在空闲收尾留下 pending owner，失败证据保留。两种注入只覆盖回执交付诊断，不是 DMA 中断或真实 STORE 执行失败。见 [保护回执专项](experiments/2026-10-10/PROTECTED_RECEIPTS.md)。
 
@@ -340,13 +342,12 @@ Trace 回放评估的是推理系统在同一请求负载下的行为，不评�
 
 原计划中的环境确认已经完成并固化在 `docs/ENVIRONMENT.md`。当前剩余事项按阻塞关系排列：
 
-1. 3C 的零/一/两 chunk 正常路径、整项超预算、在途预算耗尽与物理容量不足回退、共享取消和自然抢占、诊断错误代际/重复回执、实际 raw ID 跨代隔离、受控 server 执行失败，以及 >512-token pending 的前缀拆分均已通过。拆分通过先保护 `[0,512)`、再由默认 manager 提交 `[512,1024)`，失败则丢弃 suffix；成功及执行失败路径均有 GPU 证据。剩余空闲延迟收尾和真实 driver/DMA 故障边界。分配前 pin、真实分配边界、零步回滚和原回执已实测；CPU 专项不代替 GPU 专项。见 [长前缀报告](experiments/2026-10-11/PROTECTION_LONG_PREFIX.md)、[raw ID 复用](experiments/2026-10-11/RAW_ID_REUSE.md)、[server STORE 故障](experiments/2026-10-11/PROTECTION_SERVER_STORE_FAULT.md)、[在途预算](experiments/2026-10-11/INFLIGHT_BUDGET.md)、[物理容量](experiments/2026-10-11/CAPACITY_FALLBACK.md)和[开工顺序](3C_GPU_ENTRY.md)；
-2. 继续补齐 P2 的长 prefill、稳定 decode、容量扫描和 DMA/排队/重算分解；
-3. 继续记录 3B 支线限制：30 秒回执延迟的空闲 owner 收尾、真实 driver fault、永久 I/O 的自动恢复、L2 不确定提交异常的实机注入及可维护上游最小补丁。隔离研究实例可开始 3C；这些事项未完成，不能扩大为生产安全结论；
-4. 固定最终对照矩阵和验证 trace，重复运行并保留退化案例；
-5. 使用 Qwen3-8B + RTX 5090 32GB 做扩展复核；
-6. 在已拆分编译/CUDA Graph 的基础上定位剩余输出差异，扩展异步 decode 正确性边界；
-7. 项目收尾时重新检查上游状态，再决定是否提交 issue/PR。
+1. 将正式消融 trace 作为开发集，固定独立验证 trace，补不同 GPU KV 容量、长 prefill、稳定 decode 与集中恢复；zero/one/two 保留且每组至少三次，报告退化和失败。首轮 one chunk 有可测 TTFT 改善，但不能据此选定生产默认值；
+2. 使用 Qwen3-8B + RTX 5090 32GB 做扩展复核，并分开分析模型规模、显存和 PCIe 链路差异；
+3. 继续补齐 P2 的 DMA/排队/重算分解，避免把 D2H 或服务端队列变化误认作唯一原因；
+4. 继续记录 3B 支线限制：30 秒回执延迟的空闲 owner 收尾、真实 driver fault、永久 I/O 的自动恢复、L2 不确定提交异常的实机注入及可维护上游最小补丁。限定隔离研究结论不扩大为生产安全结论；
+5. 在已拆分编译/CUDA Graph 的基础上定位剩余输出差异，扩展异步 decode 正确性边界；
+6. 项目收尾时重新检查上游状态，再决定是否提交 issue/PR。
 
 以下约束在后续每轮实验中继续有效：固定模型和 tokenizer revision、GPU KV/CPU KV 预算、trace 和到达计划；记录真实 allocator 分配与策略信号；诊断日志运行不得直接作为性能对照；不把 HTTP 成功、计数闭合或预测命中率单独当作策略收益。
 

@@ -2,7 +2,9 @@
 
 面向多轮 Agent 推理的 KV 缓存卸载策略探索。
 
-当前状态：**已完成环境验收、固定轨迹回放、第一轮 24 组重复基线和自适应卸载窗口原型；原型已跑通但尚未证明收益。**
+当前状态：**已完成环境验收、固定轨迹回放、第一轮 24 组重复基线、自适应卸载窗口原型，以及保护预算的首轮正式性能消融。**
+
+2026-10-11 最新：**保护预算首轮性能消融完成。** 在 4090 24GB、Qwen3-4B、2 GiB GPU KV 的固定两阶段压力 trace 上，zero/one/two chunk 各三次且九个 cell 都通过完整响应、H2D、资源闭合和服务日志门槛。one chunk 的 TTFT P95 均值相对 zero 低 6.22%，two chunk 低 3.45%；两者不是统计显著性或通用加速结论，输出哈希也仍有跨组差异。原始证据、完整指标和限制见 [正式消融报告](docs/experiments/2026-10-11/PROTECTION_ABLATION.md)。
 
 2026-10-11 最新：**长 pending STORE 的前缀拆分通过。** 对 `[0,1024)` 操作，CachePilot 先保护 `[0,512)`，成功 receipt 后交由默认 manager 提交 `[512,1024)`；前缀失败时 suffix 被丢弃，以维持 prefix closure 和 policy ledger。4090 上的成功路径完成 348 请求、1800/1800 层回载 KV bitwise 一致；真实 CUDA copy enqueue 后的受控 server 失败路径也恢复 909 free block 且 1656/1656 层 KV 一致。该结果扩大了正确性范围，尚不构成性能收益结论。见 [报告](docs/experiments/2026-10-11/PROTECTION_LONG_PREFIX.md)。
 
@@ -43,6 +45,7 @@
 ## 工作入口
 
 - [3C 物理容量回退](docs/experiments/2026-10-11/CAPACITY_FALLBACK.md)
+- [3C 保护预算正式性能消融](docs/experiments/2026-10-11/PROTECTION_ABLATION.md)
 - [3C 在途预算耗尽](docs/experiments/2026-10-11/INFLIGHT_BUDGET.md)
 - [3C 实际 raw ID 复用与跨代回执隔离](docs/experiments/2026-10-11/RAW_ID_REUSE.md)
 - [3C 保护 STORE server 执行故障](docs/experiments/2026-10-11/PROTECTION_SERVER_STORE_FAULT.md)

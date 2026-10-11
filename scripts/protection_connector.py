@@ -56,6 +56,10 @@ class HandoffObservedConnector(OwnedServiceConnector):
             if role.name == "SCHEDULER":
                 from scripts.bounded_protection import BoundedProtection
                 self._bounded = BoundedProtection(self, vllm_config)
+                if os.environ.get("CACHEPILOT_PROTECTION_SUMMARY_PATH"):
+                    self._protection_timings = {}
+                    for name in ("prepare", "commit", "receipts", "rollback"):
+                        self._time_protection_method(name)
         self._handoff_record("initialized", connector=type(self).__name__,
             enabled=self._protection_config.enabled, max_chunks=self._protection_config.max_chunks)
 
@@ -88,22 +92,48 @@ class HandoffObservedConnector(OwnedServiceConnector):
             if event == "protection_receipt":
                 state["receipts"] += 1
                 state["failed_receipts"] += int(fields.get("failed", False))
-            if event == "protection_prepared":
-                state["peak_pinned_blocks"] = max(state["peak_pinned_blocks"],
-                    int(fields.get("acquired_pins", 0)))
-            if event == "protection_metadata_committed":
-                state["peak_inflight_blocks"] = max(state["peak_inflight_blocks"],
-                    int(fields.get("owned_pins", 0)))
+            bounded = getattr(self, "_bounded", None)
+            if bounded is not None:
+                prepared = sum(len(p.blocks) for p in bounded.prepared.values())
+                inflight = sum(len(p.blocks) for p in bounded.inflight.values())
+                state["peak_pinned_blocks"] = max(state["peak_pinned_blocks"], prepared + inflight)
+                state["peak_inflight_blocks"] = max(state["peak_inflight_blocks"], inflight)
+
+    def _time_protection_method(self, name):
+        method = getattr(self._bounded, name)
+        totals = self._protection_timings[name] = dict(calls=0, cpu_ns=0, wall_ns=0)
+
+        def timed(*args, **kwargs):
+            cpu, wall = time.thread_time_ns(), time.perf_counter_ns()
+            try:
+                return method(*args, **kwargs)
+            finally:
+                totals["cpu_ns"] += time.thread_time_ns() - cpu
+                totals["wall_ns"] += time.perf_counter_ns() - wall
+                totals["calls"] += 1
+        setattr(self._bounded, name, timed)
 
     def shutdown(self):
-        result = super().shutdown()
         directory = os.environ.get("CACHEPILOT_PROTECTION_SUMMARY_PATH")
-        if directory and self._protection_summary is not None:
-            path = Path(directory)
-            path.mkdir(parents=True, exist_ok=True)
-            target = path / f"protection-{os.getpid()}-{self._handoff_role}.json"
-            target.write_text(json.dumps(self._protection_summary, indent=2, sort_keys=True) + "\n")
-        return result
+        state = self._protection_summary
+        if directory and state is not None:
+            state["pending_handoffs_before_shutdown"] = len(self._handoffs.pending)
+            state["timings"] = getattr(self, "_protection_timings", {})
+            bounded = self._bounded
+            state["prepared_blocks_before_shutdown"] = sum(len(p.blocks) for p in bounded.prepared.values()) if bounded else 0
+            state["inflight_blocks_before_shutdown"] = sum(len(p.blocks) for p in bounded.inflight.values()) if bounded else 0
+            state["shutdown_complete"] = False
+        try:
+            result = super().shutdown()
+            if directory and state is not None:
+                state["shutdown_complete"] = True
+            return result
+        finally:
+            if directory and state is not None:
+                path = Path(directory)
+                path.mkdir(parents=True, exist_ok=True)
+                target = path / f"protection-{os.getpid()}-{self._handoff_role}.json"
+                target.write_text(json.dumps(state, indent=2, sort_keys=True) + "\n")
 
     def _apply_protection(self, metadata, scheduler_output):
         return metadata
