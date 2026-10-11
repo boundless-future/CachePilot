@@ -1,0 +1,48 @@
+{
+  "scope": "Partial diagnosis of failed H2D coverage run; does not change result.passed=false",
+  "ownership": {
+    "passed": true,
+    "service_processes": 1,
+    "original_tokens": 2,
+    "dispositions": {
+      "RELEASED": 2
+    },
+    "transfer_terminals": 10,
+    "final_free_blocks": {
+      "owned-connector-37001.jsonl": 909
+    },
+    "exactly_once": true,
+    "native_terminal_before_release": true
+  },
+  "receipt": {
+    "passed": true,
+    "mode": "delayed",
+    "batch_id": "cp1:1456036652265785725:2:3fe544f9e053b91ed5f307dcd3e72b06:cmpl-99860308426d764c-0-8a22f4c6:1",
+    "actual_store_succeeded": true,
+    "receipt_failed": false,
+    "delivery_delay_seconds": 5.016880339,
+    "pin_snapshot_before_receipt": true,
+    "dma_interruption_test": false
+  },
+  "requests_observed": 175,
+  "idle_drops": [
+    {
+      "acquired_pins": 0,
+      "dropped": 1,
+      "event": "idle_pending_dropped",
+      "monotonic_ns": 22417253650325,
+      "pid": 37001,
+      "ranges": [
+        [
+          0,
+          512
+        ]
+      ],
+      "reason": "scheduler_quiescent",
+      "request_id": "cmpl-9bffe87ee6a563dd-0-9242fb14",
+      "role": "SCHEDULER",
+      "submitted_stores": 0,
+      "wire_id": "cp1:1456036652265785725:1:4315273da40ad7b7ea52c94d9b6fbfbd:cmpl-9bffe87ee6a563dd-0-9242fb14"
+    }
+  ]
+}

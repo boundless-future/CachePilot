@@ -27,7 +27,19 @@ GPU 结果：`idle-finalize-raw-id-20261011a` 完成两遍各 68 请求；68 组
 
 新的入口不修改安装包，也不改变旧烟测 runner；配置组合仅允许上述两个已审计 probe 类型，未知类型拒绝。若原 20 秒 drain 不足，记录该轮失败而不提高时限。
 
-配置测试与原生组合 MRO 已核查；完整显式 CUDA 回归 703 passed、115 subtests。当前远程运行 `idle-finalize-receipt-delay-20261011a`，shell session 18104；在它退出并审计前，不启动下一 GPU 轮。
+配置测试与原生组合 MRO 已核查；完整显式 CUDA 回归 703 passed、115 subtests。
+
+延迟回执 a 已结束，`passed=false` 原样保留：原 20 秒门槛内 before_restore 的 job/session/pin/transfer 均为 0，实际 idle drop=1、真实延迟回执成功交付；但恢复请求 GPU hit=512、external hit=0，未覆盖原要求的 H2D，runner 在该断言停止，未执行后续 KV 验收。没有加恢复请求、重跑筛选或放宽门槛。隔离实例已关闭、GPU 回到 1 MiB；继续独立 `idle-finalize-receipt-failure-20261011a`，不将延迟 a 改写为通过。
+
+失败回执 a 已通过：348 请求、9 个保护 STORE、864/864 层回载全等，26 个 reservation/transfer 与 909 free block 闭合；真实 STORE 成功后一次失败回执，原审计通过。idle drop=0，明确只算兼容性，不声称共同覆盖。当前开始独立 `idle-finalize-shared-cancel-20261011a`，前一轮已经正常退出。
+
+共享取消 a 已通过：347 个完整响应＋1 个取消，32 个引用 2→1→0，936/936 层 KV 相同，原目标严格来源通过。idle drop=0，仅记兼容性。三格及局部失败审计见 IDLE_RECEIPT_MATRIX.md；不是矩阵整体通过。
+
+## 当前进行：冻结后 2.5 GiB 容量试点
+
+已保存 IDLE_CAPACITY_PREREGISTRATION.md。新 `run_idle_capacity.py` 复用无诊断日志的原测量 runner，额外要求 session/temporary 清零；pilot 3 格全通过才允许 formal 9 格。相同源码清单、相同 trace、所有模式同 15 秒 idle grace，历史扫描不改写。专项 runner/原 ablation 测试本地 3、服务器组合 30 项通过。
+
+当前远程目录 `idle-capacity-pilot-2p5g-20261011a`，shell session **43111**；zero→one→two 串行。截止 21:50 不启动新格。**在 pilot/formal 完成前禁止改写服务器 scripts/configs**，runner 每格和 formal 准入均验证源码清单。可并行整理已完成原始证据与文档，不能另起 GPU 实验。
 
 ## 后续顺序
 
@@ -35,3 +47,13 @@ GPU 结果：`idle-finalize-raw-id-20261011a` 完成两遍各 68 请求；68 组
 2. 优先复核空闲收尾与实际取消/受控失败回执的交互；所有诊断独立实例，原始失败保留。
 3. 生命周期门槛足够后冻结候选，预注册修改后栈的独立容量对照；不可混入旧扫描。随后补同所有权栈立即卸载/固定参数调优与新到达模式。
 4. 22:00 前预留收尾时间；不为赶时间扩大支持范围或宣称稳定性能收益。
+
+
+## 2026-10-11 19:16–19:18（北京时间）：2.5 GiB 容量 pilot 准入完成
+
+- 远程目录：`/root/CachePilot/artifacts/idle-capacity-pilot-2p5g-20261011a`；按 zero→one→two 串行执行，各 1 格。
+- 三格均通过 `result.passed`、idle-validation、运行期/退出后 `active_sessions=0` 与 `temporary_count=0`；每格 `idle_drop_count=1`。
+- 每格签名均锁定同一 trace SHA `079c9507c9585a5e5397affc8750c42603ee7efeeca3127d1cafafc2b1c54eb5`、2.5 GiB GPU KV、15 秒宽限和全源码 SHA 清单。
+- 按预注册规则，已启动 formal 九格：`/root/CachePilot/artifacts/idle-capacity-formal-2p5g-20261011a`，顺序为 r0 zero/one/two、r1 one/two/zero、r2 two/zero/one；任一格失败即停止，21:50 后不启动新格。
+
+19:21 独立复算 pilot：204/204 token 合约通过；zero/one/two H2D 分别为 1,358,954,496 / 1,698,693,120 / 1,509,949,440 B，保护提交/回执为 0/0、5/5、4/4。one 关闭后有 8 行精确分类的已知 teardown traceback，运行期无 fatal error；该分类原始日志保留。当前 formal shell session **45268**，禁止改服务器 scripts/configs。

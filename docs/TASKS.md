@@ -164,6 +164,9 @@
 - [x] 设计并以 opt-in 方式实现空闲 pending STORE 的有界丢弃/结束候选；立即收尾反例、15 秒宽限 GPU 轮及 zero/two trace 重入已归档。候选保留提交批次身份和资源安全，不释放 GPU block、不 touch/free、不修改已提交 batch；见 [IDLE_FINALIZE](experiments/2026-10-11/IDLE_FINALIZE.md)。
 - [x] 2.5 GiB two/15 秒宽限交互专项：136 请求、9 个保护提交/回执、288 次保护 pin 释放、2 次 idle drop，137 个 job/280 个原 reservation/84 个 transfer 终结闭合；输出 hash 差异 8/68 保留。两种动作的 wire identity 不相交，不宣称同请求先保护再丢弃；启动环境失败 a 单列，b 通过。完整显式 CUDA 回归 686 passed、115 subtests。
 - [x] 空闲收尾后实际 raw ID 复用：136 请求、68 对不同 wire generation，旧 reclaim 均早于新 lookup；含 1 个实际 idle-dropped raw ID 重入，9 个保护提交/回执，137 job/282 reservation/91 transfer 闭合。输出 hash 8/68 差异保留；完整显式 CUDA 回归 703 passed、115 subtests（含下一专项配置测试）。不覆盖在途 ID 重叠。见 [空闲收尾报告](experiments/2026-10-11/IDLE_FINALIZE.md)。
+- [x] 固定原负载验证候选与失败回执、共享取消的兼容性：分别 348/347 完整请求、864/936 层 KV 全等，资源及严格来源通过，但两格 idle drop=0；延迟回执 a 资源局部通过却仍在 GPU 命中 512、H2D 未覆盖，失败保留。见 [组合矩阵](experiments/2026-10-11/IDLE_RECEIPT_MATRIX.md)，不将三格概括为全通过。
+- [x] 按 [新栈容量预注册](experiments/2026-10-11/IDLE_CAPACITY_PREREGISTRATION.md) 完成 2.5 GiB pilot 三格；zero/one/two 均通过源码签名、token、H2D、active session/temporary 清零门槛，每格 idle drop=1。formal 九格已启动，尚未完成；诊断/旧性能/新性能分开，任一资源或覆盖失败就停止该轮。
+- [ ] 完成新栈 2.5 GiB formal 九格、独立复算和原始证据归档；当前正在执行，不能用 pilot 替代正式重复。
 - [ ] 扩展空闲收尾门槛：多进程/异步调度、共享前缀、取消/抢占、失败回执、多个 pending chunk、长空闲窗口和真实 driver fault；当前候选只允许固定版本单卡同步 text-only 实例，默认关闭。
 - [ ] 在更多到达模式上多次重复；再增加长 prefill、稳定 decode 和集中恢复。
 - [ ] 用 Qwen3-8B＋5090 复核；如要区分模型/硬件效应，需要额外控制变量实验。
