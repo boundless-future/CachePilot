@@ -80,3 +80,9 @@ GPU 结果：`idle-finalize-raw-id-20261011a` 完成两遍各 68 请求；68 组
 20:25：固定参数 formal 24/24 格全部通过；远程独立统计和本地复算均为 `matrix_complete=true`、`passed_cells=24`，原始归档 SHA256 为 `ba9e66d1a8097e77d5b3f9dc647ae5563202e732bc5028acceb7d99f8a956e52`。24 格共 1,632 请求，独立时间戳/token/hash 审计 24/24 通过；两格已知关闭竞态按精确规则分类，未见运行期 fatal error。六个固定 zero 基线依开发集 TTFT P95 均值选择 `h5p0-d1`（7119.688 ms，个体 7182.285/7169.758/7007.021 ms，SD 97.773）；one/two 未参与选择。各点搬运与输出 hash 差异完整保留于 `fixed-baseline-evidence/`。已按预注册启动 validation，当前 `h2p5-d64-r0` 正在运行，服务器源码仍冻结。
 
 20:31–20:34：validation 第三格 `protect-one-r0` 因零保护覆盖停止。68 请求与资源均通过，但 8 次 capacity fallback，保护提交/回执 0/0；原失败不改写，后续九格未运行。部分归档 SHA256 `554e4e371737625f2f78d7739f77864de0a55ee37193135ca82100238ba010be`，独立矩阵审计 2/12 通过、无均值；三个已有格的原始测量复算均通过。进程已退出，GPU 1 MiB。详见 FIXED_BASELINES.md。原六组 reference 的 validation 前置条件未满足；不直接启动它。
+
+20:37：按 UNPROTECTED_REFERENCES_PREREGISTRATION 独立启动四组参考 pilot；新 scope 不包含保护候选，不改变旧矩阵。四项 reference CPU 契约和四项原始测量审计本地/服务器都通过。服务器新增三个后续 runner/auditor，旧 formal 已冻结源文件 hash 保持一致；本轮再冻结完整新清单。目录 `unprotected-references-pilot-20261011a`，session 45480；只允许完整 pilot 独立审计通过后启动 formal。原生组已完成，立即卸载运行中。
+
+21:00 左右：unprotected reference formal 完成 12/12 格、816 请求；服务器 summarize 与 timing audit 均通过，本地下载归档后独立复算一致。原始归档 SHA256 为 `20bbabfa7a307e5f76fa299c6266d0b8454237b075c9e947ce594b5eb6138ca1`。native TTFT P95 均值 6732.95 ms；默认 h2.5/d64 为 7250.16 ms；开发集选中 h5.0/d1 为 7187.49 ms。报告见 `UNPROTECTED_REFERENCES.md`；该 scope 不评价保护策略。
+
+21:04：完成到达时间压缩 follow-up 的 runner、预注册和 18 项 CPU/审计测试；唯一干预为把同一 reference trace 的开放环 `arrival_ms` 乘 0.5。服务器 pilot 4/4 格独立审计通过，formal 已按轮转启动；21:50 后不启动新 cell。首次 pilot 启动曾因非交互 SSH PATH 缺少 `bash` 而无请求失败，按环境启动错误单列，修正 PATH 后重启为 `arrival-half-pilot-20261011b`，不把 a 纳入结果。

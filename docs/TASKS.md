@@ -169,6 +169,10 @@
 - [x] 完成新栈 2.5 GiB formal 九格、612 请求及独立复算/原始证据归档；每格 idle drop=1，运行期及退出后 session/temporary 清零。one/two TTFT P95 均值相对 zero 为 -3.07%/-2.00%，第一组重复均更慢，输出 hash 差异和两格退出 traceback 保留，见 [正式报告](experiments/2026-10-11/IDLE_CAPACITY.md)。
 - [ ] 扩展空闲收尾门槛：多进程/异步调度、共享前缀、取消/抢占、失败回执、多个 pending chunk、长空闲窗口和真实 driver fault；当前候选只允许固定版本单卡同步 text-only 实例，默认关闭。
 - [ ] 在更多到达模式上多次重复；再增加长 prefill、稳定 decode 和集中恢复。
+- [x] 六点固定参数开发调优及 one/two 同期对照：pilot 八格、formal 24 格全部通过；1,632 个正式请求独立时间戳/资源复算通过，按预注册选择 h5.0/d1。one/two 对选中项 +0.88%/-0.19%，未证明保护优于调优固定基线，见 [FIXED_BASELINES](experiments/2026-10-11/FIXED_BASELINES.md)。
+- [ ] 固定选择后的新文本验证：原 12 格在第三格 one 零保护覆盖处停止（8 次 capacity fallback）；已有三个 cell 请求与资源通过，整体未完成，原失败和九个未运行格保留，不重跑筛选。
+- [x] 独立无保护 reference 四组（原生、同所有权栈立即卸载、默认 fixed、选中 fixed）：pilot→formal 共 12 格、816 请求通过；native TTFT P95 最低，整套 lazy 仍有搬运/接入成本，见 [UNPROTECTED_REFERENCES](experiments/2026-10-11/UNPROTECTED_REFERENCES.md)。不替代前述保护验证。
+- [ ] 到达时间压缩对照：pilot 4/4 通过，formal 12 格正在运行；仅压缩固定开放环 arrival_ms，不改变输入和 decode 预算，见 [预注册](experiments/2026-10-11/ARRIVAL_COMPRESSION_PREREGISTRATION.md)。
 - [ ] 用 Qwen3-8B＋5090 复核；如要区分模型/硬件效应，需要额外控制变量实验。
 - [x] 开发和验证消融已统计客户端 ready-to-first/ready-to-end 及会话完成时间；原始值与聚合均归档，不将入口等待隐藏。新容量和到达负载继续沿用该口径。
 - [ ] 整理复现文档、版本清单、原始数据、图表和个人贡献。
