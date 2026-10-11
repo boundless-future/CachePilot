@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "batch_id": "cp1:2769654140160917572:1:2c165a3134f8b9bfb06cf784ddf3aa8e:cmpl-ae4c0363c2dfeb3d-0-9fa4f784:1",
+  "shared_request_id": "cmpl-80505ac68e35649f-0-b9973c62",
+  "protected_blocks": 32,
+  "shared_refs_sequence": [
+    2,
+    1,
+    0
+  ],
+  "allocations": 39,
+  "shared_prefix_victim": true,
+  "strict_sources": [
+    {
+      "batch_id": "cp1:2769654140160917572:1:2c165a3134f8b9bfb06cf784ddf3aa8e:cmpl-ae4c0363c2dfeb3d-0-9fa4f784:1",
+      "token_prefix_sha256": "af0410b3d1ec706503a740b1abde2bc4e226fcc154b64cc406b3e0c5cff3ae98",
+      "start": 0,
+      "end": 256,
+      "equal_layers": 36,
+      "store_sequence": 1
+    },
+    {
+      "batch_id": "cp1:2769654140160917572:1:2c165a3134f8b9bfb06cf784ddf3aa8e:cmpl-ae4c0363c2dfeb3d-0-9fa4f784:1",
+      "token_prefix_sha256": "bb201d95a79867159f402cf98bd081f7bbd6cdf86f6443aa4cdf7923c68b6d03",
+      "start": 256,
+      "end": 512,
+      "equal_layers": 36,
+      "store_sequence": 1
+    }
+  ]
+}

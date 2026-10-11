@@ -63,6 +63,20 @@ class BoundedProtection:
         self.prepared = {}
         self.inflight = {}
         self.committed_this_step = set()
+        self._inflight_budget_observed = set()
+        self._capacity_observed = set()
+
+    def _capacity_fallback(self, meta, required, free, reserve, left, used):
+        identity = describe(meta)
+        observed = getattr(self, "_capacity_observed", set())
+        if identity["wire_id"] in observed:
+            return
+        observed.add(identity["wire_id"])
+        self._capacity_observed = observed
+        self.record("protection_fallback", reason="capacity", **identity,
+            required_blocks=required, available_blocks=left,
+            inflight_blocks=used, budget_blocks=self.budget, free=free,
+            reserve=reserve, acquired_pins=0)
 
     def bind(self, kv_manager):
         managers = kv_manager.coordinator.single_type_managers
@@ -108,11 +122,20 @@ class BoundedProtection:
             return
         used = sum(len(p.blocks) for p in self.inflight.values())
         left = self.budget - used
-        if left < 16:
-            return
         free = self.pool.get_num_free_blocks()
         if free < reserve + 16:
-            self.record("protection_fallback", reason="capacity", free=free, reserve=reserve)
+            for rid, pending in self.policy._pending.items():
+                if (rid in scheduler.requests or not self.manager._requests.is_finished(rid)
+                        or self.manager._requests.has_in_flight(rid) or rid in self.inflight):
+                    continue
+                meta = pending[0].store_metadata
+                op = meta.op
+                if (op.start == 0 and op.end in (256, 512) and not op.skip_first_n_tokens
+                        and not meta.cache_salt and len(op.block_ids) == 1
+                        and len(op.block_ids[0]) == op.end // 16
+                        and len(op.block_ids[0]) <= left):
+                    self._capacity_fallback(meta, len(op.block_ids[0]), free, reserve, left, used)
+                    break
             return
         # Use actual full-footprint pressure only to rank imminent candidates.
         all_ranks = self.policy._free_queue_ranks(free)
@@ -135,12 +158,25 @@ class BoundedProtection:
             ids = list(op.block_ids[0])
             if len(ids) != op.end // 16 or len(set(ids)) != len(ids):
                 continue
+            if left < 16:
+                identity = describe(meta)
+                observed = getattr(self, "_inflight_budget_observed", set())
+                if identity["wire_id"] not in observed:
+                    observed.add(identity["wire_id"])
+                    self._inflight_budget_observed = observed
+                    self.record("protection_fallback", reason="inflight_budget",
+                        **identity, required_blocks=len(ids), available_blocks=left,
+                        budget_blocks=self.budget, inflight_blocks=used,
+                        inflight_request_ids=sorted(self.inflight), acquired_pins=0)
+                continue
             if len(ids) > left:
                 self.record("protection_fallback", reason="candidate_exceeds_budget",
                     **describe(meta), required_blocks=len(ids), available_blocks=left,
                     budget_blocks=self.budget, acquired_pins=0)
                 continue
             if self.pool.get_num_free_blocks() - len(ids) < reserve:
+                self._capacity_fallback(meta, len(ids), self.pool.get_num_free_blocks(),
+                    reserve, left, used)
                 continue
             blocks = [self.pool.blocks[i] for i in ids]
             # No live request reference, null block, reused hash or absent hash.

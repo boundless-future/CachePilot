@@ -103,6 +103,12 @@ def test_invalid_or_unsupported_candidate_is_never_pinned(case, mutation):
         assert fallback["required_blocks"] == 32 and fallback["available_blocks"] == 16
         assert fallback["acquired_pins"] == 0
         assert helper.policy._pending["old"] and not helper.manager._requests.has_in_flight("old")
+    if mutation == "capacity":
+        fallback = next(r for r in rows if r["event"] == "protection_fallback")
+        assert fallback["reason"] == "capacity"
+        assert fallback["required_blocks"] == 32 and fallback["available_blocks"] == 32
+        assert fallback["free"] < fallback["reserve"] + 32
+        assert fallback["acquired_pins"] == 0
 
 
 def test_zero_token_step_restores_pending_and_capacity(case):
@@ -195,6 +201,24 @@ def test_one_chunk_budget_accepts_one_complete_operation(case):
     assert helper.pool.get_num_free_blocks() == 112
     helper.commit(0)
     assert helper.pool.get_num_free_blocks() == 128
+
+
+def test_inflight_budget_records_candidate_without_pinning(case):
+    helper, scheduler, blocks, rows = case
+    helper.inflight["other"] = NS(blocks=[NS(block_id=i) for i in range(33, 65)])
+    before = helper.pool.get_num_free_blocks()
+    helper.prepare(scheduler)
+    helper.prepare(scheduler)
+    assert not helper.prepared and helper.pool.get_num_free_blocks() == before
+    assert all(b.ref_cnt == 0 for b in blocks)
+    fallback = [r for r in rows if r["event"] == "protection_fallback"]
+    assert len(fallback) == 1
+    assert fallback[0]["reason"] == "inflight_budget"
+    assert fallback[0]["required_blocks"] == 32
+    assert fallback[0]["available_blocks"] == 0
+    assert fallback[0]["inflight_blocks"] == 32
+    assert fallback[0]["inflight_request_ids"] == ["other"]
+    assert helper.policy._pending["old"]
 
 
 def test_async_load_footprint_is_reserved_despite_zero_compute_and_lookup_status(case):

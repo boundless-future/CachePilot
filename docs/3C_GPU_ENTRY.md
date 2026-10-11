@@ -22,7 +22,13 @@
 
 ## 第二步：小预算实际保护
 
-2026-10-10 新增保护回执诊断、整项超预算回退及共享受保护前缀的新请求取消验收。取消 r3 同组 32 block 引用 2→1→0，原批次两个 chunk/72 层严格来源、全轮 936 层 KV 全等，资源闭合。r1/r2 实验流程失败已保留，见 [共享取消报告](experiments/2026-10-10/PROTECTION_SHARED_CANCEL.md)。下一步为保护窗口内的实际自然抢占和重复/跨代回执 GPU 注入；空闲延迟、真实失败、其他预算回退与较长前缀仍开放，第三步尚未开始。
+2026-10-11 已完成保护窗口内的无共享及共享前缀 victim 自然抢占，以及构造错误代际和原批次重复回执的 GPU 拒绝；见 [无共享抢占](experiments/2026-10-11/PROTECTED_PREEMPTION.md)、[共享抢占](experiments/2026-10-11/SHARED_PREEMPTION.md)和[回执身份](experiments/2026-10-11/RECEIPT_IDENTITY.md)。同日还完成了真实 HTTP raw ID 复用后的两代隔离：默认 ID 随机化关闭仅用于诊断，旧回执不能破坏新代 pending prefix，两个回执语义均通过，见 [raw ID 复用](experiments/2026-10-11/RAW_ID_REUSE.md)。真实执行故障、空闲延迟与较长前缀仍开放，第三步尚未开始。
+
+同日一个 chunk 实际保护对照通过：七个新增保护 STORE、峰值 16 block，六批/216 层严格来源，运行期资源闭合；见 [单 chunk 报告](experiments/2026-10-11/PROTECTION_ONE_CHUNK.md)。
+
+在途预算耗尽时另一个候选零 pin 回退，之后由默认 manager 保存；原成功回执释放预算，864 层 KV 全等、资源闭合，见 [在途预算报告](experiments/2026-10-11/INFLIGHT_BUDGET.md)。物理容量不足专项在 1.25 GiB KV 池中也通过：预算足够、无在途 pin，但 free=439 小于 reserve+required=452；候选随后默认保存，936 层 KV 全等且资源闭合，见 [容量报告](experiments/2026-10-11/CAPACITY_FALLBACK.md)。
+
+2026-10-10 新增保护回执诊断、整项超预算回退及共享受保护前缀的新请求取消验收。取消 r3 同组 32 block 引用 2→1→0，原批次两个 chunk/72 层严格来源、全轮 936 层 KV 全等，资源闭合。r1/r2 实验流程失败已保留，见 [共享取消报告](experiments/2026-10-10/PROTECTION_SHARED_CANCEL.md)。
 
 2026-10-09 正常路径首轮通过：两组各 348 请求，保护组 9 个保护 STORE、峰值 32 block、19 次零步回滚，864 层 KV 全等；其中 7 批/14 chunk/504 层证明保护来源且无中间 STORE。运行期资源清零、909 free 恢复。首版仅支持已结束且无外部引用、start=0/end=256 或 512 的整项，同步模型调度。新增零步回滚刷新 LRU 的 r1 问题已修，r2 因目标仍驻 GPU 未覆盖 H2D 而失败，均保留于 [报告](experiments/2026-10-09/PROTECTION_TWO.md)。本步的 GPU 取消/失败/延迟专项和较大前缀仍待验证，第三步尚未开始。
 

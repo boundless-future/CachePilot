@@ -4,6 +4,14 @@
 
 当前状态：**已完成环境验收、固定轨迹回放、第一轮 24 组重复基线和自适应卸载窗口原型；原型已跑通但尚未证明收益。**
 
+2026-10-11 补充：**3C 的在途预算耗尽与物理容量不足两种 GPU 回退均通过。** 前者验证另一个合格候选在原保护回执未交付时零 pin 回退、随后默认保存；后者在 1.25 GiB KV 池中观测 free=439、小于 reserve+required=452，预算仍足够且无在途 pin，同一候选随后由默认 manager 保存。物理容量轮 347 请求、936 层 KV 全等，14 chunk/504 层严格保护来源，完整 CUDA 回归 585 passed、115 subtests。仍未进入性能消融。见 [在途预算](docs/experiments/2026-10-11/INFLIGHT_BUDGET.md) 和 [物理容量](docs/experiments/2026-10-11/CAPACITY_FALLBACK.md)。
+
+2026-10-11 最新：**真实 HTTP raw request ID 复用后的跨代回执隔离通过。** 在关闭 vLLM 默认 request-ID 随机化的隔离诊断中，同一个 API ID 的两代真实请求拥有不同 generation wire identity；旧代回执不会破坏新代 pending prefix，四种旧 envelope 均被拒绝。正常旧回执与“实际 STORE 成功、但报告失败”的回执各通过一轮，第二代两个 chunk 均实际回载且 72 层 KV bitwise 全等。该专项不代表真实 STORE/DMA 故障，也没有性能收益结论。见 [raw ID 复用报告](docs/experiments/2026-10-11/RAW_ID_REUSE.md)。
+
+2026-10-11 最新：**阶段 3C 的保护窗口自然抢占及 GPU 回执身份专项通过。** 共享前缀请求被真实容量压力抢占时，32 个保护 block 引用 2→1→0，39 次分配未复用，504 层回载 KV 全等且资源闭合；错误代际与重复 envelope 在真实 scheduler 被拒绝。实际 raw ID 复用和真实执行故障仍开放，尚无新策略性能收益结论。见 [共享抢占](docs/experiments/2026-10-11/SHARED_PREEMPTION.md)、[无共享抢占](docs/experiments/2026-10-11/PROTECTED_PREEMPTION.md)和[回执身份](docs/experiments/2026-10-11/RECEIPT_IDENTITY.md)。
+
+同日，一个 chunk 的真实 GPU 保护对照也通过：单 chunk 组七个保护 STORE、峰值 16 block，六批/216 层有严格来源，输入输出与零预算对照一致，资源闭合。见 [单 chunk 报告](docs/experiments/2026-10-11/PROTECTION_ONE_CHUNK.md)。
+
 2026-10-10 最新：**共享受保护 GPU 前缀的新请求取消专项通过。** 同一组 32 个 block 引用按 2→1→0 变化，原回执恰好释放保护引用；347 个完整响应和 1 个取消请求，936 层回载 KV 全等，原批次两个 chunk/72 层有严格来源证明，资源清零、909 free 恢复。完整 CUDA 回归 525 passed、115 subtests。两轮实验流程失败保留；下一步为自然抢占和重复/跨代回执，仍无性能收益结论。见 [共享取消报告](docs/experiments/2026-10-10/PROTECTION_SHARED_CANCEL.md)。
 
 2026-10-10 后续：**整项超预算回退 GPU 对照通过。** 零预算/一个 chunk 各 348 请求，输入/输出及 14 个默认 STORE 范围一致，各 720 层 KV 全等，资源归零。完整 CUDA 回归 506 passed、115 subtests。仍未进入性能消融，下一步为共享前缀新请求取消/抢占和回执身份专项。见 [预算回退报告](docs/experiments/2026-10-10/PROTECTION_BUDGET.md)。
@@ -30,8 +38,12 @@
 
 ## 工作入口
 
+- [3C 物理容量回退](docs/experiments/2026-10-11/CAPACITY_FALLBACK.md)
+- [3C 在途预算耗尽](docs/experiments/2026-10-11/INFLIGHT_BUDGET.md)
+- [3C 实际 raw ID 复用与跨代回执隔离](docs/experiments/2026-10-11/RAW_ID_REUSE.md)
 - [总体设计与实施方案](docs/PROJECT_PLAN.md)
 - [待办与阶段验收](docs/TASKS.md)
+- [3C 共享前缀自然抢占验收](docs/experiments/2026-10-11/SHARED_PREEMPTION.md)
 - [3C 共享受保护前缀取消验收与失败轮](docs/experiments/2026-10-10/PROTECTION_SHARED_CANCEL.md)
 - [3C 两 chunk 实际保护验收与失败轮](docs/experiments/2026-10-09/PROTECTION_TWO.md)
 - [3C 保护 STORE 回执专项](docs/experiments/2026-10-10/PROTECTED_RECEIPTS.md)

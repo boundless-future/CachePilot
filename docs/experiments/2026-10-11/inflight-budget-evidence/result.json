@@ -1,0 +1,385 @@
+{
+  "passed": true,
+  "mode": "two",
+  "eager": true,
+  "artificial_hold": true,
+  "protection_budget": 2,
+  "bounded_workload": true,
+  "receipt_probe": null,
+  "recovery_traffic": false,
+  "shared_cancel": false,
+  "protected_preemption": false,
+  "shared_preemption": false,
+  "receipt_identity": false,
+  "one_chunk_workload": false,
+  "inflight_budget": true,
+  "before_restore": {
+    "is_healthy": true,
+    "active_sessions": 0,
+    "registered_gpu_ids": [
+      4514559273108961744
+    ],
+    "l1_read_locked": 0,
+    "l1_write_locked": 0,
+    "store_pending": 0,
+    "store_in_flight": 0,
+    "prefetch_in_flight": 0,
+    "prefetch_pending": 0,
+    "prefetch_lookup": 0,
+    "prefetch_load": 0,
+    "write_ttl_seconds": 600,
+    "read_ttl_seconds": 300,
+    "active_prefetch_jobs": 0,
+    "abandoned_prefetch_jobs": 0,
+    "reclaim_failed_jobs": 0,
+    "reclaim_completed_jobs": 0,
+    "reclaim_key_snapshots": 0,
+    "completed_results_count": 0,
+    "owned_jobs": 0,
+    "owned_controller_jobs": 0,
+    "owned_transfers": 0,
+    "owned_clients": 1,
+    "owned_deferred_contexts": 0,
+    "owned_store_batches": 0,
+    "owned_failed": 0,
+    "owned_read_pins": 0
+  },
+  "external_hit_tokens": 512.0,
+  "gpu_hit_tokens": 0.0,
+  "running_final": {
+    "is_healthy": true,
+    "active_sessions": 0,
+    "registered_gpu_ids": [
+      4514559273108961744
+    ],
+    "l1_read_locked": 0,
+    "l1_write_locked": 0,
+    "store_pending": 0,
+    "store_in_flight": 0,
+    "prefetch_in_flight": 0,
+    "prefetch_pending": 0,
+    "prefetch_lookup": 0,
+    "prefetch_load": 0,
+    "write_ttl_seconds": 600,
+    "read_ttl_seconds": 300,
+    "active_prefetch_jobs": 0,
+    "abandoned_prefetch_jobs": 0,
+    "reclaim_failed_jobs": 0,
+    "reclaim_completed_jobs": 0,
+    "reclaim_key_snapshots": 0,
+    "completed_results_count": 0,
+    "owned_jobs": 0,
+    "owned_controller_jobs": 0,
+    "owned_transfers": 0,
+    "owned_clients": 1,
+    "owned_deferred_contexts": 0,
+    "owned_store_batches": 0,
+    "owned_failed": 0,
+    "owned_read_pins": 0
+  },
+  "after_engine_stop": {
+    "is_healthy": true,
+    "active_sessions": 0,
+    "registered_gpu_ids": [],
+    "l1_read_locked": 0,
+    "l1_write_locked": 0,
+    "store_pending": 0,
+    "store_in_flight": 0,
+    "prefetch_in_flight": 0,
+    "prefetch_pending": 0,
+    "prefetch_lookup": 0,
+    "prefetch_load": 0,
+    "write_ttl_seconds": 600,
+    "read_ttl_seconds": 300,
+    "active_prefetch_jobs": 0,
+    "abandoned_prefetch_jobs": 0,
+    "reclaim_failed_jobs": 0,
+    "reclaim_completed_jobs": 0,
+    "reclaim_key_snapshots": 0,
+    "completed_results_count": 0,
+    "owned_jobs": 0,
+    "owned_controller_jobs": 0,
+    "owned_transfers": 0,
+    "owned_clients": 1,
+    "owned_deferred_contexts": 0,
+    "owned_store_batches": 0,
+    "owned_failed": 0,
+    "owned_read_pins": 0
+  },
+  "ownership": {
+    "passed": true,
+    "service_processes": 1,
+    "original_tokens": 26,
+    "dispositions": {
+      "RELEASED": 26
+    },
+    "transfer_terminals": 25,
+    "final_free_blocks": {
+      "owned-connector-5119.jsonl": 909
+    },
+    "exactly_once": true,
+    "native_terminal_before_release": true
+  },
+  "handoff": {
+    "passed": true,
+    "batches": 13,
+    "default_batches": 6,
+    "failed_batches": 0,
+    "bypass_decisions": 0,
+    "added_protection_stores": 7,
+    "acquired_protection_pins": 672,
+    "store_signatures": [
+      {
+        "prefix_sha256": "0f611dceb4f99c68dd06ff55094a0392ccd14a23227e5870fec357517fedd89a",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "1b0b5c3908c9c5b875abe0033bd9b34159293733a4c479696e2fe6e796d7c671",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "1eb756f90ac14a670f0c9c62c2c5744607fc6c445bb79c7efdd51dc31e9e56b2",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "20896468b43e7e0999afbdeaea5f749b9b5ae086156394e2457bcd941e0a9f5b",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "215449fb7b5c5d6ceba19f104ee80d7def3dbfd75824feeb1baa1022be685a0c",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "5446426a5353687ce800c6c0a26995b7a6715e92cd120c79dd1a571b5c5e312e",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "a2583134dd0248d93b891d4a66ea704c7f958d3790b4539698f0c6f10bc553c3",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "ab9cb5aa99edb61810f1ec780d4a3c9217f1f4dfe70aef0fdf7b05508d6ed4bb",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "aba87b1daaa42b6001084cfe206c49c9ca1f1e85ee50aaa6bf524f5cb2921c2d",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "bb201d95a79867159f402cf98bd081f7bbd6cdf86f6443aa4cdf7923c68b6d03",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "d861ea26c69a6907d0043ee72834dc1d35420ded4c5240ba0f46917410872ad0",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "e30d48b3f7f7e20737d579c53edd2a5438393f45d799c0f5dbe818161efddc4d",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "f42723c781d6b7ed3e94e2c8ac55d67be721a1d11a6d764624dc0d6b92b8b3d3",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      }
+    ]
+  },
+  "protection": {
+    "passed": true,
+    "protection_stores": 7,
+    "peak_protection_blocks": 32,
+    "observed_allocations": 7,
+    "rollbacks": 14,
+    "final_owned_pins": 0
+  },
+  "kv": {
+    "counts": {
+      "worker_layout_chunks": 1,
+      "before_store_chunks": 26,
+      "after_retrieve_chunks": 24,
+      "retrieved_layers": 864,
+      "equal_layers": 864
+    },
+    "missing_references": [],
+    "unequal_layers": [],
+    "covered_and_equal": true
+  },
+  "protected_prefixes_retrieved": [
+    "0f611dceb4f99c68dd06ff55094a0392ccd14a23227e5870fec357517fedd89a",
+    "1eb756f90ac14a670f0c9c62c2c5744607fc6c445bb79c7efdd51dc31e9e56b2",
+    "aba87b1daaa42b6001084cfe206c49c9ca1f1e85ee50aaa6bf524f5cb2921c2d",
+    "bb201d95a79867159f402cf98bd081f7bbd6cdf86f6443aa4cdf7923c68b6d03",
+    "e30d48b3f7f7e20737d579c53edd2a5438393f45d799c0f5dbe818161efddc4d",
+    "f42723c781d6b7ed3e94e2c8ac55d67be721a1d11a6d764624dc0d6b92b8b3d3"
+  ],
+  "protected_prefixes_not_retrieved": [
+    "20896468b43e7e0999afbdeaea5f749b9b5ae086156394e2457bcd941e0a9f5b"
+  ],
+  "strict_protected_sources": {
+    "passed": true,
+    "strict_chunks": 12,
+    "strict_equal_layers": 432,
+    "covered_batches": 6,
+    "protected_batches": 7,
+    "kv_bytes_per_block": 2359296,
+    "submitted_payload_bytes": {
+      "store": 981467136,
+      "retrieve": 905969664
+    },
+    "strict_sources": [
+      {
+        "batch_id": "cp1:214687295257010847:1:f6a4de14956a68bfc07ce22e8c75b31a:cmpl-9147d30297098b6c-0-90de132f:1",
+        "token_prefix_sha256": "af0410b3d1ec706503a740b1abde2bc4e226fcc154b64cc406b3e0c5cff3ae98",
+        "start": 0,
+        "end": 256,
+        "equal_layers": 36,
+        "store_sequence": 1
+      },
+      {
+        "batch_id": "cp1:214687295257010847:1:f6a4de14956a68bfc07ce22e8c75b31a:cmpl-9147d30297098b6c-0-90de132f:1",
+        "token_prefix_sha256": "bb201d95a79867159f402cf98bd081f7bbd6cdf86f6443aa4cdf7923c68b6d03",
+        "start": 256,
+        "end": 512,
+        "equal_layers": 36,
+        "store_sequence": 1
+      },
+      {
+        "batch_id": "cp1:214687295257010847:4:0f33c6b4e6e652b56eebdacd4cde05e5:cmpl-ab30000effb86169-0-a2ffbcf3:4",
+        "token_prefix_sha256": "af396ad1220cb3be7b01e01503c214af18b583e19e0cbe18c6a297ac8280f510",
+        "start": 0,
+        "end": 256,
+        "equal_layers": 36,
+        "store_sequence": 4
+      },
+      {
+        "batch_id": "cp1:214687295257010847:4:0f33c6b4e6e652b56eebdacd4cde05e5:cmpl-ab30000effb86169-0-a2ffbcf3:4",
+        "token_prefix_sha256": "1eb756f90ac14a670f0c9c62c2c5744607fc6c445bb79c7efdd51dc31e9e56b2",
+        "start": 256,
+        "end": 512,
+        "equal_layers": 36,
+        "store_sequence": 4
+      },
+      {
+        "batch_id": "cp1:214687295257010847:6:b0f20d814eebf86dd7ccb82855a813a3:cmpl-85379a218139c031-0-8d545b5d:6",
+        "token_prefix_sha256": "9799dad33bb4a9430cd808bd80783aad82ba6b74852221438f0cce67a5834cae",
+        "start": 0,
+        "end": 256,
+        "equal_layers": 36,
+        "store_sequence": 6
+      },
+      {
+        "batch_id": "cp1:214687295257010847:6:b0f20d814eebf86dd7ccb82855a813a3:cmpl-85379a218139c031-0-8d545b5d:6",
+        "token_prefix_sha256": "0f611dceb4f99c68dd06ff55094a0392ccd14a23227e5870fec357517fedd89a",
+        "start": 256,
+        "end": 512,
+        "equal_layers": 36,
+        "store_sequence": 6
+      },
+      {
+        "batch_id": "cp1:214687295257010847:8:e4216165573d7df0eb66d4c1ad957794:cmpl-8b48ef9697c2523a-0-9620c5b4:8",
+        "token_prefix_sha256": "2ab53c8f69ef767847eb932496538c0b130f84629fcd405acc7f9b0c44926ddd",
+        "start": 0,
+        "end": 256,
+        "equal_layers": 36,
+        "store_sequence": 8
+      },
+      {
+        "batch_id": "cp1:214687295257010847:8:e4216165573d7df0eb66d4c1ad957794:cmpl-8b48ef9697c2523a-0-9620c5b4:8",
+        "token_prefix_sha256": "aba87b1daaa42b6001084cfe206c49c9ca1f1e85ee50aaa6bf524f5cb2921c2d",
+        "start": 256,
+        "end": 512,
+        "equal_layers": 36,
+        "store_sequence": 8
+      },
+      {
+        "batch_id": "cp1:214687295257010847:10:23ebea91faa31b8945b068d2bc36081e:cmpl-a946ac9077cd4675-0-b2738942:10",
+        "token_prefix_sha256": "1c6c68740d9a0252ea070e5256e994acd7660075bcd3faef3e1af462c4fcd6de",
+        "start": 0,
+        "end": 256,
+        "equal_layers": 36,
+        "store_sequence": 10
+      },
+      {
+        "batch_id": "cp1:214687295257010847:10:23ebea91faa31b8945b068d2bc36081e:cmpl-a946ac9077cd4675-0-b2738942:10",
+        "token_prefix_sha256": "e30d48b3f7f7e20737d579c53edd2a5438393f45d799c0f5dbe818161efddc4d",
+        "start": 256,
+        "end": 512,
+        "equal_layers": 36,
+        "store_sequence": 10
+      },
+      {
+        "batch_id": "cp1:214687295257010847:13:2e31685ba42a2c0e5dfeba10efdba6da:cmpl-ad1de1f3c9d6f7f9-0-af3ee971:12",
+        "token_prefix_sha256": "e65510650a265a9748f8dbfd7b31dd6b2801483b7b0aaf25ddd2fc6a94ed9366",
+        "start": 0,
+        "end": 256,
+        "equal_layers": 36,
+        "store_sequence": 12
+      },
+      {
+        "batch_id": "cp1:214687295257010847:13:2e31685ba42a2c0e5dfeba10efdba6da:cmpl-ad1de1f3c9d6f7f9-0-af3ee971:12",
+        "token_prefix_sha256": "f42723c781d6b7ed3e94e2c8ac55d67be721a1d11a6d764624dc0d6b92b8b3d3",
+        "start": 256,
+        "end": 512,
+        "equal_layers": 36,
+        "store_sequence": 12
+      }
+    ],
+    "dma_bytes_after_first_target_restore": {
+      "h2d": 75497472.0,
+      "d2h": 905969664.0
+    },
+    "dma_checkpoint_scope": "Before pressure-prefix replay; not total experiment DMA"
+  },
+  "inflight_budget_audit": {
+    "passed": true,
+    "target_batch_id": "cp1:214687295257010847:1:f6a4de14956a68bfc07ce22e8c75b31a:cmpl-9147d30297098b6c-0-90de132f:1",
+    "distinct_fallbacks": 1,
+    "first_fallback_wire_id": "cp1:214687295257010847:3:7c501f77b7235825dcf3f5f36ec75176:cmpl-b80662532e7308ab-0-86e45b1f",
+    "in_flight_blocks": 32,
+    "protected_pins_released": 32,
+    "strict_sources": [
+      {
+        "batch_id": "cp1:214687295257010847:1:f6a4de14956a68bfc07ce22e8c75b31a:cmpl-9147d30297098b6c-0-90de132f:1",
+        "token_prefix_sha256": "af0410b3d1ec706503a740b1abde2bc4e226fcc154b64cc406b3e0c5cff3ae98",
+        "start": 0,
+        "end": 256,
+        "equal_layers": 36,
+        "store_sequence": 1
+      },
+      {
+        "batch_id": "cp1:214687295257010847:1:f6a4de14956a68bfc07ce22e8c75b31a:cmpl-9147d30297098b6c-0-90de132f:1",
+        "token_prefix_sha256": "bb201d95a79867159f402cf98bd081f7bbd6cdf86f6443aa4cdf7923c68b6d03",
+        "start": 256,
+        "end": 512,
+        "equal_layers": 36,
+        "store_sequence": 1
+      }
+    ]
+  },
+  "requests": 347
+}

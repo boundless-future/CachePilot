@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "original_batch_id": "cp1:999407122039071646:1:bd765679fbb4fc92be9ed56ca206df7a:cmpl-be6d536d2219cd72-0-958b3f84:1",
+  "protected_blocks": 32,
+  "rejected_cases": [
+    "synthetic_stale_batch",
+    "duplicate_after_terminal"
+  ],
+  "native_manager_unchanged_on_reject": true,
+  "original_receipt_once": true,
+  "actual_request_id_reuse": false,
+  "strict_sources": [
+    {
+      "batch_id": "cp1:999407122039071646:1:bd765679fbb4fc92be9ed56ca206df7a:cmpl-be6d536d2219cd72-0-958b3f84:1",
+      "token_prefix_sha256": "af0410b3d1ec706503a740b1abde2bc4e226fcc154b64cc406b3e0c5cff3ae98",
+      "start": 0,
+      "end": 256,
+      "equal_layers": 36,
+      "store_sequence": 1
+    },
+    {
+      "batch_id": "cp1:999407122039071646:1:bd765679fbb4fc92be9ed56ca206df7a:cmpl-be6d536d2219cd72-0-958b3f84:1",
+      "token_prefix_sha256": "bb201d95a79867159f402cf98bd081f7bbd6cdf86f6443aa4cdf7923c68b6d03",
+      "start": 256,
+      "end": 512,
+      "equal_layers": 36,
+      "store_sequence": 1
+    }
+  ]
+}

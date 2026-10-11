@@ -1,0 +1,534 @@
+[
+  {
+    "passed": true,
+    "mode": "zero",
+    "eager": true,
+    "artificial_hold": false,
+    "protection_budget": 0,
+    "bounded_workload": true,
+    "receipt_probe": null,
+    "recovery_traffic": false,
+    "shared_cancel": false,
+    "protected_preemption": false,
+    "shared_preemption": false,
+    "receipt_identity": false,
+    "one_chunk_workload": true,
+    "before_restore": {
+      "is_healthy": true,
+      "active_sessions": 0,
+      "registered_gpu_ids": [
+        3931893335748310383
+      ],
+      "l1_read_locked": 0,
+      "l1_write_locked": 0,
+      "store_pending": 0,
+      "store_in_flight": 0,
+      "prefetch_in_flight": 0,
+      "prefetch_pending": 0,
+      "prefetch_lookup": 0,
+      "prefetch_load": 0,
+      "write_ttl_seconds": 600,
+      "read_ttl_seconds": 300,
+      "active_prefetch_jobs": 0,
+      "abandoned_prefetch_jobs": 0,
+      "reclaim_failed_jobs": 0,
+      "reclaim_completed_jobs": 0,
+      "reclaim_key_snapshots": 0,
+      "completed_results_count": 0,
+      "owned_jobs": 0,
+      "owned_controller_jobs": 0,
+      "owned_transfers": 0,
+      "owned_clients": 1,
+      "owned_deferred_contexts": 0,
+      "owned_store_batches": 0,
+      "owned_failed": 0,
+      "owned_read_pins": 0
+    },
+    "external_hit_tokens": 256.0,
+    "gpu_hit_tokens": 0.0,
+    "running_final": {
+      "is_healthy": true,
+      "active_sessions": 0,
+      "registered_gpu_ids": [
+        3931893335748310383
+      ],
+      "l1_read_locked": 0,
+      "l1_write_locked": 0,
+      "store_pending": 0,
+      "store_in_flight": 0,
+      "prefetch_in_flight": 0,
+      "prefetch_pending": 0,
+      "prefetch_lookup": 0,
+      "prefetch_load": 0,
+      "write_ttl_seconds": 600,
+      "read_ttl_seconds": 300,
+      "active_prefetch_jobs": 0,
+      "abandoned_prefetch_jobs": 0,
+      "reclaim_failed_jobs": 0,
+      "reclaim_completed_jobs": 0,
+      "reclaim_key_snapshots": 0,
+      "completed_results_count": 0,
+      "owned_jobs": 0,
+      "owned_controller_jobs": 0,
+      "owned_transfers": 0,
+      "owned_clients": 1,
+      "owned_deferred_contexts": 0,
+      "owned_store_batches": 0,
+      "owned_failed": 0,
+      "owned_read_pins": 0
+    },
+    "after_engine_stop": {
+      "is_healthy": true,
+      "active_sessions": 0,
+      "registered_gpu_ids": [],
+      "l1_read_locked": 0,
+      "l1_write_locked": 0,
+      "store_pending": 0,
+      "store_in_flight": 0,
+      "prefetch_in_flight": 0,
+      "prefetch_pending": 0,
+      "prefetch_lookup": 0,
+      "prefetch_load": 0,
+      "write_ttl_seconds": 600,
+      "read_ttl_seconds": 300,
+      "active_prefetch_jobs": 0,
+      "abandoned_prefetch_jobs": 0,
+      "reclaim_failed_jobs": 0,
+      "reclaim_completed_jobs": 0,
+      "reclaim_key_snapshots": 0,
+      "completed_results_count": 0,
+      "owned_jobs": 0,
+      "owned_controller_jobs": 0,
+      "owned_transfers": 0,
+      "owned_clients": 1,
+      "owned_deferred_contexts": 0,
+      "owned_store_batches": 0,
+      "owned_failed": 0,
+      "owned_read_pins": 0
+    },
+    "ownership": {
+      "passed": true,
+      "service_processes": 1,
+      "original_tokens": 12,
+      "dispositions": {
+        "RELEASED": 12
+      },
+      "transfer_terminals": 25,
+      "final_free_blocks": {
+        "owned-connector-3677.jsonl": 909
+      },
+      "exactly_once": true,
+      "native_terminal_before_release": true
+    },
+    "handoff": {
+      "passed": true,
+      "batches": 14,
+      "default_batches": 14,
+      "failed_batches": 0,
+      "bypass_decisions": 20,
+      "added_protection_stores": 0,
+      "acquired_protection_pins": 0,
+      "store_signatures": [
+        {
+          "prefix_sha256": "0b6190234923c84ce232b955d5e2825942563c328fd2cd22855c72184266ebf1",
+          "start": 0,
+          "end": 256,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "1c6c68740d9a0252ea070e5256e994acd7660075bcd3faef3e1af462c4fcd6de",
+          "start": 0,
+          "end": 256,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "275c01b3e13f90c6f380584f2df3c72d615178c3d229c1f41b7ae19ed458e93c",
+          "start": 0,
+          "end": 256,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "2ab53c8f69ef767847eb932496538c0b130f84629fcd405acc7f9b0c44926ddd",
+          "start": 0,
+          "end": 256,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "55e495a53c7308f1d4c418b81d190fa60c5d86fd021d66c60afa203784eedbaf",
+          "start": 0,
+          "end": 256,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "8fd9f18c654df1d3c3a2a6545a98a2a042d3fdbd1a744bbe31d0c94146d1f827",
+          "start": 0,
+          "end": 256,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "9799dad33bb4a9430cd808bd80783aad82ba6b74852221438f0cce67a5834cae",
+          "start": 0,
+          "end": 256,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "af0410b3d1ec706503a740b1abde2bc4e226fcc154b64cc406b3e0c5cff3ae98",
+          "start": 0,
+          "end": 256,
+          "count": 2
+        },
+        {
+          "prefix_sha256": "af396ad1220cb3be7b01e01503c214af18b583e19e0cbe18c6a297ac8280f510",
+          "start": 0,
+          "end": 256,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "cbc7a7aea5c48d2264736b8a50af553fa03c041f654c19f56518a96c947d91d2",
+          "start": 0,
+          "end": 256,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "d410ab1219c4b86adf74d93e69b51fb89b732290f33de4e063b452943ae10219",
+          "start": 0,
+          "end": 256,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "df53bed34fb5ac7afa156f21196e51891bd1f01258b1f4ca0807f7c8afefc123",
+          "start": 0,
+          "end": 256,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "e65510650a265a9748f8dbfd7b31dd6b2801483b7b0aaf25ddd2fc6a94ed9366",
+          "start": 0,
+          "end": 256,
+          "count": 1
+        }
+      ]
+    },
+    "kv": {
+      "counts": {
+        "worker_layout_chunks": 1,
+        "before_store_chunks": 14,
+        "after_retrieve_chunks": 11,
+        "retrieved_layers": 396,
+        "equal_layers": 396
+      },
+      "missing_references": [],
+      "unequal_layers": [],
+      "covered_and_equal": true
+    },
+    "requests": 348
+  },
+  {
+    "passed": true,
+    "mode": "one",
+    "eager": true,
+    "artificial_hold": false,
+    "protection_budget": 1,
+    "bounded_workload": true,
+    "receipt_probe": null,
+    "recovery_traffic": false,
+    "shared_cancel": false,
+    "protected_preemption": false,
+    "shared_preemption": false,
+    "receipt_identity": false,
+    "one_chunk_workload": true,
+    "before_restore": {
+      "is_healthy": true,
+      "active_sessions": 0,
+      "registered_gpu_ids": [
+        1156241897533203552
+      ],
+      "l1_read_locked": 0,
+      "l1_write_locked": 0,
+      "store_pending": 0,
+      "store_in_flight": 0,
+      "prefetch_in_flight": 0,
+      "prefetch_pending": 0,
+      "prefetch_lookup": 0,
+      "prefetch_load": 0,
+      "write_ttl_seconds": 600,
+      "read_ttl_seconds": 300,
+      "active_prefetch_jobs": 0,
+      "abandoned_prefetch_jobs": 0,
+      "reclaim_failed_jobs": 0,
+      "reclaim_completed_jobs": 0,
+      "reclaim_key_snapshots": 0,
+      "completed_results_count": 0,
+      "owned_jobs": 0,
+      "owned_controller_jobs": 0,
+      "owned_transfers": 0,
+      "owned_clients": 1,
+      "owned_deferred_contexts": 0,
+      "owned_store_batches": 0,
+      "owned_failed": 0,
+      "owned_read_pins": 0
+    },
+    "external_hit_tokens": 256.0,
+    "gpu_hit_tokens": 0.0,
+    "running_final": {
+      "is_healthy": true,
+      "active_sessions": 0,
+      "registered_gpu_ids": [
+        1156241897533203552
+      ],
+      "l1_read_locked": 0,
+      "l1_write_locked": 0,
+      "store_pending": 0,
+      "store_in_flight": 0,
+      "prefetch_in_flight": 0,
+      "prefetch_pending": 0,
+      "prefetch_lookup": 0,
+      "prefetch_load": 0,
+      "write_ttl_seconds": 600,
+      "read_ttl_seconds": 300,
+      "active_prefetch_jobs": 0,
+      "abandoned_prefetch_jobs": 0,
+      "reclaim_failed_jobs": 0,
+      "reclaim_completed_jobs": 0,
+      "reclaim_key_snapshots": 0,
+      "completed_results_count": 0,
+      "owned_jobs": 0,
+      "owned_controller_jobs": 0,
+      "owned_transfers": 0,
+      "owned_clients": 1,
+      "owned_deferred_contexts": 0,
+      "owned_store_batches": 0,
+      "owned_failed": 0,
+      "owned_read_pins": 0
+    },
+    "after_engine_stop": {
+      "is_healthy": true,
+      "active_sessions": 0,
+      "registered_gpu_ids": [],
+      "l1_read_locked": 0,
+      "l1_write_locked": 0,
+      "store_pending": 0,
+      "store_in_flight": 0,
+      "prefetch_in_flight": 0,
+      "prefetch_pending": 0,
+      "prefetch_lookup": 0,
+      "prefetch_load": 0,
+      "write_ttl_seconds": 600,
+      "read_ttl_seconds": 300,
+      "active_prefetch_jobs": 0,
+      "abandoned_prefetch_jobs": 0,
+      "reclaim_failed_jobs": 0,
+      "reclaim_completed_jobs": 0,
+      "reclaim_key_snapshots": 0,
+      "completed_results_count": 0,
+      "owned_jobs": 0,
+      "owned_controller_jobs": 0,
+      "owned_transfers": 0,
+      "owned_clients": 1,
+      "owned_deferred_contexts": 0,
+      "owned_store_batches": 0,
+      "owned_failed": 0,
+      "owned_read_pins": 0
+    },
+    "ownership": {
+      "passed": true,
+      "service_processes": 1,
+      "original_tokens": 14,
+      "dispositions": {
+        "RELEASED": 14
+      },
+      "transfer_terminals": 27,
+      "final_free_blocks": {
+        "owned-connector-3972.jsonl": 909
+      },
+      "exactly_once": true,
+      "native_terminal_before_release": true
+    },
+    "handoff": {
+      "passed": true,
+      "batches": 14,
+      "default_batches": 7,
+      "failed_batches": 0,
+      "bypass_decisions": 0,
+      "added_protection_stores": 7,
+      "acquired_protection_pins": 336,
+      "store_signatures": [
+        {
+          "prefix_sha256": "0b6190234923c84ce232b955d5e2825942563c328fd2cd22855c72184266ebf1",
+          "start": 0,
+          "end": 256,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "1c6c68740d9a0252ea070e5256e994acd7660075bcd3faef3e1af462c4fcd6de",
+          "start": 0,
+          "end": 256,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "275c01b3e13f90c6f380584f2df3c72d615178c3d229c1f41b7ae19ed458e93c",
+          "start": 0,
+          "end": 256,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "2ab53c8f69ef767847eb932496538c0b130f84629fcd405acc7f9b0c44926ddd",
+          "start": 0,
+          "end": 256,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "55e495a53c7308f1d4c418b81d190fa60c5d86fd021d66c60afa203784eedbaf",
+          "start": 0,
+          "end": 256,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "8fd9f18c654df1d3c3a2a6545a98a2a042d3fdbd1a744bbe31d0c94146d1f827",
+          "start": 0,
+          "end": 256,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "9799dad33bb4a9430cd808bd80783aad82ba6b74852221438f0cce67a5834cae",
+          "start": 0,
+          "end": 256,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "af0410b3d1ec706503a740b1abde2bc4e226fcc154b64cc406b3e0c5cff3ae98",
+          "start": 0,
+          "end": 256,
+          "count": 2
+        },
+        {
+          "prefix_sha256": "af396ad1220cb3be7b01e01503c214af18b583e19e0cbe18c6a297ac8280f510",
+          "start": 0,
+          "end": 256,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "cbc7a7aea5c48d2264736b8a50af553fa03c041f654c19f56518a96c947d91d2",
+          "start": 0,
+          "end": 256,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "d410ab1219c4b86adf74d93e69b51fb89b732290f33de4e063b452943ae10219",
+          "start": 0,
+          "end": 256,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "df53bed34fb5ac7afa156f21196e51891bd1f01258b1f4ca0807f7c8afefc123",
+          "start": 0,
+          "end": 256,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "e65510650a265a9748f8dbfd7b31dd6b2801483b7b0aaf25ddd2fc6a94ed9366",
+          "start": 0,
+          "end": 256,
+          "count": 1
+        }
+      ]
+    },
+    "protection": {
+      "passed": true,
+      "protection_stores": 7,
+      "peak_protection_blocks": 16,
+      "observed_allocations": 7,
+      "rollbacks": 14,
+      "final_owned_pins": 0
+    },
+    "kv": {
+      "counts": {
+        "worker_layout_chunks": 1,
+        "before_store_chunks": 14,
+        "after_retrieve_chunks": 13,
+        "retrieved_layers": 468,
+        "equal_layers": 468
+      },
+      "missing_references": [],
+      "unequal_layers": [],
+      "covered_and_equal": true
+    },
+    "protected_prefixes_retrieved": [
+      "1c6c68740d9a0252ea070e5256e994acd7660075bcd3faef3e1af462c4fcd6de",
+      "275c01b3e13f90c6f380584f2df3c72d615178c3d229c1f41b7ae19ed458e93c",
+      "8fd9f18c654df1d3c3a2a6545a98a2a042d3fdbd1a744bbe31d0c94146d1f827",
+      "af0410b3d1ec706503a740b1abde2bc4e226fcc154b64cc406b3e0c5cff3ae98",
+      "cbc7a7aea5c48d2264736b8a50af553fa03c041f654c19f56518a96c947d91d2",
+      "e65510650a265a9748f8dbfd7b31dd6b2801483b7b0aaf25ddd2fc6a94ed9366"
+    ],
+    "protected_prefixes_not_retrieved": [],
+    "strict_protected_sources": {
+      "passed": true,
+      "strict_chunks": 6,
+      "strict_equal_layers": 216,
+      "covered_batches": 6,
+      "protected_batches": 7,
+      "kv_bytes_per_block": 2359296,
+      "submitted_payload_bytes": {
+        "store": 528482304,
+        "retrieve": 490733568
+      },
+      "strict_sources": [
+        {
+          "batch_id": "cp1:2003967030018874209:1:7babe761b0fc6fd95cb9f63b1d7faceb:cmpl-a108b1f04f668299-0-83317589:14",
+          "token_prefix_sha256": "af0410b3d1ec706503a740b1abde2bc4e226fcc154b64cc406b3e0c5cff3ae98",
+          "start": 0,
+          "end": 256,
+          "equal_layers": 36,
+          "store_sequence": 14
+        },
+        {
+          "batch_id": "cp1:2003967030018874209:4:110a301a69760ea86bc41453bd987407:cmpl-9abcb7182ac951f7-0-8d971ef2:3",
+          "token_prefix_sha256": "8fd9f18c654df1d3c3a2a6545a98a2a042d3fdbd1a744bbe31d0c94146d1f827",
+          "start": 0,
+          "end": 256,
+          "equal_layers": 36,
+          "store_sequence": 3
+        },
+        {
+          "batch_id": "cp1:2003967030018874209:6:9922be17168f241d5f0cd210beceaa26:cmpl-b005ff3ed90f55f9-0-b1339fc1:5",
+          "token_prefix_sha256": "275c01b3e13f90c6f380584f2df3c72d615178c3d229c1f41b7ae19ed458e93c",
+          "start": 0,
+          "end": 256,
+          "equal_layers": 36,
+          "store_sequence": 5
+        },
+        {
+          "batch_id": "cp1:2003967030018874209:8:22b6c228743437883c89263e1870b2db:cmpl-a1a7e0fe9a9f2562-0-bf07b33d:7",
+          "token_prefix_sha256": "cbc7a7aea5c48d2264736b8a50af553fa03c041f654c19f56518a96c947d91d2",
+          "start": 0,
+          "end": 256,
+          "equal_layers": 36,
+          "store_sequence": 7
+        },
+        {
+          "batch_id": "cp1:2003967030018874209:11:6daf0b73c9a0f08a56ccbe1b0196f1a7:cmpl-a619bc2231778d48-0-abcfd685:10",
+          "token_prefix_sha256": "1c6c68740d9a0252ea070e5256e994acd7660075bcd3faef3e1af462c4fcd6de",
+          "start": 0,
+          "end": 256,
+          "equal_layers": 36,
+          "store_sequence": 10
+        },
+        {
+          "batch_id": "cp1:2003967030018874209:14:41d601fb0e2a899572f643ffc276b49f:cmpl-a1514df8b99b9cbb-0-8e88f75e:13",
+          "token_prefix_sha256": "e65510650a265a9748f8dbfd7b31dd6b2801483b7b0aaf25ddd2fc6a94ed9366",
+          "start": 0,
+          "end": 256,
+          "equal_layers": 36,
+          "store_sequence": 13
+        }
+      ],
+      "dma_bytes_after_first_target_restore": {
+        "h2d": 37748736.0,
+        "d2h": 490733568.0
+      },
+      "dma_checkpoint_scope": "Before pressure-prefix replay; not total experiment DMA"
+    },
+    "requests": 348
+  }
+]

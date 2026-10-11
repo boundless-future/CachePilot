@@ -26,13 +26,18 @@ def audit_rows(handoffs, service, probes):
         if not history:
             continue
         original = max(history, key=lambda r: r["monotonic_ns"])
-        matches = [r for r in protected if r["request_id"] == original["request_id"]
-                   and r["monotonic_ns"] < original["monotonic_ns"]
-                   and r["start"] <= original["start"] < original["end"] <= r["end"]]
+        # A real raw request ID may have several generations. Bind this probe
+        # to the most recent worker handoff (including default STOREs), never
+        # to every earlier protected handoff with that same raw ID.
+        matches = [r for r in handoffs if r["event"] == "worker_bound"
+                   and r["request_id"] == original["request_id"]
+                   and r["monotonic_ns"] < original["monotonic_ns"]]
         if not matches:
             continue
-        assert len(matches) == 1
-        batch = matches[0]
+        batch = max(matches, key=lambda r: r["monotonic_ns"])
+        if batch["source"] != "protection":
+            continue
+        assert batch["start"] <= original["start"] < original["end"] <= batch["end"]
         transfers = [r for r in submits if r["request_id"] == batch["wire_id"] and r["kind"] == "store"
             and original["monotonic_ns"] < r["monotonic_ns"] < load["monotonic_ns"]
             and set(original["block_ids"]) <= {b for g in r["blocks"] for b in g}]

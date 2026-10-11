@@ -1,6 +1,6 @@
 # CachePilot 总体设计与实施方案
 
-更新：2026-10-10
+更新：2026-10-11
 
 > 本文同时记录原始计划和开发后的修订路线。原始计划假设“自适应卸载窗口”会成为第一版主要机制；实际实验发现更关键的问题是异步 KV 回载的物理 block 分配与 LMCache lazy-offload 压力观测存在时间错位，因此当前主线已经调整为“先建立可验证的压力信号，再决定是否实施准入前保护策略”。
 
@@ -219,7 +219,17 @@ CachePilot/
 
 上述未覆盖项仍是扩大运行范围与生产恢复的前置条件。它们不再阻塞限定范围的 3C 零预算接入；已通过的基础服务验证不能替代 3C 新增保护 pin、metadata 和 receipt 的正确性验收。自然终结等待窗口不等于硬件 DMA 执行期中断。
 
-### 阶段 3C：最终 CachePilot 策略原型（两 chunk 正常路径通过；专项与消融待完成）
+### 阶段 3C：最终 CachePilot 策略原型（两 chunk正常路径、关键生命周期专项通过；真实执行故障与消融待完成）
+
+2026-10-11 在途保护预算耗尽 GPU 专项通过：原成功 future 回执被诊断门延迟、占满 32-block 预算；不同请求的 32-block 候选零 pin 回退，原回执随后释放预算，候选之后由默认 manager 保存。347 请求、864 层 KV 全等，原保护两个 chunk/72 层严格来源，运行期资源闭合；见 [在途预算报告](experiments/2026-10-11/INFLIGHT_BUDGET.md)。这只验证预算耗尽，不验证真实执行故障。
+
+同日物理容量不足 GPU 专项通过：1.25 GiB KV 池中，合格 32-block 候选仍有全部预算且无在途 pin，但 free=439 小于 reserve+required=452，零 pin 回退后由默认 manager 保存。347 请求、936 层 KV 全等，14 chunk/504 层具备严格保护来源，运行期资源闭合；见 [容量报告](experiments/2026-10-11/CAPACITY_FALLBACK.md)。这是受控压力下的回退验证，不是性能结论。
+
+2026-10-11 一个 chunk 的实际 GPU 保护对照通过：零预算/一个 chunk 预算各 348 请求、输入输出及 14 个默认 STORE 范围一致；单 chunk 组七个新增保护 STORE、峰值 16 block，468 层 KV 全等，其中六个保护批次/216 层严格 STORE→H2D 来源。两组运行期资源闭合、909 free 恢复。此前 512-token 整项的一个 chunk 预算只证明拒绝，本轮 320-token 工作负载证明实际保护。见 [单 chunk 报告](experiments/2026-10-11/PROTECTION_ONE_CHUNK.md)。
+
+2026-10-11 共享受保护前缀请求的自然容量抢占 r2 通过：真实 scheduler 抢占共享请求，32 个保护 block 的引用 2→1→0，保护窗口 39 次分配未复用；347 个完整响应、504 层回载 KV 全等，原批次两个 chunk/72 层严格 STORE→H2D 来源，运行期资源闭合。r1 工作负载成功但审计入口导入失败，原轮保留；修复后 r2 整轮通过。见 [共享抢占报告](experiments/2026-10-11/SHARED_PREEMPTION.md)。受保护源请求已结束，诊断门仅延迟真实成功回执，不覆盖源请求抢占或 DMA 中断。
+
+同日完成无共享前缀 victim 自然抢占 r2 和构造错误代际/重复回执的真实 GPU 拒绝 r1；前者有七次保护期间分配、504 层 KV 全等，后者 864 层 KV 全等，均资源闭合。随后以关闭 vLLM 默认 ID 随机化的隔离诊断补齐真实 HTTP raw ID 重用：两代请求使用同一 raw ID 但不同 wire generation，旧回执不会改变第二代 pending prefix，四种旧 envelope 均被拒绝。正常旧回执和“实际 STORE 成功、报告失败”的旧回执各有一轮通过，第二代两段 KV 共 72 层实际 H2D 且 bitwise 全等。该诊断不是 STORE/DMA 执行故障实验。见 [自然抢占报告](experiments/2026-10-11/PROTECTED_PREEMPTION.md)、[身份报告](experiments/2026-10-11/RECEIPT_IDENTITY.md)和[raw ID 复用报告](experiments/2026-10-11/RAW_ID_REUSE.md)。
 
 2026-10-10 共享受保护前缀的新请求取消专项 r3 通过：347 个完整响应和 1 个取消请求，同一组 32 block 引用按 2→1→0 变化，原回执释放保护引用；936 层 KV 全等，原批次两个 chunk/72 层及全部六批/12 chunk/432 层有无中间 STORE 的严格来源证明，资源清零、909 free 恢复。完整 CUDA 回归 525 passed、115 subtests。新增实验支线 r1 提前回载破坏命中 checkpoint、r2 重复预热产生中间 STORE，使来源验收失败；通过调整专项工作负载解决，不改变保护算法，失败轮保留。见 [共享取消报告](experiments/2026-10-10/PROTECTION_SHARED_CANCEL.md)。该结果不覆盖自然抢占、GPU 回执身份注入、DMA 中断或空闲延迟收尾。
 
@@ -328,7 +338,7 @@ Trace 回放评估的是推理系统在同一请求负载下的行为，不评�
 
 原计划中的环境确认已经完成并固化在 `docs/ENVIRONMENT.md`。当前剩余事项按阻塞关系排列：
 
-1. 零预算、两 chunk 正常路径、整项超预算回退和共享受保护前缀的新请求 GPU 取消已通过；回执延迟/失败诊断已完成但空闲延迟收尾仍开放。下一步验证保护引用存在时的实际自然抢占及重复/跨代回执 GPU 注入；在途预算耗尽和容量回退另保留，随后再扩较长前缀拆分。分配前 pin、真实分配边界、零步回滚和原回执已实测，CPU 专项不代替 GPU 专项。见 [共享取消报告](experiments/2026-10-10/PROTECTION_SHARED_CANCEL.md)、[两 chunk 验收](experiments/2026-10-09/PROTECTION_TWO.md)、[保护回执专项](experiments/2026-10-10/PROTECTED_RECEIPTS.md) 和 [开工顺序](3C_GPU_ENTRY.md)；
+1. 3C 的零/一/两 chunk 正常路径、整项超预算、在途预算耗尽与物理容量不足回退、共享取消和自然抢占、诊断错误代际/重复回执、实际 raw ID 跨代隔离均已通过。剩余真实执行故障、空闲延迟收尾，以及 >512-token 前缀拆分。分配前 pin、真实分配边界、零步回滚和原回执已实测；CPU 专项不代替 GPU 专项。见 [raw ID 复用](experiments/2026-10-11/RAW_ID_REUSE.md)、[在途预算](experiments/2026-10-11/INFLIGHT_BUDGET.md)、[物理容量](experiments/2026-10-11/CAPACITY_FALLBACK.md)和[开工顺序](3C_GPU_ENTRY.md)；
 2. 继续补齐 P2 的长 prefill、稳定 decode、容量扫描和 DMA/排队/重算分解；
 3. 继续记录 3B 支线限制：30 秒回执延迟的空闲 owner 收尾、真实 driver fault、永久 I/O 的自动恢复、L2 不确定提交异常的实机注入及可维护上游最小补丁。隔离研究实例可开始 3C；这些事项未完成，不能扩大为生产安全结论；
 4. 固定最终对照矩阵和验证 trace，重复运行并保留退化案例；

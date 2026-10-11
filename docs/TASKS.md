@@ -1,6 +1,6 @@
 # 待办与阶段验收
 
-更新：2026-10-09。未勾选项均未完整完成；历史设计与当前实测环境以 ENVIRONMENT.md 及对应日期的记录区分。
+更新：2026-10-11。未勾选项均未完整完成；历史设计与当前实测环境以 ENVIRONMENT.md 及对应日期的记录区分。
 
 ## 已完成
 
@@ -140,8 +140,14 @@
 - [x] 新增保护 STORE 回执专项：真实 future 延迟 5 秒后在固定恢复流量下 508 请求、720 层 KV 全等并闭合；真实成功后报告失败时 worker/scheduler 状态一致、pin 释放且 864 层 KV 全等。空闲延迟轮仍留下 pending owner，失败轮保留；注入不代表 DMA 中断或 STORE 执行失败。见 [报告](experiments/2026-10-10/PROTECTED_RECEIPTS.md)。
 - [x] 整项超预算 GPU 回退对照通过：零预算/一个 chunk 各 348 请求，14 个默认 STORE 范围/次数及文本一致，各 720 层 KV 全等、909 free 恢复；17 个候选有 51 次预算拒绝，其中 14 个由默认 manager 保存，无保护 pin/STORE。完整 CUDA 回归 506 passed、115 subtests。见 [预算报告及下一组实验设计](experiments/2026-10-10/PROTECTION_BUDGET.md)。
 - [x] 共享受保护 GPU 前缀的新请求取消 r3 通过：347 个完整响应和 1 个取消请求，同组 32 block 引用 2→1→0，原批次两个 chunk/72 层严格 STORE→H2D 来源，全轮 936 层 KV 全等、资源闭合；完整 CUDA 回归 525 passed、115 subtests。r1 checkpoint 提前回载、r2 重复预热中间 STORE 的失败保留，见 [报告](experiments/2026-10-10/PROTECTION_SHARED_CANCEL.md)。不覆盖 DMA 执行中取消或空闲延迟收尾。
-- [ ] 对新增保护 STORE 路径补保护引用存在期间的 GPU 自然抢占、重复/跨代回执和真实失败边界。明确实际被抢占请求是否共享保护前缀；当前保护源请求必须已结束，不能直接取消或抢占它，旧 3B GPU 场景不能替代。
-- [ ] 补在途保护耗尽预算、容量不足回退及一个 chunk 实际保护的 GPU 覆盖。
+- [x] 保护引用存在期间的无共享前缀请求自然抢占：一次真实抢占、七次分配未复用保护 block、原回执释放，504 层回载一致，原保护两个 chunk/72 层严格来源、运行期资源归零。首轮审计入口导入失败保留，r2 整轮通过，见 [自然抢占报告](experiments/2026-10-11/PROTECTED_PREEMPTION.md)。
+- [x] 实际 GPU 保护状态下错误代际 envelope、原回执后的重复 envelope 拒绝；原生 manager 调用数和引用/所有权不变，864 层 KV 一致、资源闭合。完整 CUDA 回归 554 passed、115 subtests。错误代际 ID 为诊断构造，未覆盖实际 raw ID 复用，见 [身份报告](experiments/2026-10-11/RECEIPT_IDENTITY.md)。
+- [x] 共享受保护前缀请求的自然抢占 r2 通过：同组 32 block 引用 2→1→0、保护窗口 39 次分配未复用、原批次两个 chunk/72 层严格来源、全轮 504 层 KV 一致且资源闭合。r1 审计入口导入失败保留，见 [共享抢占报告](experiments/2026-10-11/SHARED_PREEMPTION.md)。
+- [x] 一个 chunk 的真实保护 GPU 对照通过：零预算/单 chunk 各 348 请求且输入输出及默认 STORE 范围一致；单 chunk 组七个保护 STORE、峰值 16 block，468 层 KV 全等，其中六批/216 层有严格来源；两组资源闭合。见 [一个 chunk 报告](experiments/2026-10-11/PROTECTION_ONE_CHUNK.md)。
+- [x] 在途保护占满 32-block 预算时，另一 32-block 候选零新增 pin 回退，原回执后被拒候选由默认 manager 保存；347 请求、864 层 KV 全等，原保护两个 chunk/72 层严格来源，资源闭合。见 [在途预算报告](experiments/2026-10-11/INFLIGHT_BUDGET.md)。
+- [x] 物理容量不足 GPU 回退：1.25 GiB KV 池、预算仍有 32 block 且无在途保护时，free=439 小于 reserve+required=452，候选零 pin 回退并随后由默认 manager 保存；347 请求、936 层 KV 全等、保护 14 chunk/504 层严格来源，资源闭合。完整 CUDA 回归 585 passed、115 subtests。见 [容量报告](experiments/2026-10-11/CAPACITY_FALLBACK.md)。
+- [x] 实际 HTTP raw ID 复用后的跨代回执隔离：关闭 vLLM 默认 ID 随机化的隔离诊断中，同 API ID 的两代真实请求拥有不同 wire identity；旧成功、旧失败、重复旧成功和终结后的重复 envelope 均被拒绝，第二代 pending prefix 保留并实际回载 72 层 KV。正常旧回执和“实际 STORE 成功、报告失败”的旧回执各通过一轮，见 [报告](experiments/2026-10-11/RAW_ID_REUSE.md)。这不覆盖真实 STORE/DMA 执行故障。
+- [ ] 补真实 STORE 执行失败或 driver/DMA fault 的边界；不能用成功 future 后修改 receipt 语义替代。
 - [ ] 设计并验证 >512-token pending 整项的 chunk 前缀拆分、已保存前缀账本和更广的候选范围；当前首版只保护已结束、无引用、从零开始的一至两个完整 chunk。
 - [ ] 新增路径的 KV/输出正确性通过后，再关闭诊断日志做至少三次重复消融，报告 TTFT、实际 prefill、排队、搬运、保护/在途峰值与策略开销；没有性能收益则保留退化结果。
 
@@ -158,4 +164,4 @@
 
 ## 优先顺序
 
-3C 零预算、两 chunk 正常路径、整项超预算回退和共享受保护前缀取消已通过；延迟有流量恢复/失败回执诊断通过，空闲延迟失败保留。当前优先补保护引用存在期间的 GPU 自然抢占与重复/跨代回执，再扩前缀范围并做消融。3B 的 opt-in 实际服务已通过受控单卡准入，历史原生栈失败结论保留；30 秒延迟的空闲 owner 收尾、生产故障恢复、异步 reset API、编译输出差异根因仍开放。每轮实验必须隔离实例并检查原 token/job/pin/terminal 与 KV 内容，资源残留就停止该轮。`compute_slots` 和 lookup 状态仍不能当准入需求 oracle。随后补 P2 参数扫描和重复对照，最后再扩模型与评估上游 PR；目前不需要升级 GPU。
+3C 零预算、两 chunk 正常路径、整项超预算回退、共享受保护前缀取消、自然抢占和实际 raw ID 跨代隔离已通过；延迟有流量恢复/失败回执诊断通过，空闲延迟失败保留。当前优先验证真实 STORE 执行失败边界，再扩前缀范围并做消融。3B 的 opt-in 实际服务已通过受控单卡准入，历史原生栈失败结论保留；30 秒延迟的空闲 owner 收尾、生产故障恢复、异步 reset API、编译输出差异根因仍开放。每轮实验必须隔离实例并检查原 token/job/pin/terminal 与 KV 内容，资源残留就停止该轮。`compute_slots` 和 lookup 状态仍不能当准入需求 oracle。随后补 P2 参数扫描和重复对照，最后再扩模型与评估上游 PR；目前不需要升级 GPU。

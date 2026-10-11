@@ -37,3 +37,17 @@ def test_invalid_source_chain_never_counts(bad):
         service[0]["blocks"] = [[9]]
     with pytest.raises((AssertionError, KeyError)):
         audit_rows(handoffs, service, probes)
+
+
+def test_raw_id_reuse_binds_probe_to_latest_generation():
+    handoffs, service, probes = evidence()
+    handoffs.insert(0, dict(handoffs[0], batch_id="older", wire_id="older-wire", monotonic_ns=0))
+    assert audit_rows(handoffs, service, probes)["strict_sources"][0]["batch_id"] == "b"
+
+
+def test_default_successor_cannot_be_misattributed_to_protected_predecessor():
+    handoffs, service, probes = evidence()
+    handoffs.append(dict(handoffs[0], source="default_manager", batch_id="successor",
+        wire_id="new-wire", monotonic_ns=1.5))
+    with pytest.raises(AssertionError, match="No protected source"):
+        audit_rows(handoffs, service, probes)
