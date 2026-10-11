@@ -57,3 +57,5 @@ GPU 结果：`idle-finalize-raw-id-20261011a` 完成两遍各 68 请求；68 组
 - 按预注册规则，已启动 formal 九格：`/root/CachePilot/artifacts/idle-capacity-formal-2p5g-20261011a`，顺序为 r0 zero/one/two、r1 one/two/zero、r2 two/zero/one；任一格失败即停止，21:50 后不启动新格。
 
 19:21 独立复算 pilot：204/204 token 合约通过；zero/one/two H2D 分别为 1,358,954,496 / 1,698,693,120 / 1,509,949,440 B，保护提交/回执为 0/0、5/5、4/4。one 关闭后有 8 行精确分类的已知 teardown traceback，运行期无 fatal error；该分类原始日志保留。当前 formal shell session **45268**，禁止改服务器 scripts/configs。
+
+下一阶段预注册和本地实现已完成：固定基线 3 horizon × 2 drain 上限、one/two 同期对照；pilot 8 格→formal 24 格→锁定最佳固定参数后新文本验证 9/12 格。新输入已在服务器 artifacts 生成，不修改在途 scripts/configs。四个新 CPU 测试与三个 idle-capacity 测试本地共 7 passed；当前尚未上传新 runner 或执行该扫描。

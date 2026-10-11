@@ -2,7 +2,11 @@
 
 面向多轮 Agent 推理的 KV 缓存卸载策略探索。
 
-当前状态：**已完成环境验收、固定轨迹回放、第一轮 24 组重复基线、自适应卸载窗口原型，以及保护预算的首轮正式性能消融。**
+当前状态（2026-10-11 晚间）：**阶段 3C 的受控单卡保护策略与首轮消融已完成，正在阶段 4 做容量复核和调优基线。独立新文本验证未稳定复现开发集改善，暂不宣称通用加速。** 最新结论、实现边界和下一步见 [当前状态](docs/STATUS.md)；持续执行步骤见 [晚间记录](docs/experiments/2026-10-11/EVENING_PROGRESS.md)。
+
+## 历史检查点
+
+以下按各次实验保留原始结论，其中“尚未完成/下一步”描述的是当时状态；当前待办以 [TASKS](docs/TASKS.md) 为准。失败轮和不支持的边界不会被后来局部成功覆盖。
 
 2026-10-11 最新：**保护预算首轮性能消融完成。** 在 4090 24GB、Qwen3-4B、2 GiB GPU KV 的固定两阶段压力 trace 上，zero/one/two chunk 各三次且九个 cell 都通过完整响应、H2D、资源闭合和服务日志门槛。one chunk 的 TTFT P95 均值相对 zero 低 6.22%，two chunk 低 3.45%；两者不是统计显著性或通用加速结论，输出哈希也仍有跨组差异。原始证据、完整指标和限制见 [正式消融报告](docs/experiments/2026-10-11/PROTECTION_ABLATION.md)。
 
@@ -44,6 +48,9 @@
 
 ## 工作入口
 
+- [当前状态、证据与开放边界](docs/STATUS.md)
+- [晚间持续推进步骤记录](docs/experiments/2026-10-11/EVENING_PROGRESS.md)
+- [固定参数调优与新文本验证预注册](docs/experiments/2026-10-11/FIXED_BASELINE_PREREGISTRATION.md)
 - [3C 物理容量回退](docs/experiments/2026-10-11/CAPACITY_FALLBACK.md)
 - [3C 保护预算正式性能消融](docs/experiments/2026-10-11/PROTECTION_ABLATION.md)
 - [3C 在途预算耗尽](docs/experiments/2026-10-11/INFLIGHT_BUDGET.md)

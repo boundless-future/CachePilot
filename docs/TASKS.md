@@ -44,7 +44,7 @@
 - [x] A：vLLM 原生前缀缓存；4/12 会话、各 4 轮、三次重复初始测量。
 - [x] B：相同 GPU KV 预算下，LMCache 默认延迟卸载；另加入立即卸载对照。
 - [x] 固定 horizon=2.5/5.0 两点初测，共 24 个实验单元、768 个测量请求；结果见 experiments/2026-09-24/REPORT.md。
-- [ ] C：扫描固定 horizon/提交上限，得到合理调优的基线。
+- [ ] C：扫描固定 horizon/提交上限，得到合理调优的基线。 已冻结 [六点扫描＋同期候选和新文本验证方案](experiments/2026-10-11/FIXED_BASELINE_PREREGISTRATION.md)，runner 与准入/独立审计测试本地通过，等待当前容量 formal 结束后启动。
 - [x] 测工作集小于 GPU、超过 GPU 两个区间（GPU KV 人为固定 2 GiB）。
 - [ ] 补测超过总缓存区间及更多 GPU KV 容量点。
 - [ ] 加入长 prefill 突发、稳定 decode、多轮集中恢复。
