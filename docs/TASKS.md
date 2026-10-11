@@ -177,7 +177,7 @@
 - [ ] 长 prefill 四组 pilot：2/4 格通过后停止；默认 fixed 的 68 请求返回后在 idle wire identity 预检 fatal，残留 1 owned job/11 sessions。源 trace、部分归档、失败补审计已保存，未运行选中 fixed 与 formal，见 [失败报告](experiments/2026-10-11/LONG_PREFILL.md)。
 - [x] 为长 prefill 身份失败补两个真实 manager/BlockPool 特征测试；最新完整 CUDA/native 回归 737 passed、115 subtests。准备异常后只读身份观察器及独立 runner，另 4 项 CPU 测试通过；GPU 观察尚未执行。
 - [x] 完成两轮独立 long-prefill 诊断和真实 tracker/manager 最小复现：抢占后新 tracker 生成新 wire，但原生 PREEMPTED 路径跳过 lookup，mapping 仍旧代；timeline 观察 4 个 STORE-only wire 未 END、4 sessions 残留。完整 CUDA/native 746 passed、115 subtests；离线审计另 5 项通过。见 [身份缺口报告](experiments/2026-10-11/PREEMPTED_IDENTITY.md)。两轮均未再次触发 idle fatal，资源均失败，不算修复。
-- [ ] 实现独立身份终结候选：分离 lookup 路由与各 generation session 登记，覆盖旧 STORE 迟到提交/回执、连续抢占、raw ID 重用及 END 部分失败；不只覆盖 mapping、不删除 guard。逐身份服务端审计通过后，另立新栈长 prefill pilot。
+- [x] 新增默认关闭的 `GenerationSessionLedger` 身份终结候选：分离当前 lookup 路由与各 generation 登记，ticket 固定 acquisition-time wire identity；CPU 契约覆盖旧 STORE 迟到提交/回执、连续两次抢占、raw ID 重用、取消、多个 pending chunk、重复/部分 END、client-wide high-water 和生命周期 tombstone。实现尚未接入 vLLM/LMCache 生产 connector，见 [GENERATION_LEDGER_CANDIDATE.md](experiments/2026-10-11/GENERATION_LEDGER_CANDIDATE.md)。下一步是 adapter integration gate，之后才允许单独 GPU pilot。
 - [ ] 用 Qwen3-8B＋5090 复核；如要区分模型/硬件效应，需要额外控制变量实验。
 - [x] 开发和验证消融已统计客户端 ready-to-first/ready-to-end 及会话完成时间；原始值与聚合均归档，不将入口等待隐藏。新容量和到达负载继续沿用该口径。
 - [ ] 整理复现文档、版本清单、原始数据、图表和个人贡献。
