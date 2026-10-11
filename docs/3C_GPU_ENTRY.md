@@ -22,7 +22,7 @@
 
 ## 第二步：小预算实际保护
 
-2026-10-11 已完成保护窗口内的无共享及共享前缀 victim 自然抢占，以及构造错误代际和原批次重复回执的 GPU 拒绝；见 [无共享抢占](experiments/2026-10-11/PROTECTED_PREEMPTION.md)、[共享抢占](experiments/2026-10-11/SHARED_PREEMPTION.md)和[回执身份](experiments/2026-10-11/RECEIPT_IDENTITY.md)。同日还完成了真实 HTTP raw ID 复用后的两代隔离：默认 ID 随机化关闭仅用于诊断，旧回执不能破坏新代 pending prefix，两个回执语义均通过，见 [raw ID 复用](experiments/2026-10-11/RAW_ID_REUSE.md)。一个受保护 STORE 的 server host exception 也在真实 CUDA copy enqueue 后通过：原 worker future 收到 `false`，terminal、32-pin 释放及三层失败回执闭合，见 [server STORE 故障](experiments/2026-10-11/PROTECTION_SERVER_STORE_FAULT.md)。它不覆盖 driver/DMA/PCIe 硬件故障。空闲延迟与较长前缀仍开放，第三步尚未开始。
+2026-10-11 已完成保护窗口内的无共享及共享前缀 victim 自然抢占，以及构造错误代际和原批次重复回执的 GPU 拒绝；见 [无共享抢占](experiments/2026-10-11/PROTECTED_PREEMPTION.md)、[共享抢占](experiments/2026-10-11/SHARED_PREEMPTION.md)和[回执身份](experiments/2026-10-11/RECEIPT_IDENTITY.md)。同日还完成了真实 HTTP raw ID 复用后的两代隔离：默认 ID 随机化关闭仅用于诊断，旧回执不能破坏新代 pending prefix，两个回执语义均通过，见 [raw ID 复用](experiments/2026-10-11/RAW_ID_REUSE.md)。一个受保护 STORE 的 server host exception 也在真实 CUDA copy enqueue 后通过：原 worker future 收到 `false`，terminal、32-pin 释放及三层失败回执闭合，见 [server STORE 故障](experiments/2026-10-11/PROTECTION_SERVER_STORE_FAULT.md)。较长 pending prefix 也已通过：`[0,1024)` 的 `[0,512)` 先受保护，成功 receipt 后默认 manager 提交 suffix，失败则丢弃 suffix；成功与受控执行失败均在 GPU 验证，见 [报告](experiments/2026-10-11/PROTECTION_LONG_PREFIX.md)。它们不覆盖 driver/DMA/PCIe 硬件故障。空闲延迟仍开放；第三步可开始固定实现后的消融。
 
 同日一个 chunk 实际保护对照通过：七个新增保护 STORE、峰值 16 block，六批/216 层严格来源，运行期资源闭合；见 [单 chunk 报告](experiments/2026-10-11/PROTECTION_ONE_CHUNK.md)。
 

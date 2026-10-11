@@ -24,7 +24,7 @@ from validate_environment import ROOT, Service, API, CACHE, PROMPT, snapshot, co
 def run(out, mode, bounded_workload=False, receipt_probe=None, recovery_traffic=False, shared_cancel=False,
         protected_preemption=False, receipt_identity=False, shared_preemption=False, one_chunk=False,
         inflight_budget=False, capacity_fallback=False, kv_cache_bytes=2147483648,
-        reuse_id=False, reuse_old_failure=False, server_store_fault=False):
+        reuse_id=False, reuse_old_failure=False, server_store_fault=False, long_prefix=False):
     out.mkdir(parents=True, exist_ok=False)
     events, probe = out / "events", out / "probe"
     events.mkdir()
@@ -92,10 +92,11 @@ def run(out, mode, bounded_workload=False, receipt_probe=None, recovery_traffic=
     result["reuse_id"] = reuse_id
     result["reuse_old_failure"] = reuse_old_failure
     result["server_store_fault"] = server_store_fault
+    result["long_prefix"] = long_prefix
     result["artificial_hold"] |= shared_cancel or protected_preemption or receipt_identity or shared_preemption or inflight_budget or reuse_id
     responses = []
     tokenizer = AutoTokenizer.from_pretrained(ROOT / "models/Qwen3-4B")
-    source_tokens = 320 if one_chunk else 576
+    source_tokens = 1088 if long_prefix else 320 if one_chunk else 576
     target = tokenizer.encode(PROMPT)[:source_tokens] if bounded_workload else PROMPT
     cancel_driver = None
     if shared_cancel:
@@ -187,7 +188,9 @@ def run(out, mode, bounded_workload=False, receipt_probe=None, recovery_traffic=
         after, _ = snapshot(out, "after-restore")
         result["external_hit_tokens"] = counter(after, "vllm:external_prefix_cache_hits_total") - counter(before, "vllm:external_prefix_cache_hits_total")
         result["gpu_hit_tokens"] = counter(after, "vllm:prefix_cache_hits_total") - counter(before, "vllm:prefix_cache_hits_total")
-        assert result["external_hit_tokens"] >= (256 if one_chunk else 512 if bounded_workload else 1536) and result["gpu_hit_tokens"] == 0
+        expected_external_tokens = (1024 if long_prefix else 256 if one_chunk
+                                    else 512 if bounded_workload else 1536)
+        assert result["external_hit_tokens"] >= expected_external_tokens and result["gpu_hit_tokens"] == 0
         assert restored == cold
         assert send("restored-hot", target) == cold
         if bounded_workload:
@@ -211,15 +214,11 @@ def run(out, mode, bounded_workload=False, receipt_probe=None, recovery_traffic=
         assert not result["after_engine_stop"]["registered_gpu_ids"]
         cache.stop()
         result["ownership"] = audit_ownership(out)
-        protection_expected = mode == "two" or (mode == "one" and one_chunk)
+        protection_expected = mode in ("one", "two")
         result["handoff"] = audit_handoff(events, allow_protection=protection_expected)
         assert result["handoff"]["failed_batches"] == (1 if receipt_probe == "failed-after-success" or reuse_old_failure or server_store_fault else 0)
         if mode not in ("baseline", "one", "two"):
             assert result["handoff"]["bypass_decisions"] > 0
-        if mode == "one" and not one_chunk:
-            from audit_protection_budget import audit_rows as audit_budget
-            rows = [json.loads(line) for p in events.glob("handoff-*.jsonl") for line in p.read_text().splitlines()]
-            result["budget_fallback"] = audit_budget(rows)
         if protection_expected:
             from audit_bounded_protection import audit_rows as audit_bounded
             result["protection"] = audit_bounded([json.loads(line) for p in events.glob("handoff-*.jsonl")
@@ -274,6 +273,9 @@ def run(out, mode, bounded_workload=False, receipt_probe=None, recovery_traffic=
             if server_store_fault:
                 from audit_protection_store_fault import audit as audit_store_fault
                 result["server_store_fault_audit"] = audit_store_fault(out)
+            if long_prefix:
+                from audit_protection_long_prefix import audit as audit_long_prefix
+                result["long_prefix_audit"] = audit_long_prefix(out)
         result.update(passed=True, requests=len(responses))
         print(f"[{mode}] PASS: {result['handoff']['batches']} batches; {result['kv']['counts']}", flush=True)
     except Exception as exc:
@@ -307,6 +309,7 @@ def main():
     parser.add_argument("--reuse-id", action="store_true")
     parser.add_argument("--reuse-old-failure", action="store_true")
     parser.add_argument("--server-store-fault", action="store_true")
+    parser.add_argument("--long-prefix", action="store_true")
     parser.add_argument("--kv-cache-bytes", type=int, default=2147483648)
     parser.add_argument("--modes", nargs="+", choices=("baseline", "disabled", "zero", "one", "two"),
                         default=["baseline", "disabled", "zero"])
@@ -354,6 +357,11 @@ def main():
             or args.receipt_identity or args.shared_preemption or args.inflight_budget
             or args.capacity_fallback or args.one_chunk or args.reuse_id):
         parser.error("server STORE fault requires bounded two mode without other probes")
+    if args.long_prefix and (args.modes != ["two"] or not args.bounded_workload
+            or args.receipt_probe or args.shared_cancel or args.protected_preemption
+            or args.receipt_identity or args.shared_preemption or args.inflight_budget
+            or args.capacity_fallback or args.one_chunk or args.reuse_id):
+        parser.error("long prefix requires bounded two mode without other probes")
     if args.kv_cache_bytes != 2147483648 and not args.capacity_fallback:
         parser.error("custom KV capacity is only supported by capacity fallback")
     for port in (8000, 8080, 5555):
@@ -366,7 +374,7 @@ def main():
             args.recovery_traffic, args.shared_cancel, args.protected_preemption, args.receipt_identity,
             args.shared_preemption, args.one_chunk, args.inflight_budget,
             args.capacity_fallback, args.kv_cache_bytes, args.reuse_id,
-            args.reuse_old_failure, args.server_store_fault))
+            args.reuse_old_failure, args.server_store_fault, args.long_prefix))
         write_json(args.output / "summary.json", results)
     if len(results) > 1:
         reference = json.loads((args.output / args.modes[0] / "responses.json").read_text())
@@ -374,11 +382,11 @@ def main():
             other = json.loads((args.output / mode / "responses.json").read_text())
             assert [(r["name"], r["payload"], r["response"]["choices"][0]["text"]) for r in reference] == [
                 (r["name"], r["payload"], r["response"]["choices"][0]["text"]) for r in other]
-            if "two" not in args.modes and not args.one_chunk:
+            if not {"one", "two"}.intersection(args.modes):
                 assert result["handoff"]["store_signatures"] == results[0]["handoff"]["store_signatures"], "Default STORE ranges differ"
         write_json(args.output / "comparison.json", dict(passed=True, modes=args.modes,
             same_payloads_and_outputs=True,
-            same_default_store_ranges="not_required" if "two" in args.modes or args.one_chunk else True,
+            same_default_store_ranges="not_required" if {"one", "two"}.intersection(args.modes) else True,
             performance_experiment=False))
 
 

@@ -4,6 +4,8 @@
 
 当前状态：**已完成环境验收、固定轨迹回放、第一轮 24 组重复基线和自适应卸载窗口原型；原型已跑通但尚未证明收益。**
 
+2026-10-11 最新：**长 pending STORE 的前缀拆分通过。** 对 `[0,1024)` 操作，CachePilot 先保护 `[0,512)`，成功 receipt 后交由默认 manager 提交 `[512,1024)`；前缀失败时 suffix 被丢弃，以维持 prefix closure 和 policy ledger。4090 上的成功路径完成 348 请求、1800/1800 层回载 KV bitwise 一致；真实 CUDA copy enqueue 后的受控 server 失败路径也恢复 909 free block 且 1656/1656 层 KV 一致。该结果扩大了正确性范围，尚不构成性能收益结论。见 [报告](docs/experiments/2026-10-11/PROTECTION_LONG_PREFIX.md)。
+
 2026-10-11 补充：**3C 的在途预算耗尽与物理容量不足两种 GPU 回退均通过。** 前者验证另一个合格候选在原保护回执未交付时零 pin 回退、随后默认保存；后者在 1.25 GiB KV 池中观测 free=439、小于 reserve+required=452，预算仍足够且无在途 pin，同一候选随后由默认 manager 保存。物理容量轮 347 请求、936 层 KV 全等，14 chunk/504 层严格保护来源，完整 CUDA 回归 585 passed、115 subtests。仍未进入性能消融。见 [在途预算](docs/experiments/2026-10-11/INFLIGHT_BUDGET.md) 和 [物理容量](docs/experiments/2026-10-11/CAPACITY_FALLBACK.md)。
 
 2026-10-11 最新：**真实 HTTP raw request ID 复用后的跨代回执隔离通过。** 在关闭 vLLM 默认 request-ID 随机化的隔离诊断中，同一个 API ID 的两代真实请求拥有不同 generation wire identity；旧代回执不会破坏新代 pending prefix，四种旧 envelope 均被拒绝。正常旧回执与“实际 STORE 成功、但报告失败”的回执各通过一轮，第二代两个 chunk 均实际回载且 72 层 KV bitwise 全等。该专项不代表真实 STORE/DMA 故障，也没有性能收益结论。见 [raw ID 复用报告](docs/experiments/2026-10-11/RAW_ID_REUSE.md)。

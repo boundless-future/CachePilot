@@ -149,7 +149,7 @@
 - [x] 实际 HTTP raw ID 复用后的跨代回执隔离：关闭 vLLM 默认 ID 随机化的隔离诊断中，同 API ID 的两代真实请求拥有不同 wire identity；旧成功、旧失败、重复旧成功和终结后的重复 envelope 均被拒绝，第二代 pending prefix 保留并实际回载 72 层 KV。正常旧回执和“实际 STORE 成功、报告失败”的旧回执各通过一轮，见 [报告](experiments/2026-10-11/RAW_ID_REUSE.md)。这不覆盖真实 STORE/DMA 执行故障。
 - [x] 真实保护 STORE 在 CUDA copy enqueue 后的受控 server host exception：LMCache 向未改写 worker future 交付原始 `false`，native terminal、32 个 pin 释放和 worker/protection/scheduler 失败回执闭合；348 请求、864 层回载 KV bitwise 全等、909 free 恢复。它不覆盖 driver/DMA/PCIe fault 或自然硬件故障，见 [报告](experiments/2026-10-11/PROTECTION_SERVER_STORE_FAULT.md)。
 - [ ] 补真实 CUDA driver/DMA/PCIe fault 的边界；不能用成功 future 后修改 receipt 语义，或受控 host exception，替代。
-- [ ] 设计并验证 >512-token pending 整项的 chunk 前缀拆分、已保存前缀账本和更广的候选范围；当前首版只保护已结束、无引用、从零开始的一至两个完整 chunk。
+- [x] >512-token pending STORE 的 chunk 前缀拆分：`[0,1024)` 先保护 `[0,512)`，成功 receipt 后默认 manager drain `[512,1024)`；前缀失败则丢弃 suffix，policy ledger 和 prefix closure 均闭合。成功及真实 CUDA copy enqueue 后 server host exception 两条 GPU 路径均通过，见 [报告](experiments/2026-10-11/PROTECTION_LONG_PREFIX.md)。范围仍是已结束、无外部引用、从零开始的前两个完整 chunk。
 - [ ] 新增路径的 KV/输出正确性通过后，再关闭诊断日志做至少三次重复消融，报告 TTFT、实际 prefill、排队、搬运、保护/在途峰值与策略开销；没有性能收益则保留退化结果。
 
 交付：可启用和禁用的实现、测试、消融及反例。性能门槛由基线噪声与实际需求决定，不先填加速目标。
@@ -165,4 +165,4 @@
 
 ## 优先顺序
 
-3C 零预算、两 chunk 正常路径、整项超预算回退、共享受保护前缀取消、自然抢占、实际 raw ID 跨代隔离和受控 server STORE 执行失败已通过；延迟有流量恢复/失败回执诊断通过，空闲延迟失败保留。当前优先设计并验证 >512-token 前缀拆分，再做消融。3B 的 opt-in 实际服务已通过受控单卡准入，历史原生栈失败结论保留；30 秒延迟的空闲 owner 收尾、生产故障恢复、异步 reset API、真实 driver/DMA fault、编译输出差异根因仍开放。每轮实验必须隔离实例并检查原 token/job/pin/terminal 与 KV 内容，资源残留就停止该轮。`compute_slots` 和 lookup 状态仍不能当准入需求 oracle。随后补 P2 参数扫描和重复对照，最后再扩模型与评估上游 PR；目前不需要升级 GPU。
+3C 零/一/两 chunk 正常路径、整项超预算回退、长 pending 前缀拆分、共享受保护前缀取消、自然抢占、实际 raw ID 跨代隔离和受控 server STORE 执行失败已通过；延迟有流量恢复/失败回执诊断通过，空闲延迟失败保留。当前进入固定实现后的消融、重复和容量扫描。3B 的 opt-in 实际服务已通过受控单卡准入，历史原生栈失败结论保留；30 秒延迟的空闲 owner 收尾、生产故障恢复、异步 reset API、真实 driver/DMA fault、编译输出差异根因仍开放。每轮实验必须隔离实例并检查原 token/job/pin/terminal 与 KV 内容，资源残留就停止该轮。`compute_slots` 和 lookup 状态仍不能当准入需求 oracle。随后补 P2 参数扫描和重复对照，最后再扩模型与评估上游 PR；目前不需要升级 GPU。

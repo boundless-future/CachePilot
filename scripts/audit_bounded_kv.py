@@ -14,7 +14,7 @@ def read_rows(paths):
     return [json.loads(line) for path in paths for line in path.read_text(encoding="utf-8").splitlines()]
 
 
-def audit_rows(handoffs, service, probes):
+def audit_rows(handoffs, service, probes, source="protection"):
     protected = [r for r in handoffs if r["event"] == "worker_bound" and r["source"] == "protection"]
     submits = [r for r in service if r["event"] == "transfer_submitted"]
     terminal = {(r["request_id"], r["sequence"], r["kind"]): r for r in service if r["event"] == "terminal_seen"}
@@ -35,7 +35,7 @@ def audit_rows(handoffs, service, probes):
         if not matches:
             continue
         batch = max(matches, key=lambda r: r["monotonic_ns"])
-        if batch["source"] != "protection":
+        if batch["source"] != source:
             continue
         assert batch["start"] <= original["start"] < original["end"] <= batch["end"]
         transfers = [r for r in submits if r["request_id"] == batch["wire_id"] and r["kind"] == "store"

@@ -74,7 +74,7 @@ def test_pin_precedes_allocator_and_original_receipt_releases_once(case):
     assert [r["event"] for r in rows] == ["protection_prepared", "protection_metadata_committed", "protection_receipt"]
 
 
-@pytest.mark.parametrize("mutation", ["hash", "tokens", "referenced", "budget", "capacity", "active_id", "inflight", "partial"])
+@pytest.mark.parametrize("mutation", ["hash", "tokens", "referenced", "capacity", "active_id", "inflight", "partial"])
 def test_invalid_or_unsupported_candidate_is_never_pinned(case, mutation):
     helper, scheduler, blocks, rows = case
     if mutation == "hash":
@@ -83,8 +83,6 @@ def test_invalid_or_unsupported_candidate_is_never_pinned(case, mutation):
         helper.policy._pending["old"][0].store_metadata.op.token_ids[0] = 9876
     elif mutation == "referenced":
         helper.pool.touch([blocks[0]])
-    elif mutation == "budget":
-        helper.budget = 16
     elif mutation == "capacity":
         scheduler.requests["new"].num_tokens_with_spec = 2048
     elif mutation == "active_id":
@@ -97,12 +95,6 @@ def test_invalid_or_unsupported_candidate_is_never_pinned(case, mutation):
     before = helper.pool.get_num_free_blocks()
     helper.prepare(scheduler)
     assert not helper.prepared and helper.pool.get_num_free_blocks() == before
-    if mutation == "budget":
-        fallback = next(r for r in rows if r["event"] == "protection_fallback")
-        assert fallback["reason"] == "candidate_exceeds_budget"
-        assert fallback["required_blocks"] == 32 and fallback["available_blocks"] == 16
-        assert fallback["acquired_pins"] == 0
-        assert helper.policy._pending["old"] and not helper.manager._requests.has_in_flight("old")
     if mutation == "capacity":
         fallback = next(r for r in rows if r["event"] == "protection_fallback")
         assert fallback["reason"] == "capacity"
@@ -201,6 +193,69 @@ def test_one_chunk_budget_accepts_one_complete_operation(case):
     assert helper.pool.get_num_free_blocks() == 112
     helper.commit(0)
     assert helper.pool.get_num_free_blocks() == 128
+
+
+def test_long_pending_operation_hands_off_bounded_prefix_and_retains_suffix(case):
+    helper, scheduler, blocks, rows = case
+    pending = helper.policy._pending["old"][0]
+    ids = [b.block_id for b in blocks] + list(range(33, 65))
+    op = replace(pending.store_metadata.op, token_ids=list(range(1024)),
+                 end=1024, block_ids=[ids])
+    pending.store_metadata = replace(pending.store_metadata, op=op)
+    pending.block_hashes = {block_id: helper.pool.blocks[block_id].block_hash
+                            for block_id in ids}
+
+    helper.prepare(scheduler)
+    prepared = helper.prepared["old"]
+    assert len(prepared.blocks) == 32
+    assert prepared.metadata.op.start == 0 and prepared.metadata.op.end == 512
+    assert prepared.continuation is not None
+    assert prepared.continuation.store_metadata.op.start == 512
+    assert prepared.continuation.store_metadata.op.end == 1024
+
+    stores = helper.commit(1)
+    assert stores[0].op.start == 0 and stores[0].op.end == 512
+    suffix = helper.policy._pending["old"]
+    assert len(suffix) == 1 and suffix[0] is prepared.continuation
+    assert helper.policy._counters.admitted == 1
+    assert helper.policy._counters.emitted == 0
+    assert next(row for row in rows if row["event"] == "protection_prepared")["acquired_pins"] == 32
+    assert helper.manager.on_scheduler_step(NS(total_num_scheduled_tokens=512,
+        scheduled_new_reqs=[], scheduled_cached_reqs=NS(new_block_ids=[]))).stores_to_submit == []
+
+    helper.manager.on_store_results(set(), {"old": 1})
+    helper.receipts({"old": dict(describe(stores[0]), source="protection", batch_id="b")}, set())
+    assert helper.policy._pending["old"][0].store_metadata.op.start == 512
+    # The native manager validates unchanged suffix hashes and pins only that
+    # suffix. Force its danger window wide enough to exercise the real drain.
+    helper.policy._blocks_per_step_ema = 128
+    helper.policy._ema_initialized = True
+    actions = helper.manager.on_scheduler_step(NS(total_num_scheduled_tokens=512,
+        scheduled_new_reqs=[], scheduled_cached_reqs=NS(new_block_ids=[])))
+    assert len(actions.stores_to_submit) == 1
+    assert (actions.stores_to_submit[0].op.start, actions.stores_to_submit[0].op.end) == (512, 1024)
+    assert not helper.policy._pending
+    assert helper.policy._counters.admitted == helper.policy._counters.emitted == 1
+    helper.manager.on_store_results(set(), {"old": 1})
+    assert helper.pool.get_num_free_blocks() == 128
+
+
+def test_long_pending_suffix_is_dropped_when_protected_prefix_fails(case):
+    helper, scheduler, blocks, rows = case
+    pending = helper.policy._pending["old"][0]
+    ids = [b.block_id for b in blocks] + list(range(33, 65))
+    pending.store_metadata = replace(pending.store_metadata, op=replace(
+        pending.store_metadata.op, token_ids=list(range(1024)), end=1024, block_ids=[ids]))
+    pending.block_hashes = {block_id: helper.pool.blocks[block_id].block_hash
+                            for block_id in ids}
+    helper.prepare(scheduler)
+    stores = helper.commit(1)
+    helper.manager.on_store_results({"old"}, {"old": 1})
+    helper.receipts({"old": dict(describe(stores[0]), source="protection", batch_id="b")}, {"old"})
+    assert "old" not in helper.policy._pending
+    assert helper.policy._counters.dropped_failed_store == 1
+    assert helper.policy._counters.admitted == helper.policy._counters.dropped_failed_store
+    assert helper.policy._counters.emitted == 0
 
 
 def test_inflight_budget_records_candidate_without_pinning(case):
