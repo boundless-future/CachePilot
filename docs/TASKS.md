@@ -168,4 +168,4 @@
 
 ## 优先顺序
 
-3C 零/一/两 chunk 正常路径、整项超预算回退、长 pending 前缀拆分、共享受保护前缀取消、自然抢占、实际 raw ID 跨代隔离和受控 server STORE 执行失败已通过；延迟有流量恢复/失败回执诊断通过，空闲延迟失败保留。当前进入固定实现后的消融、重复和容量扫描。3B 的 opt-in 实际服务已通过受控单卡准入，历史原生栈失败结论保留；30 秒延迟的空闲 owner 收尾、生产故障恢复、异步 reset API、真实 driver/DMA fault、编译输出差异根因仍开放。每轮实验必须隔离实例并检查原 token/job/pin/terminal 与 KV 内容，资源残留就停止该轮。`compute_slots` 和 lookup 状态仍不能当准入需求 oracle。随后补 P2 参数扫描和重复对照，最后再扩模型与评估上游 PR；目前不需要升级 GPU。
+3C 零/一/两 chunk 正常路径、整项超预算回退、长 pending 前缀拆分、共享受保护前缀取消、自然抢占、实际 raw ID 跨代隔离和受控 server STORE 执行失败已通过；延迟有流量恢复/失败回执诊断通过，空闲延迟失败保留。固定实现后的开发/验证消融及 1.5 GiB 容量重复已完成；当前优先独立诊断 2.5 GiB zero 试点的 owned job/session 残留，再补调优基线和到达负载。3B 的 opt-in 实际服务已通过受控单卡准入，历史原生栈失败结论保留；30 秒延迟的空闲 owner 收尾、生产故障恢复、异步 reset API、真实 driver/DMA fault、编译输出差异根因仍开放。每轮实验必须隔离实例并检查原 token/job/pin/terminal 与 KV 内容，资源残留就停止该轮。`compute_slots` 和 lookup 状态仍不能当准入需求 oracle。随后补 P2 参数扫描和重复对照，最后再扩模型与评估上游 PR；目前不需要升级 GPU。
