@@ -1,0 +1,860 @@
+{
+  "runs": [
+    {
+      "cell": "one-r0",
+      "mode": "one",
+      "repeat": 0,
+      "passed": true,
+      "excluded": false,
+      "errors": 0,
+      "service_errors": [],
+      "shutdown_teardown_errors": [],
+      "trace_sha256": "079c9507c9585a5e5397affc8750c42603ee7efeeca3127d1cafafc2b1c54eb5",
+      "ttft_p50_ms": 2808.1617739999274,
+      "ttft_p95_ms": 7720.042188900423,
+      "reuse_ttft_p95_ms": 8088.169387300331,
+      "client_queue_p95_ms": 1.5981244495378628,
+      "server_queue_mean_ms": 3303.0206674705046,
+      "revisit_ttft_p95_ms": 2150.331248499333,
+      "session_completion_p95_ms": 31220.962613500615,
+      "ready_to_first_p95_ms": 7720.912461900023,
+      "protection_cpu_ms": 55.951632,
+      "protection_wall_ms": 56.504204,
+      "store_count": 27.0,
+      "prefill_tokens": 38164.0,
+      "external_hit_tokens": 28608.0,
+      "gpu_hit_tokens": 8832.0,
+      "h2d_bytes": 4378853376.0,
+      "d2h_bytes": 3019898880.0,
+      "protection_commits": 1,
+      "protection_receipts": 1,
+      "protection_peak_pins": 16,
+      "protection_peak_inflight": 16,
+      "fallbacks": {
+        "capacity": 18,
+        "inflight_budget": 4
+      },
+      "resource_drained": true,
+      "token_contract": {
+        "requests": 68,
+        "errors": 0,
+        "complete": 68
+      },
+      "output_hashes": {
+        "0": "cc0182842d8ee89ebbfbdf59b1b40c7eff89823f836f179172beaa0c5e2f6f30",
+        "1": "5ea2e9b328f1c44bb8f3b738b743ea580f0eef5d8c4a5cd9647f6ab638b943c9",
+        "2": "5ea2e9b328f1c44bb8f3b738b743ea580f0eef5d8c4a5cd9647f6ab638b943c9",
+        "3": "5ea2e9b328f1c44bb8f3b738b743ea580f0eef5d8c4a5cd9647f6ab638b943c9",
+        "4": "5ea2e9b328f1c44bb8f3b738b743ea580f0eef5d8c4a5cd9647f6ab638b943c9",
+        "5": "5ea2e9b328f1c44bb8f3b738b743ea580f0eef5d8c4a5cd9647f6ab638b943c9",
+        "6": "5ea2e9b328f1c44bb8f3b738b743ea580f0eef5d8c4a5cd9647f6ab638b943c9",
+        "7": "dbf31c0c96869718bc0bfe89e594d95ef378e36931273bda58694198b3f303d2",
+        "8": "5ea2e9b328f1c44bb8f3b738b743ea580f0eef5d8c4a5cd9647f6ab638b943c9",
+        "9": "5ea2e9b328f1c44bb8f3b738b743ea580f0eef5d8c4a5cd9647f6ab638b943c9",
+        "10": "5ea2e9b328f1c44bb8f3b738b743ea580f0eef5d8c4a5cd9647f6ab638b943c9",
+        "11": "1cdf1fc97fc9ed1857ff887b629c6f832e75544e140fe2403d8776d0f66bb8fe",
+        "12": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "13": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "14": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "15": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "16": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "17": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "18": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "19": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "20": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "21": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "22": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "23": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "24": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "25": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "26": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "27": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "28": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "29": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "30": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "31": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "32": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "33": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "34": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "35": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "36": "a51e597455cb08127b6e47f24087e063dd89260e3884dd91b797385b7169b068",
+        "37": "a51e597455cb08127b6e47f24087e063dd89260e3884dd91b797385b7169b068",
+        "38": "a51e597455cb08127b6e47f24087e063dd89260e3884dd91b797385b7169b068",
+        "39": "a51e597455cb08127b6e47f24087e063dd89260e3884dd91b797385b7169b068",
+        "40": "a51e597455cb08127b6e47f24087e063dd89260e3884dd91b797385b7169b068",
+        "41": "a51e597455cb08127b6e47f24087e063dd89260e3884dd91b797385b7169b068",
+        "42": "a51e597455cb08127b6e47f24087e063dd89260e3884dd91b797385b7169b068",
+        "43": "ac7b593aa584263068ea33e8928efb5fa808a15013684c13bf08534b5f532f55",
+        "44": "ac7b593aa584263068ea33e8928efb5fa808a15013684c13bf08534b5f532f55",
+        "45": "a51e597455cb08127b6e47f24087e063dd89260e3884dd91b797385b7169b068",
+        "46": "a51e597455cb08127b6e47f24087e063dd89260e3884dd91b797385b7169b068",
+        "47": "bc01dbcbe0e7d7c012bf91bc6adb6516c8ee5704d950a232f1ac37a2dcd59736",
+        "48": "771bd7c1700e96a7c33b60a59116e81fc27dc577878ec118fcbb7fba9c77bb17",
+        "49": "81e47810f5852ad8ef05f7b6d810887a698131db8f87496066370be44b7b00f9",
+        "50": "771bd7c1700e96a7c33b60a59116e81fc27dc577878ec118fcbb7fba9c77bb17",
+        "51": "81e47810f5852ad8ef05f7b6d810887a698131db8f87496066370be44b7b00f9",
+        "52": "1cdf1fc97fc9ed1857ff887b629c6f832e75544e140fe2403d8776d0f66bb8fe",
+        "53": "771bd7c1700e96a7c33b60a59116e81fc27dc577878ec118fcbb7fba9c77bb17",
+        "54": "81e47810f5852ad8ef05f7b6d810887a698131db8f87496066370be44b7b00f9",
+        "55": "81e47810f5852ad8ef05f7b6d810887a698131db8f87496066370be44b7b00f9",
+        "56": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "57": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "58": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "59": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "60": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "61": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "62": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "63": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "64": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "65": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "66": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "67": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b"
+      }
+    },
+    {
+      "cell": "two-r0",
+      "mode": "two",
+      "repeat": 0,
+      "passed": true,
+      "excluded": false,
+      "errors": 0,
+      "service_errors": [],
+      "shutdown_teardown_errors": [
+        {
+          "file": "vllm.log",
+          "line": 271,
+          "text": "(APIServer pid=27579) ERROR 10-11 09:18:38 [async_llm.py:843] AsyncLLM output_handler failed."
+        },
+        {
+          "file": "vllm.log",
+          "line": 272,
+          "text": "(APIServer pid=27579) ERROR 10-11 09:18:38 [async_llm.py:843] Traceback (most recent call last):"
+        },
+        {
+          "file": "vllm.log",
+          "line": 273,
+          "text": "(APIServer pid=27579) ERROR 10-11 09:18:38 [async_llm.py:843]   File \"/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/vllm/v1/engine/async_llm.py\", line 789, in output_handler"
+        },
+        {
+          "file": "vllm.log",
+          "line": 274,
+          "text": "(APIServer pid=27579) ERROR 10-11 09:18:38 [async_llm.py:843]     outputs = await engine_core.get_output_async()"
+        },
+        {
+          "file": "vllm.log",
+          "line": 275,
+          "text": "(APIServer pid=27579) ERROR 10-11 09:18:38 [async_llm.py:843]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+        },
+        {
+          "file": "vllm.log",
+          "line": 276,
+          "text": "(APIServer pid=27579) ERROR 10-11 09:18:38 [async_llm.py:843]   File \"/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/vllm/v1/engine/core_client.py\", line 1175, in get_output_async"
+        },
+        {
+          "file": "vllm.log",
+          "line": 277,
+          "text": "(APIServer pid=27579) ERROR 10-11 09:18:38 [async_llm.py:843]     raise self._format_exception(outputs) from None"
+        },
+        {
+          "file": "vllm.log",
+          "line": 278,
+          "text": "(APIServer pid=27579) ERROR 10-11 09:18:38 [async_llm.py:843] vllm.v1.engine.exceptions.EngineDeadError: EngineCore encountered an issue. See stack trace (above) for the root cause."
+        }
+      ],
+      "trace_sha256": "079c9507c9585a5e5397affc8750c42603ee7efeeca3127d1cafafc2b1c54eb5",
+      "ttft_p50_ms": 2724.071505000211,
+      "ttft_p95_ms": 7761.934677600673,
+      "reuse_ttft_p95_ms": 8120.062487450014,
+      "client_queue_p95_ms": 1.7119072491368568,
+      "server_queue_mean_ms": 3231.367945117627,
+      "revisit_ttft_p95_ms": 2245.0752445500257,
+      "session_completion_p95_ms": 31304.80728625107,
+      "ready_to_first_p95_ms": 7763.2967053997145,
+      "protection_cpu_ms": 49.860814,
+      "protection_wall_ms": 50.110804,
+      "store_count": 24.0,
+      "prefill_tokens": 38260.0,
+      "external_hit_tokens": 34176.0,
+      "gpu_hit_tokens": 3168.0,
+      "h2d_bytes": 5209325568.0,
+      "d2h_bytes": 3019898880.0,
+      "protection_commits": 1,
+      "protection_receipts": 1,
+      "protection_peak_pins": 32,
+      "protection_peak_inflight": 32,
+      "fallbacks": {
+        "capacity": 20,
+        "inflight_budget": 4
+      },
+      "resource_drained": true,
+      "token_contract": {
+        "requests": 68,
+        "errors": 0,
+        "complete": 68
+      },
+      "output_hashes": {
+        "0": "cc0182842d8ee89ebbfbdf59b1b40c7eff89823f836f179172beaa0c5e2f6f30",
+        "1": "5ea2e9b328f1c44bb8f3b738b743ea580f0eef5d8c4a5cd9647f6ab638b943c9",
+        "2": "5ea2e9b328f1c44bb8f3b738b743ea580f0eef5d8c4a5cd9647f6ab638b943c9",
+        "3": "5ea2e9b328f1c44bb8f3b738b743ea580f0eef5d8c4a5cd9647f6ab638b943c9",
+        "4": "5ea2e9b328f1c44bb8f3b738b743ea580f0eef5d8c4a5cd9647f6ab638b943c9",
+        "5": "5ea2e9b328f1c44bb8f3b738b743ea580f0eef5d8c4a5cd9647f6ab638b943c9",
+        "6": "5ea2e9b328f1c44bb8f3b738b743ea580f0eef5d8c4a5cd9647f6ab638b943c9",
+        "7": "dbf31c0c96869718bc0bfe89e594d95ef378e36931273bda58694198b3f303d2",
+        "8": "5ea2e9b328f1c44bb8f3b738b743ea580f0eef5d8c4a5cd9647f6ab638b943c9",
+        "9": "5ea2e9b328f1c44bb8f3b738b743ea580f0eef5d8c4a5cd9647f6ab638b943c9",
+        "10": "5ea2e9b328f1c44bb8f3b738b743ea580f0eef5d8c4a5cd9647f6ab638b943c9",
+        "11": "5d12140974bc821d6dda7237817fd31ff4b4dfabead70eff57b94c60c5af2b44",
+        "12": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "13": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "14": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "15": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "16": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "17": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "18": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "19": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "20": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "21": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "22": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "23": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "24": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "25": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "26": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "27": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "28": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "29": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "30": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "31": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "32": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "33": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "34": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "35": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "36": "a51e597455cb08127b6e47f24087e063dd89260e3884dd91b797385b7169b068",
+        "37": "ac7b593aa584263068ea33e8928efb5fa808a15013684c13bf08534b5f532f55",
+        "38": "a51e597455cb08127b6e47f24087e063dd89260e3884dd91b797385b7169b068",
+        "39": "a51e597455cb08127b6e47f24087e063dd89260e3884dd91b797385b7169b068",
+        "40": "ac7b593aa584263068ea33e8928efb5fa808a15013684c13bf08534b5f532f55",
+        "41": "a51e597455cb08127b6e47f24087e063dd89260e3884dd91b797385b7169b068",
+        "42": "ac7b593aa584263068ea33e8928efb5fa808a15013684c13bf08534b5f532f55",
+        "43": "a51e597455cb08127b6e47f24087e063dd89260e3884dd91b797385b7169b068",
+        "44": "a51e597455cb08127b6e47f24087e063dd89260e3884dd91b797385b7169b068",
+        "45": "a51e597455cb08127b6e47f24087e063dd89260e3884dd91b797385b7169b068",
+        "46": "a51e597455cb08127b6e47f24087e063dd89260e3884dd91b797385b7169b068",
+        "47": "a51e597455cb08127b6e47f24087e063dd89260e3884dd91b797385b7169b068",
+        "48": "771bd7c1700e96a7c33b60a59116e81fc27dc577878ec118fcbb7fba9c77bb17",
+        "49": "81e47810f5852ad8ef05f7b6d810887a698131db8f87496066370be44b7b00f9",
+        "50": "771bd7c1700e96a7c33b60a59116e81fc27dc577878ec118fcbb7fba9c77bb17",
+        "51": "81e47810f5852ad8ef05f7b6d810887a698131db8f87496066370be44b7b00f9",
+        "52": "771bd7c1700e96a7c33b60a59116e81fc27dc577878ec118fcbb7fba9c77bb17",
+        "53": "771bd7c1700e96a7c33b60a59116e81fc27dc577878ec118fcbb7fba9c77bb17",
+        "54": "81e47810f5852ad8ef05f7b6d810887a698131db8f87496066370be44b7b00f9",
+        "55": "771bd7c1700e96a7c33b60a59116e81fc27dc577878ec118fcbb7fba9c77bb17",
+        "56": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "57": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "58": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "59": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "60": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "61": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "62": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "63": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "64": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "65": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "66": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "67": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b"
+      }
+    },
+    {
+      "cell": "zero-r0",
+      "mode": "zero",
+      "repeat": 0,
+      "passed": true,
+      "excluded": false,
+      "errors": 0,
+      "service_errors": [],
+      "shutdown_teardown_errors": [],
+      "trace_sha256": "079c9507c9585a5e5397affc8750c42603ee7efeeca3127d1cafafc2b1c54eb5",
+      "ttft_p50_ms": 2772.656392000499,
+      "ttft_p95_ms": 8009.629386699906,
+      "reuse_ttft_p95_ms": 8386.703933549597,
+      "client_queue_p95_ms": 1.3233587002105194,
+      "server_queue_mean_ms": 3354.216081455995,
+      "revisit_ttft_p95_ms": 2274.4357463499,
+      "session_completion_p95_ms": 31372.137379099786,
+      "ready_to_first_p95_ms": 8010.603187600553,
+      "protection_cpu_ms": 0.0,
+      "protection_wall_ms": 0.0,
+      "store_count": 25.0,
+      "prefill_tokens": 38164.0,
+      "external_hit_tokens": 28608.0,
+      "gpu_hit_tokens": 8832.0,
+      "h2d_bytes": 4378853376.0,
+      "d2h_bytes": 2868903936.0,
+      "protection_commits": 0,
+      "protection_receipts": 0,
+      "protection_peak_pins": 0,
+      "protection_peak_inflight": 0,
+      "fallbacks": {},
+      "resource_drained": true,
+      "token_contract": {
+        "requests": 68,
+        "errors": 0,
+        "complete": 68
+      },
+      "output_hashes": {
+        "0": "cc0182842d8ee89ebbfbdf59b1b40c7eff89823f836f179172beaa0c5e2f6f30",
+        "1": "5ea2e9b328f1c44bb8f3b738b743ea580f0eef5d8c4a5cd9647f6ab638b943c9",
+        "2": "5ea2e9b328f1c44bb8f3b738b743ea580f0eef5d8c4a5cd9647f6ab638b943c9",
+        "3": "5ea2e9b328f1c44bb8f3b738b743ea580f0eef5d8c4a5cd9647f6ab638b943c9",
+        "4": "5ea2e9b328f1c44bb8f3b738b743ea580f0eef5d8c4a5cd9647f6ab638b943c9",
+        "5": "5ea2e9b328f1c44bb8f3b738b743ea580f0eef5d8c4a5cd9647f6ab638b943c9",
+        "6": "5ea2e9b328f1c44bb8f3b738b743ea580f0eef5d8c4a5cd9647f6ab638b943c9",
+        "7": "dbf31c0c96869718bc0bfe89e594d95ef378e36931273bda58694198b3f303d2",
+        "8": "5ea2e9b328f1c44bb8f3b738b743ea580f0eef5d8c4a5cd9647f6ab638b943c9",
+        "9": "5ea2e9b328f1c44bb8f3b738b743ea580f0eef5d8c4a5cd9647f6ab638b943c9",
+        "10": "5ea2e9b328f1c44bb8f3b738b743ea580f0eef5d8c4a5cd9647f6ab638b943c9",
+        "11": "1cdf1fc97fc9ed1857ff887b629c6f832e75544e140fe2403d8776d0f66bb8fe",
+        "12": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "13": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "14": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "15": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "16": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "17": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "18": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "19": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "20": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "21": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "22": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "23": "24bca7aa7d571e0e67f545026c6dc993dc937130bda20d834743d03945e46f8b",
+        "24": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "25": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "26": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "27": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "28": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "29": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "30": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "31": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "32": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "33": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "34": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "35": "ed0d18bc213f64f7836946a02e26aec55e969759701f0b1a173524e2fb5c3ffa",
+        "36": "a51e597455cb08127b6e47f24087e063dd89260e3884dd91b797385b7169b068",
+        "37": "a51e597455cb08127b6e47f24087e063dd89260e3884dd91b797385b7169b068",
+        "38": "a51e597455cb08127b6e47f24087e063dd89260e3884dd91b797385b7169b068",
+        "39": "a51e597455cb08127b6e47f24087e063dd89260e3884dd91b797385b7169b068",
+        "40": "a51e597455cb08127b6e47f24087e063dd89260e3884dd91b797385b7169b068",
+        "41": "a51e597455cb08127b6e47f24087e063dd89260e3884dd91b797385b7169b068",
+        "42": "a51e597455cb08127b6e47f24087e063dd89260e3884dd91b797385b7169b068",
+        "43": "ac7b593aa584263068ea33e8928efb5fa808a15013684c13bf08534b5f532f55",
+        "44": "a51e597455cb08127b6e47f24087e063dd89260e3884dd91b797385b7169b068",
+        "45": "a51e597455cb08127b6e47f24087e063dd89260e3884dd91b797385b7169b068",
+        "46": "a51e597455cb08127b6e47f24087e063dd89260e3884dd91b797385b7169b068",
+        "47": "a51e597455cb08127b6e47f24087e063dd89260e3884dd91b797385b7169b068",
+        "48": "771bd7c1700e96a7c33b60a59116e81fc27dc577878ec118fcbb7fba9c77bb17",
+        "49": "81e47810f5852ad8ef05f7b6d810887a698131db8f87496066370be44b7b00f9",
+        "50": "771bd7c1700e96a7c33b60a59116e81fc27dc577878ec118fcbb7fba9c77bb17",
+        "51": "81e47810f5852ad8ef05f7b6d810887a698131db8f87496066370be44b7b00f9",
+        "52": "1cdf1fc97fc9ed1857ff887b629c6f832e75544e140fe2403d8776d0f66bb8fe",
+        "53": "771bd7c1700e96a7c33b60a59116e81fc27dc577878ec118fcbb7fba9c77bb17",
+        "54": "81e47810f5852ad8ef05f7b6d810887a698131db8f87496066370be44b7b00f9",
+        "55": "81e47810f5852ad8ef05f7b6d810887a698131db8f87496066370be44b7b00f9",
+        "56": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "57": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "58": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "59": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "60": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "61": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "62": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "63": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "64": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "65": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "66": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b",
+        "67": "9c568a10b0b94f75018efcf7c69a5060033771d4cd6c20d5c0f3215d93267e3b"
+      }
+    }
+  ],
+  "aggregates": [
+    {
+      "mode": "one",
+      "repeats": 1,
+      "passed": true,
+      "resource_drained": true,
+      "metrics": {
+        "ttft_p50_ms": {
+          "mean": 2808.1617739999274,
+          "individual": [
+            2808.1617739999274
+          ],
+          "stdev": null
+        },
+        "ttft_p95_ms": {
+          "mean": 7720.042188900423,
+          "individual": [
+            7720.042188900423
+          ],
+          "stdev": null
+        },
+        "reuse_ttft_p95_ms": {
+          "mean": 8088.169387300331,
+          "individual": [
+            8088.169387300331
+          ],
+          "stdev": null
+        },
+        "client_queue_p95_ms": {
+          "mean": 1.5981244495378628,
+          "individual": [
+            1.5981244495378628
+          ],
+          "stdev": null
+        },
+        "server_queue_mean_ms": {
+          "mean": 3303.0206674705046,
+          "individual": [
+            3303.0206674705046
+          ],
+          "stdev": null
+        },
+        "revisit_ttft_p95_ms": {
+          "mean": 2150.331248499333,
+          "individual": [
+            2150.331248499333
+          ],
+          "stdev": null
+        },
+        "session_completion_p95_ms": {
+          "mean": 31220.962613500615,
+          "individual": [
+            31220.962613500615
+          ],
+          "stdev": null
+        },
+        "ready_to_first_p95_ms": {
+          "mean": 7720.912461900023,
+          "individual": [
+            7720.912461900023
+          ],
+          "stdev": null
+        },
+        "protection_cpu_ms": {
+          "mean": 55.951632,
+          "individual": [
+            55.951632
+          ],
+          "stdev": null
+        },
+        "protection_wall_ms": {
+          "mean": 56.504204,
+          "individual": [
+            56.504204
+          ],
+          "stdev": null
+        },
+        "store_count": {
+          "mean": 27.0,
+          "individual": [
+            27.0
+          ],
+          "stdev": null
+        },
+        "prefill_tokens": {
+          "mean": 38164.0,
+          "individual": [
+            38164.0
+          ],
+          "stdev": null
+        },
+        "external_hit_tokens": {
+          "mean": 28608.0,
+          "individual": [
+            28608.0
+          ],
+          "stdev": null
+        },
+        "gpu_hit_tokens": {
+          "mean": 8832.0,
+          "individual": [
+            8832.0
+          ],
+          "stdev": null
+        },
+        "h2d_bytes": {
+          "mean": 4378853376.0,
+          "individual": [
+            4378853376.0
+          ],
+          "stdev": null
+        },
+        "d2h_bytes": {
+          "mean": 3019898880.0,
+          "individual": [
+            3019898880.0
+          ],
+          "stdev": null
+        },
+        "protection_commits": {
+          "mean": 1,
+          "individual": [
+            1
+          ],
+          "stdev": null
+        },
+        "protection_receipts": {
+          "mean": 1,
+          "individual": [
+            1
+          ],
+          "stdev": null
+        },
+        "protection_peak_pins": {
+          "mean": 16,
+          "individual": [
+            16
+          ],
+          "stdev": null
+        },
+        "protection_peak_inflight": {
+          "mean": 16,
+          "individual": [
+            16
+          ],
+          "stdev": null
+        }
+      }
+    },
+    {
+      "mode": "two",
+      "repeats": 1,
+      "passed": true,
+      "resource_drained": true,
+      "metrics": {
+        "ttft_p50_ms": {
+          "mean": 2724.071505000211,
+          "individual": [
+            2724.071505000211
+          ],
+          "stdev": null
+        },
+        "ttft_p95_ms": {
+          "mean": 7761.934677600673,
+          "individual": [
+            7761.934677600673
+          ],
+          "stdev": null
+        },
+        "reuse_ttft_p95_ms": {
+          "mean": 8120.062487450014,
+          "individual": [
+            8120.062487450014
+          ],
+          "stdev": null
+        },
+        "client_queue_p95_ms": {
+          "mean": 1.7119072491368568,
+          "individual": [
+            1.7119072491368568
+          ],
+          "stdev": null
+        },
+        "server_queue_mean_ms": {
+          "mean": 3231.367945117627,
+          "individual": [
+            3231.367945117627
+          ],
+          "stdev": null
+        },
+        "revisit_ttft_p95_ms": {
+          "mean": 2245.0752445500257,
+          "individual": [
+            2245.0752445500257
+          ],
+          "stdev": null
+        },
+        "session_completion_p95_ms": {
+          "mean": 31304.80728625107,
+          "individual": [
+            31304.80728625107
+          ],
+          "stdev": null
+        },
+        "ready_to_first_p95_ms": {
+          "mean": 7763.2967053997145,
+          "individual": [
+            7763.2967053997145
+          ],
+          "stdev": null
+        },
+        "protection_cpu_ms": {
+          "mean": 49.860814,
+          "individual": [
+            49.860814
+          ],
+          "stdev": null
+        },
+        "protection_wall_ms": {
+          "mean": 50.110804,
+          "individual": [
+            50.110804
+          ],
+          "stdev": null
+        },
+        "store_count": {
+          "mean": 24.0,
+          "individual": [
+            24.0
+          ],
+          "stdev": null
+        },
+        "prefill_tokens": {
+          "mean": 38260.0,
+          "individual": [
+            38260.0
+          ],
+          "stdev": null
+        },
+        "external_hit_tokens": {
+          "mean": 34176.0,
+          "individual": [
+            34176.0
+          ],
+          "stdev": null
+        },
+        "gpu_hit_tokens": {
+          "mean": 3168.0,
+          "individual": [
+            3168.0
+          ],
+          "stdev": null
+        },
+        "h2d_bytes": {
+          "mean": 5209325568.0,
+          "individual": [
+            5209325568.0
+          ],
+          "stdev": null
+        },
+        "d2h_bytes": {
+          "mean": 3019898880.0,
+          "individual": [
+            3019898880.0
+          ],
+          "stdev": null
+        },
+        "protection_commits": {
+          "mean": 1,
+          "individual": [
+            1
+          ],
+          "stdev": null
+        },
+        "protection_receipts": {
+          "mean": 1,
+          "individual": [
+            1
+          ],
+          "stdev": null
+        },
+        "protection_peak_pins": {
+          "mean": 32,
+          "individual": [
+            32
+          ],
+          "stdev": null
+        },
+        "protection_peak_inflight": {
+          "mean": 32,
+          "individual": [
+            32
+          ],
+          "stdev": null
+        }
+      }
+    },
+    {
+      "mode": "zero",
+      "repeats": 1,
+      "passed": true,
+      "resource_drained": true,
+      "metrics": {
+        "ttft_p50_ms": {
+          "mean": 2772.656392000499,
+          "individual": [
+            2772.656392000499
+          ],
+          "stdev": null
+        },
+        "ttft_p95_ms": {
+          "mean": 8009.629386699906,
+          "individual": [
+            8009.629386699906
+          ],
+          "stdev": null
+        },
+        "reuse_ttft_p95_ms": {
+          "mean": 8386.703933549597,
+          "individual": [
+            8386.703933549597
+          ],
+          "stdev": null
+        },
+        "client_queue_p95_ms": {
+          "mean": 1.3233587002105194,
+          "individual": [
+            1.3233587002105194
+          ],
+          "stdev": null
+        },
+        "server_queue_mean_ms": {
+          "mean": 3354.216081455995,
+          "individual": [
+            3354.216081455995
+          ],
+          "stdev": null
+        },
+        "revisit_ttft_p95_ms": {
+          "mean": 2274.4357463499,
+          "individual": [
+            2274.4357463499
+          ],
+          "stdev": null
+        },
+        "session_completion_p95_ms": {
+          "mean": 31372.137379099786,
+          "individual": [
+            31372.137379099786
+          ],
+          "stdev": null
+        },
+        "ready_to_first_p95_ms": {
+          "mean": 8010.603187600553,
+          "individual": [
+            8010.603187600553
+          ],
+          "stdev": null
+        },
+        "protection_cpu_ms": {
+          "mean": 0.0,
+          "individual": [
+            0.0
+          ],
+          "stdev": null
+        },
+        "protection_wall_ms": {
+          "mean": 0.0,
+          "individual": [
+            0.0
+          ],
+          "stdev": null
+        },
+        "store_count": {
+          "mean": 25.0,
+          "individual": [
+            25.0
+          ],
+          "stdev": null
+        },
+        "prefill_tokens": {
+          "mean": 38164.0,
+          "individual": [
+            38164.0
+          ],
+          "stdev": null
+        },
+        "external_hit_tokens": {
+          "mean": 28608.0,
+          "individual": [
+            28608.0
+          ],
+          "stdev": null
+        },
+        "gpu_hit_tokens": {
+          "mean": 8832.0,
+          "individual": [
+            8832.0
+          ],
+          "stdev": null
+        },
+        "h2d_bytes": {
+          "mean": 4378853376.0,
+          "individual": [
+            4378853376.0
+          ],
+          "stdev": null
+        },
+        "d2h_bytes": {
+          "mean": 2868903936.0,
+          "individual": [
+            2868903936.0
+          ],
+          "stdev": null
+        },
+        "protection_commits": {
+          "mean": 0,
+          "individual": [
+            0
+          ],
+          "stdev": null
+        },
+        "protection_receipts": {
+          "mean": 0,
+          "individual": [
+            0
+          ],
+          "stdev": null
+        },
+        "protection_peak_pins": {
+          "mean": 0,
+          "individual": [
+            0
+          ],
+          "stdev": null
+        },
+        "protection_peak_inflight": {
+          "mean": 0,
+          "individual": [
+            0
+          ],
+          "stdev": null
+        }
+      }
+    }
+  ],
+  "comparisons": [
+    {
+      "repeat": 0,
+      "mode": "one",
+      "eligible": true,
+      "output_hash_mismatches": 2,
+      "requests": 68,
+      "token_contract": {
+        "requests": 68,
+        "errors": 0,
+        "complete": 68
+      }
+    },
+    {
+      "repeat": 0,
+      "mode": "two",
+      "eligible": true,
+      "output_hash_mismatches": 7,
+      "requests": 68,
+      "token_contract": {
+        "requests": 68,
+        "errors": 0,
+        "complete": 68
+      }
+    },
+    {
+      "repeat": 0,
+      "mode": "zero",
+      "eligible": true,
+      "output_hash_mismatches": 0,
+      "requests": 68,
+      "token_contract": {
+        "requests": 68,
+        "errors": 0,
+        "complete": 68
+      }
+    }
+  ],
+  "note": "Only accepted cells enter aggregates. Output differences are reported, not assumed deterministic. Client queue is not server queue; method timing includes counter instrumentation."
+}

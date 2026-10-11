@@ -157,7 +157,9 @@
 ## P4：复核与展示
 
 - [x] 固定开发 trace，完成 prompt SHA 无交集、到达结构相同的合成验证输入 zero/one/two 各三次重复；九格 612 请求及资源门槛通过，三格严格分类的关闭竞态单列。整体 TTFT P95 相对 zero 为 one -0.57%、two +0.31%，未稳定复现开发集改善，不作泛化结论。见 [独立输入复核](experiments/2026-10-11/PROTECTION_ABLATION_VALIDATION.md)。这不是独立真实 Agent 数据或新到达分布。
-- [ ] 在更多 KV 容量和到达模式上多次重复，并保留 zero、one、two chunk、无覆盖/退化和失败配置；容量扫描已按 [预注册方案](experiments/2026-10-11/CAPACITY_SCAN_PREREGISTRATION.md) 固定 1.5/2.5 GiB 点，尚未启动 GPU 实验；再增加长 prefill、稳定 decode 和集中恢复。
+- [x] 完成 1.5 GiB 容量点 zero/one/two 试点及三次正式重复（12 格、816 请求），保留 zero/one/two、输出 hash 差异、H2D/D2H 和资源证据；one/two TTFT P95 相对 zero 为 -5.09%/-3.99%，但 H2D 增加 8.92%/6.49%，不作默认预算结论。2.5 GiB zero 试点 68 请求因 1 个 owned job/session 未闭合而按预注册规则停止，one/two 未运行；见 [容量扫描](experiments/2026-10-11/CAPACITY_SCAN.md)。
+- [ ] 独立诊断 2.5 GiB zero 的 owned job/session 残留，记录 job/request 身份与 LOOKUP/QUERY/END/terminal/idle/shutdown 时序；诊断结果不并入性能聚合。
+- [ ] 在更多到达模式上多次重复；再增加长 prefill、稳定 decode 和集中恢复。
 - [ ] 用 Qwen3-8B＋5090 复核；如要区分模型/硬件效应，需要额外控制变量实验。
 - [x] 开发和验证消融已统计客户端 ready-to-first/ready-to-end 及会话完成时间；原始值与聚合均归档，不将入口等待隐藏。新容量和到达负载继续沿用该口径。
 - [ ] 整理复现文档、版本清单、原始数据、图表和个人贡献。
