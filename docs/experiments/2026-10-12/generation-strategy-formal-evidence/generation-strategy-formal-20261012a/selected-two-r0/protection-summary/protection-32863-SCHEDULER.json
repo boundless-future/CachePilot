@@ -1,0 +1,55 @@
+{
+  "committed_batches": 4,
+  "events": {
+    "generation_before_shutdown": 1,
+    "generation_end_submitted": 69,
+    "generation_registered": 69,
+    "initialized": 1,
+    "protection_allocation_boundary": 11,
+    "protection_fallback": 33,
+    "protection_metadata_committed": 4,
+    "protection_prefix_split": 4,
+    "protection_prepared": 4,
+    "protection_receipt": 4,
+    "scheduler_built": 38,
+    "scheduler_metadata": 50,
+    "scheduler_receipt": 38
+  },
+  "failed_receipts": 0,
+  "fallbacks": {
+    "capacity": 31,
+    "inflight_budget": 2
+  },
+  "inflight_blocks_before_shutdown": 0,
+  "peak_inflight_blocks": 32,
+  "peak_pinned_blocks": 32,
+  "pending_handoffs_before_shutdown": 0,
+  "pid": 32863,
+  "prepared_batches": 4,
+  "prepared_blocks_before_shutdown": 0,
+  "receipts": 4,
+  "role": "SCHEDULER",
+  "shutdown_complete": true,
+  "timings": {
+    "commit": {
+      "calls": 865,
+      "cpu_ns": 3402891,
+      "wall_ns": 3520230
+    },
+    "prepare": {
+      "calls": 865,
+      "cpu_ns": 101589121,
+      "wall_ns": 101814803
+    },
+    "receipts": {
+      "calls": 38,
+      "cpu_ns": 311624,
+      "wall_ns": 325340
+    },
+    "rollback": {
+      "calls": 21,
+      "cpu_ns": 82318,
+      "wall_ns": 93217
+    }
+  }
+}

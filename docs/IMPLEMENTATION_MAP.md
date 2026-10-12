@@ -1,5 +1,7 @@
 # 当前实现与证据导航
 
+22:16更新：新generation＋保护四组轮转三重复formal 12/12通过，816测量请求/39,168输出tokens。one/two TTFT P95均值相对selected-zero −4.74%/−3.34%；two在r2退化，所有格prefill24,156、H2D1,811,939,328 B相同，不宣称稳定或泛化收益。one提交4/4/4、two4/4/3，69代/格及保护资源闭合。183原始文件SHA核对、224冻结源核对及服务器/本地/冻结源三报告一致；47项测量/入口/审计回归通过。下一步固定参数的新文本覆盖准入，pilot全通过才formal；无覆盖则停止并记录触发局限。见 [正式报告](experiments/2026-10-12/GENERATION_STRATEGY_FORMAL.md)。
+
 21:49更新：新组合无逐步探针策略 pilot 四格通过，272测量请求。候选与调优零保护统一 h5/d1；one/two 实际保护各4批、峰值16/32，69代/格闭合。单次 TTFT P95 相对 selected-zero −2.57%/+10.33%，prefill均24,156，不能宣称稳定收益。a轮入口误导入根目录旧脚本失败保留，b修复路径后221项源冻结；本地独立时间戳/资源/字节复算通过，38测试通过。下一步四组轮转三重复 formal 预注册与入口，保留全部候选，不混入pilot。见 [报告](experiments/2026-10-12/GENERATION_STRATEGY_PILOT.md)。
 
 21:29更新：新组合共享取消/实际共享受害请求抢占两个GPU专项通过联合审计：完整请求各347，另1取消流/4压力取消流；936/504层KV全等，generation348/351精确闭合，引用2→1→0、最终pin0、BlockPool909。共享取消格正常teardown后出现output_handler traceback与CUDA IPC警告，单列保留，不宣称无错误。下一步限定准入汇总及新策略pilot预注册；不直接formal。见 [报告](experiments/2026-10-12/GENERATION_SHARED.md)。
@@ -84,3 +86,12 @@ flowchart TB
 实际服务需要 Linux、锁定 Conda/LMCache/vLLM 环境、模型，以及 `python scripts/build_reservation_native.py` 生成的 CPU reservation 扩展。该扩展复用 PyTorch 提供的 pybind11 头文件，用 C++17 编译，不是 CUDA copy kernel。性能、诊断和 full CUDA contract 必须串行执行。
 
 最新离线入口见 [晚间复核说明](experiments/2026-10-11/REPRODUCE_EVENING.md)。当前支持范围限定单卡、同步 text-only、固定 full-attention 布局；多 worker、异步调度、真实 driver/DMA fault 与永久 I/O 自动恢复仍开放。
+
+## 新组合策略正式比较入口（2026-10-12）
+
+- `scripts/run_generation_strategy_formal.py`：同pilot运行时、三次轮转、逐格冻结源及失败停止。
+- `scripts/audit_generation_strategy_formal.py`：独立原始计时/generation/resource门槛，拒绝缺格/失败/重复格均值。
+- `scripts/analyze_generation_strategy_costs.py`：完整矩阵的请求阶段、staging、helper累计计时与SSE跨度描述，不能作独立DMA归因。
+- `tests/test_generation_strategy_formal.py`：只允许明确harness新增、顺序与不完整矩阵拒绝聚合。
+
+正式结果与原始数据见 [报告](experiments/2026-10-12/GENERATION_STRATEGY_FORMAL.md)。
