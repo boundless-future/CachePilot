@@ -48,7 +48,7 @@ def test_unknown_or_nonzero_preemptions_reject_immediate(runner):
     assert runner.immediate_supported(dict(vllm_delta={'vllm:num_preemptions_total': 0}))
 
 
-@pytest.mark.parametrize('mutation', ['none', 'sample', 'resource'])
+@pytest.mark.parametrize('mutation', ['none', 'sample', 'resource', 'unobserved', 'hidden_polling'])
 def test_offline_admission_recomputes_observer_and_keeps_resource_failure(runner, monkeypatch, tmp_path, mutation):
     """A recorded pass flag or peak cannot override raw samples or base gates."""
     root = Path(__file__).resolve().parents[1] / 'docs/experiments/2026-10-12'
@@ -60,9 +60,11 @@ def test_offline_admission_recomputes_observer_and_keeps_resource_failure(runner
     shutil.copyfile(root / 'real-structure-built/trace.json', tmp_path / 'trace.json')
     provenance = runner.audit(tmp_path / 'input/built', tmp_path / 'input/source', tmp_path / 'input/catalogue.json')
     (tmp_path / 'provenance-audit.json').write_text(json.dumps(provenance))
-    report = dict(signature=dict(trace_sha256=runner.TRACE_SHA),
+    report = dict(stage='pilot', signature=dict(trace_sha256=runner.TRACE_SHA, observer_interval_seconds=0.5),
         rows=[dict(cell='native-r0', case='native', passed=mutation != 'resource', checks={})],
         aggregates={'native': {'untrusted': 'must not survive'}}, output_comparisons=[])
+    if mutation in ('unobserved', 'hidden_polling'):
+        report['signature']['observer_interval_seconds'] = 0
     monkeypatch.setattr(runner, 'collect', lambda _: copy.deepcopy(report))
     cell = tmp_path / 'native-r0'
     cell.mkdir()
@@ -73,8 +75,11 @@ def test_offline_admission_recomputes_observer_and_keeps_resource_failure(runner
         samples[0]['metrics'] = 'vllm:kv_cache_usage_perc 0.8'
     (cell / 'pressure-samples.json').write_text(json.dumps(samples))
     (cell / 'result.json').write_text(json.dumps(dict(vllm_delta={})))
+    if mutation == 'unobserved':
+        (cell / 'pressure-samples.json').unlink()
+        (cell / 'pressure-summary.json').unlink()
     actual = runner.collect_structural(tmp_path)
-    assert actual['matrix_complete'] == (mutation == 'none')
+    assert actual['matrix_complete'] == (mutation in ('none', 'unobserved'))
     assert actual['aggregates'] == {}
 
 

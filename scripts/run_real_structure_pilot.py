@@ -63,6 +63,7 @@ def immediate_supported(result):
 
 def collect_structural(directory):
     report = collect(directory)
+    observed = report['signature'].get('observer_interval_seconds') == 0.5
     try:
         provenance = audit(directory / 'input/built', directory / 'input/source',
                            directory / 'input/catalogue.json')
@@ -77,12 +78,15 @@ def collect_structural(directory):
         checks['provenance'] = provenance_valid
         try:
             cell = directory / row['cell']
-            pressure = pressure_summary(read(cell / 'pressure-samples.json'))
-            checks['pressure_recomputed'] = pressure == read(cell / 'pressure-summary.json')
-            checks['pressure_observer'] = pressure['all_gauges_observed'] and pressure['errors'] == 0
+            if observed:
+                pressure = pressure_summary(read(cell / 'pressure-samples.json'))
+                checks['pressure_recomputed'] = pressure == read(cell / 'pressure-summary.json')
+                checks['pressure_observer'] = pressure['all_gauges_observed'] and pressure['errors'] == 0
+                row['pressure'] = pressure
+            else:
+                checks['no_pressure_polling'] = not any(cell.glob('pressure-*.json'))
             result = read(cell / 'result.json')
             checks['immediate_supported'] = row['case'] != 'owned-immediate' or immediate_supported(result)
-            row['pressure'] = pressure
             row['preemptions'] = result['vllm_delta'].get('vllm:num_preemptions_total')
         except (OSError, KeyError, ValueError, TypeError) as exc:
             checks['pressure_recomputed'] = False
@@ -90,12 +94,13 @@ def collect_structural(directory):
         row['passed'] = row['passed'] and all(checks.values())
     report['matrix_complete'] = all(r['passed'] for r in report['rows'])
     report['passed_cells'] = sum(r['passed'] for r in report['rows'])
-    # This is a diagnostic one-run matrix even when all cells pass.
-    report['aggregates'] = {}
+    if observed or report['stage'] != 'formal' or not report['matrix_complete']:
+        report['aggregates'] = {}
     for comparison in report['output_comparisons']:
         comparison['eligible'] = all(r['passed'] for r in report['rows']
             if r['case'] in ('native', comparison['case']))
-    report['scope'] = 'Anonymous structure diagnostic; polling overhead; no formal performance aggregates.'
+    report['scope'] = ('Anonymous structure diagnostic; polling overhead; no formal performance aggregates.'
+        if observed else 'Anonymous structure without extra polling; whole zero-protection configurations.')
     return report
 
 
@@ -139,12 +144,17 @@ def main():
     p.add_argument('--source-dir', type=Path, required=True)
     p.add_argument('--catalogue', type=Path, required=True)
     p.add_argument('--decode-formal', type=Path, required=True)
+    p.add_argument('--stage', choices=('admission', 'pilot', 'formal'), default='admission')
+    p.add_argument('--admission', type=Path)
+    p.add_argument('--pilot', type=Path)
     p.add_argument('--output', type=Path, required=True)
     p.add_argument('--stop-starting-at', required=True)
     args = p.parse_args()
     cutoff = datetime.fromisoformat(args.stop_starting_at)
     if cutoff.utcoffset() is None or datetime.now(timezone.utc) >= cutoff:
         p.error('Future timezone-aware cutoff required')
+    if (args.stage != 'admission') != bool(args.admission) or (args.stage == 'formal') != bool(args.pilot):
+        p.error('Unobserved pilot/formal require --admission; only formal requires --pilot')
     import run_protection_ablation as ablation
     import validate_environment as environment
     import replay_trace
@@ -165,9 +175,27 @@ def main():
     cases = cases_for('h5p0-d1', 'unprotected')
     trace = read(args.built / 'trace.json')
     signature = dict(source_sha256=sources, trace_sha256=digest(trace), cases=cases,
-        kv_cache_bytes=KV_BYTES, gate='real-structure-diagnostic-v1',
+        kv_cache_bytes=KV_BYTES, gate='real-structure-diagnostic-v1' if args.stage == 'admission' else 'real-structure-performance-v1',
         immediate_receipt_end=True, hotpath_diagnostics=False,
-        observer_interval_seconds=0.5, scope='anonymous-open-structure-diagnostic')
+        observer_interval_seconds=0.5 if args.stage == 'admission' else 0,
+        scope='anonymous-open-structure-' + ('diagnostic' if args.stage == 'admission' else 'performance'))
+    if args.admission:
+        admitted = collect_structural(args.admission)
+        if (not admitted['matrix_complete'] or admitted['expected_cells'] != 4
+                or admitted['signature']['observer_interval_seconds'] != 0.5
+                or admitted['signature']['trace_sha256'] != TRACE_SHA
+                or admitted['signature']['cases'] != cases):
+            raise ValueError('Complete four-cell structural observation admission required')
+        # Only the experiment runner/auditor can evolve to switch off polling;
+        # all runtime service files and original measurement sources are fixed.
+        for name, expected in admitted['signature']['source_sha256'].items():
+            if name not in ('scripts/run_real_structure_pilot.py', 'scripts/audit_real_structure_pilot.py') and sources.get(name) != expected:
+                raise ValueError('Structural admission source changed: ' + name)
+    if args.pilot:
+        pilot = collect_structural(args.pilot)
+        if (not pilot['matrix_complete'] or pilot['stage'] != 'pilot'
+                or pilot['expected_cells'] != 4 or pilot['signature'] != signature):
+            raise ValueError('Complete same-signature unobserved pilot required')
     ablation.ports_free()
     out = args.output.resolve()
     out.mkdir(parents=True, exist_ok=False)
@@ -177,10 +205,13 @@ def main():
     shutil.copytree(args.source_dir, out / 'input/source')
     shutil.copyfile(args.catalogue, out / 'input/catalogue.json')
     environment.write_json(out / 'provenance-audit.json', provenance)
-    environment.write_json(out / 'plan.json', dict(stage='pilot', formal=False,
-        signature=signature, cases=cases, repeats=1, selection=prior_plan['selection'],
+    repeats = 3 if args.stage == 'formal' else 1
+    environment.write_json(out / 'plan.json', dict(stage='formal' if args.stage == 'formal' else 'pilot',
+        formal=args.stage == 'formal', experiment_stage=args.stage,
+        signature=signature, cases=cases, repeats=repeats, selection=prior_plan['selection'],
+        admission=str(args.admission), pilot=str(args.pilot),
         decode_formal=str(args.decode_formal), cutoff=args.stop_starting_at,
-        semantics='All six sessions; original transforms; no pressure augmentation; observer cost enabled.'))
+        semantics='All six sessions; original transforms; no pressure augmentation; polling explicit in signature.'))
     current = None
     cell = None
     original_service = environment.Service
@@ -218,27 +249,37 @@ def main():
             return super().start(health, timeout)
 
     ablation.Service = environment.Service = StructuralService
-    ablation.replay = replay_trace.replay = observed_replay
+    if args.stage == 'admission':
+        ablation.replay = replay_trace.replay = observed_replay
     original_drained = ablation.cache_drained
     from run_fixed_baselines import strict_idle
     ablation.cache_drained = lambda s: original_drained(s) and strict_idle(s)
     completed = []
-    for name, current in cases.items():
+    order = []
+    for repeat in range(repeats):
+        names = list(cases)
+        shift = repeat * 3 % len(names)
+        order.extend((name, repeat) for name in names[shift:] + names[:shift])
+    for name, repeat in order:
+        current = cases[name]
         if datetime.now(timezone.utc) >= cutoff:
             environment.write_json(out / 'stopped-at-cutoff.json', dict(next_cell=name, completed=len(completed)))
             return
         if ablation.source_sha() != sources:
             raise RuntimeError('Frozen structural sources changed')
         ablation.ports_free()
-        cell = out / (name + '-r0')
+        cell = out / f'{name}-r{repeat}'
         print('START ' + cell.name, flush=True)
         try:
-            result = (ablation.run_cell(cell, 'zero', 0, trace, str(model), KV_BYTES)
-                if current['kind'] == 'lazy' else run_plain(cell, name, 0, trace))
+            result = (ablation.run_cell(cell, 'zero', repeat, trace, str(model), KV_BYTES)
+                if current['kind'] == 'lazy' else run_plain(cell, name, repeat, trace))
             checks = dict(result_passed=result['passed'], resources=resource_gate(current['kind'], result),
                 **extra_checks(cell, current, result, trace))
-            observed = read(cell / 'pressure-summary.json')
-            checks['pressure_observer'] = observed['all_gauges_observed'] and observed['errors'] == 0
+            if args.stage == 'admission':
+                observed = read(cell / 'pressure-summary.json')
+                checks['pressure_observer'] = observed['all_gauges_observed'] and observed['errors'] == 0
+            else:
+                checks['no_pressure_polling'] = not any(cell.glob('pressure-*.json'))
             checks['immediate_supported'] = current['kind'] != 'immediate' or immediate_supported(result)
             environment.write_json(cell / 'reference-validation.json', dict(passed=all(checks.values()),
                 checks=checks, signature=signature, case=current))
@@ -246,9 +287,10 @@ def main():
                 raise RuntimeError('Structural admission cell failed: ' + cell.name)
         except Exception as exc:
             environment.write_json(out / 'stopped-on-failure.json', dict(cell=cell.name, error=repr(exc),
-                completed=len(completed), unrun=[n for n in cases if n not in completed and n != name]))
+                completed=len(completed), unrun=[f'{n}-r{r}' for n, r in order
+                    if f'{n}-r{r}' not in completed and f'{n}-r{r}' != cell.name]))
             raise
-        completed.append(name)
+        completed.append(cell.name)
         environment.write_json(out / 'completed.json', completed)
         print('DONE ' + cell.name, flush=True)
     report = collect_structural(out)
