@@ -6,7 +6,7 @@
 
 第一次阅读建议先看 [当前实现与代码导航](docs/IMPLEMENTATION_MAP.md)，再用 [离线复核说明](docs/experiments/2026-10-11/REPRODUCE_EVENING.md) 查看已归档结果；复核这些结果不需要 GPU。
 
-最新开放问题：长 prefill pilot 的默认 fixed 组在请求完成后的空闲身份预检中发生 fatal error，矩阵已停止并保留失败；尚未修复，下一步为 [独立身份观察](docs/experiments/2026-10-11/LONG_PREFILL.md)。
+2026-10-12 更新：长 prefill 的代际缺口已通过独立 opt-in 账本接线和 GPU 资源审计；原失败保持失败。关闭诊断的新四配置 pilot 4/4 通过，formal 正在运行，尚无新性能结论。见 [generation 证据](docs/experiments/2026-10-12/GENERATION_BRIDGE.md) 和 [今日推进记录](docs/experiments/2026-10-12/PROGRESS.md)。新连接器暂仅支持零保护，不能据此扩大非零保护验收范围。
 
 ## 历史检查点
 

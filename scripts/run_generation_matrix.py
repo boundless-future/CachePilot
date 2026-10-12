@@ -1,5 +1,6 @@
 """New-stack long-prefill references, independently gated pilot then formal."""
 import argparse
+import copy
 from datetime import datetime, timezone
 import json
 import os
@@ -9,6 +10,20 @@ from run_fixed_baselines import configure, read, KV_BYTES, CASES, select_fixed, 
 from run_reference_baselines import cases_for, run_plain, resource_gate
 from run_arrival_matrix import digest
 from run_generation_pilot import TRACE_SHA
+
+
+def extend_decode(base):
+    from run_arrival_matrix import BASE_TRACE_SHA
+    if digest(base) != BASE_TRACE_SHA:
+        raise ValueError('Requires original held-out reference trace')
+    trace = copy.deepcopy(base)
+    trace['trace_id'] += '-decode192'
+    trace['workload_variant'] = 'decode192'
+    for event in trace['events']:
+        if event['max_tokens'] != 48 or event['prompt_tokens'] + 192 > 8192:
+            raise ValueError('Original budget or fixed context bound differs')
+        event['max_tokens'] = 192
+    return trace
 
 
 def generation_config(original, case):
@@ -74,6 +89,9 @@ def main():
     p.add_argument('--tuning', type=Path, required=True)
     p.add_argument('--output', type=Path, required=True)
     p.add_argument('--pilot', type=Path)
+    p.add_argument('--workload', choices=('long-prefill', 'decode192'), default='long-prefill')
+    p.add_argument('--long-prefill-formal', type=Path)
+    p.add_argument('--base-reference', type=Path)
     p.add_argument('--stop-starting-at', required=True)
     args = p.parse_args()
     cutoff = datetime.fromisoformat(args.stop_starting_at)
@@ -81,6 +99,10 @@ def main():
         p.error('Future timezone-aware cutoff required')
     if (args.stage == 'formal') != (args.pilot is not None):
         p.error('Only formal requires pilot')
+    if (args.workload == 'decode192') != bool(args.long_prefill_formal and args.base_reference):
+        p.error('decode192 requires both completed long-prefill formal and base reference')
+    if args.workload == 'long-prefill' and (args.long_prefill_formal or args.base_reference):
+        p.error('Long-prefill takes no decode prerequisites')
     import run_protection_ablation as ablation
     import validate_environment as environment
     from audit_generation_pilot import audit_cell
@@ -96,6 +118,19 @@ def main():
     trace = read(diagnostic / 'trace.json')
     if digest(trace) != TRACE_SHA:
         raise ValueError('Original long-prefill trace required')
+    if args.workload == 'decode192':
+        prior = read(args.long_prefill_formal / 'plan.json')
+        if (prior['stage'] != 'formal' or prior['repeats'] != 3 or
+                prior['signature']['trace_sha256'] != TRACE_SHA or
+                not collect(args.long_prefill_formal)['matrix_complete']):
+            raise ValueError('Complete long-prefill formal prerequisite required')
+        from summarize_reference_matrix import collect as reference_collect
+        base_plan = read(args.base_reference / 'plan.json')
+        if (base_plan['stage'] != 'formal' or base_plan['repeats'] != 3 or
+                not reference_collect(args.base_reference)['matrix_complete']):
+            raise ValueError('Complete original base reference required')
+        trace = extend_decode(read(args.base_reference / 'trace.json'))
+    ablation.validate_trace(trace)
     cases = cases_for(selection['selected'], 'unprotected')
     sources = ablation.source_sha()
     diagnostic_sources = read(args.diagnostic / 'plan.json')['source_sha256']
@@ -108,8 +143,8 @@ def main():
         if sources[path] != diagnostic_sources[path]:
             raise ValueError('Diagnostic source differs: ' + path)
     signature = dict(source_sha256=sources, kv_cache_bytes=KV_BYTES,
-        trace_sha256=TRACE_SHA, cases=cases, gate='generation-long-prefill-v1',
-        scope='long-prefill-new-generation-stack', hotpath_diagnostics=False)
+        trace_sha256=digest(trace), cases=cases, gate='generation-' + args.workload + '-v1',
+        scope=args.workload + '-new-generation-stack', hotpath_diagnostics=False)
     if args.pilot:
         prior = read(args.pilot / 'plan.json')
         if prior['stage'] != 'pilot' or prior['signature'] != signature or not collect(args.pilot)['matrix_complete']:
@@ -122,6 +157,8 @@ def main():
     environment.write_json(out / 'plan.json', dict(stage=args.stage, signature=signature,
         cases=cases, repeats=repeats, selection=selection, diagnostic=str(args.diagnostic),
         tuning=str(args.tuning), pilot=str(args.pilot) if args.pilot else None,
+        workload=args.workload, long_prefill_formal=str(args.long_prefill_formal),
+        base_reference=str(args.base_reference),
         cutoff=args.stop_starting_at))
     current = None
     class MatrixService(environment.Service):

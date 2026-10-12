@@ -48,3 +48,25 @@ def test_new_config_preserves_original_grace_and_separate_lookup_stack(module):
     assert extra['lmcache.mp.lazy_offload_horizon_steps'] == 5.0
     with pytest.raises(ValueError):
         module.generation_config(base, dict(mode='one', horizon=5.0, drain=1))
+
+
+def test_decode_intervention_keeps_prompts_and_arrival_fields(module):
+    root = Path(__file__).resolve().parents[1]
+    import json
+    import tarfile
+    with tarfile.open(root / 'docs/experiments/2026-10-11/unprotected-reference-evidence/'
+            'unprotected-references-formal-20261011a.tar.gz') as archive:
+        member = next(m for m in archive.getmembers()
+            if m.name.endswith('/trace.json') and m.name.count('/') == 1)
+        base = json.load(archive.extractfile(member))
+    original = copy.deepcopy(base)
+    trace = module.extend_decode(base)
+    assert base == original
+    assert len(trace['events']) == 68
+    for before, after in zip(base['events'], trace['events']):
+        assert after['max_tokens'] == 192
+        assert {k: v for k, v in after.items() if k != 'max_tokens'} == {
+            k: v for k, v in before.items() if k != 'max_tokens'}
+    base['events'][0]['arrival_ms'] += 1
+    with pytest.raises(ValueError):
+        module.extend_decode(base)
