@@ -62,7 +62,29 @@ class GenerationProtectionConnector(GenerationLedgerConnector):
             # Metadata construction can fail after native registration, even
             # before its envelope reaches the worker. Do not resume this core.
             self._lazy_offload_manager.poison(exc)
+            self._save_fault_snapshot(exc, 'build_connector_meta')
             raise
+
+    def _save_fault_snapshot(self, exc, phase):
+        # Fatal EngineCore paths do not necessarily reach connector.shutdown.
+        # Record on the owner thread before propagating; do not attempt cleanup.
+        try:
+            snapshot = self.generation_snapshot()
+            helper = self._bounded
+            snapshot.update(shutdown_complete=False, fault_phase=phase,
+                fault_error=repr(exc),
+                prepared_blocks=sum(len(p.blocks) for p in helper.prepared.values()) if helper else 0,
+                protected_inflight_blocks=sum(len(p.blocks) for p in helper.inflight.values()) if helper else 0)
+            target = os.environ.get('CACHEPILOT_GENERATION_SUMMARY_PATH')
+            if target:
+                path = Path(target)
+                path.parent.mkdir(parents=True, exist_ok=True)
+                temporary = path.with_name(path.name + '.tmp')
+                temporary.write_text(json.dumps(snapshot, indent=2) + '\n', encoding='utf-8')
+                temporary.replace(path)
+            self._handoff_record('generation_fault_snapshot', **snapshot)
+        except BaseException as evidence_error:
+            exc.add_note(f'Failed to preserve fault evidence: {evidence_error!r}')
 
     def update_connector_output(self, output):
         # Reject malformed/stale envelopes before entering native mutation.
@@ -78,4 +100,5 @@ class GenerationProtectionConnector(GenerationLedgerConnector):
             return super().update_connector_output(output)
         except BaseException as exc:
             self._lazy_offload_manager.poison(exc)
+            self._save_fault_snapshot(exc, 'update_connector_output')
             raise

@@ -1,5 +1,7 @@
 # 下一工作窗口：generation与保护的显式交接
 
+21:11更新：真实模型服务提交后主机异常专项完成：a缺失败snapshot不通过；将只读证据前移至异常捕获后，b证明EngineCore/API自行退出、16个保护引用未误回滚、目标未END、未完成票据落盘。本地独立复算通过；服务器879 passed/115 subtests，本地审计18 passed单列。下一步长prefix、取消抢占、失败回执GPU专项；无性能或自动恢复结论。见 [报告](GENERATION_PROTECTION_SERVICE_FAULT.md)。下方为历史状态。
+
 21:04更新：新组合正常GPU诊断zero/one/two三格通过，共1,044请求，KV层比较720/720/864全部bitwise相等；one/two保护STORE11/9，最终pins为零、BlockPool各909 free，348代/格精确END。a轮缺observer状态证据失败保留；b原始文件与服务器字节一致，本地独立重算通过。下一步实际EngineCore故障退出/终态snapshot及长prefix、取消抢占、失败回执；无性能结论。见 [报告](GENERATION_PROTECTION_GPU.md)。下方为历史状态。
 
 20:52更新：多候选部分失败与shutdown snapshot契约完成，878项全套通过。下一步独立服务诊断runner与预注册，zero启动/关闭→one/two实际保护与KV bitwise/资源审计→服务故障退出，再性能；见 [故障报告](GENERATION_PROTECTION_FAULTS.md)。下方时间较早内容为历史状态。

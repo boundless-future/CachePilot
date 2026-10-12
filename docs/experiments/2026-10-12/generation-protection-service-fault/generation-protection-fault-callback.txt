@@ -1,0 +1,26 @@
+E..............                                                          [100%]
+==================================== ERRORS ====================================
+____ ERROR at setup of test_fault_records_actual_pin_ownership_before_throw ____
+file /root/CachePilot/tests/test_generation_protection_fault_probe.py, line 8
+  def test_fault_records_actual_pin_ownership_before_throw(wired, monkeypatch, tmp_path):
+file /root/CachePilot/tests/test_generation_protection_connector.py, line 22
+  @pytest.fixture
+  def wired(case):
+E       fixture 'case' not found
+>       available fixtures: anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, doctest_namespace, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory, wired
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/root/CachePilot/tests/test_generation_protection_connector.py:22
+=============================== warnings summary ===============================
+../../usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/opentelemetry/sdk/_logs/_internal/__init__.py:531: 52 warnings
+  /usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/opentelemetry/sdk/_logs/_internal/__init__.py:531: DeprecationWarning: `LoggingHandler` in `opentelemetry-sdk` is deprecated. Use the handler from `opentelemetry-instrumentation-logging` instead.
+    warnings.warn(
+
+../../usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/torch/jit/_script.py:365: 14 warnings
+  /usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/torch/jit/_script.py:365: DeprecationWarning: `torch.jit.script_method` is deprecated. Please switch to `torch.compile` or `torch.export`.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+ERROR tests/test_generation_protection_fault_probe.py::test_fault_records_actual_pin_ownership_before_throw
+14 passed, 66 warnings, 1 error in 7.84s

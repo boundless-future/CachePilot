@@ -1,0 +1,23 @@
+{
+  "passed": false,
+  "mode": "one",
+  "eager": true,
+  "artificial_hold": false,
+  "protection_budget": 1,
+  "bounded_workload": true,
+  "receipt_probe": null,
+  "recovery_traffic": false,
+  "shared_cancel": false,
+  "protected_preemption": false,
+  "shared_preemption": false,
+  "receipt_identity": false,
+  "one_chunk_workload": false,
+  "inflight_budget": false,
+  "capacity_fallback": false,
+  "kv_cache_bytes": 2147483648,
+  "reuse_id": false,
+  "reuse_old_failure": false,
+  "server_store_fault": false,
+  "long_prefix": false,
+  "error": "HTTPError('500 Server Error: Internal Server Error for url: http://127.0.0.1:8000/v1/completions')"
+}

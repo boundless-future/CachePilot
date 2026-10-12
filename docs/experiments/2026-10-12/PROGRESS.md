@@ -85,3 +85,9 @@
 - 新诊断probe/runner沿用固定348请求输入，原始plan先记录预算/模型/214源码签名。a-zero的请求/KV/END通过，但旧status摘要过滤observer，精确集合证据缺失，停止one/two并保留失败。
 - b补只读observer采集，新目录zero/one/two全部通过：1,044请求，720/720/864层全等，one/two保护11/9次，最终pin0、BlockPool909 free，精确generation资源闭合。三格同payload，输出文本差异0。
 - 84原始文件16,611,799bytes与服务器逐项一致，214源码tar冻结；本地独立重算a=false、b=true。新增篡改测试与generation审计14 passed；GPU空闲0%/1MiB。无服务fault、长prefix专项或性能结论。
+
+## 21:11 真实服务故障窗口
+
+- after-commit探针在原native注册后/worker handoff前抛一次主机异常。a实际EngineCore/API自行退出但无snapshot，整体失败保留。将只读快照前移至异常捕获，再b验证通过，保留16个在途引用/原票据，无目标rollback/END/worker handoff。
+- 回调测试fixture import初次遗漏导致14 pass/1 error，修正后15 pass；完整服务器显式CUDA/native879 pass、115 subtests，19.34s。本地独立/篡改审计18 pass单列。
+- a/b27原始文件906,696bytes远端/本地一致，b216源码冻结tar归档；回归后GPU0%/1MiB。当前为受控主机异常，不是driver/DMA故障、正常归零或自动恢复。下一步长prefix/取消抢占/失败回执GPU专项。

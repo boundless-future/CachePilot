@@ -1,0 +1,16 @@
+{
+  "passed": false,
+  "checks": {
+    "exact_injection": true,
+    "native_owned_at_fault": true,
+    "request_failed": true,
+    "api_exited_without_harness_signal": true,
+    "engine_exited": true,
+    "failed_snapshot": false,
+    "retains_unresolved_pins": false,
+    "no_target_end": true,
+    "no_target_rollback": true
+  },
+  "caught": "HTTPError('500 Server Error: Internal Server Error for url: http://127.0.0.1:8000/v1/completions')",
+  "scope": "injected scheduler host exception; not DMA fault or automatic recovery"
+}

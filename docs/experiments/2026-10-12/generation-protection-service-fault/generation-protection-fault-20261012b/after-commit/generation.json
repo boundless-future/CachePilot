@@ -1,0 +1,933 @@
+{
+  "generations": [
+    {
+      "wire_id": "cp1:3525245214784671646:1:1b82a05d86c5d68f1baf1a9badc602f6:cmpl-8d520cd3cb5584d6-0-97e74859",
+      "request_id": "cmpl-8d520cd3cb5584d6-0-97e74859",
+      "sealed": false,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 1,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 2,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 3,
+          "kind": "pending_store",
+          "state": "active"
+        },
+        {
+          "serial": 103,
+          "kind": "pending_store",
+          "state": "pending"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:2:76dda00fd657b5f713db318fc4c0da13:cmpl-993d53e5b45ec86a-0-8f1ca82c",
+      "request_id": "cmpl-993d53e5b45ec86a-0-8f1ca82c",
+      "sealed": false,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 4,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 5,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 6,
+          "kind": "pending_store",
+          "state": "active"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:3:f289d08b6a9bc2c08b4b5553b56c4dbe:cmpl-8f3bb4c456a65b63-0-891921a3",
+      "request_id": "cmpl-8f3bb4c456a65b63-0-891921a3",
+      "sealed": false,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 7,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 8,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 9,
+          "kind": "pending_store",
+          "state": "pending"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:4:c0792d40e6d82932b93e521cce7329fb:cmpl-806290784f1cb306-0-9b822776",
+      "request_id": "cmpl-806290784f1cb306-0-9b822776",
+      "sealed": false,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 10,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 11,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 12,
+          "kind": "pending_store",
+          "state": "pending"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:5:048e3a5333d31803e2f3df86394352e7:cmpl-9ce4d1ea26e42274-0-96dd9178",
+      "request_id": "cmpl-9ce4d1ea26e42274-0-96dd9178",
+      "sealed": false,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 13,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 14,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 15,
+          "kind": "pending_store",
+          "state": "pending"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:6:4308a985b7a0097ef6dda3047848dfa0:cmpl-9e74a4b0fe3155f6-0-a09bbe8f",
+      "request_id": "cmpl-9e74a4b0fe3155f6-0-a09bbe8f",
+      "sealed": false,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 16,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 17,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 18,
+          "kind": "pending_store",
+          "state": "pending"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:7:04e1d369447e59edefe1210127547e26:cmpl-9cc4d0dea6be0881-0-94b560bd",
+      "request_id": "cmpl-9cc4d0dea6be0881-0-94b560bd",
+      "sealed": false,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 19,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 20,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 21,
+          "kind": "pending_store",
+          "state": "pending"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:8:55132b60cf831a3d8471cabc68f99f0e:cmpl-9419415eca62f797-0-9d5058d6",
+      "request_id": "cmpl-9419415eca62f797-0-9d5058d6",
+      "sealed": false,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 22,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 23,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 24,
+          "kind": "pending_store",
+          "state": "pending"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:9:d0cd8972aa9fd40ee6952aeef75fff67:cmpl-b1e3deccd3bd6f57-0-98ca5821",
+      "request_id": "cmpl-b1e3deccd3bd6f57-0-98ca5821",
+      "sealed": false,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 25,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 26,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 27,
+          "kind": "pending_store",
+          "state": "pending"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:10:7e824abd527e12807cf885a27c744691:cmpl-b4aecd3a5b6e8e54-0-af1feec1",
+      "request_id": "cmpl-b4aecd3a5b6e8e54-0-af1feec1",
+      "sealed": false,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 28,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 29,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 30,
+          "kind": "pending_store",
+          "state": "pending"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:11:29014d72499588fc600a6d8664dbba67:cmpl-ba71ee689687b8cc-0-8ca8b44b",
+      "request_id": "cmpl-ba71ee689687b8cc-0-8ca8b44b",
+      "sealed": false,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 31,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 32,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 33,
+          "kind": "pending_store",
+          "state": "pending"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:12:3c69c9ee7ac08e9815292054c509d085:cmpl-80c2123e56803ab4-0-a97b7a07",
+      "request_id": "cmpl-80c2123e56803ab4-0-a97b7a07",
+      "sealed": false,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 34,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 35,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 36,
+          "kind": "pending_store",
+          "state": "pending"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:13:76421ec18d7dda3b078d6ab9ad438840:cmpl-bb0ff3c94183f5cb-0-bad24e33",
+      "request_id": "cmpl-bb0ff3c94183f5cb-0-bad24e33",
+      "sealed": false,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 37,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 38,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 39,
+          "kind": "pending_store",
+          "state": "pending"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:14:a6e1f1a73e36ad9f9ff14983f843c034:cmpl-80ca7572fe8ca90c-0-9276713d",
+      "request_id": "cmpl-80ca7572fe8ca90c-0-9276713d",
+      "sealed": false,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 40,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 41,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 42,
+          "kind": "pending_store",
+          "state": "pending"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:15:d62443c610dad5e38ee05361a4b034b6:cmpl-85571a6428dfee68-0-8f7b0892",
+      "request_id": "cmpl-85571a6428dfee68-0-8f7b0892",
+      "sealed": true,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 43,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 44,
+          "kind": "status",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:16:db9f10416b718864360bc2d49cb6295b:cmpl-8ee8a3b3db2072c0-0-950192c4",
+      "request_id": "cmpl-8ee8a3b3db2072c0-0-950192c4",
+      "sealed": true,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 45,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 46,
+          "kind": "status",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:17:789f8171709e37ab66be43f12a634c20:cmpl-b8684d5b7be0c862-0-a3ad8c6f",
+      "request_id": "cmpl-b8684d5b7be0c862-0-a3ad8c6f",
+      "sealed": true,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 47,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 48,
+          "kind": "status",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:18:225a48faacb8f295eaa29c73ef660552:cmpl-b5e8fcfac95dc69e-0-aa0144f2",
+      "request_id": "cmpl-b5e8fcfac95dc69e-0-aa0144f2",
+      "sealed": true,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 49,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 50,
+          "kind": "status",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:19:c51b52a97331453c41ba0994d5426193:cmpl-9fa67f684c66c583-0-b3451247",
+      "request_id": "cmpl-9fa67f684c66c583-0-b3451247",
+      "sealed": true,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 51,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 52,
+          "kind": "status",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:20:97a61c728be8379a4ab5bb73ffa3543b:cmpl-abc0419d030fb7dd-0-b500de54",
+      "request_id": "cmpl-abc0419d030fb7dd-0-b500de54",
+      "sealed": true,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 53,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 54,
+          "kind": "status",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:21:a1374b7150fb66891a5b32ff65937311:cmpl-8db8ff101721ba13-0-bd225cec",
+      "request_id": "cmpl-8db8ff101721ba13-0-bd225cec",
+      "sealed": true,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 55,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 56,
+          "kind": "status",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:22:44fdb6b47f58a59b9c860080d6cba634:cmpl-abda5195a19bafca-0-9115ed43",
+      "request_id": "cmpl-abda5195a19bafca-0-9115ed43",
+      "sealed": true,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 57,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 58,
+          "kind": "status",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:23:fcd8ff07435e422ca0a73c3f960c34b5:cmpl-9f6e29a25e7da800-0-a48ed006",
+      "request_id": "cmpl-9f6e29a25e7da800-0-a48ed006",
+      "sealed": true,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 59,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 60,
+          "kind": "status",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:24:8bb45fab8e947679c88eb5fcfe08fda9:cmpl-beda63a651265d80-0-a0a11262",
+      "request_id": "cmpl-beda63a651265d80-0-a0a11262",
+      "sealed": true,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 61,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 62,
+          "kind": "status",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:25:dcc3dcd6652a7b1e6a11ff40e8e9611f:cmpl-ab9ab8f4ea1ff3ac-0-9c6a6b35",
+      "request_id": "cmpl-ab9ab8f4ea1ff3ac-0-9c6a6b35",
+      "sealed": true,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 63,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 64,
+          "kind": "status",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:26:b84e9c95f97b033e5bb01ad1185c8544:cmpl-98f60f2658b73d6e-0-932ab221",
+      "request_id": "cmpl-98f60f2658b73d6e-0-932ab221",
+      "sealed": true,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 65,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 66,
+          "kind": "status",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:27:1a97ce8b799ae02f204c550353f82d39:cmpl-983ba912b8a76a6e-0-8156d9d3",
+      "request_id": "cmpl-983ba912b8a76a6e-0-8156d9d3",
+      "sealed": true,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 67,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 68,
+          "kind": "status",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:28:7d2ba26ed5ee3c5d0a869022517a47cd:cmpl-9702b7d63d1872b6-0-88debbeb",
+      "request_id": "cmpl-9702b7d63d1872b6-0-88debbeb",
+      "sealed": true,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 69,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 70,
+          "kind": "status",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:29:15aa37eea87be5d6ac5739fb21913220:cmpl-8cfe65b8cce6e43c-0-a25169a8",
+      "request_id": "cmpl-8cfe65b8cce6e43c-0-a25169a8",
+      "sealed": true,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 71,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 72,
+          "kind": "status",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:30:de6d1be96cd077a347c83e84d51af9dd:cmpl-9786cd34c90fe7c2-0-b6a17616",
+      "request_id": "cmpl-9786cd34c90fe7c2-0-b6a17616",
+      "sealed": true,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 73,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 74,
+          "kind": "status",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:31:e1a452d1f80fcaeb1fc34b8267917cb5:cmpl-8e4ca041647a26d0-0-8fb1e153",
+      "request_id": "cmpl-8e4ca041647a26d0-0-8fb1e153",
+      "sealed": true,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 75,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 76,
+          "kind": "status",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:32:e3b31ffb93c5a5d229f34ea039a0362a:cmpl-9d55c2723f62c545-0-8f78d336",
+      "request_id": "cmpl-9d55c2723f62c545-0-8f78d336",
+      "sealed": true,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 77,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 78,
+          "kind": "status",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:33:f6ce5ad5a268ccca200d59d94dff0676:cmpl-b15a35eee3459b06-0-a70680ef",
+      "request_id": "cmpl-b15a35eee3459b06-0-a70680ef",
+      "sealed": true,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 79,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 80,
+          "kind": "status",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:34:01f2a43a790f9d3a561652b1564c9ecd:cmpl-ac17e558b1388c3f-0-9c608bf3",
+      "request_id": "cmpl-ac17e558b1388c3f-0-9c608bf3",
+      "sealed": true,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 81,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 82,
+          "kind": "status",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:35:cf2837f6b8ca1cb60008aef7760f9504:cmpl-9d3d09e334a51936-0-b0350364",
+      "request_id": "cmpl-9d3d09e334a51936-0-b0350364",
+      "sealed": true,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 83,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 84,
+          "kind": "status",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:36:20a3f50bd5e38fee51abd729177ea96b:cmpl-8a8f4bead824a029-0-b2f7168a",
+      "request_id": "cmpl-8a8f4bead824a029-0-b2f7168a",
+      "sealed": true,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 85,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 86,
+          "kind": "status",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:37:24236010d165a527317dafd26aa4a98b:cmpl-b1d84bd3c8df2715-0-9dd65940",
+      "request_id": "cmpl-b1d84bd3c8df2715-0-9dd65940",
+      "sealed": true,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 87,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 88,
+          "kind": "status",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:38:40595f48a722e247cfe756cbf1ca9e82:cmpl-a326aadcade0d3d3-0-975492a0",
+      "request_id": "cmpl-a326aadcade0d3d3-0-975492a0",
+      "sealed": true,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 89,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 90,
+          "kind": "status",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:39:6d706fe10d983d91620aa4f16f385684:cmpl-843b0b1cfb927790-0-8235df26",
+      "request_id": "cmpl-843b0b1cfb927790-0-8235df26",
+      "sealed": true,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 91,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 92,
+          "kind": "status",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:40:4090941563b06cb5eb940551f973ae31:cmpl-815fd2665b61d52a-0-b1409717",
+      "request_id": "cmpl-815fd2665b61d52a-0-b1409717",
+      "sealed": true,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 93,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 94,
+          "kind": "status",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:41:a47fe35c38ee73268c9ee2077bebe213:cmpl-8d19ea3194db887a-0-9e9e46fe",
+      "request_id": "cmpl-8d19ea3194db887a-0-9e9e46fe",
+      "sealed": true,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 95,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 96,
+          "kind": "status",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:42:c8d2b5450af418de0b6cca98422115b4:cmpl-a1fb745c3678664e-0-ba374683",
+      "request_id": "cmpl-a1fb745c3678664e-0-ba374683",
+      "sealed": true,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 97,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 98,
+          "kind": "status",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:43:ee53c21bec5e1faf26bfa85fe9ea8599:cmpl-bd8169dc81eccdf3-0-aeda54a7",
+      "request_id": "cmpl-bd8169dc81eccdf3-0-aeda54a7",
+      "sealed": true,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 99,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 100,
+          "kind": "status",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:3525245214784671646:44:95337c2a5d57e2b3226902e0c18caa43:cmpl-87f356902b700025-0-87154dac",
+      "request_id": "cmpl-87f356902b700025-0-87154dac",
+      "sealed": false,
+      "end_state": "open",
+      "error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+      "operations": [
+        {
+          "serial": 101,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 102,
+          "kind": "status",
+          "state": "terminal"
+        }
+      ]
+    }
+  ],
+  "pending_store": 13,
+  "inflight_store": 2,
+  "retrieves": 0,
+  "deferred_ends": [],
+  "pending_rpc": 0,
+  "protection_poisoned": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+  "derived_tickets": [
+    {
+      "wire_id": "cp1:3525245214784671646:1:1b82a05d86c5d68f1baf1a9badc602f6:cmpl-8d520cd3cb5584d6-0-97e74859",
+      "serial": 103,
+      "parent_serial": 3
+    }
+  ],
+  "shutdown_complete": false,
+  "fault_phase": "build_connector_meta",
+  "fault_error": "RuntimeError('CACHEPILOT_INJECTED_AFTER_PROTECTION_COMMIT')",
+  "prepared_blocks": 0,
+  "protected_inflight_blocks": 16
+}

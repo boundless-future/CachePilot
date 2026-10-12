@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "autonomous_exit": true,
+  "fault_phase": "build_connector_meta",
+  "protected_blocks": 16,
+  "unresolved_wires": [
+    "cp1:3525245214784671646:1:1b82a05d86c5d68f1baf1a9badc602f6:cmpl-8d520cd3cb5584d6-0-97e74859"
+  ],
+  "scope": "host exception before worker handoff; no assertion of normal drain or automatic recovery"
+}
