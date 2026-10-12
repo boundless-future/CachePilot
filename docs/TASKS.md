@@ -185,7 +185,7 @@
 - [ ] 按 [decode192预注册](experiments/2026-10-12/DECODE_MATRIX_PREREGISTRATION.md) 完成新pilot/formal；68固定请求、13,056输出tokens，保持prompt/arrival/seed；原pilot在立即卸载session残留处停止，default/selected与formal未运行。
 - [x] decode192立即卸载只读时序复现：END返回后末批STORE重建session，两代残留；原reservation/native transfer闭合。独立原回执后END候选通过真实库回调/future契约和GPU68请求、144 reservation、69 lookup、101 transfer、909 free。范围同步TP1零保护，无抢占/unhealthy/reuse重叠；见 [报告](experiments/2026-10-12/DECODE_IMMEDIATE_DIAGNOSIS.md)。
 - [x] 新decode192 receipt pilot 4/4通过，272请求/52,224输出；服务器、本地及205项冻结源独立收集完全相同，旧immediate失败单列，见 [pilot报告](experiments/2026-10-12/DECODE_RECEIPT_PILOT.md)。
-- [ ] 同签名decode192 formal十二格三次重复；保持pilot冻结源码，不能直接同步新增CPU脚本后沿用旧签名。
+- [x] 同签名decode192 formal十二格三次重复通过，816请求/156,672输出tokens；服务器/本地/冻结源独立报告一致，154原始文件字节一致。native最低，immediate/default/selected相对+4.24%/+5.85%/+2.29%，一格正常关闭traceback和输出hash差异保留，见 [正式报告](experiments/2026-10-12/DECODE_RECEIPT_FORMAL.md)。
 - [x] 固定commit的真实匿名结构编号21–100共80文件CPU准入审计，全部六条eligible/60请求；实际Qwen3-4B tokenizer生成209,661输入tokens/2,880输出预算。源SHA、54前缀转换、3,262源block身份、零跨session前缀碰撞审计与三项重建/篡改测试通过，见 [方案](experiments/2026-10-12/REAL_STRUCTURE_PLAN.md)。
 - [ ] 冻结六session真实匿名结构GPU pilot，验证实际物理压力/命中/抢占及资源；不把CPU前缀机会当GPU命中或live Agent执行。
 - [ ] 用 Qwen3-8B＋5090 复核；如要区分模型/硬件效应，需要额外控制变量实验。

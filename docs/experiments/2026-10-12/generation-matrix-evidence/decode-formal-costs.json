@@ -1,0 +1,412 @@
+{
+  "matrix_complete": true,
+  "rows": [
+    {
+      "cell": "native-r0",
+      "case": "native",
+      "repeat": 0,
+      "metrics": {
+        "queue_mean_ms": 30472.502322220702,
+        "prefill_mean_ms": 55.56706848526172,
+        "decode_mean_ms": 4892.6038076470995,
+        "inference_mean_ms": 4948.170876132361,
+        "preemptions": 0.0
+      }
+    },
+    {
+      "cell": "owned-immediate-r0",
+      "case": "owned-immediate",
+      "repeat": 0,
+      "metrics": {
+        "queue_mean_ms": 32705.246161852814,
+        "prefill_mean_ms": 45.75102745585515,
+        "decode_mean_ms": 5118.484812544145,
+        "inference_mean_ms": 5164.23584,
+        "preemptions": 0.0,
+        "h2d_staging_elapsed_seconds": 0.09655446386337278,
+        "d2h_staging_elapsed_seconds": 0.20464553582668307
+      }
+    },
+    {
+      "cell": "h2p5-d64-r0",
+      "case": "h2p5-d64",
+      "repeat": 0,
+      "metrics": {
+        "queue_mean_ms": 32080.37121251463,
+        "prefill_mean_ms": 48.95265733827781,
+        "decode_mean_ms": 5057.578448808968,
+        "inference_mean_ms": 5106.531106147245,
+        "preemptions": 0.0,
+        "h2d_staging_elapsed_seconds": 0.09380399990081785,
+        "d2h_staging_elapsed_seconds": 0.15254940712451925
+      }
+    },
+    {
+      "cell": "h5p0-d1-r0",
+      "case": "h5p0-d1",
+      "repeat": 0,
+      "metrics": {
+        "queue_mean_ms": 32423.40390267651,
+        "prefill_mean_ms": 50.759316499860525,
+        "decode_mean_ms": 5042.467002676537,
+        "inference_mean_ms": 5093.226319176398,
+        "preemptions": 0.0,
+        "h2d_staging_elapsed_seconds": 0.0821464319229126,
+        "d2h_staging_elapsed_seconds": 0.14333788847923273
+      }
+    },
+    {
+      "cell": "native-r1",
+      "case": "native",
+      "repeat": 1,
+      "metrics": {
+        "queue_mean_ms": 30678.33679620606,
+        "prefill_mean_ms": 55.59129830865405,
+        "decode_mean_ms": 4913.716184691139,
+        "inference_mean_ms": 4969.307482999792,
+        "preemptions": 0.0
+      }
+    },
+    {
+      "cell": "owned-immediate-r1",
+      "case": "owned-immediate",
+      "repeat": 1,
+      "metrics": {
+        "queue_mean_ms": 31408.10257920598,
+        "prefill_mean_ms": 43.844708058767374,
+        "decode_mean_ms": 4946.576320117589,
+        "inference_mean_ms": 4990.421028176356,
+        "preemptions": 0.0,
+        "h2d_staging_elapsed_seconds": 0.10338483238220214,
+        "d2h_staging_elapsed_seconds": 0.206213343977928
+      }
+    },
+    {
+      "cell": "h2p5-d64-r1",
+      "case": "h2p5-d64",
+      "repeat": 1,
+      "metrics": {
+        "queue_mean_ms": 32947.83643313239,
+        "prefill_mean_ms": 48.00563513235294,
+        "decode_mean_ms": 5128.5389947941385,
+        "inference_mean_ms": 5176.544629926492,
+        "preemptions": 0.0,
+        "h2d_staging_elapsed_seconds": 0.10528131151199341,
+        "d2h_staging_elapsed_seconds": 0.16745283234119424
+      }
+    },
+    {
+      "cell": "h5p0-d1-r1",
+      "case": "h5p0-d1",
+      "repeat": 1,
+      "metrics": {
+        "queue_mean_ms": 31295.10200850002,
+        "prefill_mean_ms": 50.50294902944455,
+        "decode_mean_ms": 4973.579279352903,
+        "inference_mean_ms": 5024.082228382346,
+        "preemptions": 0.0,
+        "h2d_staging_elapsed_seconds": 0.10536371231079102,
+        "d2h_staging_elapsed_seconds": 0.14500294399261468
+      }
+    },
+    {
+      "cell": "native-r2",
+      "case": "native",
+      "repeat": 2,
+      "metrics": {
+        "queue_mean_ms": 31603.89305094122,
+        "prefill_mean_ms": 56.194760676482794,
+        "decode_mean_ms": 4992.305642441138,
+        "inference_mean_ms": 5048.50040311762,
+        "preemptions": 0.0
+      }
+    },
+    {
+      "cell": "owned-immediate-r2",
+      "case": "owned-immediate",
+      "repeat": 2,
+      "metrics": {
+        "queue_mean_ms": 31830.071204441163,
+        "prefill_mean_ms": 43.318539323669995,
+        "decode_mean_ms": 5026.423115661627,
+        "inference_mean_ms": 5069.741654985298,
+        "preemptions": 0.0,
+        "h2d_staging_elapsed_seconds": 0.10250921571254733,
+        "d2h_staging_elapsed_seconds": 0.2063498558998108
+      }
+    },
+    {
+      "cell": "h2p5-d64-r2",
+      "case": "h2p5-d64",
+      "repeat": 2,
+      "metrics": {
+        "queue_mean_ms": 32450.797847294056,
+        "prefill_mean_ms": 50.08561998524516,
+        "decode_mean_ms": 5129.352204147006,
+        "inference_mean_ms": 5179.437824132251,
+        "preemptions": 0.0,
+        "h2d_staging_elapsed_seconds": 0.09399593687057496,
+        "d2h_staging_elapsed_seconds": 0.1530432641506195
+      }
+    },
+    {
+      "cell": "h5p0-d1-r2",
+      "case": "h5p0-d1",
+      "repeat": 2,
+      "metrics": {
+        "queue_mean_ms": 31796.347002279457,
+        "prefill_mean_ms": 50.14684879412979,
+        "decode_mean_ms": 4990.373587294096,
+        "inference_mean_ms": 5040.520436088226,
+        "preemptions": 0.0,
+        "h2d_staging_elapsed_seconds": 0.10586092805862428,
+        "d2h_staging_elapsed_seconds": 0.1466095681190491
+      }
+    }
+  ],
+  "aggregates": {
+    "native": {
+      "queue_mean_ms": {
+        "mean": 30918.244056455995,
+        "stdev": 602.6424025897605,
+        "individual": [
+          30472.502322220702,
+          30678.33679620606,
+          31603.89305094122
+        ]
+      },
+      "prefill_mean_ms": {
+        "mean": 55.78437582346619,
+        "stdev": 0.3556101331156085,
+        "individual": [
+          55.56706848526172,
+          55.59129830865405,
+          56.194760676482794
+        ]
+      },
+      "decode_mean_ms": {
+        "mean": 4932.875211593126,
+        "stdev": 52.53965358848231,
+        "individual": [
+          4892.6038076470995,
+          4913.716184691139,
+          4992.305642441138
+        ]
+      },
+      "inference_mean_ms": {
+        "mean": 4988.659587416591,
+        "stdev": 52.89027751194451,
+        "individual": [
+          4948.170876132361,
+          4969.307482999792,
+          5048.50040311762
+        ]
+      },
+      "preemptions": {
+        "mean": 0.0,
+        "stdev": 0.0,
+        "individual": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "owned-immediate": {
+      "queue_mean_ms": {
+        "mean": 31981.13998183332,
+        "stdev": 661.6356248929891,
+        "individual": [
+          32705.246161852814,
+          31408.10257920598,
+          31830.071204441163
+        ]
+      },
+      "prefill_mean_ms": {
+        "mean": 44.30475827943084,
+        "stdev": 1.2798376000316547,
+        "individual": [
+          45.75102745585515,
+          43.844708058767374,
+          43.318539323669995
+        ]
+      },
+      "decode_mean_ms": {
+        "mean": 5030.49474944112,
+        "stdev": 86.02654295808107,
+        "individual": [
+          5118.484812544145,
+          4946.576320117589,
+          5026.423115661627
+        ]
+      },
+      "inference_mean_ms": {
+        "mean": 5074.799507720551,
+        "stdev": 87.0177200806872,
+        "individual": [
+          5164.23584,
+          4990.421028176356,
+          5069.741654985298
+        ]
+      },
+      "preemptions": {
+        "mean": 0.0,
+        "stdev": 0.0,
+        "individual": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "h2d_staging_elapsed_seconds": {
+        "mean": 0.10081617065270741,
+        "stdev": 0.0037166227555053303,
+        "individual": [
+          0.09655446386337278,
+          0.10338483238220214,
+          0.10250921571254733
+        ]
+      },
+      "d2h_staging_elapsed_seconds": {
+        "mean": 0.2057362452348073,
+        "stdev": 0.0009470449492669581,
+        "individual": [
+          0.20464553582668307,
+          0.206213343977928,
+          0.2063498558998108
+        ]
+      }
+    },
+    "h2p5-d64": {
+      "queue_mean_ms": {
+        "mean": 32493.00183098036,
+        "stdev": 435.26986964939346,
+        "individual": [
+          32080.37121251463,
+          32947.83643313239,
+          32450.797847294056
+        ]
+      },
+      "prefill_mean_ms": {
+        "mean": 49.01463748529197,
+        "stdev": 1.0413766854664968,
+        "individual": [
+          48.95265733827781,
+          48.00563513235294,
+          50.08561998524516
+        ]
+      },
+      "decode_mean_ms": {
+        "mean": 5105.156549250038,
+        "stdev": 41.20584980980603,
+        "individual": [
+          5057.578448808968,
+          5128.5389947941385,
+          5129.352204147006
+        ]
+      },
+      "inference_mean_ms": {
+        "mean": 5154.17118673533,
+        "stdev": 41.282872986354185,
+        "individual": [
+          5106.531106147245,
+          5176.544629926492,
+          5179.437824132251
+        ]
+      },
+      "preemptions": {
+        "mean": 0.0,
+        "stdev": 0.0,
+        "individual": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "h2d_staging_elapsed_seconds": {
+        "mean": 0.0976937494277954,
+        "stdev": 0.006571722280822526,
+        "individual": [
+          0.09380399990081785,
+          0.10528131151199341,
+          0.09399593687057496
+        ]
+      },
+      "d2h_staging_elapsed_seconds": {
+        "mean": 0.15768183453877765,
+        "stdev": 0.008465534373663559,
+        "individual": [
+          0.15254940712451925,
+          0.16745283234119424,
+          0.1530432641506195
+        ]
+      }
+    },
+    "h5p0-d1": {
+      "queue_mean_ms": {
+        "mean": 31838.28430448533,
+        "stdev": 565.3187986329425,
+        "individual": [
+          32423.40390267651,
+          31295.10200850002,
+          31796.347002279457
+        ]
+      },
+      "prefill_mean_ms": {
+        "mean": 50.46970477447829,
+        "stdev": 0.3075842291258843,
+        "individual": [
+          50.759316499860525,
+          50.50294902944455,
+          50.14684879412979
+        ]
+      },
+      "decode_mean_ms": {
+        "mean": 5002.139956441179,
+        "stdev": 35.9195655368695,
+        "individual": [
+          5042.467002676537,
+          4973.579279352903,
+          4990.373587294096
+        ]
+      },
+      "inference_mean_ms": {
+        "mean": 5052.609661215657,
+        "stdev": 36.122546229055885,
+        "individual": [
+          5093.226319176398,
+          5024.082228382346,
+          5040.520436088226
+        ]
+      },
+      "preemptions": {
+        "mean": 0.0,
+        "stdev": 0.0,
+        "individual": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "h2d_staging_elapsed_seconds": {
+        "mean": 0.09779035743077596,
+        "stdev": 0.013550317702794164,
+        "individual": [
+          0.0821464319229126,
+          0.10536371231079102,
+          0.10586092805862428
+        ]
+      },
+      "d2h_staging_elapsed_seconds": {
+        "mean": 0.14498346686363217,
+        "stdev": 0.0016359267817699812,
+        "individual": [
+          0.14333788847923273,
+          0.14500294399261468,
+          0.1466095681190491
+        ]
+      }
+    }
+  },
+  "scope": "Post-hoc request duration counters, not exclusive kernel timings. Transfer staging durations may overlap requests and other phases; do not add these metrics into a latency budget or infer DMA causality."
+}

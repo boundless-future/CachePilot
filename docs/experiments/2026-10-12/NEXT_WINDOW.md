@@ -1,5 +1,7 @@
 # 下一工作窗口：先正式 decode，再匿名结构
 
+16:32续授更新：本页第1步已经完成，正式十二格及独立审计见 [报告](DECODE_RECEIPT_FORMAL.md)。第2步runner/离线审计和预注册已实现，真实结构试点正在运行；最新执行状态见PROGRESS.md。下面原命令和准备说明保留为历史入口，勿重复启动已完成decode矩阵。
+
 截至14:50，新decode receipt pilot四格全部通过；服务器 `/root/CachePilot` 保持205项冻结源码，不把本地新增CPU工具同步进去。模型、依赖、原 diagnostic/tuning/base reference 和完整pilot目录仍在服务器，正式重复无需重新下载模型。
 
 ## 1. 同签名 decode192 formal

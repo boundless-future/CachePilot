@@ -1,0 +1,1710 @@
+{
+  "matrix_complete": true,
+  "trace_sha256": "5deebe7cd1b7ac052ef0010fd870f349f7058675db93d9df20c5bc5f8d9c8cae",
+  "workload": "decode192-new-generation-stack",
+  "rows": [
+    {
+      "cell": "native-r0",
+      "case": "native",
+      "repeat": 0,
+      "phases": {
+        "early": {
+          "requests": 48,
+          "ttft_ms_p95": 48437.45409815129,
+          "ready_to_first_ms_p95": 48437.62344500018,
+          "ready_to_end_ms_p95": 53400.94518490059,
+          "client_queue_ms_p95": 1.673444248353917
+        },
+        "pressure": {
+          "requests": 8,
+          "ttft_ms_p95": 48209.47978454915,
+          "ready_to_first_ms_p95": 48210.170016899334,
+          "ready_to_end_ms_p95": 53169.76428199932,
+          "client_queue_ms_p95": 1.0247841492855514
+        },
+        "revisit": {
+          "requests": 12,
+          "ttft_ms_p95": 51203.51265700011,
+          "ready_to_first_ms_p95": 51204.05995479951,
+          "ready_to_end_ms_p95": 56023.30226664971,
+          "client_queue_ms_p95": 1.3269269496959168
+        }
+      },
+      "streaming": {
+        "requests": 68,
+        "first_to_last_fragment_ms": {
+          "mean": 4892.584116544293,
+          "p95": 5088.253429550059
+        },
+        "final_fragment_to_completion_ms": {
+          "mean": 0.04137198536281015,
+          "p95": 0.05704894983864506
+        },
+        "stream_span_per_output_interval_ms": {
+          "mean": 25.615623646828755,
+          "p95": 26.640070311780413
+        },
+        "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+      },
+      "phase_streaming": {
+        "early": {
+          "requests": 48,
+          "first_to_last_fragment_ms": {
+            "mean": 4862.0838930627315,
+            "p95": 5010.888816401166
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.04115187509038757,
+            "p95": 0.05520095101019251
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 25.455936612893883,
+            "p95": 26.23501998115794
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        },
+        "pressure": {
+          "requests": 8,
+          "first_to_last_fragment_ms": {
+            "mean": 5026.93713087524,
+            "p95": 5100.06664110042
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.040753000348559,
+            "p95": 0.04624940102075925
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 26.319042570027435,
+            "p95": 26.7019195869132
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        },
+        "revisit": {
+          "requests": 12,
+          "first_to_last_fragment_ms": {
+            "mean": 4925.016334249904,
+            "p95": 5069.721258749632
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.0426650831286679,
+            "p95": 0.05852879939993727
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 25.78542583376913,
+            "p95": 26.54304323952687
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        }
+      }
+    },
+    {
+      "cell": "owned-immediate-r0",
+      "case": "owned-immediate",
+      "repeat": 0,
+      "phases": {
+        "early": {
+          "requests": 48,
+          "ttft_ms_p95": 51350.534383949715,
+          "ready_to_first_ms_p95": 51351.159519249995,
+          "ready_to_end_ms_p95": 56570.874057400484,
+          "client_queue_ms_p95": 1.7102402508498926
+        },
+        "pressure": {
+          "requests": 8,
+          "ttft_ms_p95": 51393.22381224983,
+          "ready_to_first_ms_p95": 51393.84257275033,
+          "ready_to_end_ms_p95": 56457.233140501194,
+          "client_queue_ms_p95": 1.5878986009738583
+        },
+        "revisit": {
+          "requests": 12,
+          "ttft_ms_p95": 54757.702347499886,
+          "ready_to_first_ms_p95": 54758.51423055092,
+          "ready_to_end_ms_p95": 59880.028223351015,
+          "client_queue_ms_p95": 1.0889831512940873
+        }
+      },
+      "streaming": {
+        "requests": 68,
+        "first_to_last_fragment_ms": {
+          "mean": 5118.386613602899,
+          "p95": 5284.794412349311
+        },
+        "final_fragment_to_completion_ms": {
+          "mean": 0.04366810288261417,
+          "p95": 0.06174360096338205
+        },
+        "stream_span_per_output_interval_ms": {
+          "mean": 26.797835673313607,
+          "p95": 27.66908069292833
+        },
+        "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+      },
+      "phase_streaming": {
+        "early": {
+          "requests": 48,
+          "first_to_last_fragment_ms": {
+            "mean": 5120.327268666529,
+            "p95": 5294.007768198753
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.04416829172744959,
+            "p95": 0.06163475036373711
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 26.807996171028947,
+            "p95": 27.717318158108654
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        },
+        "pressure": {
+          "requests": 8,
+          "first_to_last_fragment_ms": {
+            "mean": 5082.420041875366,
+            "p95": 5141.9241208999665
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.0382457496925781,
+            "p95": 0.04840259862248786
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 26.609529015054274,
+            "p95": 26.921068695811343
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        },
+        "revisit": {
+          "requests": 12,
+          "first_to_last_fragment_ms": {
+            "mean": 5134.601707833402,
+            "p95": 5158.34298500049
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.04528224962996319,
+            "p95": 0.07694105051996303
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 26.88273145462514,
+            "p95": 27.007031335081102
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        }
+      }
+    },
+    {
+      "cell": "h2p5-d64-r0",
+      "case": "h2p5-d64",
+      "repeat": 0,
+      "phases": {
+        "early": {
+          "requests": 48,
+          "ttft_ms_p95": 50727.7319810999,
+          "ready_to_first_ms_p95": 50728.352824150716,
+          "ready_to_end_ms_p95": 55816.2026192007,
+          "client_queue_ms_p95": 1.3165263013434014
+        },
+        "pressure": {
+          "requests": 8,
+          "ttft_ms_p95": 50625.69668650022,
+          "ready_to_first_ms_p95": 50626.06713055084,
+          "ready_to_end_ms_p95": 55681.44243225024,
+          "client_queue_ms_p95": 0.7420100500894478
+        },
+        "revisit": {
+          "requests": 12,
+          "ttft_ms_p95": 53871.00636694977,
+          "ready_to_first_ms_p95": 53871.570770900595,
+          "ready_to_end_ms_p95": 58852.18934015102,
+          "client_queue_ms_p95": 2.075307100039936
+        }
+      },
+      "streaming": {
+        "requests": 68,
+        "first_to_last_fragment_ms": {
+          "mean": 5057.75469638245,
+          "p95": 5247.686329349926
+        },
+        "final_fragment_to_completion_ms": {
+          "mean": 0.04176230889724513,
+          "p95": 0.057772500895225676
+        },
+        "stream_span_per_output_interval_ms": {
+          "mean": 26.48039108053639,
+          "p95": 27.47479753586349
+        },
+        "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+      },
+      "phase_streaming": {
+        "early": {
+          "requests": 48,
+          "first_to_last_fragment_ms": {
+            "mean": 5062.66047833348,
+            "p95": 5284.82591535012
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.040533729171935796,
+            "p95": 0.05751865046477178
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 26.506075802793085,
+            "p95": 27.669245630105344
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        },
+        "pressure": {
+          "requests": 8,
+          "first_to_last_fragment_ms": {
+            "mean": 5057.924668874875,
+            "p95": 5135.835833249439
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.045392250058284844,
+            "p95": 0.05494385040947236
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 26.481280988873692,
+            "p95": 26.8891928442379
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        },
+        "revisit": {
+          "requests": 12,
+          "first_to_last_fragment_ms": {
+            "mean": 5038.018253583384,
+            "p95": 5226.497713150366
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.044256667024455965,
+            "p95": 0.06448024942073971
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 26.37705891928473,
+            "p95": 27.363862372515005
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        }
+      }
+    },
+    {
+      "cell": "h5p0-d1-r0",
+      "case": "h5p0-d1",
+      "repeat": 0,
+      "phases": {
+        "early": {
+          "requests": 48,
+          "ttft_ms_p95": 50843.69016004993,
+          "ready_to_first_ms_p95": 50844.11533664933,
+          "ready_to_end_ms_p95": 55808.09675899973,
+          "client_queue_ms_p95": 1.5138313495299371
+        },
+        "pressure": {
+          "requests": 8,
+          "ttft_ms_p95": 50818.08466125058,
+          "ready_to_first_ms_p95": 50818.97234140015,
+          "ready_to_end_ms_p95": 55791.10528714936,
+          "client_queue_ms_p95": 1.6954117996647255
+        },
+        "revisit": {
+          "requests": 12,
+          "ttft_ms_p95": 53733.40247155074,
+          "ready_to_first_ms_p95": 53734.53694120017,
+          "ready_to_end_ms_p95": 58634.07186645009,
+          "client_queue_ms_p95": 1.3626044492411893
+        }
+      },
+      "streaming": {
+        "requests": 68,
+        "first_to_last_fragment_ms": {
+          "mean": 5042.508692867587,
+          "p95": 5290.614305649888
+        },
+        "final_fragment_to_completion_ms": {
+          "mean": 0.041581647003434176,
+          "p95": 0.05880335002075299
+        },
+        "stream_span_per_output_interval_ms": {
+          "mean": 26.40056907260517,
+          "p95": 27.699551338481086
+        },
+        "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+      },
+      "phase_streaming": {
+        "early": {
+          "requests": 48,
+          "first_to_last_fragment_ms": {
+            "mean": 5056.173658041644,
+            "p95": 5331.95808360033
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.04211635412805966,
+            "p95": 0.05809845015392057
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 26.472113392888186,
+            "p95": 27.916010908902248
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        },
+        "pressure": {
+          "requests": 8,
+          "first_to_last_fragment_ms": {
+            "mean": 5114.5375638750465,
+            "p95": 5212.792738850112
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.040099499756252044,
+            "p95": 0.04433779904502444
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 26.777683580497627,
+            "p95": 27.29210858036708
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        },
+        "revisit": {
+          "requests": 12,
+          "first_to_last_fragment_ms": {
+            "mean": 4939.829584833054,
+            "p95": 5010.2255715001775
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.04043091666972032,
+            "p95": 0.05939590027992381
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 25.862982119544785,
+            "p95": 26.231547494765326
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        }
+      }
+    },
+    {
+      "cell": "native-r1",
+      "case": "native",
+      "repeat": 1,
+      "phases": {
+        "early": {
+          "requests": 48,
+          "ttft_ms_p95": 48530.5087470997,
+          "ready_to_first_ms_p95": 48530.931712600795,
+          "ready_to_end_ms_p95": 53423.31880065048,
+          "client_queue_ms_p95": 1.3149351004358323
+        },
+        "pressure": {
+          "requests": 8,
+          "ttft_ms_p95": 48312.40349855016,
+          "ready_to_first_ms_p95": 48312.999875250716,
+          "ready_to_end_ms_p95": 53623.59474180039,
+          "client_queue_ms_p95": 0.9701094497359009
+        },
+        "revisit": {
+          "requests": 12,
+          "ttft_ms_p95": 51624.94905179882,
+          "ready_to_first_ms_p95": 51625.40626509963,
+          "ready_to_end_ms_p95": 56380.32687760014,
+          "client_queue_ms_p95": 1.443047800239583
+        }
+      },
+      "streaming": {
+        "requests": 68,
+        "first_to_last_fragment_ms": {
+          "mean": 4913.66873433823,
+          "p95": 5256.437990049652
+        },
+        "final_fragment_to_completion_ms": {
+          "mean": 0.04276722064091968,
+          "p95": 0.06141104977359646
+        },
+        "stream_span_per_output_interval_ms": {
+          "mean": 25.726014315906962,
+          "p95": 27.520617748951064
+        },
+        "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+      },
+      "phase_streaming": {
+        "early": {
+          "requests": 48,
+          "first_to_last_fragment_ms": {
+            "mean": 4864.106234541775,
+            "p95": 4951.430995499504
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.04363868735405655,
+            "p95": 0.06141104977359646
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 25.46652478817683,
+            "p95": 25.9237224895262
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        },
+        "pressure": {
+          "requests": 8,
+          "first_to_last_fragment_ms": {
+            "mean": 5242.345027749707,
+            "p95": 5310.557243049243
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.04173462548351381,
+            "p95": 0.05539415096791345
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 27.446832606019406,
+            "p95": 27.803964623294465
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        },
+        "revisit": {
+          "requests": 12,
+          "first_to_last_fragment_ms": {
+            "mean": 4892.801204583066,
+            "p95": 4946.178144500209
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.03996975055997609,
+            "p95": 0.056081300317600835
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 25.616760233419193,
+            "p95": 25.896220651833556
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        }
+      }
+    },
+    {
+      "cell": "owned-immediate-r1",
+      "case": "owned-immediate",
+      "repeat": 1,
+      "phases": {
+        "early": {
+          "requests": 48,
+          "ttft_ms_p95": 49503.88707944967,
+          "ready_to_first_ms_p95": 49504.22060814881,
+          "ready_to_end_ms_p95": 54365.69879979853,
+          "client_queue_ms_p95": 1.6207077994295105
+        },
+        "pressure": {
+          "requests": 8,
+          "ttft_ms_p95": 49085.92705099981,
+          "ready_to_first_ms_p95": 49087.69394399933,
+          "ready_to_end_ms_p95": 54029.722792350185,
+          "client_queue_ms_p95": 1.7668929995124927
+        },
+        "revisit": {
+          "requests": 12,
+          "ttft_ms_p95": 51936.23503180061,
+          "ready_to_first_ms_p95": 51936.918089300336,
+          "ready_to_end_ms_p95": 56928.62262369918,
+          "client_queue_ms_p95": 0.9918900504999328
+        }
+      },
+      "streaming": {
+        "requests": 68,
+        "first_to_last_fragment_ms": {
+          "mean": 4946.629046852944,
+          "p95": 5086.820669450844
+        },
+        "final_fragment_to_completion_ms": {
+          "mean": 0.04329574997374199,
+          "p95": 0.06329699954221724
+        },
+        "stream_span_per_output_interval_ms": {
+          "mean": 25.898581397135832,
+          "p95": 26.63256895000442
+        },
+        "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+      },
+      "phase_streaming": {
+        "early": {
+          "requests": 48,
+          "first_to_last_fragment_ms": {
+            "mean": 4939.312630999969,
+            "p95": 5089.120942201134
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.0424534583392718,
+            "p95": 0.06106965065555414
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 25.86027555497366,
+            "p95": 26.64461226283316
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        },
+        "pressure": {
+          "requests": 8,
+          "first_to_last_fragment_ms": {
+            "mean": 4961.510772000111,
+            "p95": 5042.140227400523
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.04562300023280841,
+            "p95": 0.05352459984351299
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 25.976496188482255,
+            "p95": 26.39863993403415
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        },
+        "revisit": {
+          "requests": 12,
+          "first_to_last_fragment_ms": {
+            "mean": 4965.973560166731,
+            "p95": 4991.654017049859
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.045113416338911826,
+            "p95": 0.06864639981358778
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 25.999861571553563,
+            "p95": 26.134314225391932
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        }
+      }
+    },
+    {
+      "cell": "h2p5-d64-r1",
+      "case": "h2p5-d64",
+      "repeat": 1,
+      "phases": {
+        "early": {
+          "requests": 48,
+          "ttft_ms_p95": 51558.33208860058,
+          "ready_to_first_ms_p95": 51559.1135801501,
+          "ready_to_end_ms_p95": 56731.063904750226,
+          "client_queue_ms_p95": 1.1865605006278201
+        },
+        "pressure": {
+          "requests": 8,
+          "ttft_ms_p95": 51625.26413439973,
+          "ready_to_first_ms_p95": 51625.642705600876,
+          "ready_to_end_ms_p95": 56727.51369695097,
+          "client_queue_ms_p95": 1.5049303508931189
+        },
+        "revisit": {
+          "requests": 12,
+          "ttft_ms_p95": 54916.865604950726,
+          "ready_to_first_ms_p95": 54917.454941400414,
+          "ready_to_end_ms_p95": 60042.255856599884,
+          "client_queue_ms_p95": 1.1911036012861587
+        }
+      },
+      "streaming": {
+        "requests": 68,
+        "first_to_last_fragment_ms": {
+          "mean": 5128.6873937500895,
+          "p95": 5426.128996050375
+        },
+        "final_fragment_to_completion_ms": {
+          "mean": 0.042558088192462866,
+          "p95": 0.05672710094586364
+        },
+        "stream_span_per_output_interval_ms": {
+          "mean": 26.851766459424553,
+          "p95": 28.409052335342277
+        },
+        "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+      },
+      "phase_streaming": {
+        "early": {
+          "requests": 48,
+          "first_to_last_fragment_ms": {
+            "mean": 5131.026228916805,
+            "p95": 5438.024049349951
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.04307804169911833,
+            "p95": 0.05835095080328756
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 26.86401166972149,
+            "p95": 28.471330101308645
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        },
+        "pressure": {
+          "requests": 8,
+          "first_to_last_fragment_ms": {
+            "mean": 5172.33237875007,
+            "p95": 5201.772563000031
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.043602124833341804,
+            "p95": 0.05088284924568143
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 27.08027423429356,
+            "p95": 27.234411324607496
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        },
+        "revisit": {
+          "requests": 12,
+          "first_to_last_fragment_ms": {
+            "mean": 5090.235396416574,
+            "p95": 5144.6758632491765
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.039782249738588384,
+            "p95": 0.052995049736637156
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 26.650447101657456,
+            "p95": 26.93547572381768
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        }
+      }
+    },
+    {
+      "cell": "h5p0-d1-r1",
+      "case": "h5p0-d1",
+      "repeat": 1,
+      "phases": {
+        "early": {
+          "requests": 48,
+          "ttft_ms_p95": 49193.15463395041,
+          "ready_to_first_ms_p95": 49193.60140184853,
+          "ready_to_end_ms_p95": 54038.52659559825,
+          "client_queue_ms_p95": 1.8040223993921245
+        },
+        "pressure": {
+          "requests": 8,
+          "ttft_ms_p95": 49186.24591110028,
+          "ready_to_first_ms_p95": 49186.886580399005,
+          "ready_to_end_ms_p95": 54343.447627399924,
+          "client_queue_ms_p95": 1.148488948092563
+        },
+        "revisit": {
+          "requests": 12,
+          "ttft_ms_p95": 52570.55112225017,
+          "ready_to_first_ms_p95": 52571.49630399917,
+          "ready_to_end_ms_p95": 57453.06127529839,
+          "client_queue_ms_p95": 1.6762312995524553
+        }
+      },
+      "streaming": {
+        "requests": 68,
+        "first_to_last_fragment_ms": {
+          "mean": 4973.701134617707,
+          "p95": 5288.05967734952
+        },
+        "final_fragment_to_completion_ms": {
+          "mean": 0.04085958811201101,
+          "p95": 0.05272289954518783
+        },
+        "stream_span_per_output_interval_ms": {
+          "mean": 26.040320076532495,
+          "p95": 27.686176321201675
+        },
+        "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+      },
+      "phase_streaming": {
+        "early": {
+          "requests": 48,
+          "first_to_last_fragment_ms": {
+            "mean": 4915.004470645954,
+            "p95": 5081.349798250085
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.04015766656569516,
+            "p95": 0.050247498893440934
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 25.733007699717035,
+            "p95": 26.603925645288406
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        },
+        "pressure": {
+          "requests": 8,
+          "first_to_last_fragment_ms": {
+            "mean": 5262.805021499844,
+            "p95": 5338.935943949582
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.045747375224891584,
+            "p95": 0.053623349504050566
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 27.55395299214578,
+            "p95": 27.952544209160113
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        },
+        "revisit": {
+          "requests": 12,
+          "first_to_last_fragment_ms": {
+            "mean": 5015.751865916627,
+            "p95": 5116.023780949672
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.04040874955535401,
+            "p95": 0.05231319946688018
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 26.260480973385484,
+            "p95": 26.78546482172603
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        }
+      }
+    },
+    {
+      "cell": "native-r2",
+      "case": "native",
+      "repeat": 2,
+      "phases": {
+        "early": {
+          "requests": 48,
+          "ttft_ms_p95": 49575.183614549765,
+          "ready_to_first_ms_p95": 49575.793069599604,
+          "ready_to_end_ms_p95": 54843.295471149664,
+          "client_queue_ms_p95": 1.6345658496902615
+        },
+        "pressure": {
+          "requests": 8,
+          "ttft_ms_p95": 49708.64884980047,
+          "ready_to_first_ms_p95": 49709.423289449755,
+          "ready_to_end_ms_p95": 54716.305218949215,
+          "client_queue_ms_p95": 1.1581180494431464
+        },
+        "revisit": {
+          "requests": 12,
+          "ttft_ms_p95": 52862.55247735008,
+          "ready_to_first_ms_p95": 52863.1419157995,
+          "ready_to_end_ms_p95": 57724.75714374941,
+          "client_queue_ms_p95": 0.9490911501416122
+        }
+      },
+      "streaming": {
+        "requests": 68,
+        "first_to_last_fragment_ms": {
+          "mean": 4992.270506720562,
+          "p95": 5295.026365899594
+        },
+        "final_fragment_to_completion_ms": {
+          "mean": 0.04293808832003646,
+          "p95": 0.05929329945502104
+        },
+        "stream_span_per_output_interval_ms": {
+          "mean": 26.137541920002942,
+          "p95": 27.722651130364365
+        },
+        "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+      },
+      "phase_streaming": {
+        "early": {
+          "requests": 48,
+          "first_to_last_fragment_ms": {
+            "mean": 4981.720186249997,
+            "p95": 5298.768489550184
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.04342485427362893,
+            "p95": 0.06067795038688928
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 26.08230464005234,
+            "p95": 27.742243400786307
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        },
+        "pressure": {
+          "requests": 8,
+          "first_to_last_fragment_ms": {
+            "mean": 5079.240743874834,
+            "p95": 5157.834869350245
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.044579000132216606,
+            "p95": 0.05349055045371642
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 26.592883475784472,
+            "p95": 27.00437104371856
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        },
+        "revisit": {
+          "requests": 12,
+          "first_to_last_fragment_ms": {
+            "mean": 4976.491630499974,
+            "p95": 5128.881627749797
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.03989708329754649,
+            "p95": 0.053440349529410014
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 26.054930002617663,
+            "p95": 26.85278339136019
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        }
+      }
+    },
+    {
+      "cell": "owned-immediate-r2",
+      "case": "owned-immediate",
+      "repeat": 2,
+      "phases": {
+        "early": {
+          "requests": 48,
+          "ttft_ms_p95": 50219.01927864983,
+          "ready_to_first_ms_p95": 50220.356055199954,
+          "ready_to_end_ms_p95": 55371.1815261493,
+          "client_queue_ms_p95": 1.7649784505010757
+        },
+        "pressure": {
+          "requests": 8,
+          "ttft_ms_p95": 50279.83987464968,
+          "ready_to_first_ms_p95": 50280.29705195068,
+          "ready_to_end_ms_p95": 55359.478775400836,
+          "client_queue_ms_p95": 0.9210347497173643
+        },
+        "revisit": {
+          "requests": 12,
+          "ttft_ms_p95": 53353.57965600097,
+          "ready_to_first_ms_p95": 53353.89517250042,
+          "ready_to_end_ms_p95": 58270.30878435043,
+          "client_queue_ms_p95": 0.9730319004120247
+        }
+      },
+      "streaming": {
+        "requests": 68,
+        "first_to_last_fragment_ms": {
+          "mean": 5026.439188661858,
+          "p95": 5210.455228500086
+        },
+        "final_fragment_to_completion_ms": {
+          "mean": 0.040283764653448836,
+          "p95": 0.05301500032146578
+        },
+        "stream_span_per_output_interval_ms": {
+          "mean": 26.316435542732243,
+          "p95": 27.279870306283172
+        },
+        "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+      },
+      "phase_streaming": {
+        "early": {
+          "requests": 48,
+          "first_to_last_fragment_ms": {
+            "mean": 5020.306365833335,
+            "p95": 5204.471441299938
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.04019991664942305,
+            "p95": 0.051136599086021306
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 26.284326522687618,
+            "p95": 27.24854157748659
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        },
+        "pressure": {
+          "requests": 8,
+          "first_to_last_fragment_ms": {
+            "mean": 5166.84214712518,
+            "p95": 5218.269694250284
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.04475049991015112,
+            "p95": 0.06071719917599694
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 27.05152956610042,
+            "p95": 27.320783739530285
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        },
+        "revisit": {
+          "requests": 12,
+          "first_to_last_fragment_ms": {
+            "mean": 4957.36850766707,
+            "p95": 5011.925879951104
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.03764133316508378,
+            "p95": 0.052746449546248186
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 25.954808940665288,
+            "p95": 26.240449633251856
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        }
+      }
+    },
+    {
+      "cell": "h2p5-d64-r2",
+      "case": "h2p5-d64",
+      "repeat": 2,
+      "phases": {
+        "early": {
+          "requests": 48,
+          "ttft_ms_p95": 51195.911980549405,
+          "ready_to_first_ms_p95": 51197.15895149984,
+          "ready_to_end_ms_p95": 56180.24303660022,
+          "client_queue_ms_p95": 1.8838032505300362
+        },
+        "pressure": {
+          "requests": 8,
+          "ttft_ms_p95": 51013.81340999924,
+          "ready_to_first_ms_p95": 51014.44595054936,
+          "ready_to_end_ms_p95": 56177.462217900844,
+          "client_queue_ms_p95": 1.4375954486240516
+        },
+        "revisit": {
+          "requests": 12,
+          "ttft_ms_p95": 54853.64229699944,
+          "ready_to_first_ms_p95": 54854.61969219923,
+          "ready_to_end_ms_p95": 60108.85176179973,
+          "client_queue_ms_p95": 1.2022238003737584
+        }
+      },
+      "streaming": {
+        "requests": 68,
+        "first_to_last_fragment_ms": {
+          "mean": 5129.571499955893,
+          "p95": 5385.0844371002495
+        },
+        "final_fragment_to_completion_ms": {
+          "mean": 0.043492514792245966,
+          "p95": 0.06806639921705937
+        },
+        "stream_span_per_output_interval_ms": {
+          "mean": 26.856395287727192,
+          "p95": 28.19415935654581
+        },
+        "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+      },
+      "phase_streaming": {
+        "early": {
+          "requests": 48,
+          "first_to_last_fragment_ms": {
+            "mean": 5090.352296499948,
+            "p95": 5361.424959149554
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.044243187517167826,
+            "p95": 0.06411814938473981
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 26.651059143978788,
+            "p95": 28.070287744238502
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        },
+        "pressure": {
+          "requests": 8,
+          "first_to_last_fragment_ms": {
+            "mean": 5123.876592000215,
+            "p95": 5239.872394400209
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.04261037543074053,
+            "p95": 0.052435299949138425
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 26.82657901570793,
+            "p95": 27.433886881676486
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        },
+        "revisit": {
+          "requests": 12,
+          "first_to_last_fragment_ms": {
+            "mean": 5290.244919083459,
+            "p95": 5385.87871424952
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.0410779168002288,
+            "p95": 0.06913654933669022
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 27.697617377400306,
+            "p95": 28.198317875651938
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        }
+      }
+    },
+    {
+      "cell": "h5p0-d1-r2",
+      "case": "h5p0-d1",
+      "repeat": 2,
+      "phases": {
+        "early": {
+          "requests": 48,
+          "ttft_ms_p95": 49864.260647099305,
+          "ready_to_first_ms_p95": 49864.84355914826,
+          "ready_to_end_ms_p95": 54871.30589359913,
+          "client_queue_ms_p95": 1.1526939994837448
+        },
+        "pressure": {
+          "requests": 8,
+          "ttft_ms_p95": 49722.13145580009,
+          "ready_to_first_ms_p95": 49722.745538799965,
+          "ready_to_end_ms_p95": 54788.19426909923,
+          "client_queue_ms_p95": 1.3208487991505535
+        },
+        "revisit": {
+          "requests": 12,
+          "ttft_ms_p95": 52661.73198445004,
+          "ready_to_first_ms_p95": 52662.83370304965,
+          "ready_to_end_ms_p95": 57730.343859499044,
+          "client_queue_ms_p95": 1.4486357489658985
+        }
+      },
+      "streaming": {
+        "requests": 68,
+        "first_to_last_fragment_ms": {
+          "mean": 4990.533877867593,
+          "p95": 5282.869803849645
+        },
+        "final_fragment_to_completion_ms": {
+          "mean": 0.03981657375655178,
+          "p95": 0.05574600054387702
+        },
+        "stream_span_per_output_interval_ms": {
+          "mean": 26.128449622343418,
+          "p95": 27.65900420863688
+        },
+        "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+      },
+      "phase_streaming": {
+        "early": {
+          "requests": 48,
+          "first_to_last_fragment_ms": {
+            "mean": 4984.180008374968,
+            "p95": 5307.679678699514
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.038290354382297664,
+            "p95": 0.04934265034535201
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 26.095183289921298,
+            "p95": 27.788898841358716
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        },
+        "pressure": {
+          "requests": 8,
+          "first_to_last_fragment_ms": {
+            "mean": 5073.865681874395,
+            "p95": 5148.893040600433
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.04555212535706232,
+            "p95": 0.05756690025009448
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 26.564741789918298,
+            "p95": 26.9575551863897
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        },
+        "revisit": {
+          "requests": 12,
+          "first_to_last_fragment_ms": {
+            "mean": 4960.394819833557,
+            "p95": 5075.986788950286
+          },
+          "final_fragment_to_completion_ms": {
+            "mean": 0.04209775018656122,
+            "p95": 0.07600534945595427
+          },
+          "stream_span_per_output_interval_ms": {
+            "mean": 25.97065350698198,
+            "p95": 26.575847062566947
+          },
+          "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+        }
+      }
+    }
+  ],
+  "aggregates": {
+    "native": {
+      "early": {
+        "requests": {
+          "mean": 48,
+          "stdev": 0.0,
+          "individual": [
+            48,
+            48,
+            48
+          ]
+        },
+        "ttft_ms_p95": {
+          "mean": 48847.71548660025,
+          "stdev": 631.7216157529393,
+          "individual": [
+            48437.45409815129,
+            48530.5087470997,
+            49575.183614549765
+          ]
+        },
+        "ready_to_first_ms_p95": {
+          "mean": 48848.116075733524,
+          "stdev": 631.9113575115862,
+          "individual": [
+            48437.62344500018,
+            48530.931712600795,
+            49575.793069599604
+          ]
+        },
+        "ready_to_end_ms_p95": {
+          "mean": 53889.18648556691,
+          "stdev": 826.3583435457903,
+          "individual": [
+            53400.94518490059,
+            53423.31880065048,
+            54843.295471149664
+          ]
+        },
+        "client_queue_ms_p95": {
+          "mean": 1.5409817328266702,
+          "stdev": 0.19672491576333564,
+          "individual": [
+            1.673444248353917,
+            1.3149351004358323,
+            1.6345658496902615
+          ]
+        }
+      },
+      "pressure": {
+        "requests": {
+          "mean": 8,
+          "stdev": 0.0,
+          "individual": [
+            8,
+            8,
+            8
+          ]
+        },
+        "ttft_ms_p95": {
+          "mean": 48743.51071096659,
+          "stdev": 837.4168872191027,
+          "individual": [
+            48209.47978454915,
+            48312.40349855016,
+            49708.64884980047
+          ]
+        },
+        "ready_to_first_ms_p95": {
+          "mean": 48744.197727199935,
+          "stdev": 837.4895727455367,
+          "individual": [
+            48210.170016899334,
+            48312.999875250716,
+            49709.423289449755
+          ]
+        },
+        "ready_to_end_ms_p95": {
+          "mean": 53836.55474758297,
+          "stdev": 794.9598672025235,
+          "individual": [
+            53169.76428199932,
+            53623.59474180039,
+            54716.305218949215
+          ]
+        },
+        "client_queue_ms_p95": {
+          "mean": 1.051003882821533,
+          "stdev": 0.09670788081119983,
+          "individual": [
+            1.0247841492855514,
+            0.9701094497359009,
+            1.1581180494431464
+          ]
+        }
+      },
+      "revisit": {
+        "requests": {
+          "mean": 12,
+          "stdev": 0.0,
+          "individual": [
+            12,
+            12,
+            12
+          ]
+        },
+        "ttft_ms_p95": {
+          "mean": 51897.00472871634,
+          "stdev": 862.3305630000607,
+          "individual": [
+            51203.51265700011,
+            51624.94905179882,
+            52862.55247735008
+          ]
+        },
+        "ready_to_first_ms_p95": {
+          "mean": 51897.536045232875,
+          "stdev": 862.368367494669,
+          "individual": [
+            51204.05995479951,
+            51625.40626509963,
+            52863.1419157995
+          ]
+        },
+        "ready_to_end_ms_p95": {
+          "mean": 56709.462095999756,
+          "stdev": 897.2093784032849,
+          "individual": [
+            56023.30226664971,
+            56380.32687760014,
+            57724.75714374941
+          ]
+        },
+        "client_queue_ms_p95": {
+          "mean": 1.2396886333590373,
+          "stdev": 0.2582754071180073,
+          "individual": [
+            1.3269269496959168,
+            1.443047800239583,
+            0.9490911501416122
+          ]
+        }
+      }
+    },
+    "owned-immediate": {
+      "early": {
+        "requests": {
+          "mean": 48,
+          "stdev": 0.0,
+          "individual": [
+            48,
+            48,
+            48
+          ]
+        },
+        "ttft_ms_p95": {
+          "mean": 50357.81358068307,
+          "stdev": 931.1146333894619,
+          "individual": [
+            51350.534383949715,
+            49503.88707944967,
+            50219.01927864983
+          ]
+        },
+        "ready_to_first_ms_p95": {
+          "mean": 50358.57872753292,
+          "stdev": 931.195449782191,
+          "individual": [
+            51351.159519249995,
+            49504.22060814881,
+            50220.356055199954
+          ]
+        },
+        "ready_to_end_ms_p95": {
+          "mean": 55435.918127782774,
+          "stdev": 1104.0120469805809,
+          "individual": [
+            56570.874057400484,
+            54365.69879979853,
+            55371.1815261493
+          ]
+        },
+        "client_queue_ms_p95": {
+          "mean": 1.6986421669268263,
+          "stdev": 0.07283125601805998,
+          "individual": [
+            1.7102402508498926,
+            1.6207077994295105,
+            1.7649784505010757
+          ]
+        }
+      },
+      "pressure": {
+        "requests": {
+          "mean": 8,
+          "stdev": 0.0,
+          "individual": [
+            8,
+            8,
+            8
+          ]
+        },
+        "ttft_ms_p95": {
+          "mean": 50252.996912633105,
+          "stdev": 1153.8825739979252,
+          "individual": [
+            51393.22381224983,
+            49085.92705099981,
+            50279.83987464968
+          ]
+        },
+        "ready_to_first_ms_p95": {
+          "mean": 50253.944522900114,
+          "stdev": 1153.3001414692742,
+          "individual": [
+            51393.84257275033,
+            49087.69394399933,
+            50280.29705195068
+          ]
+        },
+        "ready_to_end_ms_p95": {
+          "mean": 55282.14490275074,
+          "stdev": 1215.6015048071279,
+          "individual": [
+            56457.233140501194,
+            54029.722792350185,
+            55359.478775400836
+          ]
+        },
+        "client_queue_ms_p95": {
+          "mean": 1.425275450067905,
+          "stdev": 0.44576200106621333,
+          "individual": [
+            1.5878986009738583,
+            1.7668929995124927,
+            0.9210347497173643
+          ]
+        }
+      },
+      "revisit": {
+        "requests": {
+          "mean": 12,
+          "stdev": 0.0,
+          "individual": [
+            12,
+            12,
+            12
+          ]
+        },
+        "ttft_ms_p95": {
+          "mean": 53349.17234510049,
+          "stdev": 1410.738821214563,
+          "individual": [
+            54757.702347499886,
+            51936.23503180061,
+            53353.57965600097
+          ]
+        },
+        "ready_to_first_ms_p95": {
+          "mean": 53349.775830783896,
+          "stdev": 1410.8025810907004,
+          "individual": [
+            54758.51423055092,
+            51936.918089300336,
+            53353.89517250042
+          ]
+        },
+        "ready_to_end_ms_p95": {
+          "mean": 58359.65321046687,
+          "stdev": 1477.7298715504844,
+          "individual": [
+            59880.028223351015,
+            56928.62262369918,
+            58270.30878435043
+          ]
+        },
+        "client_queue_ms_p95": {
+          "mean": 1.017968367402015,
+          "stdev": 0.0622192261653327,
+          "individual": [
+            1.0889831512940873,
+            0.9918900504999328,
+            0.9730319004120247
+          ]
+        }
+      }
+    },
+    "h2p5-d64": {
+      "early": {
+        "requests": {
+          "mean": 48,
+          "stdev": 0.0,
+          "individual": [
+            48,
+            48,
+            48
+          ]
+        },
+        "ttft_ms_p95": {
+          "mean": 51160.65868341663,
+          "stdev": 416.4207377930206,
+          "individual": [
+            50727.7319810999,
+            51558.33208860058,
+            51195.911980549405
+          ]
+        },
+        "ready_to_first_ms_p95": {
+          "mean": 51161.54178526688,
+          "stdev": 416.52406332049634,
+          "individual": [
+            50728.352824150716,
+            51559.1135801501,
+            51197.15895149984
+          ]
+        },
+        "ready_to_end_ms_p95": {
+          "mean": 56242.50318685039,
+          "stdev": 460.5974790217712,
+          "individual": [
+            55816.2026192007,
+            56731.063904750226,
+            56180.24303660022
+          ]
+        },
+        "client_queue_ms_p95": {
+          "mean": 1.462296684167086,
+          "stdev": 0.3707743470821892,
+          "individual": [
+            1.3165263013434014,
+            1.1865605006278201,
+            1.8838032505300362
+          ]
+        }
+      },
+      "pressure": {
+        "requests": {
+          "mean": 8,
+          "stdev": 0.0,
+          "individual": [
+            8,
+            8,
+            8
+          ]
+        },
+        "ttft_ms_p95": {
+          "mean": 51088.2580769664,
+          "stdev": 503.92487243137225,
+          "individual": [
+            50625.69668650022,
+            51625.26413439973,
+            51013.81340999924
+          ]
+        },
+        "ready_to_first_ms_p95": {
+          "mean": 51088.71859556702,
+          "stdev": 503.90986486433695,
+          "individual": [
+            50626.06713055084,
+            51625.642705600876,
+            51014.44595054936
+          ]
+        },
+        "ready_to_end_ms_p95": {
+          "mean": 56195.47278236735,
+          "stdev": 523.2681511734194,
+          "individual": [
+            55681.44243225024,
+            56727.51369695097,
+            56177.462217900844
+          ]
+        },
+        "client_queue_ms_p95": {
+          "mean": 1.2281786165355395,
+          "stdev": 0.42237827064857647,
+          "individual": [
+            0.7420100500894478,
+            1.5049303508931189,
+            1.4375954486240516
+          ]
+        }
+      },
+      "revisit": {
+        "requests": {
+          "mean": 12,
+          "stdev": 0.0,
+          "individual": [
+            12,
+            12,
+            12
+          ]
+        },
+        "ttft_ms_p95": {
+          "mean": 54547.17142296665,
+          "stdev": 586.4287543263925,
+          "individual": [
+            53871.00636694977,
+            54916.865604950726,
+            54853.64229699944
+          ]
+        },
+        "ready_to_first_ms_p95": {
+          "mean": 54547.88180150008,
+          "stdev": 586.5445632843654,
+          "individual": [
+            53871.570770900595,
+            54917.454941400414,
+            54854.61969219923
+          ]
+        },
+        "ready_to_end_ms_p95": {
+          "mean": 59667.76565285021,
+          "stdev": 707.0942617673793,
+          "individual": [
+            58852.18934015102,
+            60042.255856599884,
+            60108.85176179973
+          ]
+        },
+        "client_queue_ms_p95": {
+          "mean": 1.489544833899951,
+          "stdev": 0.5073154728884433,
+          "individual": [
+            2.075307100039936,
+            1.1911036012861587,
+            1.2022238003737584
+          ]
+        }
+      }
+    },
+    "h5p0-d1": {
+      "early": {
+        "requests": {
+          "mean": 48,
+          "stdev": 0.0,
+          "individual": [
+            48,
+            48,
+            48
+          ]
+        },
+        "ttft_ms_p95": {
+          "mean": 49967.03514703322,
+          "stdev": 830.0535097851549,
+          "individual": [
+            50843.69016004993,
+            49193.15463395041,
+            49864.260647099305
+          ]
+        },
+        "ready_to_first_ms_p95": {
+          "mean": 49967.52009921538,
+          "stdev": 830.0336837460399,
+          "individual": [
+            50844.11533664933,
+            49193.60140184853,
+            49864.84355914826
+          ]
+        },
+        "ready_to_end_ms_p95": {
+          "mean": 54905.9764160657,
+          "stdev": 885.2943999858282,
+          "individual": [
+            55808.09675899973,
+            54038.52659559825,
+            54871.30589359913
+          ]
+        },
+        "client_queue_ms_p95": {
+          "mean": 1.4901825828019355,
+          "stdev": 0.3263075531727991,
+          "individual": [
+            1.5138313495299371,
+            1.8040223993921245,
+            1.1526939994837448
+          ]
+        }
+      },
+      "pressure": {
+        "requests": {
+          "mean": 8,
+          "stdev": 0.0,
+          "individual": [
+            8,
+            8,
+            8
+          ]
+        },
+        "ttft_ms_p95": {
+          "mean": 49908.820676050316,
+          "stdev": 831.7836709994057,
+          "individual": [
+            50818.08466125058,
+            49186.24591110028,
+            49722.13145580009
+          ]
+        },
+        "ready_to_first_ms_p95": {
+          "mean": 49909.534820199704,
+          "stdev": 831.921666715109,
+          "individual": [
+            50818.97234140015,
+            49186.886580399005,
+            49722.745538799965
+          ]
+        },
+        "ready_to_end_ms_p95": {
+          "mean": 54974.24906121617,
+          "stdev": 741.5459960178206,
+          "individual": [
+            55791.10528714936,
+            54343.447627399924,
+            54788.19426909923
+          ]
+        },
+        "client_queue_ms_p95": {
+          "mean": 1.3882498489692807,
+          "stdev": 0.27962175797039884,
+          "individual": [
+            1.6954117996647255,
+            1.148488948092563,
+            1.3208487991505535
+          ]
+        }
+      },
+      "revisit": {
+        "requests": {
+          "mean": 12,
+          "stdev": 0.0,
+          "individual": [
+            12,
+            12,
+            12
+          ]
+        },
+        "ttft_ms_p95": {
+          "mean": 52988.56185941698,
+          "stdev": 646.6599883406444,
+          "individual": [
+            53733.40247155074,
+            52570.55112225017,
+            52661.73198445004
+          ]
+        },
+        "ready_to_first_ms_p95": {
+          "mean": 52989.622316083,
+          "stdev": 646.7294481863488,
+          "individual": [
+            53734.53694120017,
+            52571.49630399917,
+            52662.83370304965
+          ]
+        },
+        "ready_to_end_ms_p95": {
+          "mean": 57939.15900041584,
+          "stdev": 617.5753609157341,
+          "individual": [
+            58634.07186645009,
+            57453.06127529839,
+            57730.343859499044
+          ]
+        },
+        "client_queue_ms_p95": {
+          "mean": 1.4958238325865143,
+          "stdev": 0.16205087699818532,
+          "individual": [
+            1.3626044492411893,
+            1.6762312995524553,
+            1.4486357489658985
+          ]
+        }
+      }
+    }
+  },
+  "scope": "Post-hoc 48 early / 8 pressure / 12 revisit split; not a new tuning criterion, server phase profile or DMA causality proof. Streaming durations are SSE observations."
+}
