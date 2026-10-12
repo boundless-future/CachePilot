@@ -35,10 +35,13 @@ No RPC callbacks may mutate this ledger directly. They must deliver the original
 ticket to the scheduler. Unknown/failed completion retains ownership. Tombstones
 are never evicted: a fresh client incarnation is required at the lifetime limit.
 """
-    def __init__(self, capacity=4096):
+    def __init__(self, capacity=4096, operation_capacity=65536):
         if type(capacity) is not int or capacity <= 0:
             raise ValueError('Positive ledger capacity required')
         self.capacity = capacity
+        if type(operation_capacity) is not int or operation_capacity <= 0:
+            raise ValueError('Positive operation capacity required')
+        self.operation_capacity = operation_capacity
         self.generations = {}
         self.current = {}
         self.lookup_routes = {}
@@ -80,6 +83,8 @@ are never evicted: a fresh client incarnation is required at the lifetime limit.
                 raise RuntimeError('Lookup would cross END high water')
             if any(t.kind == 'lookup' for t in generation.operations):
                 raise RuntimeError('Duplicate lookup')
+        if self.serial >= self.operation_capacity:
+            raise RuntimeError('Ledger operation lifetime capacity exhausted')
         self.serial += 1
         ticket = Ticket(wire, self.serial, kind)
         generation.operations[ticket] = 'pending' if kind == 'pending_store' else 'active'

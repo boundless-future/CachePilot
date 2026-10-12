@@ -46,6 +46,8 @@ CachePilot 是 vLLM＋LMCache 的外部实验 Connector 和小预算 KV 卸载�
 
 ## 接下来按顺序推进
 
+2026-10-12：独立 RPC 账本候选及操作容量边界本地 49 项通过；旧 SSH 地址连接超时，服务器验证和真实 connector 接线待完成。详见 [RPC 候选报告](experiments/2026-10-12/GENERATION_RPC.md)，不更新历史 GPU 验收结论。
+
 1. 新栈 2.5 GiB formal 九格已经独立审计、归档；保留原失败和新栈结论之间的版本边界。
 2. 六点开发调优完成，后续新文本验证因保护覆盖失败停止；保留原始反例与无均值审计，不将状态改为通过。
 3. 无保护 reference 已按独立预注册完成：12/12 格通过，native 在该 trace 最低；到达时间压缩 formal 12/12 完成，native 仍有最低整体 TTFT；长 prefill pilot 在默认 fixed 的空闲身份检查处失败，按规则停止。先定位该新边界，再补稳定 decode、集中恢复；不因单一 trace 最优设置生产默认。
