@@ -1,0 +1,10 @@
+{
+  "passed": 15,
+  "failed": 1,
+  "test": "test_other_owner_changes_preserve_our_pin[committed-cancel]",
+  "actual_first_block_rank": 112,
+  "actual_last_protected_rank": 127,
+  "incorrect_assertion": "first block rank > last protected block rank",
+  "resolution": "Test distinguishes pre-commit rollback from native committed receipt. Native release appends the complete batch at tail; runtime candidate unchanged.",
+  "original_raw_pytest_log_saved": false
+}

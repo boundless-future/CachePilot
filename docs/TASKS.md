@@ -1,5 +1,7 @@
 # 待办与阶段验收
 
+23:14更新：共享前缀独立引用CPU候选完成，真实BlockPool/manager/generation相关84项通过（新增29项），本地源码差异约束2项通过。允许共享完整哈希块增加自己的保护引用；rollback只恢复有原free-rank的归零块，原回执释放不改。成功/失败/逆序回执、其他owner引用变化、旧代/多候选部分注册故障均有契约。原230源不变，仅新增candidate；模型服务bind仍拒绝，无新GPU/收益结论。下一步独立Connector接线及callback契约，再共享KV bitwise/资源准入。见 [契约报告](experiments/2026-10-12/SHARED_PREFIX_CONTRACT.md)。
+
 23:01更新：独立容量/候选窗口GPU诊断两格通过，136测量请求，开发保护4批、新文本0批。新文本存在203次容量/预算满足的候选观测，其中147次有压力排名且全部因共享首块ref>0拒绝，另56次无压力位置。实际tokenizer确认新文本首16tokens仅1种、开发20种。不能把零覆盖仅归因reserve过大；下一步共享前缀引用安全契约，不能直接删除ref检查。230源/36原始文件SHA核对、三处审计一致；真实契约34项及本地5项通过。见 [诊断报告](experiments/2026-10-12/GENERATION_CAPACITY_DIAGNOSTIC.md)。
 
 22:34更新：固定参数新文本pilot在selected-one零保护覆盖处停止。默认/调优零保护通过，三格204请求/9,792输出；候选35次capacity回退、提交0，但原请求/资源/generation/回执/计时门槛通过。selected-two与formal未启动，2/4通过、无聚合，不将无覆盖耗时写成收益。历史trace原样复用，68条各多17tokens；静态边界不是容量根因证明。50文件SHA/226源核对与服务器/本地/冻结源报告一致，56项回归通过。下一步独立只读容量/候选窗口诊断，不改reserve或输入追求通过。见 [反例报告](experiments/2026-10-12/GENERATION_STRATEGY_VALIDATION.md)。
@@ -208,7 +210,9 @@
 - [x] generation与非零保护显式交接的受控准入：真实manager/独立Connector、prefix/suffix/原回执与故障票据，GPU bitwise及取消/抢占专项，四格pilot和十二格开发formal完成；完整生产故障与泛化不在本勾选范围。见 [正式报告](experiments/2026-10-12/GENERATION_STRATEGY_FORMAL.md)。
 - [x] 新组合固定参数新文本覆盖准入的执行与失败归档：两个零保护通过，selected-one因35次capacity/0提交失败，selected-two未运行；这是反例记录，不是准入成功。见 [报告](experiments/2026-10-12/GENERATION_STRATEGY_VALIDATION.md)。
 - [x] 独立opt-in容量/free/reserve/live footprint与候选窗口诊断：两格136请求，原策略不变，确定新文本容量满足后共享首块ref检查拒绝147次；原零覆盖失败保留。见 [报告](experiments/2026-10-12/GENERATION_CAPACITY_DIAGNOSTIC.md)。
-- [ ] 共享前缀引用保护候选的真实BlockPool/generation CPU契约：增加并只释放自己的引用、取消/失败/旧代/rollback与LRU顺序；准入后独立GPU bitwise/资源诊断，再固定新文本覆盖复核。
+- [x] 共享前缀引用保护CPU候选：新增29项真实BlockPool/generation契约，相关84项、本地AST约束2项通过；原引用保留、rollback/free-rank及多候选部分故障闭合。CPU模拟owner释放不等于服务取消验证。见 [报告](experiments/2026-10-12/SHARED_PREFIX_CONTRACT.md)。
+- [ ] 独立共享前缀Connector/绑定子类及callback/多候选故障契约；原CPU bind拒绝与旧默认保留。
+- [ ] 共享候选GPU bitwise、真实共享引用/原回执、取消/抢占/失败回执与终态资源准入；通过后才固定新文本四组pilot→formal。
 - [ ] 准入通过后新文本三重复及真实匿名结构的非零保护复核，验证收益是否跨输入/负载复现。
 - [ ] 用 Qwen3-8B＋5090 复核；如要区分模型/硬件效应，需要额外控制变量实验。
 - [x] 开发和验证消融已统计客户端 ready-to-first/ready-to-end 及会话完成时间；原始值与聚合均归档，不将入口等待隐藏。新容量和到达负载继续沿用该口径。
@@ -217,6 +221,8 @@
 - [ ] 项目阶段收尾后重新核查 LMCache/vLLM 上游状态；若仍可复现且有可维护的最小修复与回归测试，考虑提交异步回载压力信号的上游 issue/PR，范围见 [UPSTREAM_ASYNC_KV_PRESSURE.md](UPSTREAM_ASYNC_KV_PRESSURE.md)。
 
 ## 优先顺序
+
+2026-10-12 23:14：共享引用CPU契约完成。先独立服务绑定/callback，再GPU正确性；不把CPU契约替代GPU准入，不放宽reserve、不抹去零覆盖反例。
 
 2026-10-12 23:01：容量诊断发现共享首块引用拒绝，优先共享引用安全契约；不改输入、降reserve或直接删除ref检查。正式泛化矩阵仍未具备准入。
 

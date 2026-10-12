@@ -133,3 +133,9 @@
 新增独立诊断prepare副本、Connector、runner/auditor四项，原226项源不变。去诊断AST一致；先真实契约30项准入，再两格GPU：851/853边界、4/0保护提交。新文本147次引用拒绝仅block1/offset0、ref1–5，涉及6wire；5个正常manager提交/原回执，1个pending_store dropped且END闭合。没有逐ref owner来源，不能声称全部来自live decode。56次无压力位置；容量摘要去重数35不足以解释零覆盖。独立tokenizer复核新文本共同namespace首块。
 
 追加generation prefix/suffix成功失败回执契约后34项通过，本地5项含篡改边界/删除步序测试通过。原始36文件47,899,039 bytes及230源审计一致，服务清理/GPU空闲。下一步共享引用候选CPU契约；不把诊断计时并入性能，不改写原覆盖失败。详见 [报告](GENERATION_CAPACITY_DIAGNOSTIC.md)。
+
+## 23:14 共享前缀独立引用CPU候选完成
+
+23:14更新：共享前缀独立引用CPU候选完成，真实BlockPool/manager/generation相关84项通过（新增29项），本地源码差异约束2项通过。允许共享完整哈希块增加自己的保护引用；rollback只恢复有原free-rank的归零块，原回执释放不改。成功/失败/逆序回执、其他owner引用变化、旧代/多候选部分注册故障均有契约。原230源不变，仅新增candidate；模型服务bind仍拒绝，无新GPU/收益结论。下一步独立Connector接线及callback契约，再共享KV bitwise/资源准入。
+
+首轮15通过/1失败来自测试把PREPARED回滚顺序用于COMMITTED native归还，实际refs正确；明确两阶段后22通过，增加多候选共享/故障及旧代后29项候选＋既有回归共84通过，66依赖弃用警告。两项本地AST约束确保仅共享ref判定、free-rank过滤与健康检查变化。231源包核对通过，原230项零改变。无服务绑定/GPU/性能运行；next为opt-in接线和原回执CPU契约，之后真实共享KV诊断。详见 [报告](SHARED_PREFIX_CONTRACT.md)。

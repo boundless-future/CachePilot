@@ -1,5 +1,7 @@
 # 当前实现与证据导航
 
+23:14更新：共享前缀独立引用CPU候选完成，真实BlockPool/manager/generation相关84项通过（新增29项），本地源码差异约束2项通过。允许共享完整哈希块增加自己的保护引用；rollback只恢复有原free-rank的归零块，原回执释放不改。成功/失败/逆序回执、其他owner引用变化、旧代/多候选部分注册故障均有契约。原230源不变，仅新增candidate；模型服务bind仍拒绝，无新GPU/收益结论。下一步独立Connector接线及callback契约，再共享KV bitwise/资源准入。见 [契约报告](experiments/2026-10-12/SHARED_PREFIX_CONTRACT.md)。
+
 23:01更新：独立容量/候选窗口GPU诊断两格通过，136测量请求，开发保护4批、新文本0批。新文本存在203次容量/预算满足的候选观测，其中147次有压力排名且全部因共享首块ref>0拒绝，另56次无压力位置。实际tokenizer确认新文本首16tokens仅1种、开发20种。不能把零覆盖仅归因reserve过大；下一步共享前缀引用安全契约，不能直接删除ref检查。230源/36原始文件SHA核对、三处审计一致；真实契约34项及本地5项通过。见 [诊断报告](experiments/2026-10-12/GENERATION_CAPACITY_DIAGNOSTIC.md)。
 
 22:34更新：固定参数新文本pilot在selected-one零保护覆盖处停止。默认/调优零保护通过，三格204请求/9,792输出；候选35次capacity回退、提交0，但原请求/资源/generation/回执/计时门槛通过。selected-two与formal未启动，2/4通过、无聚合，不将无覆盖耗时写成收益。历史trace原样复用，68条各多17tokens；静态边界不是容量根因证明。50文件SHA/226源核对与服务器/本地/冻结源报告一致，56项回归通过。下一步独立只读容量/候选窗口诊断，不改reserve或输入追求通过。见 [反例报告](experiments/2026-10-12/GENERATION_STRATEGY_VALIDATION.md)。
@@ -103,3 +105,7 @@ flowchart TB
 ## 新文本覆盖准入入口（2026-10-12）
 
 `run_generation_strategy_validation.py`固定历史输入和开发运行时、实际tokenizer长度核对，四配置独立pilot遇失败停止；`audit_generation_strategy_validation.py`复算原始输入/计时/资源/非零提交，不给缺格均值。`test_generation_strategy_validation.py`拒绝文本/到达/长度或runtime变更、真实零覆盖归档伪造passed标志。当前pilot失败为保护触发反例；容量诊断设计尚未实现。
+
+## 共享前缀候选（CPU契约，2026-10-12）
+
+`shared_prefix_protection.SharedPrefixProtection`继承generation helper，独立prepare/rollback副本仅改引用判定和原free-rank保存/恢复；commit/receipt仍原路径，bind主动拒绝。`test_shared_prefix_protection.py`新增29项真实库契约；`test_shared_prefix_source_contract.py`限定源码AST差异。模型服务Connector、GPU准入与性能尚未完成。
