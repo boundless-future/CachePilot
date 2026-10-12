@@ -1,6 +1,6 @@
 # CachePilot 当前状态
 
-更新：2026-10-12 16:53。逐步执行记录见 [今日推进记录](experiments/2026-10-12/PROGRESS.md)，完整阶段与未完成项见 [TASKS](TASKS.md)。本页区分实现、正确性范围和性能证据，历史日期的“下一步”不能代替当前计划。
+更新：2026-10-12 18:50。逐步执行记录见 [今日推进记录](experiments/2026-10-12/PROGRESS.md)，完整阶段与未完成项见 [TASKS](TASKS.md)。本页区分实现、正确性范围和性能证据，历史日期的“下一步”不能代替当前计划。
 
 ## 项目定位与实现
 
@@ -10,7 +10,7 @@ CachePilot 是 vLLM＋LMCache 的外部实验 Connector 和小预算 KV 卸载�
 
 ## 当前阶段
 
-六session匿名结构GPU观测及无额外采样pilot各4/4通过，共480请求/23,040输出tokens；观测见94.94–99.67% KV峰值及lazy自然抢占，两轮资源闭合。三处独立审计通过，formal尚未运行，见 [结构报告](experiments/2026-10-12/REAL_STRUCTURE_GPU.md)。服务器保留210项无采样pilot冻结源，下一窗口 [直接正式重复](experiments/2026-10-12/NEXT_WINDOW.md)。
+六session匿名结构GPU观测及无额外采样pilot各4/4通过，共480请求/23,040输出tokens；观测见94.94–99.67% KV峰值及lazy自然抢占，两轮资源闭合。三处独立审计通过，formal十二格已完成，720请求/34,560输出tokens，native TTFT P95均值1.893秒，immediate/default/selected相对+5.76%/+11.33%/+9.69%，见 [正式报告](experiments/2026-10-12/REAL_STRUCTURE_FORMAL.md) 与 [结构报告](experiments/2026-10-12/REAL_STRUCTURE_GPU.md)。服务器保留210项冻结源；下一步为 [generation与非零保护交接](GENERATION_PROTECTION_INTEGRATION.md) 的契约与正确性准入。
 
 最新：generation ledger 真实接线和独立GPU诊断通过；新栈长 prefill pilot 4/4、formal 12/12，816正式请求经服务器/本地独立审计通过。立即卸载/default/selected 的TTFT P95为15.559/17.210/19.611秒，native为21.266秒；整套零保护配置对照，不评价保护收益。输出hash差异保留。请求计时、分阶段和搬运字节分析已归档，见 [正式报告](experiments/2026-10-12/GENERATION_LONG_PREFILL.md)。原decode192 pilot在立即卸载两个session残留处停止；只读观察定位END之后末批STORE重建session。独立原回执后END候选GPU诊断68请求/144 reservation/69 lookup/101 transfer及BlockPool909 free通过，新冻结四配置pilot 4/4通过，272请求/52,224输出tokens，三处独立复算一致；同签名formal十二格已完成，816请求/156,672输出tokens，native TTFT P95均值50.783秒；immediate/default/selected相对为+4.24%/+5.85%/+2.29%，三处复算一致，见 [正式报告](experiments/2026-10-12/DECODE_RECEIPT_FORMAL.md)。见 [诊断](experiments/2026-10-12/DECODE_IMMEDIATE_DIAGNOSIS.md) 与 [新预注册](experiments/2026-10-12/DECODE_RECEIPT_PREREGISTRATION.md)。最新全套834 passed、9 CUDA显式跳过、115 subtests；显式CUDA另9 passed，分开执行。
 
@@ -20,7 +20,7 @@ CachePilot 是 vLLM＋LMCache 的外部实验 Connector 和小预算 KV 卸载�
 | P2/3A 观测与候选 | 固定 trace、profiling、分配与 lookup 诊断；六点固定参数开发调优 24 格完成，选中 h5.0/d1 | 固定选择的新文本验证未通过覆盖门槛；更多到达分布、耗时分解 |
 | 3B 所有权支线 | 受控单卡服务链路、原身份 native terminal、L2/取消/失联和资源审计；满足限定 3C 准入 | 真实 driver/DMA 故障、永久 I/O 自动恢复、多 worker/异步范围 |
 | 3C 保护策略 | 零/一/两 chunk、预算与物理容量回退、共享取消/抢占、raw ID 跨代、长前缀拆分和受控 host exception；首轮正式消融 | 生产级全面正确性、可泛化收益结论 |
-| P4 复核 | 首轮新文本/容量重复、新栈 2.5 GiB 九格、固定参数 24 格、无保护 reference 12 格和边界专项 | 原新文本因 one 零保护覆盖停止；到达压缩 formal 已完成；原长 prefill 失败保留；新栈长 prefill formal 12格已完成；原decode192 pilot失败；独立立即卸载候选通过诊断及新pilot 4/4；formal十二格完成；真实结构观测与无采样pilot各4/4完成，formal十二格待下一窗口 |
+| P4 复核 | 首轮新文本/容量重复、新栈 2.5 GiB 九格、固定参数 24 格、无保护 reference 12 格和边界专项 | 原新文本因 one 零保护覆盖停止；到达压缩 formal 已完成；原长 prefill 失败保留；新栈长 prefill formal 12格已完成；原decode192 pilot失败；独立立即卸载候选通过诊断及新pilot 4/4；formal十二格完成；真实结构观测与无采样pilot各4/4完成，formal十二格已完成 |
 | P5 展示/上游 | 原始证据持续归档 | 最终复现入口、整体图表、最小可维护上游补丁评估 |
 
 ## 能支持的结论

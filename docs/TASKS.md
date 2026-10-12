@@ -189,7 +189,8 @@
 - [x] 固定commit的真实匿名结构编号21–100共80文件CPU准入审计，全部六条eligible/60请求；实际Qwen3-4B tokenizer生成209,661输入tokens/2,880输出预算。源SHA、54前缀转换、3,262源block身份、零跨session前缀碰撞审计与三项重建/篡改测试通过，见 [方案](experiments/2026-10-12/REAL_STRUCTURE_PLAN.md)。
 - [x] 六session真实匿名结构观测GPU pilot四格通过，240请求/11,520输出；0.5秒采样见94.94–99.67% KV峰值、5–6等待峰值，lazy两组各2次实际抢占，缓存组有H2D且资源/generation闭合。80原始文件服务器/本地/Git字节一致；不是live Agent或正式性能，见 [结构GPU报告](experiments/2026-10-12/REAL_STRUCTURE_GPU.md)。
 - [x] 关闭额外采样的同结构pilot4/4通过，另240请求/11,520输出；210项冻结源、72文件/19,800,020 bytes，服务器/本地/冻结源报告一致。lazy各1次抢占且资源闭合，输出差异保留。
-- [ ] 同签名匿名结构formal十二格；保持全部六session与原变换，不混合有观测开销样本，见 [续跑入口](experiments/2026-10-12/NEXT_WINDOW.md)。
+- [x] 同签名匿名结构formal12/12，720请求/34,560输出，服务器/本地/210项冻结源独立报告一致；186原始文件字节一致。native整体TTFT最低，immediate/default/selected相对+5.76%/+11.33%/+9.69%，全六会话差异、原输出hash和一格关闭traceback保留，见 [正式报告](experiments/2026-10-12/REAL_STRUCTURE_FORMAL.md)。
+- [ ] generation与非零保护显式交接：先真实manager契约，完整prefix/suffix票据、原回执、异常后unresolved及END闭合；再GPU bitwise诊断、新签名pilot与策略消融，见 [设计](GENERATION_PROTECTION_INTEGRATION.md)。
 - [ ] 用 Qwen3-8B＋5090 复核；如要区分模型/硬件效应，需要额外控制变量实验。
 - [x] 开发和验证消融已统计客户端 ready-to-first/ready-to-end 及会话完成时间；原始值与聚合均归档，不将入口等待隐藏。新容量和到达负载继续沿用该口径。
 - [ ] 整理复现文档、版本清单、原始数据、图表和个人贡献。
@@ -197,6 +198,8 @@
 - [ ] 项目阶段收尾后重新核查 LMCache/vLLM 上游状态；若仍可复现且有可维护的最小修复与回归测试，考虑提交异步回载压力信号的上游 issue/PR，范围见 [UPSTREAM_ASYNC_KV_PRESSURE.md](UPSTREAM_ASYNC_KV_PRESSURE.md)。
 
 ## 优先顺序
+
+2026-10-12 18:50：匿名结构formal12/12完成，720请求，三处独立复算一致。零保护负载复核阶段闭合；下一策略主线为generation与保护交接契约及独立正确性准入，不能直接开启非零预算。暂不扩大模型/卡或改trace追求正结果。
 
 2026-10-12 18:18：用户再次继续授权，同签名匿名结构formal十二格已启动，服务器210源保持冻结。完成后独立复算、全六会话描述与证据归档；不可将pilot混入正式聚合。
 

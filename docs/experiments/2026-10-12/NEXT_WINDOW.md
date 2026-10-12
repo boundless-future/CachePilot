@@ -1,4 +1,9 @@
-# 下一工作窗口：匿名结构正式三次重复
+# 下一工作窗口：generation与保护的显式交接
+
+18:50更新：下方历史formal入口已完整执行，12/12通过，不要重复启动。结果见 [正式报告](REAL_STRUCTURE_FORMAL.md)。下一步从 [接线设计](../../GENERATION_PROTECTION_INTEGRATION.md) 的真实manager CPU契约开始：完整范围及prefix/suffix票据、原回执、零步回滚、异常后unresolved、END关闭。独立opt-in实现、GPU bitwise准入后再新签名策略消融；不直接删除零预算guard。服务器保留210项已完成formal的冻结源，后续开发请先保存/使用归档源复现历史结果。
+
+## 已完成formal的历史复现入口
+
 
 截至2026-10-12 16:52，decode receipt formal十二格已完成；六session匿名结构有采样准入4/4、关闭额外采样pilot4/4也完成。三处独立复算与原始文件字节审计通过，见 [decode正式报告](DECODE_RECEIPT_FORMAL.md)、[结构GPU报告](REAL_STRUCTURE_GPU.md)。
 

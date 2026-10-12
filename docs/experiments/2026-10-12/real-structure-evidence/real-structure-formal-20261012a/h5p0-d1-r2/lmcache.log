@@ -1,0 +1,332 @@
+[32;20m[2026-10-12 10:38:27,000] LMCache INFO:[0m torch_dev=<module 'torch.cuda' from '/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/torch/cuda/__init__.py'>, torch_device_type=cuda [3m(_device_detect.py:311:lmcache.v1.platform._device_detect)[0m
+[32;20m[2026-10-12 10:38:27,001] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+
+ _     __  __    ____           _          
+| |   |  \/  |  / ___|__ _  ___| |__   ___      LMCache v0.5.5+g1a4b40b1d
+| |   | |\/| | | |   / _` |/ __| '_ \ / _ \     Website:  https://lmcache.ai/
+| |___| |  | | | |__| (_| | (__| | | |  __/     Recipes:  https://docs.lmcache.ai/recipes
+|_____|_|  |_|  \____\__,_|\___|_| |_|\___|     LinkedIn: https://www.linkedin.com/company/lmcache-lab
+Set LMCACHE_DISABLE_BANNER=1 to hide this banner.
+
+[32;20m[2026-10-12 10:38:30,045] LMCache INFO:[0m Discovered API module: cache_api [3m(router_discovery.py:53:lmcache.v1.utils.router_discovery)[0m
+[32;20m[2026-10-12 10:38:30,046] LMCache INFO:[0m Discovered API module: env_api [3m(router_discovery.py:53:lmcache.v1.utils.router_discovery)[0m
+[32;20m[2026-10-12 10:38:30,047] LMCache INFO:[0m Discovered API module: loglevel_api [3m(router_discovery.py:53:lmcache.v1.utils.router_discovery)[0m
+[32;20m[2026-10-12 10:38:30,048] LMCache INFO:[0m Discovered API module: metrics_api [3m(router_discovery.py:53:lmcache.v1.utils.router_discovery)[0m
+[32;20m[2026-10-12 10:38:30,051] LMCache INFO:[0m Discovered API module: periodic_thread_api [3m(router_discovery.py:53:lmcache.v1.utils.router_discovery)[0m
+[32;20m[2026-10-12 10:38:30,052] LMCache INFO:[0m Discovered API module: run_script_api [3m(router_discovery.py:53:lmcache.v1.utils.router_discovery)[0m
+[32;20m[2026-10-12 10:38:30,053] LMCache INFO:[0m Discovered API module: thread_api [3m(router_discovery.py:53:lmcache.v1.utils.router_discovery)[0m
+[32;20m[2026-10-12 10:38:30,056] LMCache INFO:[0m Discovered API module: common_api [3m(router_discovery.py:53:lmcache.v1.utils.router_discovery)[0m
+[32;20m[2026-10-12 10:38:30,057] LMCache INFO:[0m Discovered API module: config_api [3m(router_discovery.py:53:lmcache.v1.utils.router_discovery)[0m
+[32;20m[2026-10-12 10:38:30,059] LMCache INFO:[0m Discovered API module: info_api [3m(router_discovery.py:53:lmcache.v1.utils.router_discovery)[0m
+[32;20m[2026-10-12 10:38:30,062] LMCache INFO:[0m Discovered API module: quota_api [3m(router_discovery.py:53:lmcache.v1.utils.router_discovery)[0m
+[32;20m[2026-10-12 10:38:30,065] LMCache INFO:[0m Discovered API module: reconfigure_api [3m(router_discovery.py:53:lmcache.v1.utils.router_discovery)[0m
+[32;20m[2026-10-12 10:38:30,095] LMCache INFO:[0m CudaPinMemoryBackend: using torch cudart [3m(pin_memory.py:89:lmcache.v1.platform.devices.cuda.pin_memory)[0m
+[32;20m[2026-10-12 10:38:30,096] LMCache INFO:[0m Starting LMCache HTTP server on http://127.0.0.1:8080 [3m(http_server.py:259:lmcache.v1.multiprocess.http_server)[0m
+INFO:     Started server process [21809]
+INFO:     Waiting for application startup.
+[32;20m[2026-10-12 10:38:30,114] LMCache INFO:[0m Starting LMCache HTTP server... (accelerator available: True) [3m(http_server.py:78:lmcache.v1.multiprocess.http_server)[0m
+[32;20m[2026-10-12 10:38:30,116] LMCache INFO:[0m OTel MeterProvider initialised with Prometheus fallback (standalone metrics HTTP server disabled; /metrics must be exposed by the caller), resource={'telemetry.sdk.language': 'python', 'telemetry.sdk.name': 'opentelemetry', 'telemetry.sdk.version': '1.40.0', 'service.instance.id': '6b63377f-54fb-47ec-8519-d29608f73d7c', 'service.name': 'unknown_service'} [3m(otel_init.py:114:lmcache.v1.mp_observability.otel_init)[0m
+[32;20m[2026-10-12 10:38:33,649] LMCache INFO:[0m Starting L1EvictionController... [3m(eviction_controller.py:53:lmcache.v1.distributed.storage_controllers.eviction_controller)[0m
+[32;20m[2026-10-12 10:38:33,649] LMCache INFO:[0m Starting L2EvictionController... [3m(eviction_controller.py:250:lmcache.v1.distributed.storage_controllers.eviction_controller)[0m
+[32;20m[2026-10-12 10:38:33,650] LMCache INFO:[0m Starting StoreController... [3m(store_controller.py:305:lmcache.v1.distributed.storage_controllers.store_controller)[0m
+[32;20m[2026-10-12 10:38:33,650] LMCache INFO:[0m Starting PrefetchController... [3m(prefetch_controller.py:596:lmcache.v1.distributed.storage_controllers.prefetch_controller)[0m
+[32;20m[2026-10-12 10:38:33,650] LMCache INFO:[0m Using blake3 hash function [3m(token_hasher.py:79:lmcache.v1.multiprocess.token_hasher)[0m
+[32;20m[2026-10-12 10:38:33,653] LMCache INFO:[0m Computed NONE_HASH=b"~>\xff\x9e\xf7a:P4\x0e\xb1&w\xee\x03\xb8:\xc7Y\xfc\xba\x9b\xb3'\x05\xf0rH\xd5mG;" using hash function [3m(token_hasher.py:180:lmcache.v1.multiprocess.token_hasher)[0m
+[32;20m[2026-10-12 10:38:33,653] LMCache INFO:[0m TokenHasher initialized: chunk_size=256, hash_algorithm=blake3 [3m(token_hasher.py:67:lmcache.v1.multiprocess.token_hasher)[0m
+[32;20m[2026-10-12 10:38:33,653] LMCache INFO:[0m PeriodicThread SessionManager-cleanup-thread-7ffad8df32f0 entering main loop (interval=60.0s) [3m(periodic_thread.py:304:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-12 10:38:33,653] LMCache INFO:[0m Started PeriodicThread: SessionManager-cleanup-thread-7ffad8df32f0 (level=medium, interval=60.0s, init_wait=0.0s) [3m(periodic_thread.py:248:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-12 10:38:33,654] LMCache INFO:[0m PeriodicThread DeviceHostFuncDispatcher entering main loop (interval=0.0s) [3m(periodic_thread.py:304:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-12 10:38:33,654] LMCache INFO:[0m Started PeriodicThread: DeviceHostFuncDispatcher (level=high, interval=0.0s, init_wait=0.0s) [3m(periodic_thread.py:248:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-12 10:38:33,655] LMCache INFO:[0m Supported transfer mode: lmcache_driven [3m(server.py:192:lmcache.v1.multiprocess.server)[0m
+[32;20m[2026-10-12 10:38:33,655] LMCache INFO:[0m PeriodicThread lmcache-mp-worker-reaper entering main loop (interval=30.0s) [3m(periodic_thread.py:304:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-12 10:38:33,655] LMCache INFO:[0m Started PeriodicThread: lmcache-mp-worker-reaper (level=medium, interval=30.0s, init_wait=0.0s) [3m(periodic_thread.py:248:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-12 10:38:33,655] LMCache INFO:[0m Initializing MP usage context. [3m(mp.py:93:lmcache.usage_telemetry.mp)[0m
+[32;20m[2026-10-12 10:38:33,656] LMCache INFO:[0m Initializing MP continuous usage reporting. [3m(mp_continuous.py:217:lmcache.usage_telemetry.mp_continuous)[0m
+[32;20m[2026-10-12 10:38:33,656] LMCache INFO:[0m Started PeriodicThread: lmcache-usage-continuous (level=low, interval=600.0s, init_wait=600.0s) [3m(periodic_thread.py:248:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-12 10:38:33,656] LMCache INFO:[0m Initializing L2 connector usage reporting. [3m(l2_usage.py:243:lmcache.usage_telemetry.l2_usage)[0m
+[32;20m[2026-10-12 10:38:33,657] LMCache INFO:[0m Started PeriodicThread: lmcache-usage-l2 (level=low, interval=600.0s, init_wait=600.0s) [3m(periodic_thread.py:248:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-12 10:38:33,657] LMCache INFO:[0m Initializing L1 usage reporting. [3m(l1_usage.py:154:lmcache.usage_telemetry.l1_usage)[0m
+[32;20m[2026-10-12 10:38:33,657] LMCache INFO:[0m Started PeriodicThread: lmcache-usage-l1 (level=low, interval=600.0s, init_wait=600.0s) [3m(periodic_thread.py:248:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-12 10:38:33,664] LMCache INFO:[0m Created AffinityThreadPool 'affinity-pool-0' with 1 worker slots: up to 1 distinct affinity keys each bind to their own thread before slots are shared. Compare this against the number of clients expected to connect to confirm routing. [3m(affinity_pool.py:60:lmcache.v1.multiprocess.affinity_pool)[0m
+[32;20m[2026-10-12 10:38:33,664] LMCache INFO:[0m LMCache zmq cache server is running on 127.0.0.1:5555 [3m(server.py:391:lmcache.v1.multiprocess.server)[0m
+[32;20m[2026-10-12 10:38:33,664] LMCache INFO:[0m LMCache cache server is running... [3m(server.py:407:lmcache.v1.multiprocess.server)[0m
+[32;20m[2026-10-12 10:38:33,664] LMCache INFO:[0m LMCache HTTP server initialized [3m(http_server.py:165:lmcache.v1.multiprocess.http_server)[0m
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8080 (Press CTRL+C to quit)
+[32;20m[2026-10-12 10:38:34,694] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:38:34,694] LMCache INFO:[0m  - Total active allocations: 0 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:38:34,694] LMCache INFO:[0m  - Total allocated size: 0.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:38:34,694] LMCache INFO:[0m  - Total free size: 16384.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:60720 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:38:59,441] LMCache INFO:[0m Engine KV Format: EngineKVFormat.NL_X_NB_BS_NH_CS NL x [NB, BS, NH, CS] [3m(detection.py:69:lmcache.v1.gpu_connector.kv_format.detection)[0m
+[32;20m[2026-10-12 10:38:59,442] LMCache INFO:[0m Engine KV Format: EngineKVFormat.NL_X_NB_BS_NH_CS NL x [NB, BS, NH, CS] [3m(detection.py:69:lmcache.v1.gpu_connector.kv_format.detection)[0m
+[32;20m[2026-10-12 10:38:59,442] LMCache INFO:[0m Group 0 first-layer tensor: layer_idx=0 shape=(910, 16, 8, 256) stride=(32768, 2048, 256, 1) is_contiguous=True dtype=torch.bfloat16 device=cuda:0 storage_offset=0 numel=29818880 storage_nbytes=2146959360 padding_per_block=0 [3m(utils.py:650:lmcache.v1.gpu_connector.utils)[0m
+[32;20m[2026-10-12 10:38:59,442] LMCache INFO:[0m KV layer groups: ---
+KernelGroupInfo(layers=36, indices=0-35, shape_desc=(kv=1, nl=36, nb=910, bs=16, nh=8, hs=256, element_size=2, block_stride_elems=32768), dtype=torch.bfloat16, tokens_per_block=16, slots_per_block=16, engine_group_idx=0, sw_size_tokens=-1)
+--- [3m(kv_layer_groups.py:474:lmcache.v1.kv_layer_groups)[0m
+[32;20m[2026-10-12 10:38:59,512] LMCache INFO:[0m Registered KV cache for GPU ID 2398913825998514818 with 36 layers [3m(lmcache_driven_transfer.py:489:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:38:59,512] LMCache INFO:[0m Initialized cuda stream on device cuda:0 [3m(cache_context.py:463:lmcache.v1.platform.devices.cuda.cache_context)[0m
+[33;20m[2026-10-12 10:39:03,950] LMCache WARNING:[0m Session cp1:2540329105799371067:1:b7661036b6618fce7f1fadef1abd9410:cmpl-b1d0177ea3dc15b6-0-86823286 not found, skipping touch [3m(lookup.py:541:lmcache.v1.multiprocess.modules.lookup)[0m
+INFO:     127.0.0.1:49934 - "GET /metrics HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:39:05,715] LMCache INFO:[0m AffinityThreadPool: affinity_key=6840323362026462017 assigned to worker slot 0 of 1 (thread affinity-pool-0-0); 1 distinct key(s) now bound [3m(affinity_pool.py:108:lmcache.v1.multiprocess.affinity_pool)[0m
+[32;20m[2026-10-12 10:39:05,839] LMCache INFO:[0m Stored 1792 tokens in 0.123 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:39:06,160] LMCache INFO:[0m Stored 1792 tokens in 0.002 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:39:06,287] LMCache INFO:[0m Stored 1536 tokens in 0.002 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:39:06,289] LMCache INFO:[0m Prefetch request completed (L1+L2): 7/7 retained keys (7 L1, 0 L2) in 30.5 ms (external_request_id=cp1:2540329105799371067:12:e641614ad775a12c345a2db864a7fcdd:cmpl-858afb143c637fce-0-a1e9cbfb, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:06,318] LMCache INFO:[0m Stored 1536 tokens in 0.002 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:39:06,353] LMCache INFO:[0m Stored 256 tokens in 0.002 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:39:07,579] LMCache INFO:[0m Stored 1792 tokens in 0.002 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:39:07,718] LMCache INFO:[0m Stored 3584 tokens in 0.002 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:39:07,743] LMCache INFO:[0m Retrieved 1792 tokens in 0.001 seconds [3m(lmcache_driven_transfer.py:1011:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:39:07,774] LMCache INFO:[0m Stored 1792 tokens in 0.002 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:39:07,822] LMCache INFO:[0m Prefetch request completed (L1+L2): 6/6 retained keys (6 L1, 0 L2) in 75.9 ms (external_request_id=cp1:2540329105799371067:14:66632c914626ede27c2c78db3ebdccfe:cmpl-b4f551b40edfe9bc-0-85796d6f, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:07,823] LMCache INFO:[0m Prefetch request completed (L1+L2): 14/18 retained keys (14 L1, 0 L2) in 75.2 ms (external_request_id=cp1:2540329105799371067:15:486fd814cb673e34752322b27d11c451:cmpl-99651e6ee1af56d2-0-813f9c45, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:07,853] LMCache INFO:[0m Stored 5888 tokens in 0.003 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:39:09,109] LMCache INFO:[0m Prefetch request completed (L1+L2): 7/9 retained keys (7 L1, 0 L2) in 28.9 ms (external_request_id=cp1:2540329105799371067:16:0880e6a1e619204f51b82f124a4d963e:cmpl-a803ad72fbf4d48c-0-9234cd1f, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:09,110] LMCache INFO:[0m Prefetch request completed (L1+L2): 6/6 retained keys (6 L1, 0 L2) in 28.4 ms (external_request_id=cp1:2540329105799371067:17:1c12fdc2757d6f23b17a7e4b8859ae49:cmpl-a7c9e3e17d86da60-0-8361f843, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:09,110] LMCache INFO:[0m Prefetch request completed (L1+L2): 23/27 retained keys (23 L1, 0 L2) in 27.6 ms (external_request_id=cp1:2540329105799371067:18:0a7f8c6466e99ebd15ad9718e7867430:cmpl-85914172c958fe52-0-8116d820, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:09,166] LMCache INFO:[0m Stored 256 tokens in 0.002 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:39:10,260] LMCache INFO:[0m Retrieved 5888 tokens in 0.003 seconds [3m(lmcache_driven_transfer.py:1011:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:39:10,261] LMCache INFO:[0m Prefetch request completed (L1+L2): 14/18 retained keys (14 L1, 0 L2) in 28.6 ms (external_request_id=cp1:2540329105799371067:19:387691066569c8311e6018555b3aea02:cmpl-b1c24e848a6c26ab-0-8a57192f, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:10,261] LMCache INFO:[0m Prefetch request completed (L1+L2): 6/7 retained keys (6 L1, 0 L2) in 28.7 ms (external_request_id=cp1:2540329105799371067:20:d4c893ef57ae8c0735ee27a2b3dc0064:cmpl-90a2b5d54b10aee6-0-9bf2ada9, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:10,261] LMCache INFO:[0m Prefetch request completed (L1+L2): 7/10 retained keys (7 L1, 0 L2) in 28.4 ms (external_request_id=cp1:2540329105799371067:21:651d1d888d084ad27be2331ea491f685:cmpl-9340b310c50fc563-0-97e6f473, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:10,505] LMCache INFO:[0m Retrieved 768 tokens in 0.002 seconds [3m(lmcache_driven_transfer.py:1011:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:39:10,507] LMCache INFO:[0m Stored 256 tokens in 0.001 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:39:11,736] LMCache INFO:[0m Retrieved 1280 tokens in 0.002 seconds [3m(lmcache_driven_transfer.py:1011:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:39:11,736] LMCache INFO:[0m Prefetch request completed (L1+L2): 7/8 retained keys (7 L1, 0 L2) in 27.5 ms (external_request_id=cp1:2540329105799371067:22:fdc88ac7e0d193f7a0d00ba1bd91366c:cmpl-ac76c185699ff82f-0-b9e7e653, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:11,737] LMCache INFO:[0m Prefetch request completed (L1+L2): 6/7 retained keys (6 L1, 0 L2) in 27.0 ms (external_request_id=cp1:2540329105799371067:23:33f52ebd050a444c5d69e1763339aa98:cmpl-82306a175f08c3b6-0-8ed13d5b, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:11,789] LMCache INFO:[0m Retrieved 1792 tokens in 0.001 seconds [3m(lmcache_driven_transfer.py:1011:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:39:12,326] LMCache INFO:[0m Prefetch request completed (L1+L2): 7/13 retained keys (7 L1, 0 L2) in 26.0 ms (external_request_id=cp1:2540329105799371067:24:2d1335e927e05b39d8edab4ee6a0e7e9:cmpl-a39ed7e20ba0b300-0-aa5c763d, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:13,111] LMCache INFO:[0m Prefetch request completed (L1+L2): 7/8 retained keys (7 L1, 0 L2) in 26.0 ms (external_request_id=cp1:2540329105799371067:25:979ca94673b31b47ae3c65f354a98fdf:cmpl-86d7bfe237b94163-0-acd5311e, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:13,423] LMCache INFO:[0m Prefetch request completed (L1+L2): 7/8 retained keys (7 L1, 0 L2) in 26.6 ms (external_request_id=cp1:2540329105799371067:26:d2fe6266b6aac2f3c5d5d40f831cfad1:cmpl-aa0cb1d5a61ebdb3-0-8f7cb540, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:13,478] LMCache INFO:[0m Retrieved 1792 tokens in 0.002 seconds [3m(lmcache_driven_transfer.py:1011:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:39:13,934] LMCache INFO:[0m Prefetch request completed (L1+L2): 6/7 retained keys (6 L1, 0 L2) in 27.2 ms (external_request_id=cp1:2540329105799371067:27:83cfa9a6f32189f025829d491d23d754:cmpl-8006e8bf0e5e37b7-0-80e3fe02, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:14,928] LMCache INFO:[0m Prefetch request completed (L1+L2): 6/7 retained keys (6 L1, 0 L2) in 26.2 ms (external_request_id=cp1:2540329105799371067:28:1e4d15091edfaaa5305c3d2ef55bedf6:cmpl-bcc5dab8fe8e0626-0-85666197, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:15,229] LMCache INFO:[0m Prefetch request completed (L1+L2): 7/14 retained keys (7 L1, 0 L2) in 29.1 ms (external_request_id=cp1:2540329105799371067:29:84055161f41b12de4b737666e6f1902f:cmpl-9855c8feb0b99eee-0-b1dad1cd, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:15,282] LMCache INFO:[0m Stored 256 tokens in 0.001 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:39:17,100] LMCache INFO:[0m Prefetch request completed (L1+L2): 7/15 retained keys (7 L1, 0 L2) in 2.2 ms (external_request_id=cp1:2540329105799371067:30:f94b3163c63c6f078e146ce17aa2f1d8:cmpl-98802568289eed0a-0-bfeb31f8, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:17,100] LMCache INFO:[0m Prefetch request completed (L1+L2): 8/8 retained keys (8 L1, 0 L2) in 1.7 ms (external_request_id=cp1:2540329105799371067:31:51168aeae09537acb71bb851041c25bc:cmpl-817a8d7d39f07185-0-9d86a1a1, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:17,133] LMCache INFO:[0m Stored 256 tokens in 0.001 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:39:17,166] LMCache INFO:[0m Stored 256 tokens in 0.002 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:39:18,597] LMCache INFO:[0m Prefetch request completed (L1+L2): 8/9 retained keys (8 L1, 0 L2) in 1.3 ms (external_request_id=cp1:2540329105799371067:32:64392df5eb89a539afe1486bacb7ec69:cmpl-bc967ae0dfc24a75-0-94d21b81, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:20,199] LMCache INFO:[0m Prefetch request completed (L1+L2): 8/9 retained keys (8 L1, 0 L2) in 2.4 ms (external_request_id=cp1:2540329105799371067:33:bf60127cece8a5e85e1e31e8018ea5e0:cmpl-a7925b862d62c396-0-923eb48e, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:20,438] LMCache INFO:[0m Prefetch request completed (L1+L2): 7/16 retained keys (7 L1, 0 L2) in 24.2 ms (external_request_id=cp1:2540329105799371067:34:34ec6d0d6dc0a2c16eb2a2de9ac7a86e:cmpl-b94ab94fc9b306a6-0-83240848, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:21,794] LMCache INFO:[0m Prefetch request completed (L1+L2): 8/9 retained keys (8 L1, 0 L2) in 1.2 ms (external_request_id=cp1:2540329105799371067:35:727428d898bfe73648b4d214ba8288b2:cmpl-887f744039de3892-0-ba52424c, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:22,238] LMCache INFO:[0m Prefetch request completed (L1+L2): 7/16 retained keys (7 L1, 0 L2) in 27.5 ms (external_request_id=cp1:2540329105799371067:36:ef2bc7aadc9208aa1999a4fa2543414b:cmpl-b933bdc0946d44fa-0-a8f41c68, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:22,294] LMCache INFO:[0m Stored 256 tokens in 0.001 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:39:23,998] LMCache INFO:[0m Prefetch request completed (L1+L2): 7/16 retained keys (7 L1, 0 L2) in 2.9 ms (external_request_id=cp1:2540329105799371067:37:579122356a3980308a84521a5bec7d62:cmpl-8ec43e4e52405aa7-0-bf226389, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:24,232] LMCache INFO:[0m Prefetch request completed (L1+L2): 8/9 retained keys (8 L1, 0 L2) in 25.6 ms (external_request_id=cp1:2540329105799371067:38:a0827bab8fb92e230cfacd614a5e831b:cmpl-b7976057a25d07ab-0-89e0a1d4, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:31,396] LMCache INFO:[0m Prefetch request completed (L1+L2): 8/10 retained keys (8 L1, 0 L2) in 1.1 ms (external_request_id=cp1:2540329105799371067:39:a0a8b34f08fc3e836c2e58b050d7ecec:cmpl-a4150b495e5128e4-0-a1e0dd6a, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:33,195] LMCache INFO:[0m Prefetch request completed (L1+L2): 8/10 retained keys (8 L1, 0 L2) in 1.3 ms (external_request_id=cp1:2540329105799371067:40:2fe3a58ef490bfc76f8e0a43bbde9030:cmpl-87b8ea82c5e89e8c-0-a6aaf207, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:37,000] LMCache INFO:[0m Prefetch request completed (L1+L2): 14/19 retained keys (14 L1, 0 L2) in 3.3 ms (external_request_id=cp1:2540329105799371067:41:d383d8d90ff66d1680424e9e65aafba3:cmpl-bb9e31786b96142f-0-95170e33, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:37,007] LMCache INFO:[0m Retrieved 1536 tokens in 0.002 seconds [3m(lmcache_driven_transfer.py:1011:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:39:37,157] LMCache INFO:[0m Stored 2304 tokens in 0.003 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:39:38,122] LMCache INFO:[0m Prefetch request completed (L1+L2): 8/11 retained keys (8 L1, 0 L2) in 24.5 ms (external_request_id=cp1:2540329105799371067:42:cd49af52112502ba04b0ab4e0083d632:cmpl-9724921d9ab0c981-0-affe9262, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:38,174] LMCache INFO:[0m Stored 512 tokens in 0.001 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:39:39,494] LMCache INFO:[0m Prefetch request completed (L1+L2): 10/11 retained keys (10 L1, 0 L2) in 1.2 ms (external_request_id=cp1:2540329105799371067:43:e19c811245228730c367577dac9aa4a9:cmpl-a832a9fdeed211e6-0-9c024a87, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:39,523] LMCache INFO:[0m Stored 256 tokens in 0.001 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:39:40,542] LMCache INFO:[0m Prefetch request completed (L1+L2): 14/20 retained keys (14 L1, 0 L2) in 24.5 ms (external_request_id=cp1:2540329105799371067:44:3a59d0c2bc8b2dd3195ec5d051f23ab7:cmpl-95855e69fc07bb58-0-a5e1d141, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:44,002] LMCache INFO:[0m Prefetch request completed (L1+L2): 14/21 retained keys (14 L1, 0 L2) in 2.7 ms (external_request_id=cp1:2540329105799371067:45:38150c4ff103791df068ee4199f68e93:cmpl-aadd12002bdffc77-0-8a5b8669, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:44,100] LMCache INFO:[0m Stored 768 tokens in 0.001 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:39:46,496] LMCache INFO:[0m Prefetch request completed (L1+L2): 11/12 retained keys (11 L1, 0 L2) in 1.1 ms (external_request_id=cp1:2540329105799371067:46:988686c0fcc8f5f4b178c0a03a5bbd81:cmpl-b9a006eb69e7ad97-0-97fcb86a, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:50,498] LMCache INFO:[0m Prefetch request completed (L1+L2): 16/16 retained keys (16 L1, 0 L2) in 3.2 ms (external_request_id=cp1:2540329105799371067:47:b7570b6e3a63525847953dabbd383825:cmpl-8ebffcede2962fa2-0-a01270bf, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:50,530] LMCache INFO:[0m Stored 1792 tokens in 0.002 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:39:52,202] LMCache INFO:[0m Prefetch request completed (L1+L2): 16/17 retained keys (16 L1, 0 L2) in 3.1 ms (external_request_id=cp1:2540329105799371067:48:a7e4449cd76c88198aaa22c76dc80b44:cmpl-8bd520182c2fd0cf-0-aa7efb6e, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:52,234] LMCache INFO:[0m Stored 256 tokens in 0.002 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:39:52,923] LMCache INFO:[0m Prefetch request completed (L1+L2): 12/12 retained keys (12 L1, 0 L2) in 25.3 ms (external_request_id=cp1:2540329105799371067:49:62cb5c2aebede5077114ccdab5a20347:cmpl-b30483d886ea79b7-0-ad12eb5d, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:53,927] LMCache INFO:[0m Prefetch request completed (L1+L2): 16/17 retained keys (16 L1, 0 L2) in 24.4 ms (external_request_id=cp1:2540329105799371067:50:469ca709d37a7543895725155f26d2e8:cmpl-8fc673dcca0a16e6-0-abff797b, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:55,026] LMCache INFO:[0m Prefetch request completed (L1+L2): 12/13 retained keys (12 L1, 0 L2) in 24.9 ms (external_request_id=cp1:2540329105799371067:51:204c63f0c4aeccbe34e4fdf7ccedfd23:cmpl-bc792129e547918f-0-95d768bc, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:55,240] LMCache INFO:[0m Prefetch request completed (L1+L2): 16/17 retained keys (16 L1, 0 L2) in 24.8 ms (external_request_id=cp1:2540329105799371067:52:fc982ff2e3eaf34349f2680f03a3d343:cmpl-8c3b840aa9261368-0-b6c6a68a, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:55,296] LMCache INFO:[0m Stored 256 tokens in 0.002 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:39:57,700] LMCache INFO:[0m Prefetch request completed (L1+L2): 12/13 retained keys (12 L1, 0 L2) in 3.7 ms (external_request_id=cp1:2540329105799371067:53:22872c4a608d3ab1bbcd4ecaab43b080:cmpl-9720eadb96ad589e-0-bbf07003, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:39:59,597] LMCache INFO:[0m Prefetch request completed (L1+L2): 12/14 retained keys (12 L1, 0 L2) in 1.5 ms (external_request_id=cp1:2540329105799371067:54:8f619acc4619e410046cd85fdf5d8cfc:cmpl-af2f915d0ab9fcb3-0-b536f90e, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:40:03,399] LMCache INFO:[0m Prefetch request completed (L1+L2): 12/14 retained keys (12 L1, 0 L2) in 3.5 ms (external_request_id=cp1:2540329105799371067:55:2362ddc2f1020a05a09d2486266ae714:cmpl-9be62bffac500e51-0-b912d4d1, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:40:08,100] LMCache INFO:[0m Prefetch request completed (L1+L2): 12/15 retained keys (12 L1, 0 L2) in 3.4 ms (external_request_id=cp1:2540329105799371067:56:840cbfcc466621009931cadea17a2caa:cmpl-b8fedda42d5cc5e8-0-a23dad28, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:40:10,100] LMCache INFO:[0m Prefetch request completed (L1+L2): 12/15 retained keys (12 L1, 0 L2) in 3.5 ms (external_request_id=cp1:2540329105799371067:57:81d59d13841980de0a6e420aaac0be72:cmpl-90feb90e0c5b9101-0-99c5eaf5, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:40:10,134] LMCache INFO:[0m Stored 256 tokens in 0.002 seconds [3m(lmcache_driven_transfer.py:762:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:40:13,398] LMCache INFO:[0m Prefetch request completed (L1+L2): 12/16 retained keys (12 L1, 0 L2) in 3.4 ms (external_request_id=cp1:2540329105799371067:58:f5a0d1e0acf5bf5be975413af0bc90b8:cmpl-8a213bc28fcb60e4-0-b99b6ca7, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:40:21,101] LMCache INFO:[0m Prefetch request completed (L1+L2): 12/17 retained keys (12 L1, 0 L2) in 3.2 ms (external_request_id=cp1:2540329105799371067:59:00593108c5a3f6f630852d34b0bdcf61:cmpl-bbb5da17d35abf11-0-82d8aefa, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:40:24,002] LMCache INFO:[0m Prefetch request completed (L1+L2): 12/17 retained keys (12 L1, 0 L2) in 3.2 ms (external_request_id=cp1:2540329105799371067:60:fad7db3725f6e40b570b7aa1ae782038:cmpl-812d2a166422258d-0-a078559d, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:40:26,400] LMCache INFO:[0m Prefetch request completed (L1+L2): 12/17 retained keys (12 L1, 0 L2) in 2.4 ms (external_request_id=cp1:2540329105799371067:61:4b5f6963c19ea9ddcd74b3dd5341eaab:cmpl-8afa6f4cb71b177a-0-a85a24e3, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+[32;20m[2026-10-12 10:40:30,099] LMCache INFO:[0m Prefetch request completed (L1+L2): 12/18 retained keys (12 L1, 0 L2) in 3.1 ms (external_request_id=cp1:2540329105799371067:62:7da1954b12ffa266fb0fb21c63f0a2a6:cmpl-9348b7d31df86e30-0-8f9773c8, prefetch_request_id=-1) [3m(storage_manager.py:726:lmcache.v1.distributed.storage_manager)[0m
+INFO:     127.0.0.1:49306 - "GET /metrics HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:31,393] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:31,393] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:31,393] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:31,393] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:49316 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:31,895] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:31,896] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:31,897] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:31,897] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:49324 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:32,400] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:32,400] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:32,400] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:32,400] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:49334 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:32,903] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:32,903] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:32,903] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:32,903] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:49344 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:33,407] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:33,407] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:33,407] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:33,407] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:49348 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:33,910] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:33,910] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:33,910] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:33,910] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:49356 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:34,413] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:34,413] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:34,413] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:34,413] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:49368 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:34,915] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:34,915] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:34,915] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:34,915] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:49380 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:35,418] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:35,419] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:35,419] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:35,419] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:49390 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:35,922] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:35,922] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:35,922] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:35,922] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:49394 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:36,427] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:36,427] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:36,427] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:36,427] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:49400 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:36,930] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:36,931] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:36,932] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:36,932] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:49416 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:37,435] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:37,435] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:37,435] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:37,435] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:49428 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:37,938] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:37,939] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:37,939] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:37,939] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:49444 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:38,442] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:38,442] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:38,442] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:38,442] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:49988 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:38,945] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:38,945] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:38,945] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:38,945] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:50004 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:39,448] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:39,448] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:39,448] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:39,448] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:50020 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:39,950] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:39,950] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:39,951] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:39,951] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:50034 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:40,453] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:40,453] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:40,453] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:40,453] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:50050 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:40,955] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:40,955] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:40,955] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:40,955] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:50056 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:41,458] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:41,459] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:41,459] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:41,459] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:50062 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:41,961] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:41,961] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:41,963] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:41,963] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:50064 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:42,465] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:42,465] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:42,465] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:42,465] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:50066 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:42,967] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:42,968] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:42,968] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:42,968] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:50080 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:43,470] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:43,470] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:43,470] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:43,470] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:50082 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:43,973] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:43,973] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:43,973] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:43,973] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:50090 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:44,476] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:44,476] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:44,477] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:44,477] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:50096 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:44,979] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:44,980] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:44,980] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:44,980] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:50110 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:45,483] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:45,483] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:45,483] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:45,483] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:50126 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:45,986] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:45,986] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:45,986] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:45,987] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:50134 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:46,490] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:46,490] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:46,490] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:46,490] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:50142 - "GET /status HTTP/1.1" 200 OK
+[32;20m[2026-10-12 10:40:46,497] LMCache INFO:[0m Unregistered KV cache for GPU ID 2398913825998514818 [3m(lmcache_driven_transfer.py:517:lmcache.v1.multiprocess.modules.lmcache_driven_transfer)[0m
+[32;20m[2026-10-12 10:40:49,613] LMCache INFO:[0m Checking memory allocator consistency [3m(tensor_memory_allocator.py:297:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:49,614] LMCache INFO:[0m  - Total active allocations: 93 [3m(tensor_memory_allocator.py:298:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:49,614] LMCache INFO:[0m  - Total allocated size: 3348.000000 MB [3m(tensor_memory_allocator.py:299:lmcache.v1.memory_management)[0m
+[32;20m[2026-10-12 10:40:49,614] LMCache INFO:[0m  - Total free size: 13036.000000 MB [3m(tensor_memory_allocator.py:306:lmcache.v1.memory_management)[0m
+INFO:     127.0.0.1:42400 - "GET /status HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+[32;20m[2026-10-12 10:40:49,769] LMCache INFO:[0m Shutting down LMCache HTTP server... [3m(http_server.py:170:lmcache.v1.multiprocess.http_server)[0m
+[32;20m[2026-10-12 10:40:49,770] LMCache INFO:[0m Stopping PeriodicThread: lmcache-usage-continuous [3m(periodic_thread.py:267:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-12 10:40:49,770] LMCache INFO:[0m PeriodicThread lmcache-usage-continuous stopped during init_wait [3m(periodic_thread.py:298:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-12 10:40:50,716] LMCache INFO:[0m Stopping PeriodicThread: lmcache-usage-l2 [3m(periodic_thread.py:267:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-12 10:40:50,716] LMCache INFO:[0m PeriodicThread lmcache-usage-l2 stopped during init_wait [3m(periodic_thread.py:298:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-12 10:40:50,717] LMCache INFO:[0m Stopping PeriodicThread: lmcache-usage-l1 [3m(periodic_thread.py:267:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-12 10:40:50,717] LMCache INFO:[0m PeriodicThread lmcache-usage-l1 stopped during init_wait [3m(periodic_thread.py:298:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-12 10:40:51,504] LMCache INFO:[0m Stopping PeriodicThread: lmcache-mp-worker-reaper [3m(periodic_thread.py:267:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-12 10:40:51,504] LMCache INFO:[0m PeriodicThread lmcache-mp-worker-reaper loop stopped [3m(periodic_thread.py:372:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-12 10:40:51,504] LMCache INFO:[0m Stopping PeriodicThread: DeviceHostFuncDispatcher [3m(periodic_thread.py:267:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-12 10:40:51,504] LMCache INFO:[0m PeriodicThread DeviceHostFuncDispatcher loop stopped [3m(periodic_thread.py:372:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-12 10:40:51,505] LMCache INFO:[0m Stopping PeriodicThread: SessionManager-cleanup-thread-7ffad8df32f0 [3m(periodic_thread.py:267:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-12 10:40:51,505] LMCache INFO:[0m PeriodicThread SessionManager-cleanup-thread-7ffad8df32f0 loop stopped [3m(periodic_thread.py:372:lmcache.v1.periodic_thread)[0m
+[32;20m[2026-10-12 10:40:52,927] LMCache INFO:[0m MPCacheServer closed [3m(server.py:118:lmcache.v1.multiprocess.server)[0m
+[32;20m[2026-10-12 10:40:52,927] LMCache INFO:[0m LMCache HTTP server stopped [3m(http_server.py:187:lmcache.v1.multiprocess.http_server)[0m
+INFO:     Application shutdown complete.
+INFO:     Finished server process [21809]

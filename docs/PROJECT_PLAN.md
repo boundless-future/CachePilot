@@ -2,7 +2,7 @@
 
 更新：2026-10-12
 
-16:55执行状态：decode192同签名formal十二格及六session匿名结构观测/无采样两套pilot全部闭合。decode缓存减少prefill但TTFT仍比native高2.29–5.85%；结构观测确认高占用与lazy自然抢占，但尚无正式三重复性能结论。下一步在服务器保留的210项冻结源下运行结构formal，见 [续跑入口](experiments/2026-10-12/NEXT_WINDOW.md)。非零保护泛化、generation路径的非零预算接线及生产故障边界仍开放。
+18:50执行状态：匿名结构formal12/12完成，720请求，三处独立审计一致；native TTFT P95最低，缓存配置相对高5.76–11.33%。长prefill/decode/匿名结构零保护负载复核已闭合；非零保护泛化收益仍未证明。下一步先补generation与保护的显式prefix/suffix/回执交接契约，真实manager与GPU正确性准入后再策略消融，见 [设计](GENERATION_PROTECTION_INTEGRATION.md)。
 
 > 本文同时记录原始计划和开发后的修订路线。原始计划假设“自适应卸载窗口”会成为第一版主要机制；实际实验发现更关键的问题是异步 KV 回载的物理 block 分配与 LMCache lazy-offload 压力观测存在时间错位，因此当前主线已经调整为“先建立可验证的压力信号，再决定是否实施准入前保护策略”。
 

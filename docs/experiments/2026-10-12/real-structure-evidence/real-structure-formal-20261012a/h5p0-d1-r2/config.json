@@ -1,0 +1,20 @@
+{
+  "kv_connector": "GenerationLedgerConnector",
+  "kv_connector_module_path": "scripts.generation_ledger_connector",
+  "kv_role": "kv_both",
+  "kv_load_failure_policy": "recompute",
+  "kv_connector_extra_config": {
+    "lmcache.mp.host": "tcp://127.0.0.1",
+    "lmcache.mp.port": 5555,
+    "lmcache.mp.lazy_offload": true,
+    "lmcache.mp.lazy_offload_policy": "EVICTION_AWARE",
+    "lmcache.mp.lazy_offload_horizon_steps": 5.0,
+    "lmcache.mp.lazy_offload_max_drain_per_step": 1,
+    "cachepilot.protection.enabled": true,
+    "cachepilot.protection.max_chunks": 0,
+    "lmcache.mp.lazy_offload_max_deferral_seconds": 0.0,
+    "cachepilot.idle_finalize": true,
+    "cachepilot.idle_finalize_grace_seconds": 15.0,
+    "cachepilot.generation_ledger": true
+  }
+}

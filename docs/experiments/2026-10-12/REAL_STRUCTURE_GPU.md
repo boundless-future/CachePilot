@@ -43,3 +43,5 @@
 这是formal准入，仍然n=1，不解释为稳定排名，也不把两种采样模式的差值当观测开销因果测量。两组lazy真实抢占且账本闭合；不据此扩大非零保护或immediate抢占验收。
 
 新冻结源仍210项，包 `real-structure-unobserved-source-20261012.tar.gz` SHA `56c6cce2cdf12992c692dd3b508d09930be1021a5ae3b2932fbec09d97f064c3`。服务器保留该版本，下一窗口直接同签名三重复，禁止先pull新增脚本破坏签名。截止前不启动正式十二格。
+
+18:50更新：正式三重复12/12也已完成，见 [正式报告](REAL_STRUCTURE_FORMAL.md)。上述pilot数值仍独立保留，不混入formal。
