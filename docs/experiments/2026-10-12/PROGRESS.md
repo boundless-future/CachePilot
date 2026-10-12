@@ -139,3 +139,7 @@
 23:14更新：共享前缀独立引用CPU候选完成，真实BlockPool/manager/generation相关84项通过（新增29项），本地源码差异约束2项通过。允许共享完整哈希块增加自己的保护引用；rollback只恢复有原free-rank的归零块，原回执释放不改。成功/失败/逆序回执、其他owner引用变化、旧代/多候选部分注册故障均有契约。原230源不变，仅新增candidate；模型服务bind仍拒绝，无新GPU/收益结论。下一步独立Connector接线及callback契约，再共享KV bitwise/资源准入。
 
 首轮15通过/1失败来自测试把PREPARED回滚顺序用于COMMITTED native归还，实际refs正确；明确两阶段后22通过，增加多候选共享/故障及旧代后29项候选＋既有回归共84通过，66依赖弃用警告。两项本地AST约束确保仅共享ref判定、free-rank过滤与健康检查变化。231源包核对通过，原230项零改变。无服务绑定/GPU/性能运行；next为opt-in接线和原回执CPU契约，之后真实共享KV诊断。详见 [报告](SHARED_PREFIX_CONTRACT.md)。
+
+## 23:17 用户停机前收尾
+
+按用户要求停止推进新实验，只读检查确认没有模型服务/实验/GPU计算进程，8000/8080/5555空闲，GPU1MiB/0%。231源与归档一致；代码2d47bf2与远程main相同，工作区原本干净，项目heartbeat已暂停。补充[停机交接](SHUTDOWN.md)和机器检查记录；容器保持开机，由用户关闭。下一窗口先独立共享前缀Connector/callback契约，再GPU正确性，未重跑任何实验。
