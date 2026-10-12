@@ -14,10 +14,11 @@ def digest(value):
     return hashlib.sha256(json.dumps(value, sort_keys=True).encode()).hexdigest()
 
 
-def collect(directory):
+def collect(directory, lazy_configure=None):
     from audit_replay_measurements import audit_cell
     from run_reference_baselines import reference_logs, resource_gate
     from run_fixed_baselines import configure
+    configure = lazy_configure or configure
     plan = read(directory / "plan.json")
     signature = plan["signature"]
     rows = []

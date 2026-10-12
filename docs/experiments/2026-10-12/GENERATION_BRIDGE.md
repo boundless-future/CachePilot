@@ -57,3 +57,30 @@ Logging is enabled, so this is diagnostic rather than formal performance data.
 
 Original pilot and two failed GPU diagnostics remain failed. No long-prefill
 formal run is authorized by CPU tests alone; a fresh pilot must pass first.
+
+## Completed GPU diagnostics (13:16 CST)
+
+- a: launch failed before inference because the remote PATH lost system paths;
+  retain as an environment failure, not a GPU correctness result.
+- b: 68 requests, 75 registered generations / scheduler END submissions /
+  server END returns, 4 STORE-only generations and 24 original STORE batches.
+  All exact-wire and replay gates passed. No physical BlockPool snapshots were
+  recorded in this round; do not infer that stronger evidence from counters.
+- c: added independent original reservation/native-terminal/BlockPool audit.
+  68 requests; 78 registered generations, 78 exact END submissions and server
+  returns, 7 STORE-only generations, 27 original STORE batches. All gates passed.
+  589 original reservation identities, 69 lookup jobs, 75 transfers closed
+  exactly once; RETRIEVE reservations remained held through native terminal.
+  BlockPool restored to 909 free blocks, with no registered requests, tracked
+  references or deferred frees. Exact server session/job/transfer sets were
+  empty before and after engine stop. No TTL expiry substituted for END.
+
+Raw a/b/c directories are retained in `generation-bridge-evidence/`. Local
+independent re-audit of c agrees (`c-local-independent.json`). Runtime scheduling
+changes coverage counts between repetitions; these are diagnostic correctness
+runs, not performance samples. Actual GPU old-generation in-flight raw-ID reuse,
+driver faults, async scheduling and multiple workers remain outside this gate.
+
+Next: separately preregister and run a fresh four-configuration performance
+pilot, with request-path diagnostics disabled; only a complete same-signature
+pilot permits formal repetitions. The ledger supports zero protection only.

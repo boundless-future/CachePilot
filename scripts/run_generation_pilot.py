@@ -28,6 +28,7 @@ def main():
     from validate_environment import Service, write_json
     from audit_replay_measurements import audit_cell as measurement_audit
     from audit_generation_pilot import audit_cell as generation_audit
+    from audit_generation_ownership import audit_cell as ownership_audit
     prior = read(args.prerequisite / 'h2p5-d64-r0/result.json')
     trace = read(args.prerequisite / 'trace.json')
     if digest(trace) != TRACE_SHA or prior['passed'] or not any(
@@ -54,6 +55,7 @@ def main():
         def start(self, health, timeout=900):
             os.environ['CACHEPILOT_OWNED_EVENT_LOG'] = '1'
             os.environ['CACHEPILOT_HANDOFF_DIR'] = str(cell / 'handoffs')
+            os.environ['CACHEPILOT_OWNED_MP_DIR'] = str(cell / 'owned-events')
             if self.log.name == 'lmcache.log':
                 self.command = [os.sys.executable,
                     str(ablation.ROOT / 'scripts/generation_service_observer.py'),
@@ -82,10 +84,19 @@ def main():
         caught = repr(exc)
     result = read(cell / 'result.json')
     audit = generation_audit(cell)
-    checks = dict(replay_resources=result['passed'], measurements=measurement_audit(cell),
-                  generation=audit, tokens=token_gate(cell, trace))
+    try:
+        ownership = ownership_audit(cell)
+    except (AssertionError, KeyError, ValueError) as exc:
+        ownership = dict(passed=False, error=repr(exc))
+    try:
+        measurements = measurement_audit(cell)
+        tokens = token_gate(cell, trace)
+    except (FileNotFoundError, KeyError, ValueError) as exc:
+        measurements, tokens = dict(passed=False, error=repr(exc)), False
+    checks = dict(replay_resources=result['passed'], measurements=measurements,
+                  generation=audit, ownership=ownership, tokens=tokens)
     passed = (checks['replay_resources'] and checks['measurements']['passed']
-              and audit['passed'] and checks['tokens'])
+              and audit['passed'] and ownership['passed'] and checks['tokens'])
     write_json(out / 'validation.json', dict(passed=passed, checks=checks, caught=caught))
     ablation.ports_free()
     print(json.dumps(dict(passed=passed, generation=audit, caught=caught)), flush=True)

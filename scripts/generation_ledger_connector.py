@@ -4,6 +4,9 @@ Explicit class selection AND cachepilot.generation_ledger=true are required.
 Not a production default. Source checks are inherited from the owned/idle stack.
 """
 from types import SimpleNamespace
+import json
+import os
+from pathlib import Path
 
 from scripts.idle_finalize_connector import IdleFinalizeConnector
 from scripts.generation_rpc_client import GenerationRPCClient
@@ -119,6 +122,12 @@ class GenerationLedgerConnector(IdleFinalizeConnector):
             self._flush_generation_ends()
             snapshot = self.generation_snapshot()
             self._handoff_record('generation_before_shutdown', **snapshot)
+            # One shutdown artifact; no request-path diagnostic I/O is needed
+            # in performance comparisons. Preserve unresolved states too.
+            summary_path = os.environ.get('CACHEPILOT_GENERATION_SUMMARY_PATH')
+            if summary_path:
+                Path(summary_path).write_text(json.dumps(snapshot, indent=2) + '\n',
+                                              encoding='utf-8')
             if (snapshot['pending_rpc'] or snapshot['pending_store']
                     or snapshot['inflight_store'] or snapshot['retrieves']
                     or snapshot['deferred_ends'] or any(

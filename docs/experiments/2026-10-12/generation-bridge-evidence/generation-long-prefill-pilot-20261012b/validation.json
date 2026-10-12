@@ -1,0 +1,86 @@
+{
+  "passed": true,
+  "checks": {
+    "replay_resources": true,
+    "measurements": {
+      "cell": "zero-r0",
+      "passed": true,
+      "requests": 68,
+      "errors": [],
+      "recomputed": {
+        "ttft_ms": {
+          "p50": 9752.564713499965,
+          "p95": 17149.137171300015,
+          "p99": 18524.39197332997,
+          "mean": 9406.844867397056
+        },
+        "ready_to_first_ms": {
+          "p50": 9753.473912000005,
+          "p95": 17149.633010150093,
+          "p99": 18524.862181590117,
+          "mean": 9407.455834426532
+        },
+        "e2e_ms": {
+          "p50": 11247.754073000011,
+          "p95": 18464.86692769994,
+          "p99": 20056.209103870005,
+          "mean": 10760.93047160294
+        },
+        "ready_to_end_ms": {
+          "p50": 11248.663271500049,
+          "p95": 18465.362766550017,
+          "p99": 20056.679312130156,
+          "mean": 10761.541438632414
+        },
+        "client_queue_ms": {
+          "p50": 0.5837850001153129,
+          "p95": 1.0913145499898746,
+          "p99": 1.3314175500750025,
+          "mean": 0.6109670294750311
+        },
+        "cold_ttft_ms": {
+          "p50": 6377.12546250009,
+          "p95": 13401.41916795004
+        },
+        "reuse_ttft_ms": {
+          "p50": 10397.380339499934,
+          "p95": 17980.946338599893
+        },
+        "session_completion_ms": {
+          "p95": 36647.92334370001,
+          "mean": 25698.064446850058
+        }
+      }
+    },
+    "generation": {
+      "passed": true,
+      "checks": {
+        "nonempty_unique_generations": true,
+        "exact_scheduler_ends": true,
+        "exact_server_ends": true,
+        "observed_wires_registered": true,
+        "server_end_removed": true,
+        "no_late_lookup": true,
+        "original_batch_handoff": true,
+        "scheduler_terminal": true,
+        "status_before_engine_stop_exact_empty": true,
+        "status_after_engine_stop_exact_empty": true
+      },
+      "registered": 75,
+      "scheduler_ends": 75,
+      "server_ends": 75,
+      "store_only_wires": [
+        "cp1:3024101352312368339:15:7a07a6fb347605c6ff670ce5bce90e7c:cmpl-972c5dce94c7dc5d-0-adfb228d",
+        "cp1:3024101352312368339:16:c71b89e41a7a642eaa7641fe8b07cbc3:cmpl-83394f8694758ee1-0-a29c806a",
+        "cp1:3024101352312368339:17:683b9df3f2e2e6114df5cbcbbd0a84b0:cmpl-83394f8694758ee1-0-a29c806a",
+        "cp1:3024101352312368339:63:0806817b5acc06e62e693d496f010a55:cmpl-a5165e9bb40742b5-0-bcbc9303"
+      ],
+      "observed_wires": 73,
+      "batches": 24,
+      "active_operations": [],
+      "scope": "Original server END handler returns plus exact empty snapshots; not a transport ACK claim"
+    },
+    "tokens": true
+  },
+  "caught": null
+}

@@ -1,0 +1,40 @@
+{
+  "generation": {
+    "passed": true,
+    "checks": {
+      "nonempty_unique_generations": true,
+      "exact_scheduler_ends": true,
+      "exact_server_ends": true,
+      "observed_wires_registered": true,
+      "server_end_removed": true,
+      "no_late_lookup": true,
+      "original_batch_handoff": true,
+      "scheduler_terminal": true,
+      "status_before_engine_stop_exact_empty": true,
+      "status_after_engine_stop_exact_empty": true
+    },
+    "registered": 78,
+    "scheduler_ends": 78,
+    "server_ends": 78,
+    "store_only_wires": [
+      "cp1:77141276504733955:15:2714f1768cd4f8989c9599701eefe98d:cmpl-b4fe89c40f1f4871-0-92f8f4fe",
+      "cp1:77141276504733955:16:4f79601c931c505b219cb3aba1d0376f:cmpl-8074f402d5330978-0-874a2b75",
+      "cp1:77141276504733955:17:bd974dd80b753cead6758dfac3371e6a:cmpl-8074f402d5330978-0-874a2b75",
+      "cp1:77141276504733955:62:a59344ca9d0d9799c14007a0618c7d66:cmpl-933ac4e7fcb91706-0-8091cbb6",
+      "cp1:77141276504733955:63:e36a3339c77d2c0b7788d6a3b3a4e195:cmpl-b856f6ec594bcb56-0-bd55fc62",
+      "cp1:77141276504733955:65:9aa97f81d46ede02ea6cd116ca401819:cmpl-9ed5615d09841afe-0-8b206d88",
+      "cp1:77141276504733955:66:7c780b7ae7259c4dc69a00c279af274a:cmpl-9ed5615d09841afe-0-8b206d88"
+    ],
+    "observed_wires": 76,
+    "batches": 27,
+    "active_operations": [],
+    "scope": "Original server END handler returns plus exact empty snapshots; not a transport ACK claim"
+  },
+  "ownership": {
+    "passed": true,
+    "reservations": 589,
+    "lookups": 69,
+    "transfers": 75,
+    "final_free_blocks": 909
+  }
+}

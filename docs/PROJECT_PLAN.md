@@ -1,6 +1,6 @@
 # CachePilot 总体设计与实施方案
 
-更新：2026-10-11
+更新：2026-10-12
 
 > 本文同时记录原始计划和开发后的修订路线。原始计划假设“自适应卸载窗口”会成为第一版主要机制；实际实验发现更关键的问题是异步 KV 回载的物理 block 分配与 LMCache lazy-offload 压力观测存在时间错位，因此当前主线已经调整为“先建立可验证的压力信号，再决定是否实施准入前保护策略”。
 
@@ -381,3 +381,10 @@ Trace 回放评估的是推理系统在同一请求负载下的行为，不评�
 ## 2026-10-11 22:54 身份支线更新
 
 长 prefill 独立时序定位了我们适配层的缺口：真实抢占重建 tracker 生成新 generation，底层 PREEMPTED 路径跳过 lookup，因此 lookup-only mapping 未更新；新代 STORE 与旧代 END 分离。两项真实 Connector/manager CPU 复现通过，完整 CUDA/native 746 passed；两个 GPU 诊断资源仍失败，尚未修复。下一步先分离 lookup 路由与所有 session 代际终结登记，验证迟到旧 STORE/回执、连续抢占、raw ID 复用、取消及 END 部分失败，再逐身份实机验收。此项是所有权适配支线，不算保护策略改进；通过后另立新栈长 prefill pilot，不能改写原失败或直接启动 formal。详见 [报告](experiments/2026-10-11/PREEMPTED_IDENTITY.md)。
+
+
+## 2026-10-12 generation 接线支线
+
+独立 opt-in 零保护 Connector 已实现 acquisition-time ticket、真实 pending admission/drop、跨进程原 batch receipt、lookup 路由与 current STORE 代际分离、owner-thread future polling 及 producer seal。真实库 callback 契约和完整显式 CUDA/native 805 项回归通过，详见 [接线报告](experiments/2026-10-12/GENERATION_BRIDGE.md)。下一门槛是固定原 long-prefill trace 的独立 GPU pilot：逐 wire 服务端 END handler return、session/job 快照及 native terminal/资源闭合必须同时通过。通过前不进入 formal；通过后 lazy 对照使用同一新栈，immediate 保留原 connector 并明确为整套配置比较，诊断日志关闭另行冻结，原失败与旧性能不改写。此项属于所有权适配支线，不作为保护策略收益。
+
+2026-10-12 13:21：独立 GPU 诊断 b/c 已通过，c 增加实际 reservation/native terminal 与 BlockPool 闭合，78 代际全部逐身份 END。启动失败 a、原 pilot 和旧两个诊断仍失败。下一门槛已推进到 [新性能预注册](experiments/2026-10-12/GENERATION_MATRIX_PREREGISTRATION.md)：四配置 pilot 后三次正式重复，零保护限定，不将所有权修复当作策略收益。完整 CUDA/native 回归 824 passed、115 subtests。

@@ -1,6 +1,6 @@
 # 待办与阶段验收
 
-更新：2026-10-11。未勾选项均未完整完成；历史设计与当前实测环境以 ENVIRONMENT.md 及对应日期的记录区分。
+更新：2026-10-12。未勾选项均未完整完成；历史设计与当前实测环境以 ENVIRONMENT.md 及对应日期的记录区分。
 
 晚间持续推进至北京时间 22:00，最新步骤、运行目录与下一步见 [晚间记录](experiments/2026-10-11/EVENING_PROGRESS.md)。恢复执行前检查服务器进程，避免与在途实验重复。
 
@@ -179,7 +179,9 @@
 - [x] 完成两轮独立 long-prefill 诊断和真实 tracker/manager 最小复现：抢占后新 tracker 生成新 wire，但原生 PREEMPTED 路径跳过 lookup，mapping 仍旧代；timeline 观察 4 个 STORE-only wire 未 END、4 sessions 残留。完整 CUDA/native 746 passed、115 subtests；离线审计另 5 项通过。见 [身份缺口报告](experiments/2026-10-11/PREEMPTED_IDENTITY.md)。两轮均未再次触发 idle fatal，资源均失败，不算修复。
 - [x] 新增默认关闭的 `GenerationSessionLedger` 身份终结候选：分离当前 lookup 路由与各 generation 登记，ticket 固定 acquisition-time wire identity；CPU 契约覆盖旧 STORE 迟到提交/回执、连续两次抢占、raw ID 重用、取消、多个 pending chunk、重复/部分 END、client-wide high-water 和生命周期 tombstone。实现尚未接入 vLLM/LMCache 生产 connector，见 [GENERATION_LEDGER_CANDIDATE.md](experiments/2026-10-11/GENERATION_LEDGER_CANDIDATE.md)。下一步是 adapter integration gate，之后才允许单独 GPU pilot。
 - [x] 账本 client 边界及真实 tracker/manager/BlockPool 手动交接契约通过：PREEMPTED 后 LOOKUP A、STORE B、END A/B 分离，原 block 引用闭合；服务器专项合计 39 passed。terminal 和 producer seal 由测试显式交付，未证明真实回调接线；原错误路径测试保持复现。
-- [ ] 在独立 opt-in connector 中连接真实 generation 登记、pending admission、跨 scheduler/worker 原 ticket、lookup/status/free 终结与 producer seal；增加真实 manager 的迟到旧批次和 raw ID 重用测试，补 ticket 容量边界，再逐 wire 审计服务端并启动新长 prefill pilot。不得删除原 guard 或盲目结束 raw ID。
+- [x] 独立 opt-in generation connector 接通真实 tracker/manager admission、pending drop、原跨进程 batch receipt、lookup/status/free future、RETRIEVE 及 producer seal；真实 raw ID 重用的旧 in-flight success/failure 和 queue owner-thread pump 契约通过。完整显式 CUDA/native 回归 805 passed、115 subtests；见 [接线报告](experiments/2026-10-12/GENERATION_BRIDGE.md)。这不等于 GPU 服务验收。
+- [x] 独立长 prefill generation 诊断 b/c 通过；c 的 78 代际 END、589 reservation、69 lookup job、75 native transfer 与 BlockPool 909 free 恢复逐项审计通过，原失败和启动失败 a 保留。诊断不计入性能。
+- [ ] 按 [新栈预注册](experiments/2026-10-12/GENERATION_MATRIX_PREREGISTRATION.md) 运行长 prefill native/immediate/default/selected 四配置 pilot，再完成三次正式重复。完整 CUDA/native 824 passed、115 subtests，热路径诊断关闭；当前 pilot 运行中。
 - [ ] 用 Qwen3-8B＋5090 复核；如要区分模型/硬件效应，需要额外控制变量实验。
 - [x] 开发和验证消融已统计客户端 ready-to-first/ready-to-end 及会话完成时间；原始值与聚合均归档，不将入口等待隐藏。新容量和到达负载继续沿用该口径。
 - [ ] 整理复现文档、版本清单、原始数据、图表和个人贡献。
@@ -187,6 +189,8 @@
 - [ ] 项目阶段收尾后重新核查 LMCache/vLLM 上游状态；若仍可复现且有可维护的最小修复与回归测试，考虑提交异步回载压力信号的上游 issue/PR，范围见 [UPSTREAM_ASYNC_KV_PRESSURE.md](UPSTREAM_ASYNC_KV_PRESSURE.md)。
 
 ## 优先顺序
+
+2026-10-12 13:21：独立 generation GPU 诊断 b/c 通过，原身份和物理 BlockPool 证据已归档；新栈四配置性能 pilot 已启动，禁止修改其冻结源码或重复启动。通过完整独立复核后进入 formal；原启动失败 a 和旧身份失败不改写。下面日期/时点较早的条目为历史开发记录。
 
 2026-10-12 连接恢复：服务器专项 52 项及新增真实 MessagingFuture 契约 3 项通过，原始输出已归档；固定 adapter/manager 哈希一致。当前不再阻塞于 SSH，下一步仍是真实 manager/connector 回调接线，尚未启动 GPU pilot。
 
