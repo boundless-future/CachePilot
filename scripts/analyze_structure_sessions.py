@@ -5,6 +5,7 @@ from pathlib import Path
 import statistics
 
 from analyze_replay import percentile
+from run_protection_ablation import metric
 from run_real_structure_pilot import collect_structural
 
 
@@ -39,8 +40,23 @@ def analyze(directory):
     rows = []
     for cell in matrix['rows']:
         data = json.loads((directory / cell['cell'] / 'requests.json').read_text(encoding='utf-8'))
+        result = json.loads((directory / cell['cell'] / 'result.json').read_text(encoding='utf-8'))
+        counters = result['vllm_delta']
+        costs = dict(preemptions=counters['vllm:num_preemptions_total'])
+        for phase in ('queue', 'prefill', 'decode', 'inference'):
+            prefix = 'vllm:request_' + phase + '_time_seconds'
+            if counters[prefix + '_count'] != cell['requests']:
+                raise ValueError('Request phase count differs: ' + cell['cell'])
+            costs[phase + '_mean_ms'] = 1000 * counters[prefix + '_sum'] / cell['requests']
+        if cell['case'] != 'native':
+            for direction in ('h2d', 'd2h'):
+                costs[direction + '_staging_seconds'] = (
+                    metric(data['lmcache_after'], 'lmcache_mp_transfer_phase_elapsed_seconds_total',
+                           direction=direction, phase='staging') -
+                    metric(data['lmcache_before'], 'lmcache_mp_transfer_phase_elapsed_seconds_total',
+                           direction=direction, phase='staging'))
         rows.append(dict(cell=cell['cell'], case=cell['case'], repeat=cell['repeat'],
-                         sessions=session_rows(trace, data)))
+                         sessions=session_rows(trace, data), costs=costs))
     aggregates = {}
     for case in matrix['aggregates']:
         group = [r for r in rows if r['case'] == case]
@@ -48,9 +64,17 @@ def analyze(directory):
             stdev=statistics.stdev(values), individual=values)
             for key in values_by_key for values in [[r['sessions'][name][key] for r in group]]}
             for name, values_by_key in group[0]['sessions'].items()}
-    return dict(rows=rows, aggregates=aggregates, trace_sha256=matrix['signature']['trace_sha256'],
+    cost_aggregates = {}
+    for case in matrix['aggregates']:
+        group = [r['costs'] for r in rows if r['case'] == case]
+        cost_aggregates[case] = {key: dict(mean=statistics.mean(values),
+            stdev=statistics.stdev(values), individual=values)
+            for key in group[0] for values in [[r[key] for r in group]]}
+    return dict(rows=rows, aggregates=aggregates, cost_aggregates=cost_aggregates,
+        trace_sha256=matrix['signature']['trace_sha256'],
         scope='All six source sessions, post-hoc descriptive analysis; no selected subset or tuning. '
-              'Session completion includes artificial offered-arrival spans; not live Agent task latency.')
+              'Session completion includes artificial offered-arrival spans; not live Agent task latency. '
+              'Request phases and staging may overlap; not additive kernel timings or DMA attribution.')
 
 
 def main():

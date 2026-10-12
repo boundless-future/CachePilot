@@ -38,3 +38,10 @@ def test_missing_failed_or_misassigned_request_rejected(analyzer, mutation):
         data['results'][0]['session_id'] = 'b'
     with pytest.raises(ValueError):
         analyzer.session_rows(trace, data)
+
+
+def test_archived_pilot_cannot_produce_formal_session_summary(analyzer):
+    root = Path(__file__).resolve().parents[1]
+    directory = root / 'docs/experiments/2026-10-12/real-structure-evidence/real-structure-unobserved-pilot-20261012a'
+    with pytest.raises(ValueError, match='Complete unobserved twelve-cell'):
+        analyzer.analyze(directory)
