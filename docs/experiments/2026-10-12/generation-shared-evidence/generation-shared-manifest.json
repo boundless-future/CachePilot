@@ -1,0 +1,201 @@
+{
+  "files": {
+    "generation-shared-cancel-20261012a/plan.json": {
+      "bytes": 24412,
+      "sha256": "a6435a7fe2621f925d08fda751ff471f0ffcb0c8673fd9755fb93b949c4eade8"
+    },
+    "generation-shared-cancel-20261012a/summary.json": {
+      "bytes": 203252,
+      "sha256": "868e7c119a3326725fbc37be860ce1e83db56edf7c4c542af29617eb839000ce"
+    },
+    "generation-shared-cancel-20261012a/two/shared-cancel-driver.json": {
+      "bytes": 14834,
+      "sha256": "d5058e8bfc108e92a9122e00f95a088df5355b25a9e44d12a2230c596e4536d6"
+    },
+    "generation-shared-cancel-20261012a/two/after-restore-status.json": {
+      "bytes": 3822,
+      "sha256": "5997e42f59bfadb7aeaa9324461ac95b551ea34d917c378c442116a60aa387d5"
+    },
+    "generation-shared-cancel-20261012a/two/running-final-status.json": {
+      "bytes": 840,
+      "sha256": "f492c69b7b90704c152fdca652e08e3bb4fa4e572ab1d62bd0927b1c92b76251"
+    },
+    "generation-shared-cancel-20261012a/two/responses.json": {
+      "bytes": 1558984,
+      "sha256": "465a2642ac1b0b8dea1327d6c7f4c2c4d20a4c69d67bf91b5990924c667c8d39"
+    },
+    "generation-shared-cancel-20261012a/two/before-restore-status.json": {
+      "bytes": 3822,
+      "sha256": "5997e42f59bfadb7aeaa9324461ac95b551ea34d917c378c442116a60aa387d5"
+    },
+    "generation-shared-cancel-20261012a/two/after-restore-vllm.prom": {
+      "bytes": 61647,
+      "sha256": "c439b688a08c3b19ce17f69f4cc6d6ed68076e2cb1da6fa5ff9705344b52dbaf"
+    },
+    "generation-shared-cancel-20261012a/two/vllm.log": {
+      "bytes": 68087,
+      "sha256": "a3d2ee86ca147de8754640f30b32665e2ea0460737e87168d9615e736a499445"
+    },
+    "generation-shared-cancel-20261012a/two/after-restore-lmcache.prom": {
+      "bytes": 24591,
+      "sha256": "2b35cff030a989f54a3013f6af66542f81377b536e3fe06d0f358797ac8ea7aa"
+    },
+    "generation-shared-cancel-20261012a/two/release-shared-receipt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "generation-shared-cancel-20261012a/two/config.json": {
+      "bytes": 681,
+      "sha256": "06093c8d1f533bf00ae75cd31a5daebda6118a56605ff20e5a4843466edc729c"
+    },
+    "generation-shared-cancel-20261012a/two/after-engine-stop-status.json": {
+      "bytes": 813,
+      "sha256": "24ce5aa1586d68cef5fc4819b54941948dd56fc51d987ffb5a5ae6e2614cc8b2"
+    },
+    "generation-shared-cancel-20261012a/two/before-restore-vllm.prom": {
+      "bytes": 61639,
+      "sha256": "cd6d676b2f017746364fa58ee83b41da76e0cc798f55622f7e980099644f8f1d"
+    },
+    "generation-shared-cancel-20261012a/two/generation-validation.json": {
+      "bytes": 189664,
+      "sha256": "1b9f2349c1d2efe20510b243188298362e43c93450977bfaa1b01eea110d9107"
+    },
+    "generation-shared-cancel-20261012a/two/generation.json": {
+      "bytes": 175257,
+      "sha256": "9fd7e29f6e9d23bfe0784d209cb8d30a35b05afeb817ddfb52b6d145e2eceb03"
+    },
+    "generation-shared-cancel-20261012a/two/result.json": {
+      "bytes": 12841,
+      "sha256": "487d19a25e69cb0da4a29a189a884e1269ab1bf6b1ae3f734dfe1f57bfc11cda"
+    },
+    "generation-shared-cancel-20261012a/two/before-restore-lmcache.prom": {
+      "bytes": 18174,
+      "sha256": "f878358ea1047d7454897cb392aeee41a4387aef7f3ceeda9e0e32a6719f56ef"
+    },
+    "generation-shared-cancel-20261012a/two/lmcache.log": {
+      "bytes": 110912,
+      "sha256": "b65f13656b358871c78a37db8c856ad8f2638bc5fe0be30a706b98959288e808"
+    },
+    "generation-shared-cancel-20261012a/two/events/handoff-29438-WORKER.jsonl": {
+      "bytes": 28993,
+      "sha256": "77c9823e935a159355c536af239278a96f83542a9a14a929d7f573cf653d69d8"
+    },
+    "generation-shared-cancel-20261012a/two/events/handoff-29438-SCHEDULER.jsonl": {
+      "bytes": 361759,
+      "sha256": "0324a762d8ee8b3f3e441c729da214802c7578cbf33e28b1c8562dcd56a63361"
+    },
+    "generation-shared-cancel-20261012a/two/events/owned-connector-29438.jsonl": {
+      "bytes": 426421,
+      "sha256": "89f4c1d33aa2f244d8fc0015bc32d4ece716790dce44bc4dfbd645cb19304291"
+    },
+    "generation-shared-cancel-20261012a/two/events/owned-service-29336.jsonl": {
+      "bytes": 363713,
+      "sha256": "37c5010bc609f37a99dc0c22882963bfa00c8562ac03a9aa78db7fa8f2c02aea"
+    },
+    "generation-shared-cancel-20261012a/two/probe/kv-29438.jsonl": {
+      "bytes": 494939,
+      "sha256": "e8be0e83d7ff989ea2546747fc017cadd68dd265b81c02e0e69476590e18d5c1"
+    },
+    "generation-shared-preemption-20261012a/plan.json": {
+      "bytes": 24416,
+      "sha256": "2a0bbbfb3e7789ee0408d159f7917e9751f751063455b19780d7a09d6408b92a"
+    },
+    "generation-shared-preemption-20261012a/summary.json": {
+      "bytes": 206366,
+      "sha256": "7bd3f8707258b0a1434720db1e00eb9128a8c120c5b927d5626e6b840b7314e0"
+    },
+    "generation-shared-preemption-20261012a/two/after-restore-status.json": {
+      "bytes": 3819,
+      "sha256": "e0af494a9c3489413165eba50700a9e3d55c19640e9961c816a02c57b913c821"
+    },
+    "generation-shared-preemption-20261012a/two/running-final-status.json": {
+      "bytes": 839,
+      "sha256": "005f4a68e3580e458cff156b5289639b9260a7391fb676b369caad048a9cb51a"
+    },
+    "generation-shared-preemption-20261012a/two/responses.json": {
+      "bytes": 1558984,
+      "sha256": "266322b51ad932fa45401f695c6f6b6db5d1383aab0501af0b0cf4c63b05cb1a"
+    },
+    "generation-shared-preemption-20261012a/two/protected-preemption-driver.json": {
+      "bytes": 33838,
+      "sha256": "4b3a87bd686351a07d75470ee6693c29bc132be4c9200c4eb0dffe19abc8db0b"
+    },
+    "generation-shared-preemption-20261012a/two/before-restore-status.json": {
+      "bytes": 3819,
+      "sha256": "e0af494a9c3489413165eba50700a9e3d55c19640e9961c816a02c57b913c821"
+    },
+    "generation-shared-preemption-20261012a/two/after-restore-vllm.prom": {
+      "bytes": 61681,
+      "sha256": "1cab369f3b1182cf5d28bc10b20ea7374a3a079f5c768fb85a0dda69c5e996fd"
+    },
+    "generation-shared-preemption-20261012a/two/vllm.log": {
+      "bytes": 69478,
+      "sha256": "6592078b7c8a1c197095c7bad6fe557b98cf263d944cf103ec267fe56487609a"
+    },
+    "generation-shared-preemption-20261012a/two/after-restore-lmcache.prom": {
+      "bytes": 24560,
+      "sha256": "66e3c1c5e9e69255d86bb13e81b2c270ab9479cb3cfdf8c747e861866d5cb5fb"
+    },
+    "generation-shared-preemption-20261012a/two/release-shared-receipt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "generation-shared-preemption-20261012a/two/config.json": {
+      "bytes": 685,
+      "sha256": "a3292f8e2a300bf8ef70d72cfbba7e1a0bea8bd443bcb9d1b6edfa25bc0534e1"
+    },
+    "generation-shared-preemption-20261012a/two/after-engine-stop-status.json": {
+      "bytes": 813,
+      "sha256": "24ce5aa1586d68cef5fc4819b54941948dd56fc51d987ffb5a5ae6e2614cc8b2"
+    },
+    "generation-shared-preemption-20261012a/two/before-restore-vllm.prom": {
+      "bytes": 61687,
+      "sha256": "25fae7a3cb81673c82e2149259f0db88da03791e6c074c2c1d8fa1c1afc21fc7"
+    },
+    "generation-shared-preemption-20261012a/two/generation-validation.json": {
+      "bytes": 192562,
+      "sha256": "4b568c1ed1e08b8c2e9d0d058ab337560a30012924855d45282e533f7171389d"
+    },
+    "generation-shared-preemption-20261012a/two/generation.json": {
+      "bytes": 177939,
+      "sha256": "15e9537baf3ce55658258e1d11e3063a4a96fbe9d499d6ac3fc6cbead05d5b60"
+    },
+    "generation-shared-preemption-20261012a/two/result.json": {
+      "bytes": 9998,
+      "sha256": "ea2fb74936d7dc4774dd9cac0fd4b9a2ac8dfdb8284edb78705b4cc0d1756e79"
+    },
+    "generation-shared-preemption-20261012a/two/before-restore-lmcache.prom": {
+      "bytes": 18163,
+      "sha256": "0200eb405524a4a62a0a2a07fb5622363692529ca133f9565d7d995a638901fc"
+    },
+    "generation-shared-preemption-20261012a/two/protected-pressure-payloads.json": {
+      "bytes": 161585,
+      "sha256": "5ce7883e546eede6711f2b035cf55aefae92c4969da0da7299c65b7398ae2ea3"
+    },
+    "generation-shared-preemption-20261012a/two/lmcache.log": {
+      "bytes": 108683,
+      "sha256": "d5de73318c9f157c10e7fda33dd97d550bc9bd3e98ce7c07abfd54e0e250819a"
+    },
+    "generation-shared-preemption-20261012a/two/events/owned-connector-29798.jsonl": {
+      "bytes": 520968,
+      "sha256": "876518d628b6e5eed1f7908f3a0f387719ce71ef90b475fe90b412be50754916"
+    },
+    "generation-shared-preemption-20261012a/two/events/handoff-29798-WORKER.jsonl": {
+      "bytes": 45724,
+      "sha256": "a1c25504b0a91ee96009cca14693c1e591210ed76928d36c3aefd63257c3f045"
+    },
+    "generation-shared-preemption-20261012a/two/events/owned-service-29684.jsonl": {
+      "bytes": 360894,
+      "sha256": "7150a40322e54ce662f7af9faa0caf4dffcd1dc44110574dd847e4e4f8445ad2"
+    },
+    "generation-shared-preemption-20261012a/two/events/handoff-29798-SCHEDULER.jsonl": {
+      "bytes": 675004,
+      "sha256": "48947b70d58bd6aaafecc4c87cff04a5ea82998356f4dcce41d2c4382e4f673c"
+    },
+    "generation-shared-preemption-20261012a/two/probe/kv-29798.jsonl": {
+      "bytes": 755010,
+      "sha256": "9852c359b65b826562864ae88521920d46b32e9a604f2d4bb9e1392b50335015"
+    }
+  },
+  "verified_source_files": 218
+}

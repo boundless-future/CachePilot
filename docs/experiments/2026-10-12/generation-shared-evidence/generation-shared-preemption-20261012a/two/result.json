@@ -1,0 +1,353 @@
+{
+  "passed": true,
+  "mode": "two",
+  "eager": true,
+  "artificial_hold": true,
+  "protection_budget": 2,
+  "bounded_workload": true,
+  "receipt_probe": null,
+  "recovery_traffic": false,
+  "shared_cancel": false,
+  "protected_preemption": false,
+  "shared_preemption": true,
+  "receipt_identity": false,
+  "one_chunk_workload": false,
+  "inflight_budget": false,
+  "capacity_fallback": false,
+  "kv_cache_bytes": 2147483648,
+  "reuse_id": false,
+  "reuse_old_failure": false,
+  "server_store_fault": false,
+  "long_prefix": false,
+  "before_restore": {
+    "is_healthy": true,
+    "active_sessions": 0,
+    "registered_gpu_ids": [
+      832287498969827643
+    ],
+    "l1_read_locked": 0,
+    "l1_write_locked": 0,
+    "store_pending": 0,
+    "store_in_flight": 0,
+    "prefetch_in_flight": 0,
+    "prefetch_pending": 0,
+    "prefetch_lookup": 0,
+    "prefetch_load": 0,
+    "write_ttl_seconds": 600,
+    "read_ttl_seconds": 300,
+    "active_prefetch_jobs": 0,
+    "abandoned_prefetch_jobs": 0,
+    "reclaim_failed_jobs": 0,
+    "reclaim_completed_jobs": 0,
+    "reclaim_key_snapshots": 0,
+    "completed_results_count": 0,
+    "owned_jobs": 0,
+    "owned_controller_jobs": 0,
+    "owned_transfers": 0,
+    "owned_clients": 1,
+    "owned_deferred_contexts": 0,
+    "owned_store_batches": 0,
+    "owned_failed": 0,
+    "owned_read_pins": 0,
+    "generation_observer": {
+      "session_ids": [],
+      "owned_job_ids": [],
+      "transfer_wire_ids": []
+    }
+  },
+  "external_hit_tokens": 512.0,
+  "gpu_hit_tokens": 0.0,
+  "running_final": {
+    "is_healthy": true,
+    "active_sessions": 0,
+    "registered_gpu_ids": [
+      832287498969827643
+    ],
+    "l1_read_locked": 0,
+    "l1_write_locked": 0,
+    "store_pending": 0,
+    "store_in_flight": 0,
+    "prefetch_in_flight": 0,
+    "prefetch_pending": 0,
+    "prefetch_lookup": 0,
+    "prefetch_load": 0,
+    "write_ttl_seconds": 600,
+    "read_ttl_seconds": 300,
+    "active_prefetch_jobs": 0,
+    "abandoned_prefetch_jobs": 0,
+    "reclaim_failed_jobs": 0,
+    "reclaim_completed_jobs": 0,
+    "reclaim_key_snapshots": 0,
+    "completed_results_count": 0,
+    "owned_jobs": 0,
+    "owned_controller_jobs": 0,
+    "owned_transfers": 0,
+    "owned_clients": 1,
+    "owned_deferred_contexts": 0,
+    "owned_store_batches": 0,
+    "owned_failed": 0,
+    "owned_read_pins": 0,
+    "generation_observer": {
+      "session_ids": [],
+      "owned_job_ids": [],
+      "transfer_wire_ids": []
+    }
+  },
+  "after_engine_stop": {
+    "is_healthy": true,
+    "active_sessions": 0,
+    "registered_gpu_ids": [],
+    "l1_read_locked": 0,
+    "l1_write_locked": 0,
+    "store_pending": 0,
+    "store_in_flight": 0,
+    "prefetch_in_flight": 0,
+    "prefetch_pending": 0,
+    "prefetch_lookup": 0,
+    "prefetch_load": 0,
+    "write_ttl_seconds": 600,
+    "read_ttl_seconds": 300,
+    "active_prefetch_jobs": 0,
+    "abandoned_prefetch_jobs": 0,
+    "reclaim_failed_jobs": 0,
+    "reclaim_completed_jobs": 0,
+    "reclaim_key_snapshots": 0,
+    "completed_results_count": 0,
+    "owned_jobs": 0,
+    "owned_controller_jobs": 0,
+    "owned_transfers": 0,
+    "owned_clients": 1,
+    "owned_deferred_contexts": 0,
+    "owned_store_batches": 0,
+    "owned_failed": 0,
+    "owned_read_pins": 0,
+    "generation_observer": {
+      "session_ids": [],
+      "owned_job_ids": [],
+      "transfer_wire_ids": []
+    }
+  },
+  "ownership": {
+    "passed": true,
+    "service_processes": 1,
+    "original_tokens": 18,
+    "dispositions": {
+      "RELEASED": 18
+    },
+    "transfer_terminals": 24,
+    "final_free_blocks": {
+      "owned-connector-29798.jsonl": 909
+    },
+    "exactly_once": true,
+    "native_terminal_before_release": true
+  },
+  "handoff": {
+    "passed": true,
+    "batches": 17,
+    "default_batches": 12,
+    "failed_batches": 0,
+    "bypass_decisions": 0,
+    "added_protection_stores": 5,
+    "acquired_protection_pins": 576,
+    "store_signatures": [
+      {
+        "prefix_sha256": "0f611dceb4f99c68dd06ff55094a0392ccd14a23227e5870fec357517fedd89a",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "103aaa28fe82716b74df9b83a37a6820e2c65224e12ed56531f27ef120d12f81",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "1b0b5c3908c9c5b875abe0033bd9b34159293733a4c479696e2fe6e796d7c671",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "1eb756f90ac14a670f0c9c62c2c5744607fc6c445bb79c7efdd51dc31e9e56b2",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "20896468b43e7e0999afbdeaea5f749b9b5ae086156394e2457bcd941e0a9f5b",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "215449fb7b5c5d6ceba19f104ee80d7def3dbfd75824feeb1baa1022be685a0c",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "4e0d57676bca6a37819e4ac06a619cc72c7d1be29a72f09b13e0cbfac4096ab7",
+        "start": 512,
+        "end": 3584,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "5446426a5353687ce800c6c0a26995b7a6715e92cd120c79dd1a571b5c5e312e",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "6b5bb5e04a19b2cc8ccea41b2a45c18810c2154700cc5ee5cd0cc2d6bdb3df38",
+        "start": 0,
+        "end": 3584,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "a2583134dd0248d93b891d4a66ea704c7f958d3790b4539698f0c6f10bc553c3",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "ab9cb5aa99edb61810f1ec780d4a3c9217f1f4dfe70aef0fdf7b05508d6ed4bb",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "aba87b1daaa42b6001084cfe206c49c9ca1f1e85ee50aaa6bf524f5cb2921c2d",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "bb201d95a79867159f402cf98bd081f7bbd6cdf86f6443aa4cdf7923c68b6d03",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "d861ea26c69a6907d0043ee72834dc1d35420ded4c5240ba0f46917410872ad0",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "e30d48b3f7f7e20737d579c53edd2a5438393f45d799c0f5dbe818161efddc4d",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "e5396a464f1947e1b1d1ffcd3e00a9c4508adb96ef3578f4106de0422520fe83",
+        "start": 0,
+        "end": 3584,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "f42723c781d6b7ed3e94e2c8ac55d67be721a1d11a6d764624dc0d6b92b8b3d3",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      }
+    ]
+  },
+  "protection": {
+    "passed": true,
+    "protection_stores": 5,
+    "peak_protection_blocks": 32,
+    "observed_allocations": 5,
+    "rollbacks": 13,
+    "final_owned_pins": 0
+  },
+  "kv": {
+    "counts": {
+      "worker_layout_chunks": 1,
+      "before_store_chunks": 68,
+      "after_retrieve_chunks": 14,
+      "retrieved_layers": 504,
+      "equal_layers": 504
+    },
+    "missing_references": [],
+    "unequal_layers": [],
+    "covered_and_equal": true
+  },
+  "protected_prefixes_retrieved": [
+    "bb201d95a79867159f402cf98bd081f7bbd6cdf86f6443aa4cdf7923c68b6d03"
+  ],
+  "protected_prefixes_not_retrieved": [
+    "103aaa28fe82716b74df9b83a37a6820e2c65224e12ed56531f27ef120d12f81",
+    "1b0b5c3908c9c5b875abe0033bd9b34159293733a4c479696e2fe6e796d7c671",
+    "a2583134dd0248d93b891d4a66ea704c7f958d3790b4539698f0c6f10bc553c3",
+    "d861ea26c69a6907d0043ee72834dc1d35420ded4c5240ba0f46917410872ad0"
+  ],
+  "strict_protected_sources": {
+    "passed": true,
+    "strict_chunks": 2,
+    "strict_equal_layers": 72,
+    "covered_batches": 1,
+    "protected_batches": 5,
+    "kv_bytes_per_block": 2359296,
+    "submitted_payload_bytes": {
+      "store": 2566914048,
+      "retrieve": 528482304
+    },
+    "strict_sources": [
+      {
+        "batch_id": "cp1:1028806811016902608:1:967387262902cd2785a6eedd8f4971a8:cmpl-a18ed43c09176791-0-b1441748:ledger:1",
+        "token_prefix_sha256": "af0410b3d1ec706503a740b1abde2bc4e226fcc154b64cc406b3e0c5cff3ae98",
+        "start": 0,
+        "end": 256,
+        "equal_layers": 36,
+        "store_sequence": 1
+      },
+      {
+        "batch_id": "cp1:1028806811016902608:1:967387262902cd2785a6eedd8f4971a8:cmpl-a18ed43c09176791-0-b1441748:ledger:1",
+        "token_prefix_sha256": "bb201d95a79867159f402cf98bd081f7bbd6cdf86f6443aa4cdf7923c68b6d03",
+        "start": 256,
+        "end": 512,
+        "equal_layers": 36,
+        "store_sequence": 1
+      }
+    ],
+    "dma_bytes_after_first_target_restore": {
+      "h2d": 75497472.0,
+      "d2h": 2113929216.0
+    },
+    "dma_checkpoint_scope": "Before pressure-prefix replay; not total experiment DMA"
+  },
+  "shared_preemption_audit": {
+    "passed": true,
+    "batch_id": "cp1:1028806811016902608:1:967387262902cd2785a6eedd8f4971a8:cmpl-a18ed43c09176791-0-b1441748:ledger:1",
+    "shared_request_id": "cmpl-bdf2da32f7fc1bfc-0-8094d077",
+    "protected_blocks": 32,
+    "shared_refs_sequence": [
+      2,
+      1,
+      0
+    ],
+    "allocations": 39,
+    "shared_prefix_victim": true,
+    "strict_sources": [
+      {
+        "batch_id": "cp1:1028806811016902608:1:967387262902cd2785a6eedd8f4971a8:cmpl-a18ed43c09176791-0-b1441748:ledger:1",
+        "token_prefix_sha256": "af0410b3d1ec706503a740b1abde2bc4e226fcc154b64cc406b3e0c5cff3ae98",
+        "start": 0,
+        "end": 256,
+        "equal_layers": 36,
+        "store_sequence": 1
+      },
+      {
+        "batch_id": "cp1:1028806811016902608:1:967387262902cd2785a6eedd8f4971a8:cmpl-a18ed43c09176791-0-b1441748:ledger:1",
+        "token_prefix_sha256": "bb201d95a79867159f402cf98bd081f7bbd6cdf86f6443aa4cdf7923c68b6d03",
+        "start": 256,
+        "end": 512,
+        "equal_layers": 36,
+        "store_sequence": 1
+      }
+    ]
+  },
+  "requests": 347
+}

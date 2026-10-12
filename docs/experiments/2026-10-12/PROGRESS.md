@@ -97,3 +97,9 @@
 - runner添加互斥long-prefix/failed-receipt独立分支，原正常默认三格不变。长prefix348请求/1800层全等、9split/8严格四chunk链/9派生票据；54 reservation/36 transfer闭合。22原文件5,044,642bytes、216源码核对冻结。
 - failed-receipt独立348请求/864层全等、9保护STORE中1成功后报告失败，32pin回执前存在、最终0，26 reservation/26 transfer闭合；预期adapter ERROR对应目标，原日志保留。22文件4,222,630bytes、217源码核对冻结。
 - 两格generation各348精确END、BlockPool各909；独立本地审计通过。离线lineage/split/normal/fault测试19 passed，不重复全套CPU。GPU0%/1MiB。下一步共享取消/实际抢占；本次无长suffix失败联合或性能结论。
+
+## 21:29 共享取消与抢占窗口
+
+- 218同签名，两独立GPU专项：cancel347完整请求+1取消流，936层全等/348代；preemption347完整请求+4压力取消流，504层全等/351代。目标共享32blocks引用2→1→0、最终pin0/BlockPool909，抢占期间39次分配安全。
+- 原始49文件9,287,612bytes与服务器SHA一致，源码tar归档；本地联合审计及34项含篡改测试通过。未改变生产策略，不作性能或受害请求完整续跑结论。
+- 日志复核共享取消格正常teardown后1次API output_handler EngineDeadError，伴CUDA IPC警告，单列保留；抢占格未检出ERROR/Traceback。GPU结束0%/1MiB。下一步限定准入汇总与新pilot预注册，退出异常保留开放支线。

@@ -1,0 +1,301 @@
+{
+  "passed": true,
+  "normal": {
+    "passed": true,
+    "mode": "two",
+    "generation": {
+      "passed": true,
+      "checks": {
+        "nonempty_unique_generations": true,
+        "exact_scheduler_ends": true,
+        "exact_server_ends": true,
+        "observed_wires_registered": true,
+        "server_end_removed": true,
+        "no_late_lookup": true,
+        "original_batch_handoff": true,
+        "scheduler_terminal": true,
+        "status_before_engine_stop_exact_empty": true,
+        "status_after_engine_stop_exact_empty": true
+      },
+      "registered": 348,
+      "scheduler_ends": 348,
+      "server_ends": 348,
+      "store_only_wires": [],
+      "observed_wires": 348,
+      "batches": 13,
+      "active_operations": [],
+      "scope": "Original server END handler returns plus exact empty snapshots; not a transport ACK claim"
+    },
+    "ownership": {
+      "passed": true,
+      "service_processes": 1,
+      "original_tokens": 30,
+      "dispositions": {
+        "RELEASED": 30
+      },
+      "transfer_terminals": 26,
+      "final_free_blocks": {
+        "owned-connector-29438.jsonl": 909
+      },
+      "exactly_once": true,
+      "native_terminal_before_release": true
+    },
+    "handoff": {
+      "passed": true,
+      "batches": 13,
+      "default_batches": 7,
+      "failed_batches": 0,
+      "bypass_decisions": 0,
+      "added_protection_stores": 6,
+      "acquired_protection_pins": 576,
+      "store_signatures": [
+        {
+          "prefix_sha256": "0f611dceb4f99c68dd06ff55094a0392ccd14a23227e5870fec357517fedd89a",
+          "start": 0,
+          "end": 512,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "1b0b5c3908c9c5b875abe0033bd9b34159293733a4c479696e2fe6e796d7c671",
+          "start": 0,
+          "end": 512,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "1eb756f90ac14a670f0c9c62c2c5744607fc6c445bb79c7efdd51dc31e9e56b2",
+          "start": 0,
+          "end": 512,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "20896468b43e7e0999afbdeaea5f749b9b5ae086156394e2457bcd941e0a9f5b",
+          "start": 0,
+          "end": 512,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "215449fb7b5c5d6ceba19f104ee80d7def3dbfd75824feeb1baa1022be685a0c",
+          "start": 0,
+          "end": 512,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "5446426a5353687ce800c6c0a26995b7a6715e92cd120c79dd1a571b5c5e312e",
+          "start": 0,
+          "end": 512,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "a2583134dd0248d93b891d4a66ea704c7f958d3790b4539698f0c6f10bc553c3",
+          "start": 0,
+          "end": 512,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "ab9cb5aa99edb61810f1ec780d4a3c9217f1f4dfe70aef0fdf7b05508d6ed4bb",
+          "start": 0,
+          "end": 512,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "aba87b1daaa42b6001084cfe206c49c9ca1f1e85ee50aaa6bf524f5cb2921c2d",
+          "start": 0,
+          "end": 512,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "bb201d95a79867159f402cf98bd081f7bbd6cdf86f6443aa4cdf7923c68b6d03",
+          "start": 0,
+          "end": 512,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "d861ea26c69a6907d0043ee72834dc1d35420ded4c5240ba0f46917410872ad0",
+          "start": 0,
+          "end": 512,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "e30d48b3f7f7e20737d579c53edd2a5438393f45d799c0f5dbe818161efddc4d",
+          "start": 0,
+          "end": 512,
+          "count": 1
+        },
+        {
+          "prefix_sha256": "f42723c781d6b7ed3e94e2c8ac55d67be721a1d11a6d764624dc0d6b92b8b3d3",
+          "start": 0,
+          "end": 512,
+          "count": 1
+        }
+      ]
+    },
+    "kv": {
+      "counts": {
+        "worker_layout_chunks": 1,
+        "before_store_chunks": 26,
+        "after_retrieve_chunks": 26,
+        "retrieved_layers": 936,
+        "equal_layers": 936
+      },
+      "missing_references": [],
+      "unequal_layers": [],
+      "covered_and_equal": true
+    },
+    "protection": {
+      "passed": true,
+      "protection_stores": 6,
+      "peak_protection_blocks": 32,
+      "observed_allocations": 6,
+      "rollbacks": 12,
+      "final_owned_pins": 0
+    },
+    "sources": {
+      "passed": true,
+      "strict_chunks": 12,
+      "strict_equal_layers": 432,
+      "covered_batches": 6,
+      "protected_batches": 6,
+      "kv_bytes_per_block": 2359296,
+      "submitted_payload_bytes": {
+        "store": 981467136,
+        "retrieve": 981467136
+      },
+      "strict_sources": [
+        {
+          "batch_id": "cp1:3868046503138350041:1:7062c87f3440fd6ab2c1a9f31f0d011b:cmpl-a8d297e6b6fc2455-0-88cd7ef8:ledger:1",
+          "token_prefix_sha256": "af0410b3d1ec706503a740b1abde2bc4e226fcc154b64cc406b3e0c5cff3ae98",
+          "start": 0,
+          "end": 256,
+          "equal_layers": 36,
+          "store_sequence": 1
+        },
+        {
+          "batch_id": "cp1:3868046503138350041:1:7062c87f3440fd6ab2c1a9f31f0d011b:cmpl-a8d297e6b6fc2455-0-88cd7ef8:ledger:1",
+          "token_prefix_sha256": "bb201d95a79867159f402cf98bd081f7bbd6cdf86f6443aa4cdf7923c68b6d03",
+          "start": 256,
+          "end": 512,
+          "equal_layers": 36,
+          "store_sequence": 1
+        },
+        {
+          "batch_id": "cp1:3868046503138350041:4:785b6741ae26832882c32c44cc329bca:cmpl-91c88063bcaae800-0-9938b764:ledger:4",
+          "token_prefix_sha256": "af396ad1220cb3be7b01e01503c214af18b583e19e0cbe18c6a297ac8280f510",
+          "start": 0,
+          "end": 256,
+          "equal_layers": 36,
+          "store_sequence": 4
+        },
+        {
+          "batch_id": "cp1:3868046503138350041:4:785b6741ae26832882c32c44cc329bca:cmpl-91c88063bcaae800-0-9938b764:ledger:4",
+          "token_prefix_sha256": "1eb756f90ac14a670f0c9c62c2c5744607fc6c445bb79c7efdd51dc31e9e56b2",
+          "start": 256,
+          "end": 512,
+          "equal_layers": 36,
+          "store_sequence": 4
+        },
+        {
+          "batch_id": "cp1:3868046503138350041:6:dc17d9841a10e242ed650ea87a0558e1:cmpl-9bacd238e2e0e01d-0-ad3a5982:ledger:6",
+          "token_prefix_sha256": "9799dad33bb4a9430cd808bd80783aad82ba6b74852221438f0cce67a5834cae",
+          "start": 0,
+          "end": 256,
+          "equal_layers": 36,
+          "store_sequence": 6
+        },
+        {
+          "batch_id": "cp1:3868046503138350041:6:dc17d9841a10e242ed650ea87a0558e1:cmpl-9bacd238e2e0e01d-0-ad3a5982:ledger:6",
+          "token_prefix_sha256": "0f611dceb4f99c68dd06ff55094a0392ccd14a23227e5870fec357517fedd89a",
+          "start": 256,
+          "end": 512,
+          "equal_layers": 36,
+          "store_sequence": 6
+        },
+        {
+          "batch_id": "cp1:3868046503138350041:8:7ebdbae82503b09685a5a0993c1421fd:cmpl-b2a75bc3c01dacd9-0-954e4fd0:ledger:8",
+          "token_prefix_sha256": "2ab53c8f69ef767847eb932496538c0b130f84629fcd405acc7f9b0c44926ddd",
+          "start": 0,
+          "end": 256,
+          "equal_layers": 36,
+          "store_sequence": 8
+        },
+        {
+          "batch_id": "cp1:3868046503138350041:8:7ebdbae82503b09685a5a0993c1421fd:cmpl-b2a75bc3c01dacd9-0-954e4fd0:ledger:8",
+          "token_prefix_sha256": "aba87b1daaa42b6001084cfe206c49c9ca1f1e85ee50aaa6bf524f5cb2921c2d",
+          "start": 256,
+          "end": 512,
+          "equal_layers": 36,
+          "store_sequence": 8
+        },
+        {
+          "batch_id": "cp1:3868046503138350041:10:0d54d774df5c164960f15d91ca0ea772:cmpl-8467696ac072120e-0-969ed05a:ledger:10",
+          "token_prefix_sha256": "1c6c68740d9a0252ea070e5256e994acd7660075bcd3faef3e1af462c4fcd6de",
+          "start": 0,
+          "end": 256,
+          "equal_layers": 36,
+          "store_sequence": 10
+        },
+        {
+          "batch_id": "cp1:3868046503138350041:10:0d54d774df5c164960f15d91ca0ea772:cmpl-8467696ac072120e-0-969ed05a:ledger:10",
+          "token_prefix_sha256": "e30d48b3f7f7e20737d579c53edd2a5438393f45d799c0f5dbe818161efddc4d",
+          "start": 256,
+          "end": 512,
+          "equal_layers": 36,
+          "store_sequence": 10
+        },
+        {
+          "batch_id": "cp1:3868046503138350041:12:7e744897c9555e7b249219c7c2cf0926:cmpl-8929b8442d1157d8-0-9699aab0:ledger:12",
+          "token_prefix_sha256": "d410ab1219c4b86adf74d93e69b51fb89b732290f33de4e063b452943ae10219",
+          "start": 0,
+          "end": 256,
+          "equal_layers": 36,
+          "store_sequence": 12
+        },
+        {
+          "batch_id": "cp1:3868046503138350041:12:7e744897c9555e7b249219c7c2cf0926:cmpl-8929b8442d1157d8-0-9699aab0:ledger:12",
+          "token_prefix_sha256": "ab9cb5aa99edb61810f1ec780d4a3c9217f1f4dfe70aef0fdf7b05508d6ed4bb",
+          "start": 256,
+          "end": 512,
+          "equal_layers": 36,
+          "store_sequence": 12
+        }
+      ],
+      "dma_bytes_after_first_target_restore": {
+        "h2d": 75497472.0,
+        "d2h": 981467136.0
+      },
+      "dma_checkpoint_scope": "Before pressure-prefix replay; not total experiment DMA"
+    }
+  },
+  "shared": {
+    "passed": true,
+    "batch_id": "cp1:3868046503138350041:1:7062c87f3440fd6ab2c1a9f31f0d011b:cmpl-a8d297e6b6fc2455-0-88cd7ef8:ledger:1",
+    "original_request_id": "cmpl-a8d297e6b6fc2455-0-88cd7ef8",
+    "cancelled_request_id": "cmpl-b750f0e342d8b6fa-0-a24832d3",
+    "shared_blocks": 32,
+    "refs_sequence": [
+      2,
+      1,
+      0
+    ],
+    "real_store_success": true,
+    "original_receipt_releases_once": true,
+    "strict_sources": [
+      {
+        "batch_id": "cp1:3868046503138350041:1:7062c87f3440fd6ab2c1a9f31f0d011b:cmpl-a8d297e6b6fc2455-0-88cd7ef8:ledger:1",
+        "token_prefix_sha256": "af0410b3d1ec706503a740b1abde2bc4e226fcc154b64cc406b3e0c5cff3ae98",
+        "start": 0,
+        "end": 256,
+        "equal_layers": 36,
+        "store_sequence": 1
+      },
+      {
+        "batch_id": "cp1:3868046503138350041:1:7062c87f3440fd6ab2c1a9f31f0d011b:cmpl-a8d297e6b6fc2455-0-88cd7ef8:ledger:1",
+        "token_prefix_sha256": "bb201d95a79867159f402cf98bd081f7bbd6cdf86f6443aa4cdf7923c68b6d03",
+        "start": 256,
+        "end": 512,
+        "equal_layers": 36,
+        "store_sequence": 1
+      }
+    ]
+  },
+  "kind": "shared-cancel"
+}

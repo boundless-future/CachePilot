@@ -10,7 +10,11 @@ def main():
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--long-prefix', action='store_true', help='Independent 1088-token two-chunk split diagnostic')
     parser.add_argument('--failed-receipt', action='store_true', help='Report one successful native STORE as failed; not a DMA fault')
+    parser.add_argument('--shared-cancel', action='store_true')
+    parser.add_argument('--shared-preemption', action='store_true')
     args = parser.parse_args()
+    if sum((args.long_prefix, args.failed_receipt, args.shared_cancel, args.shared_preemption)) > 1:
+        parser.error('Select only one independent diagnostic')
     import protection_zero_smoke as smoke
     from run_protection_ablation import ports_free, source_sha
     from audit_generation_pilot import audit_rows, rows
@@ -28,14 +32,14 @@ def main():
     out = args.output.resolve()
     out.mkdir(parents=True, exist_ok=False)
     frozen = source_sha()
-    if args.long_prefix and args.failed_receipt:
-        parser.error('Run long-prefix and failed-receipt as separate diagnostics')
-    modes = ('two',) if args.long_prefix or args.failed_receipt else ('zero', 'one', 'two')
-    write_json(out / 'plan.json', dict(stage='generation-protection-failed-receipt' if args.failed_receipt else 'generation-protection-long-prefix' if args.long_prefix else 'generation-protection-normal-diagnostic',
+    modes = ('two',) if args.long_prefix or args.failed_receipt or args.shared_cancel or args.shared_preemption else ('zero', 'one', 'two')
+    write_json(out / 'plan.json', dict(stage='generation-protection-shared-cancel' if args.shared_cancel else 'generation-protection-shared-preemption' if args.shared_preemption else 'generation-protection-failed-receipt' if args.failed_receipt else 'generation-protection-long-prefix' if args.long_prefix else 'generation-protection-normal-diagnostic',
         modes=list(modes), source_sha256=frozen,
         kv_cache_bytes=2147483648, model=str(ROOT / 'models/Qwen3-4B'),
         workload=f'unchanged protection_zero_smoke bounded_workload, {1088 if args.long_prefix else 576}-token source',
         long_prefix=args.long_prefix,
+        shared_cancel=args.shared_cancel, shared_preemption=args.shared_preemption,
+        receipt_gate=args.shared_cancel or args.shared_preemption,
         performance=False, fault_injection=args.failed_receipt,
         receipt_probe='failed-after-success' if args.failed_receipt else None,
         gates=['existing strict KV/ownership/handoff', 'exact generation END',
@@ -62,6 +66,9 @@ def main():
                     if args.failed_receipt:
                         config.update(kv_connector='GenerationProtectionReceiptProbeConnector',
                             kv_connector_module_path='scripts.generation_protection_receipt_probe')
+                    if args.shared_cancel or args.shared_preemption:
+                        config.update(kv_connector='GenerationSharedCancelProbeConnector' if args.shared_cancel else 'GenerationSharedPreemptionProbeConnector',
+                            kv_connector_module_path='scripts.generation_protection_shared_probe')
                     config['kv_connector_extra_config'].update({
                         'cachepilot.generation_ledger': True, 'cachepilot.generation_protection': True})
                     self.command[i] = json.dumps(config)
@@ -72,6 +79,7 @@ def main():
         caught = None
         try:
             smoke.run(cell, mode, bounded_workload=True, long_prefix=args.long_prefix,
+                shared_cancel=args.shared_cancel, shared_preemption=args.shared_preemption,
                 receipt_probe='failed-after-success' if args.failed_receipt else None)
         except Exception as exc:
             caught = repr(exc)
