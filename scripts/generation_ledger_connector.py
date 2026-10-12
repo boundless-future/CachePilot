@@ -52,23 +52,29 @@ class SchedulerLedgerClient(GenerationRPCClient):
 
 
 class GenerationLedgerConnector(IdleFinalizeConnector):
+    ledger_type = GenerationSessionLedger
+    bridge_type = GenerationManagerBridge
+
+    def _validate_protection(self, extra):
+        if extra.get('cachepilot.protection.max_chunks', 0) != 0:
+            raise ValueError('Generation ledger pilot supports zero protection only')
+
     def __init__(self, config, role, kv_cache_config=None):
         extra = config.kv_transfer_config.kv_connector_extra_config
         if extra.get('cachepilot.generation_ledger') is not True:
             raise ValueError('Explicit generation ledger opt-in required')
-        if extra.get('cachepilot.protection.max_chunks', 0) != 0:
-            raise ValueError('Generation ledger pilot supports zero protection only')
+        self._validate_protection(extra)
         if (config.scheduler_config.async_scheduling or config.speculative_config is not None
                 or config.lora_config is not None):
             raise ValueError('Generation ledger requires synchronous text-only scheduling')
-        self._generation_ledger = GenerationSessionLedger()
+        self._generation_ledger = self.ledger_type()
         self._generation_retrieves = {}
         self._generation_end_requested = set()
         super().__init__(config, role, kv_cache_config)
         if role.name == 'SCHEDULER':
             if len(self.scheduler_adapter.req_clients) != 1:
                 raise ValueError('Generation ledger supports one MP endpoint')
-            self._lazy_offload_manager = GenerationManagerBridge(
+            self._lazy_offload_manager = self.bridge_type(
                 self._lazy_offload_manager, self._generation_ledger)
             self.scheduler_adapter.req_clients = {
                 url: SchedulerLedgerClient(client.client, self._owned_client, self)

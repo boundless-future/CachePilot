@@ -54,14 +54,17 @@ class HandoffObservedConnector(OwnedServiceConnector):
                     or vllm_config.lora_config is not None):
                 raise ValueError("Bounded protection requires synchronous text-only scheduling without speculation/LoRA")
             if role.name == "SCHEDULER":
-                from scripts.bounded_protection import BoundedProtection
-                self._bounded = BoundedProtection(self, vllm_config)
+                self._bounded = self._make_bounded_protection(vllm_config)
                 if os.environ.get("CACHEPILOT_PROTECTION_SUMMARY_PATH"):
                     self._protection_timings = {}
                     for name in ("prepare", "commit", "receipts", "rollback"):
                         self._time_protection_method(name)
         self._handoff_record("initialized", connector=type(self).__name__,
             enabled=self._protection_config.enabled, max_chunks=self._protection_config.max_chunks)
+
+    def _make_bounded_protection(self, config):
+        from scripts.bounded_protection import BoundedProtection
+        return BoundedProtection(self, config)
 
     def _handoff_record(self, event, **fields):
         directory = os.environ.get("CACHEPILOT_HANDOFF_DIR")

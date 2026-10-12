@@ -1,0 +1,37 @@
+{
+  "files": [
+    {
+      "path": "generation-protection-wiring-a.txt",
+      "bytes": 1023,
+      "sha256": "8a26983d2776bfcbae94cc047fadb7071e9d1c9606f8fd5140df481cc0a073b4",
+      "remote_sha256": "8a26983d2776bfcbae94cc047fadb7071e9d1c9606f8fd5140df481cc0a073b4"
+    },
+    {
+      "path": "generation-protection-wiring-b.txt",
+      "bytes": 1184,
+      "sha256": "a81c3a6dbe6cbcd918c4ba9a50cde05560086631e1ca814d16ded8bc50e3b7fe",
+      "remote_sha256": "a81c3a6dbe6cbcd918c4ba9a50cde05560086631e1ca814d16ded8bc50e3b7fe"
+    },
+    {
+      "path": "generation-protection-wiring-full.txt",
+      "bytes": 2017,
+      "sha256": "e4fe483de16dc92cd14bba13e9738c5a34ec73293a0dd4bc5a2316922027807e",
+      "remote_sha256": "e4fe483de16dc92cd14bba13e9738c5a34ec73293a0dd4bc5a2316922027807e"
+    },
+    {
+      "path": "generation-protection-wiring-full-cuda.txt",
+      "bytes": 3925,
+      "sha256": "e6a7faae0bef14c1c03288fba5558c9d6c94113ee155602b0c255fa228c5b4c7",
+      "remote_sha256": "e6a7faae0bef14c1c03288fba5558c9d6c94113ee155602b0c255fa228c5b4c7"
+    }
+  ],
+  "source_sha256": {
+    "scripts/generation_protection_connector.py": "1aebb0d2c9fcaa3a759167470be5fe41184cf724b297428716f4a9186a5220a8",
+    "scripts/generation_protection_bridge.py": "a016196c3b82f735e17f4c22b8fb8bf57f448a41a3fe29d303733a15b689f434",
+    "scripts/generation_ledger_connector.py": "515bba5221d4f9990ccc1c5f9f5d6005f558ea255a3b59044ac50c994088e261",
+    "scripts/protection_connector.py": "41b02ea7e7a592cb34f56ba4eb45b6a2a5b2e651d22fa690c0fb89b02bf6ea31",
+    "tests/test_generation_protection_bridge.py": "618b97c351a6001aa022227e00fd7a7c4c92debe81fb84711b9abf92e8e0f0ba",
+    "tests/test_generation_protection_connector.py": "c0c84196839aeba94f74b7a4593f20cc5e4a4c562274eab5ab84da2a305917f4"
+  },
+  "remote_local_logs_identical": true
+}

@@ -177,9 +177,10 @@ def test_preflight_rejection_does_not_mutate_original_reservation(combined, muta
     assert all(b.ref_cnt == 0 for b in blocks)
 
 
-def test_candidate_cannot_bind_serving_scheduler(combined):
+def test_candidate_rejects_unversioned_serving_manager(combined):
     helper, *_ = combined
-    with pytest.raises(RuntimeError, match='not enabled'):
+    helper.connector = NS(_lazy_offload_manager=object())
+    with pytest.raises(TypeError, match='Protection-aware'):
         helper.bind(None)
 
 

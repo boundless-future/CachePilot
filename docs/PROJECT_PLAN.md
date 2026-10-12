@@ -1,5 +1,7 @@
 # CachePilot 总体设计与实施方案
 
+20:38执行状态：generation与非零保护从手动CPU交接推进到独立Connector候选接线；873项显式CUDA/native回归、115 subtests通过。原零保护guard保留。计划新增服务故障退出及shutdown证据保存支线，多候选部分失败、独立GPU正确性诊断和新策略消融仍待做。见 [报告](experiments/2026-10-12/GENERATION_PROTECTION_WIRING.md)。
+
 19:29执行状态：generation＋保护真实 manager CPU 交接候选已完成，60项回归通过。新增支线记录 native 注册后异常与通用 rollback 的冲突，以 poisoned 实例隔离保留 pin、禁止 END；尚无服务接线/自动恢复/GPU验收。接下来依次为 opt-in Connector 契约、GPU bitwise/resource 准入、新签名策略消融。见 [报告](experiments/2026-10-12/GENERATION_PROTECTION_CONTRACT.md)。
 
 更新：2026-10-12

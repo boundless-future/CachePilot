@@ -66,3 +66,10 @@
 - 本轮未运行GPU推理；19:29 GPU 0%/1MiB。端口检查首次使用ss但环境无该命令，不能以该次输出证明无监听，随后使用/proc/net核查。服务器仅新增候选及测试，历史210源冻结包继续保留。
 - 更新状态、任务、阶段计划和下一窗口入口；Connector接线、GPU bitwise与资源准入、策略消融仍开放。
 - 收尾：/proc/net/tcp与tcp6确认8000/8080/5555无监听；源码及四份日志远端/本地SHA一致。首次staged whitespace检查发现本地manifest使用CRLF（原日志未改），追加统一manifest为LF；重新检查通过。
+
+## 20:38 独立Connector接线窗口
+
+- 新增GenerationProtectionConnector及显式opt-in，父类增加保持默认行为的工厂；保护helper bind实际bridge，原native metadata/worker envelope/scheduler receipt交接。旧zero类guard保留。
+- 新增12项接线测试，含one/two成功失败、wrong/duplicate、suffix默认drain、双reset旧代回执、zero步、constructor工厂、注册/封装/native free后异常隔离。transport与model/copy在接线测试中stub，不宣称真实服务完成。
+- 迭代回归35、157、863/9 skipped/115 subtests；最终显式CUDA/native全套873 passed、115 subtests、121 warnings，18.57s，无跳过。四份原日志逐字节核对归档，不能相加；最终新增receipt异常测试包含于873。
+- GPU回归结束0%/1MiB，未启动新组合模型服务。多候选部分失败、服务进程故障退出及shutdown snapshot失败路径仍须补齐，再独立GPU bitwise/resource诊断和策略消融。

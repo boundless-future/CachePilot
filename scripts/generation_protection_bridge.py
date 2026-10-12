@@ -1,4 +1,4 @@
-"""CPU-contract candidate only; not selected by a service connector.
+"""Explicit protection handoff candidate for the generation connector.
 
 Native protection still registers/frees pins. A failed commit poisons the
 generation rather than guessing how much native mutation occurred.
@@ -10,10 +10,30 @@ from scripts.bounded_protection import BoundedProtection
 
 
 class GenerationBoundedProtection(BoundedProtection):
-    """CPU candidate: retain pins after an ambiguous native commit."""
+    """Retain pins after an ambiguous native commit; explicit connector only."""
 
     def bind(self, kv_manager):
-        raise RuntimeError('Generation protection serving integration is not enabled')
+        bridge = self.connector._lazy_offload_manager
+        if not isinstance(bridge, GenerationProtectionBridge):
+            raise TypeError('Protection-aware manager bridge required')
+        if getattr(self, '_generation_bound', False):
+            raise RuntimeError('Generation protection already bound')
+        original = bridge.on_scheduler_step
+        super().bind(kv_manager)
+
+        def step(output):
+            self.committed_this_step = set()
+            stores = bridge.commit_protection(self, output.total_num_scheduled_tokens)
+            try:
+                actions = original(output)
+                actions.stores_to_submit = stores + actions.stores_to_submit
+                return actions
+            except BaseException as exc:
+                bridge.poison(exc)
+                raise
+
+        bridge.on_scheduler_step = step
+        self._generation_bound = True
 
     def prepare(self, scheduler):
         self.manager._healthy()
@@ -59,6 +79,12 @@ class GenerationProtectionBridge(GenerationManagerBridge):
     def _healthy(self):
         if self.poisoned is not None:
             raise RuntimeError('Unresolved protection commit requires instance reconstruction')
+
+    def poison(self, exc):
+        self.poisoned = repr(exc)
+        for generation in self.ledger.generations.values():
+            if generation.end_state != 'submitted':
+                generation.error = self.poisoned
 
     def on_scheduler_step(self, output):
         self._healthy()
