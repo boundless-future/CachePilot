@@ -61,8 +61,10 @@ def extra_checks(cell, case, result, trace):
 
 def collect(directory):
     from summarize_reference_matrix import collect as base_collect
-    report = base_collect(directory, lazy_configure=generation_config)
     plan = read(directory / 'plan.json')
+    candidate = plan['signature'].get('immediate_receipt_end', False)
+    report = base_collect(directory, lazy_configure=generation_config,
+        immediate_validate=immediate_receipt_valid if candidate else None)
     trace = read(directory / 'trace.json')
     for row in report['rows']:
         try:
@@ -82,6 +84,15 @@ def collect(directory):
     return report
 
 
+def immediate_receipt_valid(config):
+    from run_reference_baselines import immediate_config
+    expected = immediate_config(read(Path(__file__).resolve().parents[1] / 'configs/owned-service.json'))
+    expected.update(kv_connector='ImmediateReceiptConnector',
+                    kv_connector_module_path='scripts.immediate_receipt_connector')
+    expected['kv_connector_extra_config']['cachepilot.immediate_receipt_end'] = True
+    return config == expected
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument('--stage', required=True, choices=('pilot', 'formal'))
@@ -92,6 +103,7 @@ def main():
     p.add_argument('--workload', choices=('long-prefill', 'decode192'), default='long-prefill')
     p.add_argument('--long-prefill-formal', type=Path)
     p.add_argument('--base-reference', type=Path)
+    p.add_argument('--immediate-diagnostic', type=Path)
     p.add_argument('--stop-starting-at', required=True)
     args = p.parse_args()
     cutoff = datetime.fromisoformat(args.stop_starting_at)
@@ -133,6 +145,19 @@ def main():
     ablation.validate_trace(trace)
     cases = cases_for(selection['selected'], 'unprotected')
     sources = ablation.source_sha()
+    if args.immediate_diagnostic:
+        from audit_immediate_decode import audit as immediate_audit
+        from audit_generation_ownership import audit_cell as ownership_audit
+        immediate_plan = read(args.immediate_diagnostic / 'plan.json')
+        cell = args.immediate_diagnostic / 'owned-immediate-r0'
+        audit = immediate_audit(cell)
+        if (args.workload != 'decode192' or not immediate_plan.get('candidate')
+                or not audit['original_resource_gate'] or not audit['exact_server_empty']
+                or audit['late_store_after_end'] or not ownership_audit(cell)['passed']):
+            raise ValueError('Complete independent immediate candidate diagnostic required')
+        for path in ('scripts/immediate_end_queue.py', 'scripts/immediate_receipt_connector.py'):
+            if sources[path] != immediate_plan['source_sha256'][path]:
+                raise ValueError('Immediate candidate source changed: ' + path)
     diagnostic_sources = read(args.diagnostic / 'plan.json')['source_sha256']
     # The shutdown-only summary is explicitly new; lifecycle/manager/RPC and
     # original safety sources must still match the successful diagnostic.
@@ -145,6 +170,9 @@ def main():
     signature = dict(source_sha256=sources, kv_cache_bytes=KV_BYTES,
         trace_sha256=digest(trace), cases=cases, gate='generation-' + args.workload + '-v1',
         scope=args.workload + '-new-generation-stack', hotpath_diagnostics=False)
+    if args.immediate_diagnostic:
+        signature['immediate_receipt_end'] = True
+        signature['gate'] += '-immediate-receipt-v1'
     if args.pilot:
         prior = read(args.pilot / 'plan.json')
         if prior['stage'] != 'pilot' or prior['signature'] != signature or not collect(args.pilot)['matrix_complete']:
@@ -159,6 +187,7 @@ def main():
         tuning=str(args.tuning), pilot=str(args.pilot) if args.pilot else None,
         workload=args.workload, long_prefill_formal=str(args.long_prefill_formal),
         base_reference=str(args.base_reference),
+        immediate_diagnostic=str(args.immediate_diagnostic) if args.immediate_diagnostic else None,
         cutoff=args.stop_starting_at))
     current = None
     class MatrixService(environment.Service):
@@ -178,6 +207,15 @@ def main():
                 self.command[i] = json.dumps(config)
                 environment.write_json(self.log.parent / 'config.json', config)
                 os.environ['CACHEPILOT_GENERATION_SUMMARY_PATH'] = str(self.log.parent / 'generation-summary.json')
+            elif self.log.name == 'vllm.log' and current['kind'] == 'immediate' and args.immediate_diagnostic:
+                i = self.command.index('--kv-transfer-config') + 1
+                config = json.loads(self.command[i])
+                config.update(kv_connector='ImmediateReceiptConnector',
+                    kv_connector_module_path='scripts.immediate_receipt_connector')
+                config['kv_connector_extra_config']['cachepilot.immediate_receipt_end'] = True
+                self.command[i] = json.dumps(config)
+                environment.write_json(self.log.parent / 'config.json', config)
+                environment.write_json(self.log.parent / 'launch-command.json', self.command)
             return super().start(health, timeout)
     ablation.Service = environment.Service = MatrixService
     old_drained = ablation.cache_drained

@@ -42,7 +42,11 @@ flowchart TB
 
 `IdleFinalizeConnector` 继承 `ProtectionConnector` → `HandoffObservedConnector` → `OwnedServiceConnector` → `OwnedMPConnector` → 外部 `LMCacheMPConnector`。零预算和非零保护共享相应的所有权路径；native 没有 LMCache 服务。全配置比较包含不同数据通路开销，不能把差异只归因于保护算法。
 
-新 `GenerationLedgerConnector` 继承 `IdleFinalizeConnector`，要求显式 opt-in 且仅允许零保护。它是独立版本候选，并未替换既有非零保护入口。`GenerationManagerBridge` 包装原 manager 的 admission/drop/receipt；GPU pin 仍由原 manager 管理。新性能入口为 `run_generation_matrix.py`，保留即时卸载的原 connector，明确比较的是整套配置。
+新 `GenerationLedgerConnector` 继承 `IdleFinalizeConnector`，要求显式 opt-in 且仅允许零保护。它是独立版本候选，并未替换既有非零保护入口。`GenerationManagerBridge` 包装原 manager 的 admission/drop/receipt；GPU pin 仍由原 manager 管理。新性能入口为 `run_generation_matrix.py`，长prefill保留原即时卸载 connector；decode192的独立新矩阵改用 opt-in `ImmediateReceiptConnector`，明确比较的是整套配置。
+
+`ImmediateReceiptConnector` 直接继承 `OwnedServiceConnector`，不引入 lazy manager。`immediate_end_queue.py` 保留 exact wire END，收到原 worker 的 `finished_sending` 后一次提交；原 STORE future、copy 和 GPU free 均不替换。其 `immediate_receipt_end=true` 签名与旧 immediate 分开；只支持同步 TP1/零保护，抢占、worker unhealthy 和重叠 raw ID 复用 fail closed。只读定位入口是 `immediate_session_observer.py`、`audit_immediate_decode.py`，不负责修复服务状态。
+
+真实匿名结构准备入口是 `catalogue_real_traces.py` → `prepare_real_structure.py` → `audit_real_structure.py`；固定源commit、全部准入session、实际模型tokenizer和来源SHA。只生成CPU请求结构，不推断物理压力或live Agent行为。
 
 ## 主线与开发支线
 

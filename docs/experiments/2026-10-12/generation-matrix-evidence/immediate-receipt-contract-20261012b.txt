@@ -1,0 +1,78 @@
+..FF.                                                                    [100%]
+=================================== FAILURES ===================================
+_ test_real_worker_future_blocks_finished_sending_until_original_result[True] __
+
+success = True
+
+    @pytest.mark.parametrize('success', [True, False])
+    def test_real_worker_future_blocks_finished_sending_until_original_result(success):
+        import threading
+        from lmcache.integration.vllm.vllm_multi_process_adapter import LMCacheMPWorkerAdapter
+        from lmcache.v1.multiprocess.futures import MessagingFuture
+        worker = object.__new__(LMCacheMPWorkerAdapter)
+        worker.dispatcher = None
+        worker._health_event = threading.Event()
+        worker._health_event.set()
+        future = MessagingFuture()
+        worker.store_futures = {'raw': future}
+        worker.retrieve_futures = {}
+        worker.store_events = {'raw': object()}
+        worker.retrieve_events = {}
+        worker._pending_store_kv_events = {}
+        worker._dropped_retrieves = set()
+        worker.finished_stores = set()
+        worker.previously_finished = set()
+        worker._returned_finished = set()
+        worker.request_telemetry = NS(on_request_store_finished=lambda **kw: None)
+        worker.parallel_strategy = NS(kv_world_size=1)
+        worker.model_name = 'contract'
+>       worker.worker_id = 0
+        ^^^^^^^^^^^^^^^^
+E       AttributeError: property 'worker_id' of 'LMCacheMPWorkerAdapter' object has no setter
+
+tests/test_immediate_receipt_native.py:63: AttributeError
+_ test_real_worker_future_blocks_finished_sending_until_original_result[False] _
+
+success = False
+
+    @pytest.mark.parametrize('success', [True, False])
+    def test_real_worker_future_blocks_finished_sending_until_original_result(success):
+        import threading
+        from lmcache.integration.vllm.vllm_multi_process_adapter import LMCacheMPWorkerAdapter
+        from lmcache.v1.multiprocess.futures import MessagingFuture
+        worker = object.__new__(LMCacheMPWorkerAdapter)
+        worker.dispatcher = None
+        worker._health_event = threading.Event()
+        worker._health_event.set()
+        future = MessagingFuture()
+        worker.store_futures = {'raw': future}
+        worker.retrieve_futures = {}
+        worker.store_events = {'raw': object()}
+        worker.retrieve_events = {}
+        worker._pending_store_kv_events = {}
+        worker._dropped_retrieves = set()
+        worker.finished_stores = set()
+        worker.previously_finished = set()
+        worker._returned_finished = set()
+        worker.request_telemetry = NS(on_request_store_finished=lambda **kw: None)
+        worker.parallel_strategy = NS(kv_world_size=1)
+        worker.model_name = 'contract'
+>       worker.worker_id = 0
+        ^^^^^^^^^^^^^^^^
+E       AttributeError: property 'worker_id' of 'LMCacheMPWorkerAdapter' object has no setter
+
+tests/test_immediate_receipt_native.py:63: AttributeError
+=============================== warnings summary ===============================
+../../usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/torch/jit/_script.py:365: 14 warnings
+  /usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/torch/jit/_script.py:365: DeprecationWarning: `torch.jit.script_method` is deprecated. Please switch to `torch.compile` or `torch.export`.
+    warnings.warn(
+
+../../usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/opentelemetry/sdk/_logs/_internal/__init__.py:531: 52 warnings
+  /usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/opentelemetry/sdk/_logs/_internal/__init__.py:531: DeprecationWarning: `LoggingHandler` in `opentelemetry-sdk` is deprecated. Use the handler from `opentelemetry-instrumentation-logging` instead.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_immediate_receipt_native.py::test_real_worker_future_blocks_finished_sending_until_original_result[True]
+FAILED tests/test_immediate_receipt_native.py::test_real_worker_future_blocks_finished_sending_until_original_result[False]
+2 failed, 3 passed, 66 warnings in 9.53s

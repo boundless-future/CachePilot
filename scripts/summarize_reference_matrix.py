@@ -14,7 +14,7 @@ def digest(value):
     return hashlib.sha256(json.dumps(value, sort_keys=True).encode()).hexdigest()
 
 
-def collect(directory, lazy_configure=None):
+def collect(directory, lazy_configure=None, immediate_validate=None):
     from audit_replay_measurements import audit_cell
     from run_reference_baselines import reference_logs, resource_gate
     from run_fixed_baselines import configure
@@ -62,6 +62,8 @@ def collect(directory, lazy_configure=None):
                             config["kv_role"] == "kv_both" and config["kv_load_failure_policy"] == "recompute" and
                             config["kv_connector_extra_config"].get("lmcache.mp.lazy_offload") is False)
                         checks["service_present"] = result["mp_service_started"] is True
+                        if immediate_validate is not None:
+                            checks['launch_config'] = immediate_validate(config)
                         checks["normal_exit"] = result["engine_returncode"] == 0
                         inapplicable = ["protection receipts"]
                     else:

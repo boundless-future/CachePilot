@@ -1,0 +1,115 @@
+{
+  "mode": "native",
+  "repeat": 0,
+  "passed": true,
+  "mp_service_started": false,
+  "requests": 68,
+  "errors": 0,
+  "ttft_ms": {
+    "p50": 35402.25840300013,
+    "p95": 49051.94615804971,
+    "p99": 49835.85259318011,
+    "mean": 30201.577885779436
+  },
+  "ready_to_first_ms": {
+    "p50": 35403.39174899964,
+    "p95": 49052.99662434981,
+    "p99": 49836.20756279,
+    "mean": 30202.245869823375
+  },
+  "e2e_ms": {
+    "p50": 40100.24377800005,
+    "p95": 53919.50561464991,
+    "p99": 54643.661001160115,
+    "mean": 35013.46452613233
+  },
+  "ready_to_end_ms": {
+    "p50": 40101.377123999555,
+    "p95": 53920.55608095002,
+    "p99": 54644.01597077,
+    "mean": 35014.13251017627
+  },
+  "client_queue_ms": {
+    "p50": 0.6756924997262104,
+    "p95": 1.2453877495545382,
+    "p99": 1.7650513995613428,
+    "mean": 0.6679840439373412
+  },
+  "cold_ttft_ms": {
+    "p50": 9894.069956999829,
+    "p95": 46969.7019530501
+  },
+  "reuse_ttft_ms": {
+    "p50": 36941.416063999895,
+    "p95": 49750.72272829977
+  },
+  "session_completion_ms": {
+    "mean": 66403.67247094985,
+    "p95": 82642.8621554501
+  },
+  "elapsed_ms": 82866.77688599957,
+  "output_tokens": 13056,
+  "vllm_delta": {
+    "vllm:estimated_flops_per_gpu_total": 0.0,
+    "vllm:estimated_read_bytes_per_gpu_total": 0.0,
+    "vllm:estimated_write_bytes_per_gpu_total": 0.0,
+    "vllm:prefix_cache_queries_total": 75808.0,
+    "vllm:prefix_cache_hits_total": 25376.0,
+    "vllm:external_prefix_cache_queries_total": 0.0,
+    "vllm:external_prefix_cache_hits_total": 0.0,
+    "vllm:mm_cache_queries_total": 0.0,
+    "vllm:mm_cache_hits_total": 0.0,
+    "vllm:num_preemptions_total": 0.0,
+    "vllm:prompt_tokens_total": 75808.0,
+    "vllm:prompt_tokens_by_source_total": 75808.0,
+    "vllm:prompt_tokens_cached_total": 25376.0,
+    "vllm:generation_tokens_total": 13056.0,
+    "vllm:request_success_total": 68.0,
+    "vllm:request_prompt_tokens_count": 68.0,
+    "vllm:request_prompt_tokens_sum": 75808.0,
+    "vllm:request_generation_tokens_count": 68.0,
+    "vllm:request_generation_tokens_sum": 13056.0,
+    "vllm:iteration_tokens_total_count": 3267.0,
+    "vllm:iteration_tokens_total_sum": 63488.0,
+    "vllm:request_max_num_generation_tokens_count": 68.0,
+    "vllm:request_max_num_generation_tokens_sum": 13056.0,
+    "vllm:request_params_n_count": 68.0,
+    "vllm:request_params_n_sum": 68.0,
+    "vllm:request_params_max_tokens_count": 68.0,
+    "vllm:request_params_max_tokens_sum": 13056.0,
+    "vllm:time_to_first_token_seconds_count": 68.0,
+    "vllm:time_to_first_token_seconds_sum": 2053.5414011478424,
+    "vllm:inter_token_latency_seconds_count": 12988.0,
+    "vllm:inter_token_latency_seconds_sum": 327.20702513100014,
+    "vllm:request_time_per_output_token_seconds_count": 68.0,
+    "vllm:request_time_per_output_token_seconds_sum": 1.713125786026179,
+    "vllm:e2e_request_latency_seconds_count": 68.0,
+    "vllm:e2e_request_latency_seconds_sum": 2380.751191139221,
+    "vllm:request_queue_time_seconds_count": 68.0,
+    "vllm:request_queue_time_seconds_sum": 2048.3566213510007,
+    "vllm:request_inference_time_seconds_count": 68.0,
+    "vllm:request_inference_time_seconds_sum": 330.9665178,
+    "vllm:request_prefill_time_seconds_count": 68.0,
+    "vllm:request_prefill_time_seconds_sum": 3.759492668999883,
+    "vllm:request_decode_time_seconds_count": 68.0,
+    "vllm:request_decode_time_seconds_sum": 327.20702513100014,
+    "vllm:request_num_preemptions_count": 68.0,
+    "vllm:request_num_preemptions_sum": 0.0,
+    "vllm:request_prefill_kv_computed_tokens_count": 68.0,
+    "vllm:request_prefill_kv_computed_tokens_sum": 50432.0
+  },
+  "lmcache_delta": {},
+  "trace_sha256": "5deebe7cd1b7ac052ef0010fd870f349f7058675db93d9df20c5bc5f8d9c8cae",
+  "shutdown_context": {
+    "requested_unix": 1791784289.2892432,
+    "pid": 8807,
+    "process_alive": true,
+    "requests_complete": true,
+    "runtime_drained": true,
+    "log_lines_before_stop": 162,
+    "returncode": 0
+  },
+  "engine_returncode": 0,
+  "service_errors": [],
+  "shutdown_teardown_errors": []
+}

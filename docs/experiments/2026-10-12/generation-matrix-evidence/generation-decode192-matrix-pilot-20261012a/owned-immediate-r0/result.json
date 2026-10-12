@@ -1,0 +1,433 @@
+{
+  "mode": "owned-immediate",
+  "repeat": 0,
+  "passed": false,
+  "mp_service_started": true,
+  "requests": 68,
+  "errors": 0,
+  "ttft_ms": {
+    "p50": 34757.20343549983,
+    "p95": 49514.90626795019,
+    "p99": 50531.77639890991,
+    "mean": 30002.234132455884
+  },
+  "ready_to_first_ms": {
+    "p50": 34757.843571999954,
+    "p95": 49515.487036700484,
+    "p99": 50533.29011403018,
+    "mean": 30002.960978529634
+  },
+  "e2e_ms": {
+    "p50": 39560.50197249988,
+    "p95": 54271.347466349835,
+    "p99": 55317.98599957009,
+    "mean": 34797.269452073546
+  },
+  "ready_to_end_ms": {
+    "p50": 39561.142109,
+    "p95": 54271.90532860022,
+    "p99": 55319.499714690355,
+    "mean": 34797.99629814729
+  },
+  "client_queue_ms": {
+    "p50": 0.707466500443843,
+    "p95": 1.336789800234328,
+    "p99": 1.9716990201504814,
+    "mean": 0.7268460737497449
+  },
+  "cold_ttft_ms": {
+    "p50": 9832.454430500093,
+    "p95": 47112.66421229989
+  },
+  "reuse_ttft_ms": {
+    "p50": 36352.64207650016,
+    "p95": 49528.425364350114
+  },
+  "session_completion_ms": {
+    "mean": 66108.67319210028,
+    "p95": 82285.7418374505
+  },
+  "elapsed_ms": 82484.75178300032,
+  "output_tokens": 13056,
+  "vllm_delta": {
+    "vllm:lmcache_mp_lookup_duration_seconds_count": 70.0,
+    "vllm:lmcache_mp_lookup_duration_seconds_sum": 1036.8933117679999,
+    "vllm:estimated_flops_per_gpu_total": 0.0,
+    "vllm:estimated_read_bytes_per_gpu_total": 0.0,
+    "vllm:estimated_write_bytes_per_gpu_total": 0.0,
+    "vllm:prefix_cache_queries_total": 75808.0,
+    "vllm:prefix_cache_hits_total": 31936.0,
+    "vllm:external_prefix_cache_queries_total": 43872.0,
+    "vllm:external_prefix_cache_hits_total": 16032.0,
+    "vllm:mm_cache_queries_total": 0.0,
+    "vllm:mm_cache_hits_total": 0.0,
+    "vllm:num_preemptions_total": 0.0,
+    "vllm:prompt_tokens_total": 75808.0,
+    "vllm:prompt_tokens_by_source_total": 75808.0,
+    "vllm:prompt_tokens_cached_total": 47968.0,
+    "vllm:generation_tokens_total": 13056.0,
+    "vllm:request_success_total": 68.0,
+    "vllm:request_prompt_tokens_count": 68.0,
+    "vllm:request_prompt_tokens_sum": 75808.0,
+    "vllm:request_generation_tokens_count": 68.0,
+    "vllm:request_generation_tokens_sum": 13056.0,
+    "vllm:iteration_tokens_total_count": 3270.0,
+    "vllm:iteration_tokens_total_sum": 40896.0,
+    "vllm:request_max_num_generation_tokens_count": 68.0,
+    "vllm:request_max_num_generation_tokens_sum": 13056.0,
+    "vllm:request_params_n_count": 68.0,
+    "vllm:request_params_n_sum": 68.0,
+    "vllm:request_params_max_tokens_count": 68.0,
+    "vllm:request_params_max_tokens_sum": 13056.0,
+    "vllm:time_to_first_token_seconds_count": 68.0,
+    "vllm:time_to_first_token_seconds_sum": 2040.0034971237183,
+    "vllm:inter_token_latency_seconds_count": 12988.0,
+    "vllm:inter_token_latency_seconds_sum": 326.04356434299643,
+    "vllm:request_time_per_output_token_seconds_count": 68.0,
+    "vllm:request_time_per_output_token_seconds_sum": 1.7070343682879385,
+    "vllm:e2e_request_latency_seconds_count": 68.0,
+    "vllm:e2e_request_latency_seconds_sum": 2366.070762872696,
+    "vllm:request_queue_time_seconds_count": 68.0,
+    "vllm:request_queue_time_seconds_sum": 2035.6331643460012,
+    "vllm:request_inference_time_seconds_count": 68.0,
+    "vllm:request_inference_time_seconds_sum": 328.89316950599914,
+    "vllm:request_prefill_time_seconds_count": 68.0,
+    "vllm:request_prefill_time_seconds_sum": 2.849605163002707,
+    "vllm:request_decode_time_seconds_count": 68.0,
+    "vllm:request_decode_time_seconds_sum": 326.04356434299643,
+    "vllm:request_num_preemptions_count": 68.0,
+    "vllm:request_num_preemptions_sum": 0.0,
+    "vllm:request_prefill_kv_computed_tokens_count": 68.0,
+    "vllm:request_prefill_kv_computed_tokens_sum": 27840.0
+  },
+  "lmcache_delta": {
+    "lmcache_mp_l1_eviction_loop_ticks_total": 83.0,
+    "lmcache_mp_l1_write_chunks_total": 126.0,
+    "lmcache_mp_l1_read_chunks_total": 144.0,
+    "lmcache_mp_event_bus_dropped_events_total": 0.0,
+    "lmcache_mp_lookup_requested_tokens_total": 69632.0,
+    "lmcache_mp_lookup_hit_tokens_total": 36864.0,
+    "lmcache_mp_lookups_requests_total": 68.0,
+    "lmcache_mp_lookup_hit_l1_tokens_total": 36864.0,
+    "lmcache_mp_lookup_hit_l2_tokens_total": 0.0,
+    "lmcache_mp_num_submitted_stores_total": 79.0,
+    "lmcache_mp_num_finished_stores_total": 79.0,
+    "lmcache_mp_num_submitted_retrieves_total": 22.0,
+    "lmcache_mp_num_finished_retrieves_total": 22.0,
+    "lmcache_mp_l0_l1_store_throughput_GB_per_second_count": 67.0,
+    "lmcache_mp_l0_l1_store_throughput_GB_per_second_sum": 970.640416617581,
+    "lmcache_mp_transfer_phase_bytes_total": 14519107584.0,
+    "lmcache_mp_transfer_phase_elapsed_seconds_total": 0.3615077111255378,
+    "lmcache_mp_transfer_staging_throughput_GB_per_second_count": 148.0,
+    "lmcache_mp_transfer_staging_throughput_GB_per_second_sum": 3257.458165067038,
+    "lmcache_mp_l0_l1_load_throughput_GB_per_second_count": 22.0,
+    "lmcache_mp_l0_l1_load_throughput_GB_per_second_sum": 400.724648184119,
+    "lmcache_mp_num_chunks_loaded_total": 70.0,
+    "lmcache_mp_l0_block_lifetime_seconds_count": 22.0,
+    "lmcache_mp_l0_block_lifetime_seconds_sum": 773.5367887020111,
+    "lmcache_mp_l0_block_idle_before_evict_seconds_count": 22.0,
+    "lmcache_mp_l0_block_idle_before_evict_seconds_sum": 773.5367887020111
+  },
+  "trace_sha256": "5deebe7cd1b7ac052ef0010fd870f349f7058675db93d9df20c5bc5f8d9c8cae",
+  "h2d_bytes": 2642411520.0,
+  "d2h_bytes": 4756340736.0,
+  "status_before_engine_stop": {
+    "is_healthy": true,
+    "engine_type": "MPCacheServer",
+    "chunk_size": 256,
+    "hash_algorithm": "blake3",
+    "active_sessions": 2,
+    "storage_manager": {
+      "is_healthy": true,
+      "l1_manager": {
+        "is_healthy": true,
+        "total_object_count": 126,
+        "write_locked_count": 0,
+        "read_locked_count": 0,
+        "temporary_count": 0,
+        "memory_used_bytes": 4756340736,
+        "memory_total_bytes": 17179869184,
+        "memory_configured_bytes": 17179869184,
+        "memory_usage_ratio": 0.27685546875,
+        "write_ttl_seconds": 600,
+        "read_ttl_seconds": 300
+      },
+      "store_controller": {
+        "is_healthy": true,
+        "thread_alive": true,
+        "pending_keys_count": 0,
+        "in_flight_task_count": 0,
+        "num_l2_adapters": 0,
+        "num_active_adapters": 0,
+        "num_draining_adapters": 0
+      },
+      "prefetch_controller": {
+        "is_healthy": true,
+        "thread_alive": true,
+        "max_in_flight": 8,
+        "submission_queue_size": 0,
+        "pending_queue_size": 0,
+        "in_flight_request_count": 0,
+        "lookup_phase_count": 0,
+        "load_phase_count": 0,
+        "completed_results_count": 0,
+        "num_l2_adapters": 0,
+        "num_active_adapters": 0,
+        "num_draining_adapters": 0
+      },
+      "l1_eviction_controller": {
+        "is_healthy": true,
+        "thread_alive": true,
+        "eviction_policy": "LRU",
+        "trigger_watermark": 0.8,
+        "eviction_ratio": 0.2
+      },
+      "l2_eviction_controller": {
+        "is_healthy": true,
+        "thread_alive": true,
+        "adapters": []
+      },
+      "l2_adapters": [],
+      "num_l2_adapters": 0
+    },
+    "active_prefetch_jobs": 0,
+    "owned_jobs": 0,
+    "owned_controller_jobs": 0,
+    "owned_transfers": 0,
+    "owned_clients": 1,
+    "owned_deferred_contexts": 0,
+    "owned_store_batches": 0,
+    "owned_failed": 0,
+    "owned_read_pins": 0,
+    "generation_observer": {
+      "session_ids": [
+        "cp1:3108649701254210373:17:1a8b8499ce331a7dda0789e86da75a51:cmpl-933e0bc620f66638-0-9a8c9821",
+        "cp1:3108649701254210373:21:39bb440e35fea221f32d2bd8b038415a:cmpl-a97c25191d47d5ff-0-8f8bca9d"
+      ],
+      "owned_job_ids": [],
+      "transfer_wire_ids": []
+    },
+    "active_p2p_lookup_jobs": 0,
+    "p2p_enabled": false,
+    "p2p_state": "unregistered",
+    "p2p_peer_count": 0,
+    "p2p_peers": [],
+    "worker_liveness": {
+      "enabled": true,
+      "reap_timeout_seconds": 120.0,
+      "registration_grace_seconds": 3600.0,
+      "tracked_instances": 1
+    },
+    "registered_gpu_ids": [
+      1517693735102051029
+    ],
+    "cache_context_meta": {
+      "1517693735102051029": {
+        "model_name": "/root/CachePilot/models/Qwen3-4B",
+        "world_size": 1,
+        "kv_cache_layout": {
+          "num_layers": 36,
+          "num_blocks": 910,
+          "cache_size_per_token": 147456,
+          "kernel_groups": [
+            {
+              "kernel_group_idx": 0,
+              "engine_group_idx": 0,
+              "object_group_idx": 0,
+              "num_layers": 36,
+              "layer_indices": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33,
+                34,
+                35
+              ],
+              "tokens_per_block": 16,
+              "slots_per_block": 16,
+              "dtype": "torch.bfloat16",
+              "engine_kv_concrete_shape": "Unknown (EngineKVFormat.NL_X_NB_BS_NH_CS)",
+              "is_mla": false,
+              "engine_kv_format": "NL_X_NB_BS_NH_CS",
+              "engine_kv_shape": "NL x [NB, BS, NH, CS]",
+              "attention_backend": "vLLM non-MLA blocks-first, fused K/V (NHD)"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "shutdown_context": {
+    "requested_unix": 1791784459.4535196,
+    "pid": 9102,
+    "process_alive": true,
+    "requests_complete": true,
+    "runtime_drained": false,
+    "log_lines_before_stop": 250,
+    "returncode": 0
+  },
+  "engine_returncode": 0,
+  "status_after_engine_stop": {
+    "is_healthy": true,
+    "engine_type": "MPCacheServer",
+    "chunk_size": 256,
+    "hash_algorithm": "blake3",
+    "active_sessions": 2,
+    "storage_manager": {
+      "is_healthy": true,
+      "l1_manager": {
+        "is_healthy": true,
+        "total_object_count": 126,
+        "write_locked_count": 0,
+        "read_locked_count": 0,
+        "temporary_count": 0,
+        "memory_used_bytes": 4756340736,
+        "memory_total_bytes": 17179869184,
+        "memory_configured_bytes": 17179869184,
+        "memory_usage_ratio": 0.27685546875,
+        "write_ttl_seconds": 600,
+        "read_ttl_seconds": 300
+      },
+      "store_controller": {
+        "is_healthy": true,
+        "thread_alive": true,
+        "pending_keys_count": 0,
+        "in_flight_task_count": 0,
+        "num_l2_adapters": 0,
+        "num_active_adapters": 0,
+        "num_draining_adapters": 0
+      },
+      "prefetch_controller": {
+        "is_healthy": true,
+        "thread_alive": true,
+        "max_in_flight": 8,
+        "submission_queue_size": 0,
+        "pending_queue_size": 0,
+        "in_flight_request_count": 0,
+        "lookup_phase_count": 0,
+        "load_phase_count": 0,
+        "completed_results_count": 0,
+        "num_l2_adapters": 0,
+        "num_active_adapters": 0,
+        "num_draining_adapters": 0
+      },
+      "l1_eviction_controller": {
+        "is_healthy": true,
+        "thread_alive": true,
+        "eviction_policy": "LRU",
+        "trigger_watermark": 0.8,
+        "eviction_ratio": 0.2
+      },
+      "l2_eviction_controller": {
+        "is_healthy": true,
+        "thread_alive": true,
+        "adapters": []
+      },
+      "l2_adapters": [],
+      "num_l2_adapters": 0
+    },
+    "active_prefetch_jobs": 0,
+    "owned_jobs": 0,
+    "owned_controller_jobs": 0,
+    "owned_transfers": 0,
+    "owned_clients": 1,
+    "owned_deferred_contexts": 0,
+    "owned_store_batches": 0,
+    "owned_failed": 0,
+    "owned_read_pins": 0,
+    "generation_observer": {
+      "session_ids": [
+        "cp1:3108649701254210373:17:1a8b8499ce331a7dda0789e86da75a51:cmpl-933e0bc620f66638-0-9a8c9821",
+        "cp1:3108649701254210373:21:39bb440e35fea221f32d2bd8b038415a:cmpl-a97c25191d47d5ff-0-8f8bca9d"
+      ],
+      "owned_job_ids": [],
+      "transfer_wire_ids": []
+    },
+    "active_p2p_lookup_jobs": 0,
+    "p2p_enabled": false,
+    "p2p_state": "unregistered",
+    "p2p_peer_count": 0,
+    "p2p_peers": [],
+    "worker_liveness": {
+      "enabled": true,
+      "reap_timeout_seconds": 120.0,
+      "registration_grace_seconds": 3600.0,
+      "tracked_instances": 0
+    },
+    "registered_gpu_ids": [],
+    "cache_context_meta": {}
+  },
+  "service_errors": [
+    {
+      "file": "vllm.log",
+      "line": 267,
+      "text": "(APIServer pid=9102) ERROR 10-12 05:54:24 [async_llm.py:843] AsyncLLM output_handler failed."
+    },
+    {
+      "file": "vllm.log",
+      "line": 268,
+      "text": "(APIServer pid=9102) ERROR 10-12 05:54:24 [async_llm.py:843] Traceback (most recent call last):"
+    },
+    {
+      "file": "vllm.log",
+      "line": 269,
+      "text": "(APIServer pid=9102) ERROR 10-12 05:54:24 [async_llm.py:843]   File \"/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/vllm/v1/engine/async_llm.py\", line 789, in output_handler"
+    },
+    {
+      "file": "vllm.log",
+      "line": 270,
+      "text": "(APIServer pid=9102) ERROR 10-12 05:54:24 [async_llm.py:843]     outputs = await engine_core.get_output_async()"
+    },
+    {
+      "file": "vllm.log",
+      "line": 271,
+      "text": "(APIServer pid=9102) ERROR 10-12 05:54:24 [async_llm.py:843]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "file": "vllm.log",
+      "line": 272,
+      "text": "(APIServer pid=9102) ERROR 10-12 05:54:24 [async_llm.py:843]   File \"/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/vllm/v1/engine/core_client.py\", line 1175, in get_output_async"
+    },
+    {
+      "file": "vllm.log",
+      "line": 273,
+      "text": "(APIServer pid=9102) ERROR 10-12 05:54:24 [async_llm.py:843]     raise self._format_exception(outputs) from None"
+    },
+    {
+      "file": "vllm.log",
+      "line": 274,
+      "text": "(APIServer pid=9102) ERROR 10-12 05:54:24 [async_llm.py:843] vllm.v1.engine.exceptions.EngineDeadError: EngineCore encountered an issue. See stack trace (above) for the root cause."
+    }
+  ],
+  "shutdown_teardown_errors": []
+}

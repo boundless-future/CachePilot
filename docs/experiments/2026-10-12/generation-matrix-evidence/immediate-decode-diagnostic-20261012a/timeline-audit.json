@@ -1,0 +1,494 @@
+{
+  "formal": false,
+  "original_resource_gate": false,
+  "requests": 68,
+  "http_errors": 0,
+  "before": {
+    "session_ids": [
+      "cp1:4068363087473183455:17:4a63bb7f7c659327c79d331b4c3136fb:cmpl-946a7fb6fe869af6-0-8690ee22",
+      "cp1:4068363087473183455:21:6f2e4c977d33a0b6cce057bba9013acf:cmpl-aa480e8bb77acc5a-0-b4cbcb0d"
+    ],
+    "owned_job_ids": [],
+    "transfer_wire_ids": []
+  },
+  "after": {
+    "session_ids": [
+      "cp1:4068363087473183455:17:4a63bb7f7c659327c79d331b4c3136fb:cmpl-946a7fb6fe869af6-0-8690ee22",
+      "cp1:4068363087473183455:21:6f2e4c977d33a0b6cce057bba9013acf:cmpl-aa480e8bb77acc5a-0-b4cbcb0d"
+    ],
+    "owned_job_ids": [],
+    "transfer_wire_ids": []
+  },
+  "residual_timelines": [
+    {
+      "wire_id": "cp1:4068363087473183455:17:4a63bb7f7c659327c79d331b4c3136fb:cmpl-946a7fb6fe869af6-0-8690ee22",
+      "end_returned": {
+        "event": "generation_server_end_returned",
+        "request_id": "cp1:4068363087473183455:17:4a63bb7f7c659327c79d331b4c3136fb:cmpl-946a7fb6fe869af6-0-8690ee22",
+        "monotonic_ns": 4486499221104,
+        "unix_time": 1791784913.1859477,
+        "session_existed": true,
+        "session_remains": false,
+        "owned_job_remains": false
+      },
+      "post_end_accesses": [
+        {
+          "event": "diagnostic_session_access",
+          "request_id": "cp1:4068363087473183455:17:4a63bb7f7c659327c79d331b4c3136fb:cmpl-946a7fb6fe869af6-0-8690ee22",
+          "monotonic_ns": 4486499843593,
+          "unix_time": 1791784913.1865702,
+          "caller": "resolve_obj_keys",
+          "source": "/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/lmcache/v1/multiprocess/engine_context.py",
+          "source_line": 298,
+          "session_object": 140356766330336
+        }
+      ],
+      "timeline": [
+        {
+          "event": "diagnostic_session_access",
+          "request_id": "cp1:4068363087473183455:17:4a63bb7f7c659327c79d331b4c3136fb:cmpl-946a7fb6fe869af6-0-8690ee22",
+          "monotonic_ns": 4471650257396,
+          "unix_time": 1791784898.3369842,
+          "caller": "lookup",
+          "source": "/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/lmcache/v1/multiprocess/modules/lookup.py",
+          "source_line": 263,
+          "session_object": 140339399730064
+        },
+        {
+          "event": "reservation_acquired",
+          "request_id": "cp1:4068363087473183455:17:4a63bb7f7c659327c79d331b4c3136fb:cmpl-946a7fb6fe869af6-0-8690ee22",
+          "monotonic_ns": 4471650427819,
+          "unix_time": 1791784898.3371546,
+          "lock_id": 12,
+          "epoch": 1,
+          "serial": 1
+        },
+        {
+          "event": "reservation_acquired",
+          "request_id": "cp1:4068363087473183455:17:4a63bb7f7c659327c79d331b4c3136fb:cmpl-946a7fb6fe869af6-0-8690ee22",
+          "monotonic_ns": 4471650506037,
+          "unix_time": 1791784898.3372326,
+          "lock_id": 13,
+          "epoch": 1,
+          "serial": 1
+        },
+        {
+          "event": "reservation_acquired",
+          "request_id": "cp1:4068363087473183455:17:4a63bb7f7c659327c79d331b4c3136fb:cmpl-946a7fb6fe869af6-0-8690ee22",
+          "monotonic_ns": 4471650567883,
+          "unix_time": 1791784898.3372946,
+          "lock_id": 14,
+          "epoch": 1,
+          "serial": 1
+        },
+        {
+          "event": "reservation_acquired",
+          "request_id": "cp1:4068363087473183455:17:4a63bb7f7c659327c79d331b4c3136fb:cmpl-946a7fb6fe869af6-0-8690ee22",
+          "monotonic_ns": 4471650627086,
+          "unix_time": 1791784898.3373537,
+          "lock_id": 15,
+          "epoch": 1,
+          "serial": 1
+        },
+        {
+          "event": "lookup_registered",
+          "request_id": "cp1:4068363087473183455:17:4a63bb7f7c659327c79d331b4c3136fb:cmpl-946a7fb6fe869af6-0-8690ee22",
+          "monotonic_ns": 4471650789763,
+          "unix_time": 1791784898.3375163,
+          "objects": 4
+        },
+        {
+          "event": "diagnostic_session_access",
+          "request_id": "cp1:4068363087473183455:17:4a63bb7f7c659327c79d331b4c3136fb:cmpl-946a7fb6fe869af6-0-8690ee22",
+          "monotonic_ns": 4471678410089,
+          "unix_time": 1791784898.3651366,
+          "caller": "query_prefetch_status",
+          "source": "/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/lmcache/v1/multiprocess/modules/lookup.py",
+          "source_line": 394,
+          "session_object": 140339399730064
+        },
+        {
+          "event": "diagnostic_session_access",
+          "request_id": "cp1:4068363087473183455:17:4a63bb7f7c659327c79d331b4c3136fb:cmpl-946a7fb6fe869af6-0-8690ee22",
+          "monotonic_ns": 4481656751559,
+          "unix_time": 1791784908.3434782,
+          "caller": "free_lookup",
+          "source": "/root/CachePilot/scripts/owned_service.py",
+          "source_line": 276,
+          "session_object": 140339399730064
+        },
+        {
+          "event": "reservation_released",
+          "request_id": "cp1:4068363087473183455:17:4a63bb7f7c659327c79d331b4c3136fb:cmpl-946a7fb6fe869af6-0-8690ee22",
+          "monotonic_ns": 4481656936548,
+          "unix_time": 1791784908.3436632,
+          "lock_id": 15,
+          "epoch": 1,
+          "serial": 1,
+          "disposition": "RELEASED"
+        },
+        {
+          "event": "reservation_released",
+          "request_id": "cp1:4068363087473183455:17:4a63bb7f7c659327c79d331b4c3136fb:cmpl-946a7fb6fe869af6-0-8690ee22",
+          "monotonic_ns": 4481657120096,
+          "unix_time": 1791784908.3438466,
+          "lock_id": 13,
+          "epoch": 1,
+          "serial": 1,
+          "disposition": "RELEASED"
+        },
+        {
+          "event": "reservation_released",
+          "request_id": "cp1:4068363087473183455:17:4a63bb7f7c659327c79d331b4c3136fb:cmpl-946a7fb6fe869af6-0-8690ee22",
+          "monotonic_ns": 4481657273136,
+          "unix_time": 1791784908.3439999,
+          "lock_id": 14,
+          "epoch": 1,
+          "serial": 1,
+          "disposition": "RELEASED"
+        },
+        {
+          "event": "reservation_released",
+          "request_id": "cp1:4068363087473183455:17:4a63bb7f7c659327c79d331b4c3136fb:cmpl-946a7fb6fe869af6-0-8690ee22",
+          "monotonic_ns": 4481657424091,
+          "unix_time": 1791784908.3441508,
+          "lock_id": 12,
+          "epoch": 1,
+          "serial": 1,
+          "disposition": "RELEASED"
+        },
+        {
+          "event": "lookup_abandoned",
+          "request_id": "cp1:4068363087473183455:17:4a63bb7f7c659327c79d331b4c3136fb:cmpl-946a7fb6fe869af6-0-8690ee22",
+          "monotonic_ns": 4486498789178,
+          "unix_time": 1791784913.1855159
+        },
+        {
+          "event": "lookup_reclaimed",
+          "request_id": "cp1:4068363087473183455:17:4a63bb7f7c659327c79d331b4c3136fb:cmpl-946a7fb6fe869af6-0-8690ee22",
+          "monotonic_ns": 4486499030615,
+          "unix_time": 1791784913.1857572
+        },
+        {
+          "event": "generation_server_end_returned",
+          "request_id": "cp1:4068363087473183455:17:4a63bb7f7c659327c79d331b4c3136fb:cmpl-946a7fb6fe869af6-0-8690ee22",
+          "monotonic_ns": 4486499221104,
+          "unix_time": 1791784913.1859477,
+          "session_existed": true,
+          "session_remains": false,
+          "owned_job_remains": false
+        },
+        {
+          "event": "transfer_submitted",
+          "request_id": "cp1:4068363087473183455:17:4a63bb7f7c659327c79d331b4c3136fb:cmpl-946a7fb6fe869af6-0-8690ee22",
+          "monotonic_ns": 4486499609690,
+          "unix_time": 1791784913.1863363,
+          "sequence": 19,
+          "kind": "store",
+          "read_pins": 0,
+          "blocks": [
+            [
+              262,
+              278,
+              279,
+              275,
+              271,
+              132,
+              292,
+              276,
+              198,
+              293,
+              277,
+              263,
+              594,
+              578,
+              374,
+              370
+            ]
+          ]
+        },
+        {
+          "event": "diagnostic_session_access",
+          "request_id": "cp1:4068363087473183455:17:4a63bb7f7c659327c79d331b4c3136fb:cmpl-946a7fb6fe869af6-0-8690ee22",
+          "monotonic_ns": 4486499843593,
+          "unix_time": 1791784913.1865702,
+          "caller": "resolve_obj_keys",
+          "source": "/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/lmcache/v1/multiprocess/engine_context.py",
+          "source_line": 298,
+          "session_object": 140356766330336
+        },
+        {
+          "event": "terminal_seen",
+          "request_id": "cp1:4068363087473183455:17:4a63bb7f7c659327c79d331b4c3136fb:cmpl-946a7fb6fe869af6-0-8690ee22",
+          "monotonic_ns": 4486508236076,
+          "unix_time": 1791784913.1949627,
+          "sequence": 19,
+          "kind": "store"
+        },
+        {
+          "event": "transfer_retired",
+          "request_id": "cp1:4068363087473183455:17:4a63bb7f7c659327c79d331b4c3136fb:cmpl-946a7fb6fe869af6-0-8690ee22",
+          "monotonic_ns": 4486508495457,
+          "unix_time": 1791784913.1952224,
+          "sequence": 19,
+          "kind": "store",
+          "succeeded": true
+        }
+      ],
+      "end_then_store_resolve": true
+    },
+    {
+      "wire_id": "cp1:4068363087473183455:21:6f2e4c977d33a0b6cce057bba9013acf:cmpl-aa480e8bb77acc5a-0-b4cbcb0d",
+      "end_returned": {
+        "event": "generation_server_end_returned",
+        "request_id": "cp1:4068363087473183455:21:6f2e4c977d33a0b6cce057bba9013acf:cmpl-aa480e8bb77acc5a-0-b4cbcb0d",
+        "monotonic_ns": 4491284159160,
+        "unix_time": 1791784917.970886,
+        "session_existed": true,
+        "session_remains": false,
+        "owned_job_remains": false
+      },
+      "post_end_accesses": [
+        {
+          "event": "diagnostic_session_access",
+          "request_id": "cp1:4068363087473183455:21:6f2e4c977d33a0b6cce057bba9013acf:cmpl-aa480e8bb77acc5a-0-b4cbcb0d",
+          "monotonic_ns": 4491284916042,
+          "unix_time": 1791784917.9716427,
+          "caller": "resolve_obj_keys",
+          "source": "/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/lmcache/v1/multiprocess/engine_context.py",
+          "source_line": 298,
+          "session_object": 140339401300528
+        }
+      ],
+      "timeline": [
+        {
+          "event": "diagnostic_session_access",
+          "request_id": "cp1:4068363087473183455:21:6f2e4c977d33a0b6cce057bba9013acf:cmpl-aa480e8bb77acc5a-0-b4cbcb0d",
+          "monotonic_ns": 4471653591173,
+          "unix_time": 1791784898.3403177,
+          "caller": "lookup",
+          "source": "/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/lmcache/v1/multiprocess/modules/lookup.py",
+          "source_line": 263,
+          "session_object": 140339399734000
+        },
+        {
+          "event": "lookup_registered",
+          "request_id": "cp1:4068363087473183455:21:6f2e4c977d33a0b6cce057bba9013acf:cmpl-aa480e8bb77acc5a-0-b4cbcb0d",
+          "monotonic_ns": 4471653946065,
+          "unix_time": 1791784898.340673,
+          "objects": 0
+        },
+        {
+          "event": "diagnostic_session_access",
+          "request_id": "cp1:4068363087473183455:21:6f2e4c977d33a0b6cce057bba9013acf:cmpl-aa480e8bb77acc5a-0-b4cbcb0d",
+          "monotonic_ns": 4471679847770,
+          "unix_time": 1791784898.3665743,
+          "caller": "query_prefetch_status",
+          "source": "/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/lmcache/v1/multiprocess/modules/lookup.py",
+          "source_line": 394,
+          "session_object": 140339399734000
+        },
+        {
+          "event": "transfer_submitted",
+          "request_id": "cp1:4068363087473183455:21:6f2e4c977d33a0b6cce057bba9013acf:cmpl-aa480e8bb77acc5a-0-b4cbcb0d",
+          "monotonic_ns": 4486522041827,
+          "unix_time": 1791784913.2087688,
+          "sequence": 20,
+          "kind": "store",
+          "read_pins": 0,
+          "blocks": [
+            [
+              1,
+              504,
+              505,
+              506,
+              507,
+              508,
+              509,
+              510,
+              511,
+              512,
+              513,
+              514,
+              515,
+              516,
+              517,
+              518,
+              519,
+              520,
+              521,
+              522,
+              523,
+              524,
+              525,
+              526,
+              527,
+              528,
+              529,
+              530,
+              531,
+              532,
+              533,
+              534,
+              535,
+              536,
+              537,
+              538,
+              539,
+              540,
+              541,
+              542,
+              543,
+              544,
+              545,
+              546,
+              547,
+              548,
+              549,
+              550,
+              551,
+              552,
+              553,
+              554,
+              555,
+              556,
+              557,
+              558,
+              559,
+              560,
+              561,
+              562,
+              563,
+              564,
+              565,
+              566
+            ]
+          ]
+        },
+        {
+          "event": "diagnostic_session_access",
+          "request_id": "cp1:4068363087473183455:21:6f2e4c977d33a0b6cce057bba9013acf:cmpl-aa480e8bb77acc5a-0-b4cbcb0d",
+          "monotonic_ns": 4486522185510,
+          "unix_time": 1791784913.2089121,
+          "caller": "resolve_obj_keys",
+          "source": "/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/lmcache/v1/multiprocess/engine_context.py",
+          "source_line": 298,
+          "session_object": 140339399734000
+        },
+        {
+          "event": "terminal_seen",
+          "request_id": "cp1:4068363087473183455:21:6f2e4c977d33a0b6cce057bba9013acf:cmpl-aa480e8bb77acc5a-0-b4cbcb0d",
+          "monotonic_ns": 4486523879193,
+          "unix_time": 1791784913.2106059,
+          "sequence": 20,
+          "kind": "store"
+        },
+        {
+          "event": "transfer_retired",
+          "request_id": "cp1:4068363087473183455:21:6f2e4c977d33a0b6cce057bba9013acf:cmpl-aa480e8bb77acc5a-0-b4cbcb0d",
+          "monotonic_ns": 4486523986827,
+          "unix_time": 1791784913.2107134,
+          "sequence": 20,
+          "kind": "store",
+          "succeeded": true
+        },
+        {
+          "event": "lookup_abandoned",
+          "request_id": "cp1:4068363087473183455:21:6f2e4c977d33a0b6cce057bba9013acf:cmpl-aa480e8bb77acc5a-0-b4cbcb0d",
+          "monotonic_ns": 4491283590515,
+          "unix_time": 1791784917.9703174
+        },
+        {
+          "event": "lookup_reclaimed",
+          "request_id": "cp1:4068363087473183455:21:6f2e4c977d33a0b6cce057bba9013acf:cmpl-aa480e8bb77acc5a-0-b4cbcb0d",
+          "monotonic_ns": 4491284075382,
+          "unix_time": 1791784917.9708018
+        },
+        {
+          "event": "generation_server_end_returned",
+          "request_id": "cp1:4068363087473183455:21:6f2e4c977d33a0b6cce057bba9013acf:cmpl-aa480e8bb77acc5a-0-b4cbcb0d",
+          "monotonic_ns": 4491284159160,
+          "unix_time": 1791784917.970886,
+          "session_existed": true,
+          "session_remains": false,
+          "owned_job_remains": false
+        },
+        {
+          "event": "transfer_submitted",
+          "request_id": "cp1:4068363087473183455:21:6f2e4c977d33a0b6cce057bba9013acf:cmpl-aa480e8bb77acc5a-0-b4cbcb0d",
+          "monotonic_ns": 4491284820712,
+          "unix_time": 1791784917.9715476,
+          "sequence": 27,
+          "kind": "store",
+          "read_pins": 0,
+          "blocks": [
+            [
+              567,
+              592,
+              588,
+              584,
+              580,
+              502,
+              597,
+              581,
+              568,
+              898,
+              882,
+              678,
+              674,
+              670,
+              666,
+              662
+            ]
+          ]
+        },
+        {
+          "event": "diagnostic_session_access",
+          "request_id": "cp1:4068363087473183455:21:6f2e4c977d33a0b6cce057bba9013acf:cmpl-aa480e8bb77acc5a-0-b4cbcb0d",
+          "monotonic_ns": 4491284916042,
+          "unix_time": 1791784917.9716427,
+          "caller": "resolve_obj_keys",
+          "source": "/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/lmcache/v1/multiprocess/engine_context.py",
+          "source_line": 298,
+          "session_object": 140339401300528
+        },
+        {
+          "event": "terminal_seen",
+          "request_id": "cp1:4068363087473183455:21:6f2e4c977d33a0b6cce057bba9013acf:cmpl-aa480e8bb77acc5a-0-b4cbcb0d",
+          "monotonic_ns": 4491291574906,
+          "unix_time": 1791784917.9783015,
+          "sequence": 27,
+          "kind": "store"
+        },
+        {
+          "event": "transfer_retired",
+          "request_id": "cp1:4068363087473183455:21:6f2e4c977d33a0b6cce057bba9013acf:cmpl-aa480e8bb77acc5a-0-b4cbcb0d",
+          "monotonic_ns": 4491291867899,
+          "unix_time": 1791784917.9785945,
+          "sequence": 27,
+          "kind": "store",
+          "succeeded": true
+        }
+      ],
+      "end_then_store_resolve": true
+    }
+  ],
+  "residual_end_then_store_resolve": true,
+  "reservation_closed": true,
+  "reservation_count": 144,
+  "original_native_transfer_closed": true,
+  "native_transfer_count": 101,
+  "late_store_after_end": [
+    {
+      "wire_id": "cp1:4068363087473183455:17:4a63bb7f7c659327c79d331b4c3136fb:cmpl-946a7fb6fe869af6-0-8690ee22",
+      "end_monotonic_ns": 4486499221104,
+      "store_monotonic_ns": 4486499609690
+    },
+    {
+      "wire_id": "cp1:4068363087473183455:21:6f2e4c977d33a0b6cce057bba9013acf:cmpl-aa480e8bb77acc5a-0-b4cbcb0d",
+      "end_monotonic_ns": 4491284159160,
+      "store_monotonic_ns": 4491284820712
+    }
+  ],
+  "exact_server_empty": false
+}

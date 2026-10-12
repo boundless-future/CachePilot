@@ -390,3 +390,8 @@ Trace 回放评估的是推理系统在同一请求负载下的行为，不评�
 2026-10-12 13:21：独立 GPU 诊断 b/c 已通过，c 增加实际 reservation/native terminal 与 BlockPool 闭合，78 代际全部逐身份 END。启动失败 a、原 pilot 和旧两个诊断仍失败。下一门槛已推进到 [新性能预注册](experiments/2026-10-12/GENERATION_MATRIX_PREREGISTRATION.md)：四配置 pilot 后三次正式重复，零保护限定，不将所有权修复当作策略收益。完整 CUDA/native 回归 824 passed、115 subtests。
 
 2026-10-12 13:51：generation支线通过后，新长prefill pilot 4/4、formal12/12完成，本地独立审计及耗时/阶段/搬运分析归档。进入阶段4的decode192负载扩展，独立预注册、冻结源码、pilot后formal；截止14:55不再启动新格。该扩展保持原held-out输入与到达，只延长输出预算；零保护，不外推到原3C非零保护栈。见 [长prefill报告](experiments/2026-10-12/GENERATION_LONG_PREFILL.md)、[decode预注册](experiments/2026-10-12/DECODE_MATRIX_PREREGISTRATION.md)。
+
+
+2026-10-12 14:32：阶段4 decode192原pilot在eager立即卸载两个session残留处停止。只读时序证明请求结束END之后末批STORE调用resolve_obj_keys重新创建session；原transfer/pin闭合。此为所有权适配收尾支线，不是保护策略退化。独立ImmediateReceiptConnector沿用原worker finished_sending作为END门槛，68请求/144原reservation/101 native transfer/909 free诊断通过；同步TP1零保护、抢占和unhealthy fail closed。新pilot重新冻结并预注册，旧失败、lazy generation栈和旧性能不修改。真实结构80文件目录审计完成、六session/60请求候选，尚无该负载GPU证据。
+
+2026-10-12 14:48：新decode receipt pilot四格/272请求完整通过，服务器、本地、冻结源独立复算一致，未开始formal；下一窗口以205项同签名源运行十二格，不将n=1观测作为性能收益。真实匿名结构六会话已完成模型token生成、来源SHA/前缀/时间审计，60请求/209,661输入tokens；GPU压力尚未验证。详见 [pilot报告](experiments/2026-10-12/DECODE_RECEIPT_PILOT.md) 与 [结构计划](experiments/2026-10-12/REAL_STRUCTURE_PLAN.md)。

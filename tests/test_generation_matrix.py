@@ -70,3 +70,18 @@ def test_decode_intervention_keeps_prompts_and_arrival_fields(module):
     base['events'][0]['arrival_ms'] += 1
     with pytest.raises(ValueError):
         module.extend_decode(base)
+
+
+def test_immediate_candidate_validation_requires_exact_config(module):
+    import json
+    root = Path(__file__).resolve().parents[1]
+    original = json.loads((root / 'configs/owned-service.json').read_text())
+    original['kv_connector_extra_config']['lmcache.mp.lazy_offload'] = False
+    assert not module.immediate_receipt_valid(original)
+    candidate = copy.deepcopy(original)
+    candidate.update(kv_connector='ImmediateReceiptConnector',
+        kv_connector_module_path='scripts.immediate_receipt_connector')
+    candidate['kv_connector_extra_config']['cachepilot.immediate_receipt_end'] = True
+    assert module.immediate_receipt_valid(candidate)
+    candidate['kv_connector_extra_config']['lmcache.mp.lazy_offload'] = True
+    assert not module.immediate_receipt_valid(candidate)

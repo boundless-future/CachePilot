@@ -182,7 +182,12 @@
 - [x] 独立 opt-in generation connector 接通真实 tracker/manager admission、pending drop、原跨进程 batch receipt、lookup/status/free future、RETRIEVE 及 producer seal；真实 raw ID 重用的旧 in-flight success/failure 和 queue owner-thread pump 契约通过。完整显式 CUDA/native 回归 805 passed、115 subtests；见 [接线报告](experiments/2026-10-12/GENERATION_BRIDGE.md)。这不等于 GPU 服务验收。
 - [x] 独立长 prefill generation 诊断 b/c 通过；c 的 78 代际 END、589 reservation、69 lookup job、75 native transfer 与 BlockPool 909 free 恢复逐项审计通过，原失败和启动失败 a 保留。诊断不计入性能。
 - [x] 新栈长 prefill 四配置pilot 4/4、formal 12/12通过，816正式请求；本地独立审计、请求计时/阶段/搬运分解和图表完成，见 [报告](experiments/2026-10-12/GENERATION_LONG_PREFILL.md)。整套缓存配置低于native，但立即卸载优于两种lazy；无非零保护收益推断。
-- [ ] 按 [decode192预注册](experiments/2026-10-12/DECODE_MATRIX_PREREGISTRATION.md) 完成新pilot/formal；68固定请求、13,056输出tokens，保持prompt/arrival/seed，当前pilot运行中。
+- [ ] 按 [decode192预注册](experiments/2026-10-12/DECODE_MATRIX_PREREGISTRATION.md) 完成新pilot/formal；68固定请求、13,056输出tokens，保持prompt/arrival/seed；原pilot在立即卸载session残留处停止，default/selected与formal未运行。
+- [x] decode192立即卸载只读时序复现：END返回后末批STORE重建session，两代残留；原reservation/native transfer闭合。独立原回执后END候选通过真实库回调/future契约和GPU68请求、144 reservation、69 lookup、101 transfer、909 free。范围同步TP1零保护，无抢占/unhealthy/reuse重叠；见 [报告](experiments/2026-10-12/DECODE_IMMEDIATE_DIAGNOSIS.md)。
+- [x] 新decode192 receipt pilot 4/4通过，272请求/52,224输出；服务器、本地及205项冻结源独立收集完全相同，旧immediate失败单列，见 [pilot报告](experiments/2026-10-12/DECODE_RECEIPT_PILOT.md)。
+- [ ] 同签名decode192 formal十二格三次重复；保持pilot冻结源码，不能直接同步新增CPU脚本后沿用旧签名。
+- [x] 固定commit的真实匿名结构编号21–100共80文件CPU准入审计，全部六条eligible/60请求；实际Qwen3-4B tokenizer生成209,661输入tokens/2,880输出预算。源SHA、54前缀转换、3,262源block身份、零跨session前缀碰撞审计与三项重建/篡改测试通过，见 [方案](experiments/2026-10-12/REAL_STRUCTURE_PLAN.md)。
+- [ ] 冻结六session真实匿名结构GPU pilot，验证实际物理压力/命中/抢占及资源；不把CPU前缀机会当GPU命中或live Agent执行。
 - [ ] 用 Qwen3-8B＋5090 复核；如要区分模型/硬件效应，需要额外控制变量实验。
 - [x] 开发和验证消融已统计客户端 ready-to-first/ready-to-end 及会话完成时间；原始值与聚合均归档，不将入口等待隐藏。新容量和到达负载继续沿用该口径。
 - [ ] 整理复现文档、版本清单、原始数据、图表和个人贡献。
@@ -190,6 +195,10 @@
 - [ ] 项目阶段收尾后重新核查 LMCache/vLLM 上游状态；若仍可复现且有可维护的最小修复与回归测试，考虑提交异步回载压力信号的上游 issue/PR，范围见 [UPSTREAM_ASYNC_KV_PRESSURE.md](UPSTREAM_ASYNC_KV_PRESSURE.md)。
 
 ## 优先顺序
+
+2026-10-12 14:48：新decode receipt pilot四格完整通过并归档，formal仍未开始；时间不足完成十二格，因此安全收尾并为下一窗口保留服务器205项冻结源。六会话真实匿名结构CPU生成和独立来源/前缀审计完成，尚无GPU结果。下一步先同签名decode formal，再真实结构GPU准入。
+
+2026-10-12 14:32：decode原pilot失败已定位为END先于末批STORE的session重建；独立immediate回执候选诊断通过。新四配置pilot进行中，源码冻结；完整834 passed/9 skipped/115 subtests，CUDA另9 passed。今日先闭合pilot与证据，不赶在截止前启动不能安全完成的formal。
 
 2026-10-12 13:51：新栈长prefill正式12格完成并独立复核，原失败不改写。decode192新源签名已冻结，先pilot后formal；14:55停止启动新GPU格、15:00安全收尾汇报。零保护限定，暂不扩卡或调参。
 
