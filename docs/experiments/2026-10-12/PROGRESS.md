@@ -117,3 +117,11 @@
 完成预注册、严格221→224源码升级检查、轮转runner、独立计时/资源/注册END审计、完整矩阵聚合及离线成本分析。没有修改运行中的源或策略参数；pilot不计均值。原始日志含一格8行精确停机traceback；跨配置output hash差异保留。没有新KV probe或物理BlockPool诊断。服务已停止，GPU1MiB/0%，端口空闲，容器开机。
 
 详见 [正式报告](GENERATION_STRATEGY_FORMAL.md)；后续先新文本准入，不以开发均值决定生产预算。
+
+## 22:34 新文本零覆盖反例归档
+
+22:34更新：固定参数新文本pilot在selected-one零保护覆盖处停止。默认/调优零保护通过，三格204请求/9,792输出；候选35次capacity回退、提交0，但原请求/资源/generation/回执/计时门槛通过。selected-two与formal未启动，2/4通过、无聚合，不将无覆盖耗时写成收益。历史trace原样复用，68条各多17tokens；静态边界不是容量根因证明。50文件SHA/226源核对与服务器/本地/冻结源报告一致，56项回归通过。下一步独立只读容量/候选窗口诊断，不改reserve或输入追求通过。
+
+原历史validation trace字节从旧包提取，实际模型tokenizer再次核对。新增独立runner/auditor，严格仅两项harness新增，不改224项开发源；pilot按default→selected-zero→one停止，最后一格未运行。55项启动前回归；追加真实失败归档篡改passed标志仍不能促进coverage的测试后56通过。源包、50原始文件、三处独立审计、静态block/chunk边界分析已保存。没有逐步容量原始值，不能完成因果归因；已写只读诊断设计，尚未实现或运行。
+
+详见 [反例报告](GENERATION_STRATEGY_VALIDATION.md)。服务全停、GPU1MiB/0%，容器开机。

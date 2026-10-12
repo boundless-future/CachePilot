@@ -1,5 +1,7 @@
 # 待办与阶段验收
 
+22:34更新：固定参数新文本pilot在selected-one零保护覆盖处停止。默认/调优零保护通过，三格204请求/9,792输出；候选35次capacity回退、提交0，但原请求/资源/generation/回执/计时门槛通过。selected-two与formal未启动，2/4通过、无聚合，不将无覆盖耗时写成收益。历史trace原样复用，68条各多17tokens；静态边界不是容量根因证明。50文件SHA/226源核对与服务器/本地/冻结源报告一致，56项回归通过。下一步独立只读容量/候选窗口诊断，不改reserve或输入追求通过。见 [反例报告](experiments/2026-10-12/GENERATION_STRATEGY_VALIDATION.md)。
+
 22:16更新：新generation＋保护四组轮转三重复formal 12/12通过，816测量请求/39,168输出tokens。one/two TTFT P95均值相对selected-zero −4.74%/−3.34%；two在r2退化，所有格prefill24,156、H2D1,811,939,328 B相同，不宣称稳定或泛化收益。one提交4/4/4、two4/4/3，69代/格及保护资源闭合。183原始文件SHA核对、224冻结源核对及服务器/本地/冻结源三报告一致；47项测量/入口/审计回归通过。下一步固定参数的新文本覆盖准入，pilot全通过才formal；无覆盖则停止并记录触发局限。见 [正式报告](experiments/2026-10-12/GENERATION_STRATEGY_FORMAL.md)。
 
 21:49更新：新组合无逐步探针策略 pilot 四格通过，272测量请求。候选与调优零保护统一 h5/d1；one/two 实际保护各4批、峰值16/32，69代/格闭合。单次 TTFT P95 相对 selected-zero −2.57%/+10.33%，prefill均24,156，不能宣称稳定收益。a轮入口误导入根目录旧脚本失败保留，b修复路径后221项源冻结；本地独立时间戳/资源/字节复算通过，38测试通过。下一步四组轮转三重复 formal 预注册与入口，保留全部候选，不混入pilot。见 [报告](experiments/2026-10-12/GENERATION_STRATEGY_PILOT.md)。
@@ -202,7 +204,8 @@
 - [x] 新组合长prefix及失败回执两个独立GPU专项：各348请求，1800/864层KV全等；长prefix8条完整回载链、9派生票据闭合；失败回执1次成功后报告失败，原资源闭合。见 [长prefix](experiments/2026-10-12/GENERATION_PROTECTION_LONG_PREFIX.md) / [失败回执](experiments/2026-10-12/GENERATION_PROTECTION_FAILED_RECEIPT.md)。
 - [x] 新组合共享取消/共享受害请求自然抢占GPU专项，936/504层全等、refs2→1→0、generation348/351闭合；共享取消teardown traceback/CUDA IPC警告保留，见 [报告](experiments/2026-10-12/GENERATION_SHARED.md)。
 - [x] generation与非零保护显式交接的受控准入：真实manager/独立Connector、prefix/suffix/原回执与故障票据，GPU bitwise及取消/抢占专项，四格pilot和十二格开发formal完成；完整生产故障与泛化不在本勾选范围。见 [正式报告](experiments/2026-10-12/GENERATION_STRATEGY_FORMAL.md)。
-- [ ] 新组合固定h5/d1及16/32 blocks的新文本覆盖准入；保留历史零覆盖失败，先来源/input/token审计及pilot，失败停止，不改参数追求覆盖。
+- [x] 新组合固定参数新文本覆盖准入的执行与失败归档：两个零保护通过，selected-one因35次capacity/0提交失败，selected-two未运行；这是反例记录，不是准入成功。见 [报告](experiments/2026-10-12/GENERATION_STRATEGY_VALIDATION.md)。
+- [ ] 独立opt-in容量/free/reserve/live footprint与候选存活窗口诊断；保持原策略参数和输入、CPU无副作用契约后开发/新文本各一个GPU诊断，见 [设计](experiments/2026-10-12/GENERATION_CAPACITY_DIAGNOSTIC_PLAN.md)。
 - [ ] 准入通过后新文本三重复及真实匿名结构的非零保护复核，验证收益是否跨输入/负载复现。
 - [ ] 用 Qwen3-8B＋5090 复核；如要区分模型/硬件效应，需要额外控制变量实验。
 - [x] 开发和验证消融已统计客户端 ready-to-first/ready-to-end 及会话完成时间；原始值与聚合均归档，不将入口等待隐藏。新容量和到达负载继续沿用该口径。
@@ -211,6 +214,8 @@
 - [ ] 项目阶段收尾后重新核查 LMCache/vLLM 上游状态；若仍可复现且有可维护的最小修复与回归测试，考虑提交异步回载压力信号的上游 issue/PR，范围见 [UPSTREAM_ASYNC_KV_PRESSURE.md](UPSTREAM_ASYNC_KV_PRESSURE.md)。
 
 ## 优先顺序
+
+2026-10-12 22:34：新文本保护覆盖失败，正式泛化矩阵不具备准入。先只读容量/候选窗口诊断，不能重跑筛选、降reserve或改压力来抹去反例。
 
 2026-10-12 22:16：新组合开发formal已闭合。优先固定策略新文本覆盖准入；不重复开发formal、不重新调参选择更好结果、不扩大卡/模型替代泛化验证。
 
