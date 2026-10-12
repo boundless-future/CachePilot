@@ -192,6 +192,7 @@
 - [x] 同签名匿名结构formal12/12，720请求/34,560输出，服务器/本地/210项冻结源独立报告一致；186原始文件字节一致。native整体TTFT最低，immediate/default/selected相对+5.76%/+11.33%/+9.69%，全六会话差异、原输出hash和一格关闭traceback保留，见 [正式报告](experiments/2026-10-12/REAL_STRUCTURE_FORMAL.md)。
 - [x] generation与保护真实 manager CPU 交接候选：60项回归通过（新增18项），原票据/prefix/suffix lineage、原回执、旧代隔离、零步回滚及 native 注册后异常禁止误释放；服务 bind 明确禁用，见 [契约报告](experiments/2026-10-12/GENERATION_PROTECTION_CONTRACT.md)。
 - [x] 独立generation保护Connector接线及12项native callback契约；最终873 passed、115 subtests显式CUDA/native回归。原zero guard保留，新组合GPU未运行，见 [接线报告](experiments/2026-10-12/GENERATION_PROTECTION_WIRING.md)。
+- [x] 真实双候选部分提交故障、poisoned shutdown终态证据保存及写证据失败保留原异常；新增5项测试，显式CUDA/native全套878 passed、115 subtests。服务进程故障退出未验证，见 [报告](experiments/2026-10-12/GENERATION_PROTECTION_FAULTS.md)。
 - [ ] generation与非零保护显式交接：先真实manager契约，完整prefix/suffix票据、原回执、异常后unresolved及END闭合；再GPU bitwise诊断、新签名pilot与策略消融，见 [设计](GENERATION_PROTECTION_INTEGRATION.md)。
 - [ ] 用 Qwen3-8B＋5090 复核；如要区分模型/硬件效应，需要额外控制变量实验。
 - [x] 开发和验证消融已统计客户端 ready-to-first/ready-to-end 及会话完成时间；原始值与聚合均归档，不将入口等待隐藏。新容量和到达负载继续沿用该口径。
@@ -200,6 +201,8 @@
 - [ ] 项目阶段收尾后重新核查 LMCache/vLLM 上游状态；若仍可复现且有可维护的最小修复与回归测试，考虑提交异步回载压力信号的上游 issue/PR，范围见 [UPSTREAM_ASYNC_KV_PRESSURE.md](UPSTREAM_ASYNC_KV_PRESSURE.md)。
 
 ## 优先顺序
+
+2026-10-12 20:52：多候选故障和shutdown证据CPU门槛完成，下一步独立服务GPU诊断runner、正常bitwise/resource准入与实际进程故障退出。新组合无模型服务结果，旧性能结论不变。
 
 2026-10-12 20:38：独立Connector候选已接线；补多候选部分失败和poison进程退出/终态证据，再独立GPU zero/one/two准入，最后新签名策略消融。873项全套含底层CUDA通过，不等于组合GPU bitwise或性能。
 

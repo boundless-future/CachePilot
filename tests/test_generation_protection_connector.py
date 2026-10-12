@@ -238,3 +238,32 @@ def test_receipt_callback_fault_after_native_free_does_not_retry_free(wired, mon
         obj.update_connector_output(output)
     assert helper.pool.get_num_free_blocks() == 128
     assert not transport.calls
+
+
+@pytest.mark.parametrize('write_failure', [False, True])
+def test_poisoned_shutdown_preserves_state_and_original_error(wired, monkeypatch, tmp_path, write_failure):
+    import json
+    obj, helper, scheduler, blocks, transport, meta = wired
+    obj._handoff_role = 'SCHEDULER'
+    helper.prepare(scheduler)
+    obj.build_connector_meta(step())
+    obj._lazy_offload_manager.poison(RuntimeError('injected commit fault'))
+    target = tmp_path / 'summary.json'
+    if write_failure:
+        target.mkdir()
+    monkeypatch.setenv('CACHEPILOT_GENERATION_SUMMARY_PATH', str(target))
+    with pytest.raises(RuntimeError, match='reconstruction') as error:
+        obj.shutdown()
+    assert helper.pool.get_num_free_blocks() == 112
+    assert sum(b.ref_cnt for b in blocks) == 16
+    assert not transport.calls
+    if write_failure:
+        assert any('preserve shutdown evidence' in note for note in error.value.__notes__)
+    else:
+        saved = json.loads(target.read_text())
+        assert saved['shutdown_complete'] is False
+        assert saved['protected_inflight_blocks'] == 16
+        assert saved['prepared_blocks'] == 0
+        assert saved['inflight_store'] == 1 and saved['pending_store'] == 1
+        assert 'injected commit fault' in saved['protection_poisoned']
+        assert not target.with_name(target.name + '.tmp').exists()

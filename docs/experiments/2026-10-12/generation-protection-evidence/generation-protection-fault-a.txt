@@ -1,0 +1,233 @@
+..................FFF..............                                      [100%]
+=================================== FAILURES ===================================
+___________ test_two_actual_prepared_candidates_partial_commit[none] ___________
+
+combined = (<scripts.generation_protection_bridge.GenerationBoundedProtection object at 0x7fb56b77d130>, namespace(requests={'new...ot.client.v1': 1, 'cachepilot.sequence.v1': 1, 'cachepilot.lookup_generation.v1': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'}))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fb56b77dbb0>
+fault = 'none'
+
+    @pytest.mark.parametrize('fault', ['none', 'before_second', 'after_second'])
+    def test_two_actual_prepared_candidates_partial_commit(combined, monkeypatch, fault):
+        from vllm import SamplingParams
+        from vllm.v1.request import Request
+        from vllm.v1.core import kv_cache_utils as utils
+        helper, scheduler, blocks, bridge, ledger, meta = combined
+        # Build a second real cached prefix without overwriting the first prefix.
+        helper.pool.touch(blocks)
+        second_blocks = helper.pool.get_new_blocks(16)
+        tokens = list(range(3000, 3256))
+        request = Request('second', tokens, SamplingParams(max_tokens=1), None,
+            block_hasher=utils.get_request_block_hasher(16, helper.hash_fn))
+        helper.pool.cache_full_blocks(request, second_blocks, 0, 16, 16, 0)
+        helper.pool.free_blocks(second_blocks)
+        helper.pool.free_blocks(blocks)
+        # Both prefixes face eviction in the real queue used by prepare().
+        selected = blocks[:16] + second_blocks
+        for block in selected:
+            helper.pool.free_block_queue.remove(block)
+        helper.pool.free_block_queue.prepend_n(selected)
+        bridge.on_request_reset('old')
+        first = replace(meta, op=replace(meta.op, end=256, block_ids=[[b.block_id for b in blocks[:16]]]))
+        bridge.on_request_arrived('old')
+        bridge.add_store_candidate(first)
+        bridge.on_request_finished('old')
+        second = replace(meta, request_id='second', op=replace(meta.op, token_ids=tokens,
+            end=256, block_ids=[[b.block_id for b in second_blocks]]))
+>       ledger.register('second', wire_id(second))
+
+tests/test_generation_protection_bridge.py:243: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <scripts.generation_protection_bridge.ProtectionGenerationLedger object at 0x7fb56b77d760>
+raw = 'second', wire = 'cp1:1:1:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:second'
+
+    def register(self, raw, wire):
+        client, sequence = parse_id(wire)
+        if wire.split(':', 4)[4] != raw:
+            raise ValueError('Wire/raw identity mismatch')
+        if wire in self.generations:
+            if self.current.get(raw) != wire or self.generations[wire].sealed:
+                raise RuntimeError('Retired generation cannot become current')
+            return
+        if len(self.generations) >= self.capacity:
+            raise RuntimeError('Ledger lifetime capacity exhausted')
+        if (client, sequence) in self.sequence_owners:
+>           raise RuntimeError('Sequence identity collision')
+E           RuntimeError: Sequence identity collision
+
+scripts/generation_session_ledger.py:63: RuntimeError
+---------------------------- Captured stderr setup -----------------------------
+[32;20m[2026-10-12 12:51:09,159] LMCache INFO:[0m lazy offload enabled with EVICTION_AWARE policy: EvictionAwarePolicyConfig(horizon_steps=2.5, max_drain_per_step=64, max_deferral_seconds=0.0) [3m(__init__.py:73:lmcache.integration.vllm.lazy_offload_policy)[0m
+[32;20m[2026-10-12 12:51:09,159] LMCache INFO:[0m Using blake3 hash function [3m(token_hasher.py:79:lmcache.v1.multiprocess.token_hasher)[0m
+[32;20m[2026-10-12 12:51:09,159] LMCache INFO:[0m Computed NONE_HASH=b"~>\xff\x9e\xf7a:P4\x0e\xb1&w\xee\x03\xb8:\xc7Y\xfc\xba\x9b\xb3'\x05\xf0rH\xd5mG;" using hash function [3m(token_hasher.py:180:lmcache.v1.multiprocess.token_hasher)[0m
+[32;20m[2026-10-12 12:51:09,159] LMCache INFO:[0m TokenHasher initialized: chunk_size=256, hash_algorithm=blake3 [3m(token_hasher.py:67:lmcache.v1.multiprocess.token_hasher)[0m
+[32;20m[2026-10-12 12:51:09,160] LMCache INFO:[0m Lazy offload: dropped 1 buffered store op(s) of preempted request old [3m(lazy_offload_manager.py:373:lmcache.integration.vllm.lazy_offload_manager)[0m
+------------------------------ Captured log setup ------------------------------
+INFO     lmcache.integration.vllm.lazy_offload_policy:__init__.py:73 lazy offload enabled with EVICTION_AWARE policy: EvictionAwarePolicyConfig(horizon_steps=2.5, max_drain_per_step=64, max_deferral_seconds=0.0)
+INFO     lmcache.v1.multiprocess.token_hasher:token_hasher.py:79 Using blake3 hash function
+INFO     lmcache.v1.multiprocess.token_hasher:token_hasher.py:180 Computed NONE_HASH=b"~>\xff\x9e\xf7a:P4\x0e\xb1&w\xee\x03\xb8:\xc7Y\xfc\xba\x9b\xb3'\x05\xf0rH\xd5mG;" using hash function
+INFO     lmcache.v1.multiprocess.token_hasher:token_hasher.py:67 TokenHasher initialized: chunk_size=256, hash_algorithm=blake3
+INFO     lmcache.integration.vllm.lazy_offload_manager:lazy_offload_manager.py:373 Lazy offload: dropped 1 buffered store op(s) of preempted request old
+----------------------------- Captured stderr call -----------------------------
+[32;20m[2026-10-12 12:51:09,161] LMCache INFO:[0m Lazy offload: dropped 1 buffered store op(s) of preempted request old [3m(lazy_offload_manager.py:373:lmcache.integration.vllm.lazy_offload_manager)[0m
+------------------------------ Captured log call -------------------------------
+INFO     lmcache.integration.vllm.lazy_offload_manager:lazy_offload_manager.py:373 Lazy offload: dropped 1 buffered store op(s) of preempted request old
+______ test_two_actual_prepared_candidates_partial_commit[before_second] _______
+
+combined = (<scripts.generation_protection_bridge.GenerationBoundedProtection object at 0x7fb56b77cfe0>, namespace(requests={'new...ot.client.v1': 1, 'cachepilot.sequence.v1': 1, 'cachepilot.lookup_generation.v1': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'}))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fb56b77db80>
+fault = 'before_second'
+
+    @pytest.mark.parametrize('fault', ['none', 'before_second', 'after_second'])
+    def test_two_actual_prepared_candidates_partial_commit(combined, monkeypatch, fault):
+        from vllm import SamplingParams
+        from vllm.v1.request import Request
+        from vllm.v1.core import kv_cache_utils as utils
+        helper, scheduler, blocks, bridge, ledger, meta = combined
+        # Build a second real cached prefix without overwriting the first prefix.
+        helper.pool.touch(blocks)
+        second_blocks = helper.pool.get_new_blocks(16)
+        tokens = list(range(3000, 3256))
+        request = Request('second', tokens, SamplingParams(max_tokens=1), None,
+            block_hasher=utils.get_request_block_hasher(16, helper.hash_fn))
+        helper.pool.cache_full_blocks(request, second_blocks, 0, 16, 16, 0)
+        helper.pool.free_blocks(second_blocks)
+        helper.pool.free_blocks(blocks)
+        # Both prefixes face eviction in the real queue used by prepare().
+        selected = blocks[:16] + second_blocks
+        for block in selected:
+            helper.pool.free_block_queue.remove(block)
+        helper.pool.free_block_queue.prepend_n(selected)
+        bridge.on_request_reset('old')
+        first = replace(meta, op=replace(meta.op, end=256, block_ids=[[b.block_id for b in blocks[:16]]]))
+        bridge.on_request_arrived('old')
+        bridge.add_store_candidate(first)
+        bridge.on_request_finished('old')
+        second = replace(meta, request_id='second', op=replace(meta.op, token_ids=tokens,
+            end=256, block_ids=[[b.block_id for b in second_blocks]]))
+>       ledger.register('second', wire_id(second))
+
+tests/test_generation_protection_bridge.py:243: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <scripts.generation_protection_bridge.ProtectionGenerationLedger object at 0x7fb56b77e330>
+raw = 'second', wire = 'cp1:1:1:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:second'
+
+    def register(self, raw, wire):
+        client, sequence = parse_id(wire)
+        if wire.split(':', 4)[4] != raw:
+            raise ValueError('Wire/raw identity mismatch')
+        if wire in self.generations:
+            if self.current.get(raw) != wire or self.generations[wire].sealed:
+                raise RuntimeError('Retired generation cannot become current')
+            return
+        if len(self.generations) >= self.capacity:
+            raise RuntimeError('Ledger lifetime capacity exhausted')
+        if (client, sequence) in self.sequence_owners:
+>           raise RuntimeError('Sequence identity collision')
+E           RuntimeError: Sequence identity collision
+
+scripts/generation_session_ledger.py:63: RuntimeError
+---------------------------- Captured stderr setup -----------------------------
+[32;20m[2026-10-12 12:51:09,173] LMCache INFO:[0m lazy offload enabled with EVICTION_AWARE policy: EvictionAwarePolicyConfig(horizon_steps=2.5, max_drain_per_step=64, max_deferral_seconds=0.0) [3m(__init__.py:73:lmcache.integration.vllm.lazy_offload_policy)[0m
+[32;20m[2026-10-12 12:51:09,173] LMCache INFO:[0m Using blake3 hash function [3m(token_hasher.py:79:lmcache.v1.multiprocess.token_hasher)[0m
+[32;20m[2026-10-12 12:51:09,173] LMCache INFO:[0m Computed NONE_HASH=b"~>\xff\x9e\xf7a:P4\x0e\xb1&w\xee\x03\xb8:\xc7Y\xfc\xba\x9b\xb3'\x05\xf0rH\xd5mG;" using hash function [3m(token_hasher.py:180:lmcache.v1.multiprocess.token_hasher)[0m
+[32;20m[2026-10-12 12:51:09,173] LMCache INFO:[0m TokenHasher initialized: chunk_size=256, hash_algorithm=blake3 [3m(token_hasher.py:67:lmcache.v1.multiprocess.token_hasher)[0m
+[32;20m[2026-10-12 12:51:09,174] LMCache INFO:[0m Lazy offload: dropped 1 buffered store op(s) of preempted request old [3m(lazy_offload_manager.py:373:lmcache.integration.vllm.lazy_offload_manager)[0m
+------------------------------ Captured log setup ------------------------------
+INFO     lmcache.integration.vllm.lazy_offload_policy:__init__.py:73 lazy offload enabled with EVICTION_AWARE policy: EvictionAwarePolicyConfig(horizon_steps=2.5, max_drain_per_step=64, max_deferral_seconds=0.0)
+INFO     lmcache.v1.multiprocess.token_hasher:token_hasher.py:79 Using blake3 hash function
+INFO     lmcache.v1.multiprocess.token_hasher:token_hasher.py:180 Computed NONE_HASH=b"~>\xff\x9e\xf7a:P4\x0e\xb1&w\xee\x03\xb8:\xc7Y\xfc\xba\x9b\xb3'\x05\xf0rH\xd5mG;" using hash function
+INFO     lmcache.v1.multiprocess.token_hasher:token_hasher.py:67 TokenHasher initialized: chunk_size=256, hash_algorithm=blake3
+INFO     lmcache.integration.vllm.lazy_offload_manager:lazy_offload_manager.py:373 Lazy offload: dropped 1 buffered store op(s) of preempted request old
+----------------------------- Captured stderr call -----------------------------
+[32;20m[2026-10-12 12:51:09,175] LMCache INFO:[0m Lazy offload: dropped 1 buffered store op(s) of preempted request old [3m(lazy_offload_manager.py:373:lmcache.integration.vllm.lazy_offload_manager)[0m
+------------------------------ Captured log call -------------------------------
+INFO     lmcache.integration.vllm.lazy_offload_manager:lazy_offload_manager.py:373 Lazy offload: dropped 1 buffered store op(s) of preempted request old
+_______ test_two_actual_prepared_candidates_partial_commit[after_second] _______
+
+combined = (<scripts.generation_protection_bridge.GenerationBoundedProtection object at 0x7fb56b77e780>, namespace(requests={'new...ot.client.v1': 1, 'cachepilot.sequence.v1': 1, 'cachepilot.lookup_generation.v1': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'}))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fb56b77db50>
+fault = 'after_second'
+
+    @pytest.mark.parametrize('fault', ['none', 'before_second', 'after_second'])
+    def test_two_actual_prepared_candidates_partial_commit(combined, monkeypatch, fault):
+        from vllm import SamplingParams
+        from vllm.v1.request import Request
+        from vllm.v1.core import kv_cache_utils as utils
+        helper, scheduler, blocks, bridge, ledger, meta = combined
+        # Build a second real cached prefix without overwriting the first prefix.
+        helper.pool.touch(blocks)
+        second_blocks = helper.pool.get_new_blocks(16)
+        tokens = list(range(3000, 3256))
+        request = Request('second', tokens, SamplingParams(max_tokens=1), None,
+            block_hasher=utils.get_request_block_hasher(16, helper.hash_fn))
+        helper.pool.cache_full_blocks(request, second_blocks, 0, 16, 16, 0)
+        helper.pool.free_blocks(second_blocks)
+        helper.pool.free_blocks(blocks)
+        # Both prefixes face eviction in the real queue used by prepare().
+        selected = blocks[:16] + second_blocks
+        for block in selected:
+            helper.pool.free_block_queue.remove(block)
+        helper.pool.free_block_queue.prepend_n(selected)
+        bridge.on_request_reset('old')
+        first = replace(meta, op=replace(meta.op, end=256, block_ids=[[b.block_id for b in blocks[:16]]]))
+        bridge.on_request_arrived('old')
+        bridge.add_store_candidate(first)
+        bridge.on_request_finished('old')
+        second = replace(meta, request_id='second', op=replace(meta.op, token_ids=tokens,
+            end=256, block_ids=[[b.block_id for b in second_blocks]]))
+>       ledger.register('second', wire_id(second))
+
+tests/test_generation_protection_bridge.py:243: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <scripts.generation_protection_bridge.ProtectionGenerationLedger object at 0x7fb56b77f440>
+raw = 'second', wire = 'cp1:1:1:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:second'
+
+    def register(self, raw, wire):
+        client, sequence = parse_id(wire)
+        if wire.split(':', 4)[4] != raw:
+            raise ValueError('Wire/raw identity mismatch')
+        if wire in self.generations:
+            if self.current.get(raw) != wire or self.generations[wire].sealed:
+                raise RuntimeError('Retired generation cannot become current')
+            return
+        if len(self.generations) >= self.capacity:
+            raise RuntimeError('Ledger lifetime capacity exhausted')
+        if (client, sequence) in self.sequence_owners:
+>           raise RuntimeError('Sequence identity collision')
+E           RuntimeError: Sequence identity collision
+
+scripts/generation_session_ledger.py:63: RuntimeError
+---------------------------- Captured stderr setup -----------------------------
+[32;20m[2026-10-12 12:51:09,185] LMCache INFO:[0m lazy offload enabled with EVICTION_AWARE policy: EvictionAwarePolicyConfig(horizon_steps=2.5, max_drain_per_step=64, max_deferral_seconds=0.0) [3m(__init__.py:73:lmcache.integration.vllm.lazy_offload_policy)[0m
+[32;20m[2026-10-12 12:51:09,185] LMCache INFO:[0m Using blake3 hash function [3m(token_hasher.py:79:lmcache.v1.multiprocess.token_hasher)[0m
+[32;20m[2026-10-12 12:51:09,185] LMCache INFO:[0m Computed NONE_HASH=b"~>\xff\x9e\xf7a:P4\x0e\xb1&w\xee\x03\xb8:\xc7Y\xfc\xba\x9b\xb3'\x05\xf0rH\xd5mG;" using hash function [3m(token_hasher.py:180:lmcache.v1.multiprocess.token_hasher)[0m
+[32;20m[2026-10-12 12:51:09,185] LMCache INFO:[0m TokenHasher initialized: chunk_size=256, hash_algorithm=blake3 [3m(token_hasher.py:67:lmcache.v1.multiprocess.token_hasher)[0m
+[32;20m[2026-10-12 12:51:09,186] LMCache INFO:[0m Lazy offload: dropped 1 buffered store op(s) of preempted request old [3m(lazy_offload_manager.py:373:lmcache.integration.vllm.lazy_offload_manager)[0m
+------------------------------ Captured log setup ------------------------------
+INFO     lmcache.integration.vllm.lazy_offload_policy:__init__.py:73 lazy offload enabled with EVICTION_AWARE policy: EvictionAwarePolicyConfig(horizon_steps=2.5, max_drain_per_step=64, max_deferral_seconds=0.0)
+INFO     lmcache.v1.multiprocess.token_hasher:token_hasher.py:79 Using blake3 hash function
+INFO     lmcache.v1.multiprocess.token_hasher:token_hasher.py:180 Computed NONE_HASH=b"~>\xff\x9e\xf7a:P4\x0e\xb1&w\xee\x03\xb8:\xc7Y\xfc\xba\x9b\xb3'\x05\xf0rH\xd5mG;" using hash function
+INFO     lmcache.v1.multiprocess.token_hasher:token_hasher.py:67 TokenHasher initialized: chunk_size=256, hash_algorithm=blake3
+INFO     lmcache.integration.vllm.lazy_offload_manager:lazy_offload_manager.py:373 Lazy offload: dropped 1 buffered store op(s) of preempted request old
+----------------------------- Captured stderr call -----------------------------
+[32;20m[2026-10-12 12:51:09,187] LMCache INFO:[0m Lazy offload: dropped 1 buffered store op(s) of preempted request old [3m(lazy_offload_manager.py:373:lmcache.integration.vllm.lazy_offload_manager)[0m
+------------------------------ Captured log call -------------------------------
+INFO     lmcache.integration.vllm.lazy_offload_manager:lazy_offload_manager.py:373 Lazy offload: dropped 1 buffered store op(s) of preempted request old
+=============================== warnings summary ===============================
+../../usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/opentelemetry/sdk/_logs/_internal/__init__.py:531: 52 warnings
+  /usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/opentelemetry/sdk/_logs/_internal/__init__.py:531: DeprecationWarning: `LoggingHandler` in `opentelemetry-sdk` is deprecated. Use the handler from `opentelemetry-instrumentation-logging` instead.
+    warnings.warn(
+
+../../usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/torch/jit/_script.py:365: 14 warnings
+  /usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/torch/jit/_script.py:365: DeprecationWarning: `torch.jit.script_method` is deprecated. Please switch to `torch.compile` or `torch.export`.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_generation_protection_bridge.py::test_two_actual_prepared_candidates_partial_commit[none]
+FAILED tests/test_generation_protection_bridge.py::test_two_actual_prepared_candidates_partial_commit[before_second]
+FAILED tests/test_generation_protection_bridge.py::test_two_actual_prepared_candidates_partial_commit[after_second]
+3 failed, 32 passed, 66 warnings in 9.50s

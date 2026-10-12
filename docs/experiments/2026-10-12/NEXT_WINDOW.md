@@ -1,5 +1,7 @@
 # 下一工作窗口：generation与保护的显式交接
 
+20:52更新：多候选部分失败与shutdown snapshot契约完成，878项全套通过。下一步独立服务诊断runner与预注册，zero启动/关闭→one/two实际保护与KV bitwise/资源审计→服务故障退出，再性能；见 [故障报告](GENERATION_PROTECTION_FAULTS.md)。下方时间较早内容为历史状态。
+
 20:38更新：独立GenerationProtectionConnector接线完成，最终873 passed/115 subtests，无跳过，见 [报告](GENERATION_PROTECTION_WIRING.md)。下一步补多候选部分失败、poison服务退出与shutdown终态证据，再建立新组合zero/one/two GPU诊断入口（原terminal/H2D/KV bitwise/resource/generation联合审计）。尚未运行新模型服务；不得直接开始性能formal。下面内容为历史状态。
 
 19:29更新：CPU 候选交接完成，60项真实库回归通过，详见 [报告](GENERATION_PROTECTION_CONTRACT.md)。下一步从独立 opt-in Connector 的 helper bind、metadata、receipt、END pump 接线契约开始，补多候选部分提交/连续 reset。保留现有零预算 guard；GPU诊断须在服务契约通过之后。服务器已加入候选源码，历史210项严格签名不再匹配当前目录，复现旧formal请使用已归档源码。下面18:50及更早内容为历史记录。

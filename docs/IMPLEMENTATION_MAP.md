@@ -1,5 +1,7 @@
 # 当前实现与证据导航
 
+20:52更新：真实双候选正常/第二次注册前后失败契约及shutdown失败证据保存完成；全套显式CUDA/native **878 passed、115 subtests**。首轮fixture sequence冲突失败已保留，修复测试身份后通过。下一步独立服务GPU诊断及真实EngineCore故障退出验证，尚无新组合模型服务/bitwise结果。见 [报告](experiments/2026-10-12/GENERATION_PROTECTION_FAULTS.md)。
+
 新增独立入口 `scripts/generation_protection_connector.py:GenerationProtectionConnector`，显式generation_protection opt-in；helper绑定、原metadata拼接和回执贯通。共享父类仅增加默认工厂；旧GenerationLedgerConnector仍限zero。`tests/test_generation_protection_connector.py`有12项回调/故障测试，最终全套873 passed。服务GPU尚未准入，见 [报告](experiments/2026-10-12/GENERATION_PROTECTION_WIRING.md)。
 
 新增 CPU 候选：`scripts/generation_protection_bridge.py` 的 `ProtectionGenerationLedger`、`GenerationProtectionBridge` 和 `GenerationBoundedProtection`；原 ticket→prefix、派生 suffix lineage、原 batch receipt 和 poison 隔离由 `tests/test_generation_protection_bridge.py` 验证。18项新组合测试、合计60项真实库回归通过；服务 bind 仍明确禁用，旧零保护 Connector 未改。见 [报告](experiments/2026-10-12/GENERATION_PROTECTION_CONTRACT.md)。

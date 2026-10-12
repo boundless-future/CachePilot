@@ -1,5 +1,7 @@
 # generation账本与非零保护：后续接线边界
 
+20:52更新：真实双候选正常/第二次注册前后失败契约及shutdown失败证据保存完成；全套显式CUDA/native **878 passed、115 subtests**。首轮fixture sequence冲突失败已保留，修复测试身份后通过。下一步独立服务GPU诊断及真实EngineCore故障退出验证，尚无新组合模型服务/bitwise结果。见 [报告](experiments/2026-10-12/GENERATION_PROTECTION_FAULTS.md)。
+
 20:38进展：独立Connector候选已接线，873项显式CUDA/native回归通过；旧zero类限制保留。CPU回调与底层CUDA契约不能替代组合服务GPU验收。下一步多候选部分提交、故障进程停止/证据保存及独立GPU审计入口，见 [接线报告](experiments/2026-10-12/GENERATION_PROTECTION_WIRING.md)。
 
 19:29进展：已实现独立 CPU 候选并通过60项真实库回归（18项新组合），见 [契约报告](experiments/2026-10-12/GENERATION_PROTECTION_CONTRACT.md)。原设计中的 prefix/suffix/receipt 已有测试入口；服务接线和 GPU 准入未完成。native 注册后通用 rollback 的误释放窗口新增为必测支线；候选 poison 后保留 pin 并拒绝回滚，必须停止实例，不能宣称自动恢复。

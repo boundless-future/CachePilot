@@ -211,3 +211,70 @@ def test_scheduler_exception_does_not_rollback_native_owned_prepared_pins(combin
     assert sum(b.ref_cnt for b in blocks) == 16
     ledger.seal(wire_id(meta))
     assert not ledger.ready(wire_id(meta))
+
+
+@pytest.mark.parametrize('fault', ['none', 'before_second', 'after_second'])
+def test_two_actual_prepared_candidates_partial_commit(combined, monkeypatch, fault):
+    from vllm import SamplingParams
+    from vllm.v1.request import Request
+    from vllm.v1.core import kv_cache_utils as utils
+    helper, scheduler, blocks, bridge, ledger, meta = combined
+    # Build a second real cached prefix without overwriting the first prefix.
+    helper.pool.touch(blocks)
+    second_blocks = helper.pool.get_new_blocks(16)
+    tokens = list(range(3000, 3256))
+    request = Request('second', tokens, SamplingParams(max_tokens=1), None,
+        block_hasher=utils.get_request_block_hasher(16, helper.hash_fn))
+    helper.pool.cache_full_blocks(request, second_blocks, 0, 16, 16, 0)
+    helper.pool.free_blocks(second_blocks)
+    helper.pool.free_blocks(blocks)
+    # Both prefixes face eviction in the real queue used by prepare().
+    selected = blocks[:16] + second_blocks
+    for block in selected:
+        helper.pool.free_block_queue.remove(block)
+    helper.pool.free_block_queue.prepend_n(selected)
+    bridge.on_request_reset('old')
+    first = replace(meta, op=replace(meta.op, end=256, block_ids=[[b.block_id for b in blocks[:16]]]))
+    bridge.on_request_arrived('old')
+    bridge.add_store_candidate(first)
+    bridge.on_request_finished('old')
+    second = replace(meta, request_id='second', request_configs={**meta.request_configs, SEQUENCE_CONFIG: 2}, op=replace(meta.op, token_ids=tokens,
+        end=256, block_ids=[[b.block_id for b in second_blocks]]))
+    ledger.register('second', wire_id(second))
+    bridge.on_request_arrived('second')
+    bridge.add_store_candidate(second)
+    bridge.on_request_finished('second')
+    helper.budget = 32
+    helper.prepare(scheduler)
+    assert set(helper.prepared) == {'old', 'second'}
+    assert all(b.ref_cnt == 1 for b in selected)
+    order = list(helper.prepared)
+    register = bridge.manager._requests.register_batch
+    def injected(rid, ids):
+        if rid == order[1] and fault == 'before_second':
+            raise RuntimeError('second registration fault')
+        register(rid, ids)
+        if rid == order[1] and fault == 'after_second':
+            raise RuntimeError('second registration fault')
+    monkeypatch.setattr(bridge.manager._requests, 'register_batch', injected)
+    if fault == 'none':
+        stores = bridge.commit_protection(helper, 1)
+        assert len(stores) == 2
+        batches = {rid: value[0] for rid, value in bridge.inflight.items()}
+        bridge.apply_receipts(set(), {rid: 1 for rid in order}, batches)
+        helper.receipts({m.request_id: dict(describe(m), source='protection',
+            batch_id=batches[m.request_id]) for m in stores}, set())
+        assert helper.pool.get_num_free_blocks() == 128
+        assert all(b.ref_cnt == 0 for b in selected)
+    else:
+        with pytest.raises(RuntimeError, match='second registration'):
+            bridge.commit_protection(helper, 1)
+        assert bridge.manager._requests.has_in_flight(order[0])
+        assert bridge.manager._requests.has_in_flight(order[1]) == (fault == 'after_second')
+        assert set(helper.inflight) == {order[0]} and set(helper.prepared) == {order[1]}
+        with pytest.raises(RuntimeError, match='reconstruction'):
+            helper.rollback('scheduler_exception')
+        assert all(b.ref_cnt == 1 for b in selected)
+        for wire in (wire_id(first), wire_id(second)):
+            ledger.seal(wire)
+            assert not ledger.ready(wire)

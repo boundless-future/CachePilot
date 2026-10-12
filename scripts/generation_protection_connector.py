@@ -1,4 +1,7 @@
 """Independent opt-in; real callback contracts precede GPU admission."""
+import json
+import os
+from pathlib import Path
 from scripts.generation_ledger_connector import GenerationLedgerConnector
 from scripts.generation_protection_bridge import (
     ProtectionGenerationLedger, GenerationProtectionBridge, GenerationBoundedProtection)
@@ -26,6 +29,31 @@ class GenerationProtectionConnector(GenerationLedgerConnector):
             serial=child.serial, parent_serial=parent.serial)
             for child, parent in self._generation_ledger.derived_from.items()]
         return result
+
+    def shutdown(self):
+        try:
+            return super().shutdown()
+        except BaseException as exc:
+            # The inherited END pump can fail before its normal snapshot.
+            # Capture ownership without another END, receipt or free attempt.
+            if self._handoff_role == 'SCHEDULER':
+                try:
+                    snapshot = self.generation_snapshot()
+                    helper = self._bounded
+                    snapshot.update(shutdown_complete=False, shutdown_error=repr(exc),
+                        prepared_blocks=sum(len(p.blocks) for p in helper.prepared.values()) if helper else 0,
+                        protected_inflight_blocks=sum(len(p.blocks) for p in helper.inflight.values()) if helper else 0)
+                    target = os.environ.get('CACHEPILOT_GENERATION_SUMMARY_PATH')
+                    if target:
+                        path = Path(target)
+                        path.parent.mkdir(parents=True, exist_ok=True)
+                        temporary = path.with_name(path.name + '.tmp')
+                        temporary.write_text(json.dumps(snapshot, indent=2) + '\n', encoding='utf-8')
+                        temporary.replace(path)
+                    self._handoff_record('generation_shutdown_failed', **snapshot)
+                except BaseException as evidence_error:
+                    exc.add_note(f'Failed to preserve shutdown evidence: {evidence_error!r}')
+            raise
 
     def build_connector_meta(self, output):
         try:

@@ -73,3 +73,9 @@
 - 新增12项接线测试，含one/two成功失败、wrong/duplicate、suffix默认drain、双reset旧代回执、zero步、constructor工厂、注册/封装/native free后异常隔离。transport与model/copy在接线测试中stub，不宣称真实服务完成。
 - 迭代回归35、157、863/9 skipped/115 subtests；最终显式CUDA/native全套873 passed、115 subtests、121 warnings，18.57s，无跳过。四份原日志逐字节核对归档，不能相加；最终新增receipt异常测试包含于873。
 - GPU回归结束0%/1MiB，未启动新组合模型服务。多候选部分失败、服务进程故障退出及shutdown snapshot失败路径仍须补齐，再独立GPU bitwise/resource诊断和策略消融。
+
+## 20:52 故障门槛推进
+
+- 新增真实双候选prepare与第二次register前/后故障，验证先前提交与尚未完成helper状态的pin均不被错误回滚。shutdown新增只读失败snapshot保存；写证据失败以note保留原错误。
+- 首轮3 failed/32 passed是新fixture sequence碰撞，独立sequence修正后显式CUDA/native全套878 passed、115 subtests，19.74s。原失败及最终日志SHA归档。
+- 回归后GPU 0%/1MiB，未运行模型服务；CPU shutdown测试不等于实际EngineCore故障退出。下一步具体GPU诊断入口要求写入GENERATION_PROTECTION_FAULTS.md。

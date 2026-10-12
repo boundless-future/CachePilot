@@ -1,5 +1,7 @@
 # CachePilot 当前状态
 
+20:52更新：真实双候选正常/第二次注册前后失败契约及shutdown失败证据保存完成；全套显式CUDA/native **878 passed、115 subtests**。首轮fixture sequence冲突失败已保留，修复测试身份后通过。下一步独立服务GPU诊断及真实EngineCore故障退出验证，尚无新组合模型服务/bitwise结果。见 [报告](experiments/2026-10-12/GENERATION_PROTECTION_FAULTS.md)。
+
 20:38更新：独立 `GenerationProtectionConnector` 接线与真实native metadata/worker envelope/receipt契约完成；最终显式CUDA/native全套 **873 passed、115 subtests，无跳过**。新增12项接线测试。尚无新组合的模型服务、GPU bitwise或策略性能结论；下一步多候选部分失败/进程退出证据门槛和独立GPU诊断入口。见 [接线报告](experiments/2026-10-12/GENERATION_PROTECTION_WIRING.md)。
 
 19:29更新：generation＋非零保护独立 CPU 候选实现，真实 manager/BlockPool 回归 **60 passed**（新增组合18项）；包括 prefix/suffix lineage、跨代回执和部分提交后拒绝误回滚。尚未接入服务 Connector、无新 GPU 或性能结论；下一步为独立服务接线及回调故障门槛，见 [契约报告](experiments/2026-10-12/GENERATION_PROTECTION_CONTRACT.md)。服务器已增加候选脚本，不再是历史210项冻结目录。
