@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "previous_git_catalogue_sha256": "5f236860067af7599dbc520f7ab846981c2137a1c0f3e19797ec0282513396ed",
+  "current_git_catalogue_sha256": "74e72c9bc58e6534821b1cc46cbe8863b6c3645cf37499bd8f957b0fda3bd29a",
+  "expected": "74e72c9bc58e6534821b1cc46cbe8863b6c3645cf37499bd8f957b0fda3bd29a",
+  "fresh_git_archive_tests": {
+    "passed": 15
+  },
+  "initial_partial_archive": {
+    "passed": 13,
+    "failed": 2,
+    "reasons": [
+      "Historical tar fixture not included in partial archive",
+      "Git text normalization changed raw catalogue signature"
+    ]
+  },
+  "resolution": "Include tracked historical fixture; -text for raw catalogue plus renormalize to original archived bytes. Manifest not weakened. GPU source untouched."
+}

@@ -22,6 +22,8 @@
 | 14:40 | 新decode receipt pilot四格全部通过 | 272请求/52,224输出tokens，退出前后exact sets为空 |
 | 14:42 | 服务器、本地当前、205项冻结源收集器独立报告完全相同 | 原失败保留，formal十二格尚未启动 |
 | 14:48 | 新审计/重建篡改回归、报告与代码导航完善；54份原始文件字节SHA全部一致 | 本地专项15 passed；下一窗口同签名formal，再结构GPU准入 |
+| 14:50 | 实现、GPU原始/失败证据与报告提交推送4ed5fc2 | 服务器保留205项冻结源，禁止直接pull破坏formal签名 |
+| 14:56 | 新Git archive复核暴露旧fixture未纳入及catalogue换行归一化；补原fixture并保留raw字节后15/15通过 | catalogue原SHA保持不变，修复已推送；GPU源/门槛未修改 |
 
 核心范围不变：单卡同步 text-only，generation 连接器仅零保护；当前
 比较原生、立即卸载、默认 fixed 和已选 fixed 的整套配置，不宣称保护收益。

@@ -20,3 +20,5 @@
 回放采用open arrival，后继轮不等待前轮生成结束，实际执行顺序可能因排队而不同；只重放匿名请求结构，不构成因果执行的live Agent。每会话首到达人工对齐0，时间/10和输入/8均为受小卡约束的显式变换。后续只有观察到容量、抢占或恢复行为才能报告“压力”。decode正式重复优先，不平行启动GPU实验。
 
 复查入口：`python scripts/catalogue_real_traces.py --source-dir DOWNLOADED_FIRST21_TO100 --output catalogue.json`。该脚本只读取CPU源文件，不启动推理。下载固定commit仍须与归档manifest SHA逐项比对。
+
+14:56追加交付复核：新Git archive首次因部分导出遗漏历史测试tar和catalogue换行归一化出现2失败/13通过；补全原fixture、将catalogue设为raw `-text`并重新归档原字节后15/15通过。catalogue SHA仍为原 `74e72c9bc58e6534821b1cc46cbe8863b6c3645cf37499bd8f957b0fda3bd29a`，不改token manifest或审计门槛。见 `generation-matrix-evidence/real-catalogue-git-byte-verification.json`。
