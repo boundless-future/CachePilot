@@ -43,3 +43,19 @@ SHA256 为 `9f05cac9d2f1f5c5d8ccea71b07a50f5aaf846bd363c6aa3de2d4a746a329627`。
 前置，改变输出预算但保持 prompt/arrival/seed。先重新冻结 pilot；详情见
 `DECODE_WORKLOAD_DESIGN.md`。首次/末次非空 SSE fragment 的时间差不是
 逐 token 的 CUDA 延迟。所有输出 hash 差异继续报告。
+
+## 六会话匿名结构试点
+
+CPU来源及转换复核不需要GPU：
+
+```bash
+python scripts/audit_real_structure.py \
+  --directory docs/experiments/2026-10-12/real-structure-built \
+  --source-dir docs/experiments/2026-10-12/real-structure-source \
+  --catalogue docs/experiments/2026-10-12/REAL_STRUCTURE_CATALOGUE.json \
+  --output artifacts/review/real-structure-source-audit.json
+```
+
+GPU入口 `run_real_structure_pilot.py` 要求 `--decode-formal` 指向完整十二格新立即卸载候选矩阵，另传 `--built`、`--source-dir`、`--catalogue`、新的 `--output` 和实际授权的 `--stop-starting-at`。不能在decode冻结运行期间同步这些新增文件。详见 [结构GPU预注册](REAL_STRUCTURE_GPU_PREREGISTRATION.md)。
+
+输出目录包含 `input/` 的原catalogue/六session/built trace、运行源码签名、每格请求、完整原metrics采样及原资源快照。随后离线执行 `python scripts/audit_real_structure_pilot.py OUTPUT_DIR --output audit.json`，它复算采样峰值并复核来源和原资源门槛；缺指标不当零、原失败不能被通过标志覆盖。该试点有0.5秒额外API采样，单次诊断不生成正式性能聚合，也不使用合成trace的early/pressure/revisit划分。实际GPU完成情况以今日记录为准。

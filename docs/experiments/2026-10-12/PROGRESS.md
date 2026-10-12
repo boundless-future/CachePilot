@@ -37,5 +37,6 @@
 - 15:58：同签名decode receipt formal十二格启动，目录 `artifacts/generation-decode192-receipt-formal-20261012a`，16:55停止启动新格。服务器源码继续冻结，不同步CPU开发。
 - 16:03：六session真实匿名结构GPU准入试点预注册；新增独立runner、离线审计和0.5秒metrics观测，不把单次诊断速度作为正式收益。
 - 16:04：本地结构/来源/矩阵/源快照专项16 passed，包含tokenizer字节漂移拒绝、缺指标为unknown、抢占未知/非零拒绝、原始采样篡改与资源失败不能被通过标志覆盖。结构GPU尚未开始。
+- 16:10：新增真实localhost HTTP observer正常/回放异常收尾契约；首次测试把自身scenario名称误匹配为observer而2失败，改为精确后缀识别后18/18通过。新Git导出独立目录18/18再次通过，catalogue及trace原字节保持；代码已推送9794d44。失败是测试任务识别错误，未改变服务/资源门槛。
 
 阶段完成后继续下一步，17:00安全收尾汇报；续授窗口的结果另行追加，不改写14:59历史收尾。
