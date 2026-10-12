@@ -1,0 +1,20 @@
+{
+  "samples": 173,
+  "errors": 0,
+  "observed_metrics": {
+    "vllm:kv_cache_usage_perc": {
+      "samples": 173,
+      "peak": 0.9493949394939494
+    },
+    "vllm:num_requests_running": {
+      "samples": 173,
+      "peak": 4.0
+    },
+    "vllm:num_requests_waiting": {
+      "samples": 173,
+      "peak": 6.0
+    }
+  },
+  "all_gauges_observed": true,
+  "scope": "Sampled API gauges, 0.5s interval; peaks are lower bounds, not allocator snapshots."
+}

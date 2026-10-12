@@ -1,0 +1,1158 @@
+{
+  "commit": "94f6046dfd9c0c8bc0cdb24a5aa6579bac8669bf",
+  "repository": "https://github.com/callanjfox/kv-cache-tester",
+  "rule": "Numbered 21-100; original /8 eligibility; all eligible sessions; no performance selection",
+  "cpu_only": true,
+  "sources": [
+    {
+      "file": "trace_0021.json",
+      "sha256": "b3e2fdd418914c9ff9a5f8ce4d7d45adb3312ab5514333259dcaabe83a78304b",
+      "requests": 14,
+      "peak_original_tokens": 35645,
+      "scaled_peak": 4455,
+      "original_duration_seconds": 512.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": true,
+      "exclusion_reasons": []
+    },
+    {
+      "file": "trace_0022.json",
+      "sha256": "27575a01fd47e72321879460e4ac3d9a087ba7d858780c5f1a4b0278da2e5d2b",
+      "requests": 7,
+      "peak_original_tokens": 43710,
+      "scaled_peak": 5463,
+      "original_duration_seconds": 400.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": true,
+      "exclusion_reasons": []
+    },
+    {
+      "file": "trace_0023.json",
+      "sha256": "4135bc3fe736b354531db9b5c83ef1db71aca509522070519ebcf39d0a9627fd",
+      "requests": 52,
+      "peak_original_tokens": 140959,
+      "scaled_peak": 17619,
+      "original_duration_seconds": 2047.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0024.json",
+      "sha256": "7933c11d52c064a44e32ce485a76c100782d1c7ad48cd98eed31d342c3b17354",
+      "requests": 50,
+      "peak_original_tokens": 150030,
+      "scaled_peak": 18753,
+      "original_duration_seconds": 78751.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0025.json",
+      "sha256": "2f2663b981907f138d2656b3bc70a05873ae73dfcf50e9e1751c59b79f9e2e1e",
+      "requests": 570,
+      "peak_original_tokens": 155874,
+      "scaled_peak": 19484,
+      "original_duration_seconds": 54401.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0026.json",
+      "sha256": "84e843bd3a1c799b37bbb55e2f05699e6b3e05ed71c252cd06276a6d5e8c7a39",
+      "requests": 3,
+      "peak_original_tokens": 20068,
+      "scaled_peak": 2508,
+      "original_duration_seconds": 146.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": true,
+      "exclusion_reasons": []
+    },
+    {
+      "file": "trace_0027.json",
+      "sha256": "71bb9e6c37e2af13756bf6e7ecf252913db292302557fb312a4deb16da7b21d0",
+      "requests": 67,
+      "peak_original_tokens": 136397,
+      "scaled_peak": 17049,
+      "original_duration_seconds": 42951.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0028.json",
+      "sha256": "742e1dda7b10481d982db9f64ea7ad09e5bcf431561ffe95be68eabc12de12ca",
+      "requests": 66,
+      "peak_original_tokens": 67345,
+      "scaled_peak": 8418,
+      "original_duration_seconds": 1415.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0029.json",
+      "sha256": "eed00e108228decf28e110548a3e7ec7360630e9abb57b1904d9df22ae240dbb",
+      "requests": 189,
+      "peak_original_tokens": 187495,
+      "scaled_peak": 23436,
+      "original_duration_seconds": 50738.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0030.json",
+      "sha256": "1c09c6b66a9563b025c1f862bcfb29b9e6b825f78340a5f3b8e22f809c8850be",
+      "requests": 22,
+      "peak_original_tokens": 133767,
+      "scaled_peak": 16720,
+      "original_duration_seconds": 915.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0031.json",
+      "sha256": "f9f50d27684612d8c29b943470b9f67ac873c10baac2b1bcdef4f07da261609c",
+      "requests": 127,
+      "peak_original_tokens": 764797,
+      "scaled_peak": 95599,
+      "original_duration_seconds": 8340.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0032.json",
+      "sha256": "2ccec2a1863b16f5300ab50c42deeada37ca85d5888c23a86694440419b58fd6",
+      "requests": 3,
+      "peak_original_tokens": 130299,
+      "scaled_peak": 16287,
+      "original_duration_seconds": 186.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0033.json",
+      "sha256": "9d641c0c83fc7550ed02aa0cd00d6fc8ac8c737d3d16303573f8754d4f8646c1",
+      "requests": 77,
+      "peak_original_tokens": 489885,
+      "scaled_peak": 61235,
+      "original_duration_seconds": 9719.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0034.json",
+      "sha256": "673ad282e34b2053370fb1c245db3604fa20da89f1e345186d936a36861bf3be",
+      "requests": 7,
+      "peak_original_tokens": 154378,
+      "scaled_peak": 19297,
+      "original_duration_seconds": 640.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0035.json",
+      "sha256": "4dccef8d1ff2233057ea96ad8b21974faa8937978a0386c252e3500b448a7c83",
+      "requests": 89,
+      "peak_original_tokens": 154645,
+      "scaled_peak": 19330,
+      "original_duration_seconds": 6369.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0036.json",
+      "sha256": "9a714760cd1a5ae14f2af5b5ea7f69a85cfa6370b17a1cd55ec20baa61d5d9b9",
+      "requests": 9,
+      "peak_original_tokens": 84053,
+      "scaled_peak": 10506,
+      "original_duration_seconds": 3592.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0037.json",
+      "sha256": "375cb2b1a176bf0dff5304bfad8730c8ca895f5f538975aa66e0aba4af535a55",
+      "requests": 7,
+      "peak_original_tokens": 260625,
+      "scaled_peak": 32578,
+      "original_duration_seconds": 101.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0038.json",
+      "sha256": "248514b41e2d802edac270f4e5efa80aaab5658047f12538fee01741fd97ae8a",
+      "requests": 21,
+      "peak_original_tokens": 451691,
+      "scaled_peak": 56461,
+      "original_duration_seconds": 4911.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0039.json",
+      "sha256": "2d30e529c20e4c27bd365d602d1c544ebbf1155eac481e7a040535a0abbf4c8b",
+      "requests": 22,
+      "peak_original_tokens": 151041,
+      "scaled_peak": 18880,
+      "original_duration_seconds": 2664.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0040.json",
+      "sha256": "0eac3ad6bdec9c0779b6df0a28ad5e89aaf1b32e34cceb501fa5dc1e4b3f31e5",
+      "requests": 6,
+      "peak_original_tokens": 261440,
+      "scaled_peak": 32680,
+      "original_duration_seconds": 317.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0041.json",
+      "sha256": "15b7e1e8821d3cb8851b14e504daff25f6f98f6b23bd4b1bb7ff2d108b74148d",
+      "requests": 27,
+      "peak_original_tokens": 464066,
+      "scaled_peak": 58008,
+      "original_duration_seconds": 1988.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0042.json",
+      "sha256": "58b9fb67490298d8f7d702e227b5832c0ec8729f25b2191b2b2227bf8c9e8731",
+      "requests": 26,
+      "peak_original_tokens": 283715,
+      "scaled_peak": 35464,
+      "original_duration_seconds": 1549.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0043.json",
+      "sha256": "ab5e7cfaf61ad9270659143d53743b9c24fff8f0fc0588725bd557efd67024b9",
+      "requests": 33,
+      "peak_original_tokens": 69787,
+      "scaled_peak": 8723,
+      "original_duration_seconds": 2073.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0044.json",
+      "sha256": "c95f123f65b4201eaa99e792a3eee24ffe9e76e7770cad8837c0a6cb1fdaa078",
+      "requests": 21,
+      "peak_original_tokens": 101929,
+      "scaled_peak": 12741,
+      "original_duration_seconds": 1272.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0045.json",
+      "sha256": "79eb1d1c31d27ebbe48074d2c7103485c6adc53c8688538422eb420d6ff60a59",
+      "requests": 37,
+      "peak_original_tokens": 755680,
+      "scaled_peak": 94460,
+      "original_duration_seconds": 2514.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0046.json",
+      "sha256": "3db3c49c80031cb0ba2ff2eb86292e2583976f57384176a7c6ca7d02be0fc366",
+      "requests": 68,
+      "peak_original_tokens": 154642,
+      "scaled_peak": 19330,
+      "original_duration_seconds": 8547.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0047.json",
+      "sha256": "e42e302e4a6ecad51db5958e8a07ae4dba50b371e3575edb419874059666d9b3",
+      "requests": 25,
+      "peak_original_tokens": 155516,
+      "scaled_peak": 19439,
+      "original_duration_seconds": 571.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0048.json",
+      "sha256": "d730584470b932ce2fbf9f7f18d4713984a2c6f83c73abe5adb7954e94b1524e",
+      "requests": 21,
+      "peak_original_tokens": 77955,
+      "scaled_peak": 9744,
+      "original_duration_seconds": 1838.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0049.json",
+      "sha256": "176ec00a0fc1875fc0c2d523dad32024ea759c7d1c7f9dd9dccb0a7144344a53",
+      "requests": 120,
+      "peak_original_tokens": 196860,
+      "scaled_peak": 24607,
+      "original_duration_seconds": 15207.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0050.json",
+      "sha256": "3915f6404ee59ab21baf7d00b4221050ff3e4d9e42f2bff01faf4da3c87fc7ad",
+      "requests": 74,
+      "peak_original_tokens": 156382,
+      "scaled_peak": 19547,
+      "original_duration_seconds": 4346.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0051.json",
+      "sha256": "f196c12de28cbddf7d0b08f5b4c836a9c69f1dfbb43379b5569c59fbd13e2fdd",
+      "requests": 35,
+      "peak_original_tokens": 706227,
+      "scaled_peak": 88278,
+      "original_duration_seconds": 3785.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0052.json",
+      "sha256": "848987a2077f2988195cd7ca84fbf821217022734dbfeb96c1299e6d7ebccf18",
+      "requests": 14,
+      "peak_original_tokens": 65199,
+      "scaled_peak": 8149,
+      "original_duration_seconds": 196.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0053.json",
+      "sha256": "99e858984d6566bd5f078c26e06f4c33027ab7189496343ba7baa9b3934ad03f",
+      "requests": 101,
+      "peak_original_tokens": 129777,
+      "scaled_peak": 16222,
+      "original_duration_seconds": 3379.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0054.json",
+      "sha256": "b7c6dd7197ac77fd1532ddfd0bcd5eafa85bdad133f96bfef86c3fd12c504c36",
+      "requests": 47,
+      "peak_original_tokens": 240068,
+      "scaled_peak": 30008,
+      "original_duration_seconds": 7088.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0055.json",
+      "sha256": "a83e3fab73c2ac6bc4bfc8208479a7b0c10818f5985f7312ba07b6743f1b9428",
+      "requests": 46,
+      "peak_original_tokens": 153084,
+      "scaled_peak": 19135,
+      "original_duration_seconds": 19592.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0056.json",
+      "sha256": "f306afc1c3c72642821f02cc4e6e888a59cb6337355bc5564105626afbac6b5e",
+      "requests": 15,
+      "peak_original_tokens": 310241,
+      "scaled_peak": 38780,
+      "original_duration_seconds": 269.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0057.json",
+      "sha256": "95efcacf884f03df4478c28f0445905c76ba5517a8dc564189d99d394471465c",
+      "requests": 8,
+      "peak_original_tokens": 15225,
+      "scaled_peak": 1903,
+      "original_duration_seconds": 109.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": true,
+      "exclusion_reasons": []
+    },
+    {
+      "file": "trace_0058.json",
+      "sha256": "aa29bdb1d33d21e6c5fde43b379671948ab9996b40d46c29cd65ac77c399b847",
+      "requests": 4,
+      "peak_original_tokens": 56921,
+      "scaled_peak": 7115,
+      "original_duration_seconds": 45.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": true,
+      "exclusion_reasons": []
+    },
+    {
+      "file": "trace_0059.json",
+      "sha256": "f8fdfba66222df3aa8a636e49e23cabf09e87bc564a479aa38992206b822f737",
+      "requests": 54,
+      "peak_original_tokens": 125445,
+      "scaled_peak": 15680,
+      "original_duration_seconds": 3951.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0060.json",
+      "sha256": "fcca8279384167df1990e5eaf0b2d7e87f1993b369cf9aa962a3bd36e071da4b",
+      "requests": 9,
+      "peak_original_tokens": 156208,
+      "scaled_peak": 19526,
+      "original_duration_seconds": 101.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0061.json",
+      "sha256": "456ddca017f379e7cb6cb42a56cb1d4f3a070bb5b6f7ff8e81a8a2e0065a56b3",
+      "requests": 6,
+      "peak_original_tokens": 838246,
+      "scaled_peak": 104780,
+      "original_duration_seconds": 2367.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0062.json",
+      "sha256": "4aaec3f4d60f9eece4219735aed37140b41daf466381f4eca51499d36b2444dd",
+      "requests": 68,
+      "peak_original_tokens": 251948,
+      "scaled_peak": 31493,
+      "original_duration_seconds": 4460.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0063.json",
+      "sha256": "e1452f35c22d5d0026f3fc061c098ef42a3479544f292383db931a2d21d4ec5f",
+      "requests": 101,
+      "peak_original_tokens": 145353,
+      "scaled_peak": 18169,
+      "original_duration_seconds": 3075.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0064.json",
+      "sha256": "6454e3a93a1fdd29c2f4d1fa68bfa52ee84954ab6b5c9e09bcceed34e0449cc9",
+      "requests": 28,
+      "peak_original_tokens": 133845,
+      "scaled_peak": 16730,
+      "original_duration_seconds": 702.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0065.json",
+      "sha256": "392808fdb8672a4e56f369e8adceed38ac867838829729ca907306e56c6eb297",
+      "requests": 48,
+      "peak_original_tokens": 791364,
+      "scaled_peak": 98920,
+      "original_duration_seconds": 12549.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0066.json",
+      "sha256": "6aa733f213fe4c6c80a12571cb3415c8643783d84e7b05e7792e6ea09c7e948b",
+      "requests": 6,
+      "peak_original_tokens": 146463,
+      "scaled_peak": 18307,
+      "original_duration_seconds": 92.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0067.json",
+      "sha256": "17b08261ac4fff0702078f694f8d11aa61441e42b4fd659d624a7a45a9188eef",
+      "requests": 40,
+      "peak_original_tokens": 124343,
+      "scaled_peak": 15542,
+      "original_duration_seconds": 6968.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0068.json",
+      "sha256": "5bfac86b20ce5ab43c6469794c91d9c64806aa1cef1bf50bc9d48aa0b3f9a251",
+      "requests": 18,
+      "peak_original_tokens": 101160,
+      "scaled_peak": 12645,
+      "original_duration_seconds": 902.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0069.json",
+      "sha256": "76f4cbbd3b0997ca6cc631e2e14a633fd0b4c59473b268667e6717a449c2041e",
+      "requests": 21,
+      "peak_original_tokens": 138235,
+      "scaled_peak": 17279,
+      "original_duration_seconds": 4136.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0070.json",
+      "sha256": "b05ace26f19382e371f54a6b6e475fadf5706006c6e2699793836deca6c8ba0b",
+      "requests": 144,
+      "peak_original_tokens": 468450,
+      "scaled_peak": 58556,
+      "original_duration_seconds": 7141.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0071.json",
+      "sha256": "26a27389e477d3e6816f4c150f17adb7cd4f7dcdaba53bec2fdfec4622abfcc8",
+      "requests": 67,
+      "peak_original_tokens": 707141,
+      "scaled_peak": 88392,
+      "original_duration_seconds": 8032.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0072.json",
+      "sha256": "ff58ecc4764ce1d386190dff211c01ffd1eb63b7ffad20db1092cc69dda4fc50",
+      "requests": 15,
+      "peak_original_tokens": 92745,
+      "scaled_peak": 11593,
+      "original_duration_seconds": 130.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0073.json",
+      "sha256": "0c2b165ee587d48685c47266636da0b468f7cbdb99c45f518175e73d9bc3caba",
+      "requests": 84,
+      "peak_original_tokens": 151338,
+      "scaled_peak": 18917,
+      "original_duration_seconds": 3941.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0074.json",
+      "sha256": "548fb2714e53fe9a1b482f7311f29b51e7fdc4cd870cb21beda159527a48e5ac",
+      "requests": 20,
+      "peak_original_tokens": 141149,
+      "scaled_peak": 17643,
+      "original_duration_seconds": 669.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0075.json",
+      "sha256": "12f099555892b65d7b5e239a49c4cbc35b0084644884518bcf896d5da299612b",
+      "requests": 26,
+      "peak_original_tokens": 119870,
+      "scaled_peak": 14983,
+      "original_duration_seconds": 4089.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0076.json",
+      "sha256": "d58578b807e3ea6b13b6c5c4bea03152179ca8cfb20f6894d29c9dc51b0dab41",
+      "requests": 8,
+      "peak_original_tokens": 70515,
+      "scaled_peak": 8814,
+      "original_duration_seconds": 1657.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0077.json",
+      "sha256": "108e21f9167899987e668cddf388b33f1329d729ef116d7b6caa9e83c522f204",
+      "requests": 207,
+      "peak_original_tokens": 155874,
+      "scaled_peak": 19484,
+      "original_duration_seconds": 11590.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0078.json",
+      "sha256": "0e056910d65cb61be09e76cf41b2a959c78da006f91346636a140786bc2c3265",
+      "requests": 5,
+      "peak_original_tokens": 168065,
+      "scaled_peak": 21008,
+      "original_duration_seconds": 3356.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0079.json",
+      "sha256": "4fafe0bab4b3158aa3d80c1af32c4c45e5cf246c6f59d981c88a888cfb9792ea",
+      "requests": 9,
+      "peak_original_tokens": 571069,
+      "scaled_peak": 71383,
+      "original_duration_seconds": 546.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0080.json",
+      "sha256": "ce0b0d68983bd3b212d2659fa5f015f62b3fccf64b0f6fcac3950c202a08bed7",
+      "requests": 5,
+      "peak_original_tokens": 151911,
+      "scaled_peak": 18988,
+      "original_duration_seconds": 67.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0081.json",
+      "sha256": "6b2980ee8a7ecb7b1884456e430739e95a30fd68f71d9c6d00d9438fd9e80873",
+      "requests": 39,
+      "peak_original_tokens": 152115,
+      "scaled_peak": 19014,
+      "original_duration_seconds": 3909.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0082.json",
+      "sha256": "e34f49e090fb320cead62fbec086fec4a4eaba0806497c8b93bd5b85900aa5d8",
+      "requests": 130,
+      "peak_original_tokens": 152583,
+      "scaled_peak": 19072,
+      "original_duration_seconds": 5563.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0083.json",
+      "sha256": "bb14e45b4a24fd81da22f207896cbc2f2bb983fafcf4b27ea2882b59d6ab3d14",
+      "requests": 39,
+      "peak_original_tokens": 312905,
+      "scaled_peak": 39113,
+      "original_duration_seconds": 743.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0084.json",
+      "sha256": "878b56ee6ff6eb344683a43864c827ac61bedcc0948d21f12ac03f406dedd438",
+      "requests": 14,
+      "peak_original_tokens": 89205,
+      "scaled_peak": 11150,
+      "original_duration_seconds": 416.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0085.json",
+      "sha256": "2afd16a388683d8f384a9a29b03e42fc81a7f75b843ccd67c5a44a6f3c75f0c8",
+      "requests": 17,
+      "peak_original_tokens": 100563,
+      "scaled_peak": 12570,
+      "original_duration_seconds": 2310.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0086.json",
+      "sha256": "8c92e3d57a0ef1aaa099040e4f6be2642c87729daae2e8f57c9dcc81f5b4c4ae",
+      "requests": 24,
+      "peak_original_tokens": 37356,
+      "scaled_peak": 4669,
+      "original_duration_seconds": 861.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": true,
+      "exclusion_reasons": []
+    },
+    {
+      "file": "trace_0087.json",
+      "sha256": "8676f06b27fe8dd60f366b6bc14c0619b3323220024b46abf9a835aea20436e9",
+      "requests": 24,
+      "peak_original_tokens": 151560,
+      "scaled_peak": 18945,
+      "original_duration_seconds": 1789.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0088.json",
+      "sha256": "0646e534f02cf3b006114cea9b6524b8e89cb4399b34d74d72320726bbba6cdf",
+      "requests": 187,
+      "peak_original_tokens": 476848,
+      "scaled_peak": 59606,
+      "original_duration_seconds": 15477.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0089.json",
+      "sha256": "4b3dfed60c95c4519f590f9cbe5df8c264413cd8eb6439bc00e378d9a39d0080",
+      "requests": 5,
+      "peak_original_tokens": 160166,
+      "scaled_peak": 20020,
+      "original_duration_seconds": 311.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0090.json",
+      "sha256": "8372771c679056cbda2e14cc1603f6ba5a3f77533ebc92c99b8d4dafa9b1fef7",
+      "requests": 29,
+      "peak_original_tokens": 147475,
+      "scaled_peak": 18434,
+      "original_duration_seconds": 1524.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0091.json",
+      "sha256": "b4af8da7ccbc4d472bf702cf9c932af04f22a263e5b66b4e15238048b4b042ab",
+      "requests": 10,
+      "peak_original_tokens": 130042,
+      "scaled_peak": 16255,
+      "original_duration_seconds": 441.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0092.json",
+      "sha256": "4990e653106b37fd6addf9f073f603bf0b7f11e6386a2e3caf7478bd9aa7cd3d",
+      "requests": 18,
+      "peak_original_tokens": 713613,
+      "scaled_peak": 89201,
+      "original_duration_seconds": 2529.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0093.json",
+      "sha256": "fb9c06b7f51eef1a1663eb19cb475e5c43dea39ada25811c456595f0beeb4503",
+      "requests": 32,
+      "peak_original_tokens": 413904,
+      "scaled_peak": 51738,
+      "original_duration_seconds": 5253.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0094.json",
+      "sha256": "2ba910b7c7251406a9ee673fdf5462315b7ed1cd3674950d4f8eb9fb3b4aa542",
+      "requests": 20,
+      "peak_original_tokens": 152085,
+      "scaled_peak": 19010,
+      "original_duration_seconds": 6612.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0095.json",
+      "sha256": "e9c1cfe167b95a29ef1095d1391543d44db00d71092541b4e07b91542b5d48e1",
+      "requests": 5,
+      "peak_original_tokens": 83787,
+      "scaled_peak": 10473,
+      "original_duration_seconds": 44.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0096.json",
+      "sha256": "c788e6fcc86ef1146f56077a33792adfedd6916c3495c7c6a94e1457f0b2570d",
+      "requests": 25,
+      "peak_original_tokens": 243868,
+      "scaled_peak": 30483,
+      "original_duration_seconds": 2351.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0097.json",
+      "sha256": "9ff6f10bf3bb031a17913d6f0844d33553af3d83c689d2096dff21f112770150",
+      "requests": 35,
+      "peak_original_tokens": 221530,
+      "scaled_peak": 27691,
+      "original_duration_seconds": 3313.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0098.json",
+      "sha256": "2f6a6d56600402ab5002c43215aa9e85139c973f3f586506c00976de2ef8455b",
+      "requests": 20,
+      "peak_original_tokens": 148361,
+      "scaled_peak": 18545,
+      "original_duration_seconds": 1538.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0099.json",
+      "sha256": "dff435dc27c8f5d91836d5a1ce48e2791d5330012adda5e33159ff11917696af",
+      "requests": 43,
+      "peak_original_tokens": 118755,
+      "scaled_peak": 14844,
+      "original_duration_seconds": 1479.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    },
+    {
+      "file": "trace_0100.json",
+      "sha256": "af212002fa3507bac5e8806da86a426197458d2502228df861f584d7eedb89ab",
+      "requests": 57,
+      "peak_original_tokens": 92752,
+      "scaled_peak": 11594,
+      "original_duration_seconds": 1140.0,
+      "nested_subagents_excluded": false,
+      "block_size": 64,
+      "eligible": false,
+      "exclusion_reasons": [
+        "request_count",
+        "context_bound"
+      ]
+    }
+  ],
+  "eligible": [
+    "trace_0021.json",
+    "trace_0022.json",
+    "trace_0026.json",
+    "trace_0057.json",
+    "trace_0058.json",
+    "trace_0086.json"
+  ]
+}
