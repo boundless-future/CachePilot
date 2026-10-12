@@ -1,5 +1,7 @@
 # generation账本与非零保护：后续接线边界
 
+21:04更新：新组合正常GPU诊断zero/one/two三格通过，共1,044请求，KV层比较720/720/864全部bitwise相等；one/two保护STORE11/9，最终pins为零、BlockPool各909 free，348代/格精确END。a轮缺observer状态证据失败保留；b原始文件与服务器字节一致，本地独立重算通过。下一步实际EngineCore故障退出/终态snapshot及长prefix、取消抢占、失败回执；无性能结论。见 [GPU报告](experiments/2026-10-12/GENERATION_PROTECTION_GPU.md)。
+
 20:52更新：真实双候选正常/第二次注册前后失败契约及shutdown失败证据保存完成；全套显式CUDA/native **878 passed、115 subtests**。首轮fixture sequence冲突失败已保留，修复测试身份后通过。下一步独立服务GPU诊断及真实EngineCore故障退出验证，尚无新组合模型服务/bitwise结果。见 [报告](experiments/2026-10-12/GENERATION_PROTECTION_FAULTS.md)。
 
 20:38进展：独立Connector候选已接线，873项显式CUDA/native回归通过；旧zero类限制保留。CPU回调与底层CUDA契约不能替代组合服务GPU验收。下一步多候选部分提交、故障进程停止/证据保存及独立GPU审计入口，见 [接线报告](experiments/2026-10-12/GENERATION_PROTECTION_WIRING.md)。

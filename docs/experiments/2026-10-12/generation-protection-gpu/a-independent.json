@@ -1,0 +1,142 @@
+{
+  "passed": false,
+  "mode": "zero",
+  "generation": {
+    "passed": false,
+    "checks": {
+      "nonempty_unique_generations": true,
+      "exact_scheduler_ends": true,
+      "exact_server_ends": true,
+      "observed_wires_registered": true,
+      "server_end_removed": true,
+      "no_late_lookup": true,
+      "original_batch_handoff": true,
+      "scheduler_terminal": true,
+      "status_before_engine_stop_exact_empty": false,
+      "status_after_engine_stop_exact_empty": false
+    },
+    "registered": 348,
+    "scheduler_ends": 348,
+    "server_ends": 348,
+    "store_only_wires": [],
+    "observed_wires": 348,
+    "batches": 14,
+    "active_operations": [],
+    "scope": "Original server END handler returns plus exact empty snapshots; not a transport ACK claim"
+  },
+  "ownership": {
+    "passed": true,
+    "service_processes": 1,
+    "original_tokens": 22,
+    "dispositions": {
+      "RELEASED": 22
+    },
+    "transfer_terminals": 24,
+    "final_free_blocks": {
+      "owned-connector-25508.jsonl": 909
+    },
+    "exactly_once": true,
+    "native_terminal_before_release": true
+  },
+  "handoff": {
+    "passed": true,
+    "batches": 14,
+    "default_batches": 14,
+    "failed_batches": 0,
+    "bypass_decisions": 23,
+    "added_protection_stores": 0,
+    "acquired_protection_pins": 0,
+    "store_signatures": [
+      {
+        "prefix_sha256": "0f611dceb4f99c68dd06ff55094a0392ccd14a23227e5870fec357517fedd89a",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "1b0b5c3908c9c5b875abe0033bd9b34159293733a4c479696e2fe6e796d7c671",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "1eb756f90ac14a670f0c9c62c2c5744607fc6c445bb79c7efdd51dc31e9e56b2",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "20896468b43e7e0999afbdeaea5f749b9b5ae086156394e2457bcd941e0a9f5b",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "215449fb7b5c5d6ceba19f104ee80d7def3dbfd75824feeb1baa1022be685a0c",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "5446426a5353687ce800c6c0a26995b7a6715e92cd120c79dd1a571b5c5e312e",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "a2583134dd0248d93b891d4a66ea704c7f958d3790b4539698f0c6f10bc553c3",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "ab9cb5aa99edb61810f1ec780d4a3c9217f1f4dfe70aef0fdf7b05508d6ed4bb",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "aba87b1daaa42b6001084cfe206c49c9ca1f1e85ee50aaa6bf524f5cb2921c2d",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "bb201d95a79867159f402cf98bd081f7bbd6cdf86f6443aa4cdf7923c68b6d03",
+        "start": 0,
+        "end": 512,
+        "count": 2
+      },
+      {
+        "prefix_sha256": "d861ea26c69a6907d0043ee72834dc1d35420ded4c5240ba0f46917410872ad0",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "e30d48b3f7f7e20737d579c53edd2a5438393f45d799c0f5dbe818161efddc4d",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "f42723c781d6b7ed3e94e2c8ac55d67be721a1d11a6d764624dc0d6b92b8b3d3",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      }
+    ]
+  },
+  "kv": {
+    "counts": {
+      "worker_layout_chunks": 1,
+      "before_store_chunks": 28,
+      "after_retrieve_chunks": 20,
+      "retrieved_layers": 720,
+      "equal_layers": 720
+    },
+    "missing_references": [],
+    "unequal_layers": [],
+    "covered_and_equal": true
+  }
+}

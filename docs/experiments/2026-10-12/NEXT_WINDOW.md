@@ -1,5 +1,7 @@
 # 下一工作窗口：generation与保护的显式交接
 
+21:04更新：新组合正常GPU诊断zero/one/two三格通过，共1,044请求，KV层比较720/720/864全部bitwise相等；one/two保护STORE11/9，最终pins为零、BlockPool各909 free，348代/格精确END。a轮缺observer状态证据失败保留；b原始文件与服务器字节一致，本地独立重算通过。下一步实际EngineCore故障退出/终态snapshot及长prefix、取消抢占、失败回执；无性能结论。见 [报告](GENERATION_PROTECTION_GPU.md)。下方为历史状态。
+
 20:52更新：多候选部分失败与shutdown snapshot契约完成，878项全套通过。下一步独立服务诊断runner与预注册，zero启动/关闭→one/two实际保护与KV bitwise/资源审计→服务故障退出，再性能；见 [故障报告](GENERATION_PROTECTION_FAULTS.md)。下方时间较早内容为历史状态。
 
 20:38更新：独立GenerationProtectionConnector接线完成，最终873 passed/115 subtests，无跳过，见 [报告](GENERATION_PROTECTION_WIRING.md)。下一步补多候选部分失败、poison服务退出与shutdown终态证据，再建立新组合zero/one/two GPU诊断入口（原terminal/H2D/KV bitwise/resource/generation联合审计）。尚未运行新模型服务；不得直接开始性能formal。下面内容为历史状态。

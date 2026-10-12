@@ -1,0 +1,121 @@
+{
+  "zero": {
+    "passed": true,
+    "requests": 348,
+    "generations": 348,
+    "batches": 14,
+    "ownership": {
+      "passed": true,
+      "service_processes": 1,
+      "original_tokens": 22,
+      "dispositions": {
+        "RELEASED": 22
+      },
+      "transfer_terminals": 24,
+      "final_free_blocks": {
+        "owned-connector-25908.jsonl": 909
+      },
+      "exactly_once": true,
+      "native_terminal_before_release": true
+    },
+    "kv": {
+      "counts": {
+        "worker_layout_chunks": 1,
+        "before_store_chunks": 28,
+        "after_retrieve_chunks": 20,
+        "retrieved_layers": 720,
+        "equal_layers": 720
+      },
+      "missing_references": [],
+      "unequal_layers": [],
+      "covered_and_equal": true
+    },
+    "protection": null,
+    "strict_sources": 0,
+    "output_differences": 0
+  },
+  "one": {
+    "passed": true,
+    "requests": 348,
+    "generations": 348,
+    "batches": 25,
+    "ownership": {
+      "passed": true,
+      "service_processes": 1,
+      "original_tokens": 22,
+      "dispositions": {
+        "RELEASED": 22
+      },
+      "transfer_terminals": 38,
+      "final_free_blocks": {
+        "owned-connector-26197.jsonl": 909
+      },
+      "exactly_once": true,
+      "native_terminal_before_release": true
+    },
+    "kv": {
+      "counts": {
+        "worker_layout_chunks": 1,
+        "before_store_chunks": 28,
+        "after_retrieve_chunks": 20,
+        "retrieved_layers": 720,
+        "equal_layers": 720
+      },
+      "missing_references": [],
+      "unequal_layers": [],
+      "covered_and_equal": true
+    },
+    "protection": {
+      "passed": true,
+      "protection_stores": 11,
+      "peak_protection_blocks": 16,
+      "observed_allocations": 11,
+      "rollbacks": 22,
+      "final_owned_pins": 0
+    },
+    "strict_sources": 10,
+    "output_differences": 0
+  },
+  "two": {
+    "passed": true,
+    "requests": 348,
+    "generations": 348,
+    "batches": 14,
+    "ownership": {
+      "passed": true,
+      "service_processes": 1,
+      "original_tokens": 26,
+      "dispositions": {
+        "RELEASED": 26
+      },
+      "transfer_terminals": 26,
+      "final_free_blocks": {
+        "owned-connector-26514.jsonl": 909
+      },
+      "exactly_once": true,
+      "native_terminal_before_release": true
+    },
+    "kv": {
+      "counts": {
+        "worker_layout_chunks": 1,
+        "before_store_chunks": 28,
+        "after_retrieve_chunks": 24,
+        "retrieved_layers": 864,
+        "equal_layers": 864
+      },
+      "missing_references": [],
+      "unequal_layers": [],
+      "covered_and_equal": true
+    },
+    "protection": {
+      "passed": true,
+      "protection_stores": 9,
+      "peak_protection_blocks": 32,
+      "observed_allocations": 9,
+      "rollbacks": 18,
+      "final_owned_pins": 0
+    },
+    "strict_sources": 14,
+    "output_differences": 0
+  }
+}

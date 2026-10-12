@@ -79,3 +79,9 @@
 - 新增真实双候选prepare与第二次register前/后故障，验证先前提交与尚未完成helper状态的pin均不被错误回滚。shutdown新增只读失败snapshot保存；写证据失败以note保留原错误。
 - 首轮3 failed/32 passed是新fixture sequence碰撞，独立sequence修正后显式CUDA/native全套878 passed、115 subtests，19.74s。原失败及最终日志SHA归档。
 - 回归后GPU 0%/1MiB，未运行模型服务；CPU shutdown测试不等于实际EngineCore故障退出。下一步具体GPU诊断入口要求写入GENERATION_PROTECTION_FAULTS.md。
+
+## 21:04 新组合正常GPU准入
+
+- 新诊断probe/runner沿用固定348请求输入，原始plan先记录预算/模型/214源码签名。a-zero的请求/KV/END通过，但旧status摘要过滤observer，精确集合证据缺失，停止one/two并保留失败。
+- b补只读observer采集，新目录zero/one/two全部通过：1,044请求，720/720/864层全等，one/two保护11/9次，最终pin0、BlockPool909 free，精确generation资源闭合。三格同payload，输出文本差异0。
+- 84原始文件16,611,799bytes与服务器逐项一致，214源码tar冻结；本地独立重算a=false、b=true。新增篡改测试与generation审计14 passed；GPU空闲0%/1MiB。无服务fault、长prefix专项或性能结论。

@@ -1,0 +1,321 @@
+{
+  "passed": true,
+  "mode": "one",
+  "generation": {
+    "passed": true,
+    "checks": {
+      "nonempty_unique_generations": true,
+      "exact_scheduler_ends": true,
+      "exact_server_ends": true,
+      "observed_wires_registered": true,
+      "server_end_removed": true,
+      "no_late_lookup": true,
+      "original_batch_handoff": true,
+      "scheduler_terminal": true,
+      "status_before_engine_stop_exact_empty": true,
+      "status_after_engine_stop_exact_empty": true
+    },
+    "registered": 348,
+    "scheduler_ends": 348,
+    "server_ends": 348,
+    "store_only_wires": [],
+    "observed_wires": 348,
+    "batches": 25,
+    "active_operations": [],
+    "scope": "Original server END handler returns plus exact empty snapshots; not a transport ACK claim"
+  },
+  "ownership": {
+    "passed": true,
+    "service_processes": 1,
+    "original_tokens": 22,
+    "dispositions": {
+      "RELEASED": 22
+    },
+    "transfer_terminals": 38,
+    "final_free_blocks": {
+      "owned-connector-26197.jsonl": 909
+    },
+    "exactly_once": true,
+    "native_terminal_before_release": true
+  },
+  "handoff": {
+    "passed": true,
+    "batches": 25,
+    "default_batches": 14,
+    "failed_batches": 0,
+    "bypass_decisions": 0,
+    "added_protection_stores": 11,
+    "acquired_protection_pins": 528,
+    "store_signatures": [
+      {
+        "prefix_sha256": "0b6190234923c84ce232b955d5e2825942563c328fd2cd22855c72184266ebf1",
+        "start": 0,
+        "end": 256,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "0f611dceb4f99c68dd06ff55094a0392ccd14a23227e5870fec357517fedd89a",
+        "start": 256,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "1b0b5c3908c9c5b875abe0033bd9b34159293733a4c479696e2fe6e796d7c671",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "1c6c68740d9a0252ea070e5256e994acd7660075bcd3faef3e1af462c4fcd6de",
+        "start": 0,
+        "end": 256,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "1eb756f90ac14a670f0c9c62c2c5744607fc6c445bb79c7efdd51dc31e9e56b2",
+        "start": 256,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "20896468b43e7e0999afbdeaea5f749b9b5ae086156394e2457bcd941e0a9f5b",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "215449fb7b5c5d6ceba19f104ee80d7def3dbfd75824feeb1baa1022be685a0c",
+        "start": 256,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "2ab53c8f69ef767847eb932496538c0b130f84629fcd405acc7f9b0c44926ddd",
+        "start": 0,
+        "end": 256,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "5446426a5353687ce800c6c0a26995b7a6715e92cd120c79dd1a571b5c5e312e",
+        "start": 256,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "8fd9f18c654df1d3c3a2a6545a98a2a042d3fdbd1a744bbe31d0c94146d1f827",
+        "start": 0,
+        "end": 256,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "9799dad33bb4a9430cd808bd80783aad82ba6b74852221438f0cce67a5834cae",
+        "start": 0,
+        "end": 256,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "a2583134dd0248d93b891d4a66ea704c7f958d3790b4539698f0c6f10bc553c3",
+        "start": 256,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "ab9cb5aa99edb61810f1ec780d4a3c9217f1f4dfe70aef0fdf7b05508d6ed4bb",
+        "start": 256,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "aba87b1daaa42b6001084cfe206c49c9ca1f1e85ee50aaa6bf524f5cb2921c2d",
+        "start": 256,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "af0410b3d1ec706503a740b1abde2bc4e226fcc154b64cc406b3e0c5cff3ae98",
+        "start": 0,
+        "end": 256,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "af396ad1220cb3be7b01e01503c214af18b583e19e0cbe18c6a297ac8280f510",
+        "start": 0,
+        "end": 256,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "bb201d95a79867159f402cf98bd081f7bbd6cdf86f6443aa4cdf7923c68b6d03",
+        "start": 0,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "bb201d95a79867159f402cf98bd081f7bbd6cdf86f6443aa4cdf7923c68b6d03",
+        "start": 256,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "cbc7a7aea5c48d2264736b8a50af553fa03c041f654c19f56518a96c947d91d2",
+        "start": 0,
+        "end": 256,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "d410ab1219c4b86adf74d93e69b51fb89b732290f33de4e063b452943ae10219",
+        "start": 0,
+        "end": 256,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "d861ea26c69a6907d0043ee72834dc1d35420ded4c5240ba0f46917410872ad0",
+        "start": 256,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "df53bed34fb5ac7afa156f21196e51891bd1f01258b1f4ca0807f7c8afefc123",
+        "start": 0,
+        "end": 256,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "e30d48b3f7f7e20737d579c53edd2a5438393f45d799c0f5dbe818161efddc4d",
+        "start": 256,
+        "end": 512,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "e65510650a265a9748f8dbfd7b31dd6b2801483b7b0aaf25ddd2fc6a94ed9366",
+        "start": 0,
+        "end": 256,
+        "count": 1
+      },
+      {
+        "prefix_sha256": "f42723c781d6b7ed3e94e2c8ac55d67be721a1d11a6d764624dc0d6b92b8b3d3",
+        "start": 256,
+        "end": 512,
+        "count": 1
+      }
+    ]
+  },
+  "kv": {
+    "counts": {
+      "worker_layout_chunks": 1,
+      "before_store_chunks": 28,
+      "after_retrieve_chunks": 20,
+      "retrieved_layers": 720,
+      "equal_layers": 720
+    },
+    "missing_references": [],
+    "unequal_layers": [],
+    "covered_and_equal": true
+  },
+  "protection": {
+    "passed": true,
+    "protection_stores": 11,
+    "peak_protection_blocks": 16,
+    "observed_allocations": 11,
+    "rollbacks": 22,
+    "final_owned_pins": 0
+  },
+  "sources": {
+    "passed": true,
+    "strict_chunks": 10,
+    "strict_equal_layers": 360,
+    "covered_batches": 10,
+    "protected_batches": 11,
+    "kv_bytes_per_block": 2359296,
+    "submitted_payload_bytes": {
+      "store": 1056964608,
+      "retrieve": 754974720
+    },
+    "strict_sources": [
+      {
+        "batch_id": "cp1:825778433491283723:3:df0cb27d830cd5667defdb47646ffc7b:cmpl-bdfd69ea92431d10-0-a328d40b:ledger:3",
+        "token_prefix_sha256": "df53bed34fb5ac7afa156f21196e51891bd1f01258b1f4ca0807f7c8afefc123",
+        "start": 0,
+        "end": 256,
+        "equal_layers": 36,
+        "store_sequence": 3
+      },
+      {
+        "batch_id": "cp1:825778433491283723:4:d9f70268187d5280f1d2b843733e201c:cmpl-9d10aa92b05f8593-0-b0b20ca4:ledger:4",
+        "token_prefix_sha256": "8fd9f18c654df1d3c3a2a6545a98a2a042d3fdbd1a744bbe31d0c94146d1f827",
+        "start": 0,
+        "end": 256,
+        "equal_layers": 36,
+        "store_sequence": 4
+      },
+      {
+        "batch_id": "cp1:825778433491283723:5:7c51ac93b62ae4b6542ea60ff7727b7d:cmpl-a690b439b20ff85a-0-9beacc1b:ledger:6",
+        "token_prefix_sha256": "af396ad1220cb3be7b01e01503c214af18b583e19e0cbe18c6a297ac8280f510",
+        "start": 0,
+        "end": 256,
+        "equal_layers": 36,
+        "store_sequence": 6
+      },
+      {
+        "batch_id": "cp1:825778433491283723:7:0bdf41fa9d60f8202c98db6625ab0c20:cmpl-8eb43c0b63a103a8-0-8203395d:ledger:8",
+        "token_prefix_sha256": "9799dad33bb4a9430cd808bd80783aad82ba6b74852221438f0cce67a5834cae",
+        "start": 0,
+        "end": 256,
+        "equal_layers": 36,
+        "store_sequence": 8
+      },
+      {
+        "batch_id": "cp1:825778433491283723:8:bb93e95671f49886a54923581f3a9750:cmpl-9ad8a87df033bfd7-0-9e14cf60:ledger:9",
+        "token_prefix_sha256": "cbc7a7aea5c48d2264736b8a50af553fa03c041f654c19f56518a96c947d91d2",
+        "start": 0,
+        "end": 256,
+        "equal_layers": 36,
+        "store_sequence": 9
+      },
+      {
+        "batch_id": "cp1:825778433491283723:9:33546997a13826a7c9df5718d8ff89c6:cmpl-833e2f0a6a61fd54-0-9deca137:ledger:11",
+        "token_prefix_sha256": "2ab53c8f69ef767847eb932496538c0b130f84629fcd405acc7f9b0c44926ddd",
+        "start": 0,
+        "end": 256,
+        "equal_layers": 36,
+        "store_sequence": 11
+      },
+      {
+        "batch_id": "cp1:825778433491283723:10:c18c2a238c0fb5b5ac1ed4276c1b79c4:cmpl-8609b39c434c5fc5-0-bf5ad11d:ledger:12",
+        "token_prefix_sha256": "0b6190234923c84ce232b955d5e2825942563c328fd2cd22855c72184266ebf1",
+        "start": 0,
+        "end": 256,
+        "equal_layers": 36,
+        "store_sequence": 12
+      },
+      {
+        "batch_id": "cp1:825778433491283723:11:aa432527c9d60ea5b02191c24c920880:cmpl-abb51181ea5b1b03-0-93439e6e:ledger:14",
+        "token_prefix_sha256": "1c6c68740d9a0252ea070e5256e994acd7660075bcd3faef3e1af462c4fcd6de",
+        "start": 0,
+        "end": 256,
+        "equal_layers": 36,
+        "store_sequence": 14
+      },
+      {
+        "batch_id": "cp1:825778433491283723:13:518558143648fada955b170e9014b7c1:cmpl-867d62c0411514e8-0-83a379be:ledger:16",
+        "token_prefix_sha256": "d410ab1219c4b86adf74d93e69b51fb89b732290f33de4e063b452943ae10219",
+        "start": 0,
+        "end": 256,
+        "equal_layers": 36,
+        "store_sequence": 16
+      },
+      {
+        "batch_id": "cp1:825778433491283723:14:c2dd957e27d8b8bce09cb26577e3be21:cmpl-9bd1002ab197f029-0-9ea31a93:ledger:17",
+        "token_prefix_sha256": "e65510650a265a9748f8dbfd7b31dd6b2801483b7b0aaf25ddd2fc6a94ed9366",
+        "start": 0,
+        "end": 256,
+        "equal_layers": 36,
+        "store_sequence": 17
+      }
+    ],
+    "dma_bytes_after_first_target_restore": {
+      "h2d": 75497472.0,
+      "d2h": 754974720.0
+    },
+    "dma_checkpoint_scope": "Before pressure-prefix replay; not total experiment DMA"
+  }
+}
