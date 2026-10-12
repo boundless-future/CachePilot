@@ -28,3 +28,18 @@
 `real-structure-observed-source-20261012.tar.gz` 保留本次210源；不能用后续无采样runner覆盖历史源码。离线入口 `audit_real_structure_pilot.py` 会从原采样复算并检查来源和资源，无部分性能均值。
 
 16:40进入 [关闭额外采样的pilot](REAL_STRUCTURE_PERFORMANCE_PREREGISTRATION.md)：原运行栈保持不变，实验入口新增阶段选择并重新冻结。先四格完整准入，正式三次重复留到下一足够长的窗口，不混入本次观测样本。
+
+## 16:51：无额外采样pilot也完成
+
+`real-structure-unobserved-pilot-20261012a` 四格全部通过，另240请求/11,520输出tokens；没有pressure采样文件，原来源/服务/资源门槛不变。三处服务器/本地/冻结源独立报告完全相同，72原始文件、19,800,020 bytes与服务器一致。没有服务错误或关闭traceback。
+
+| 配置 | 单次TTFT P95秒 | prefill | external hit | 抢占 | idle drop | 对native输出hash不同 |
+|---|---:|---:|---:|---:|---:|---:|
+| native | 1.914 | 42,893 | 0 | 0 | N/A | — |
+| immediate receipt | 1.997 | 27,757 | 16,560 | 0 | N/A | 8/60 |
+| ledger default | 2.229 | 37,869 | 8,160 | 1 | 25 | 5/60 |
+| ledger selected | 2.319 | 33,677 | 14,304 | 1 | 18 | 9/60 |
+
+这是formal准入，仍然n=1，不解释为稳定排名，也不把两种采样模式的差值当观测开销因果测量。两组lazy真实抢占且账本闭合；不据此扩大非零保护或immediate抢占验收。
+
+新冻结源仍210项，包 `real-structure-unobserved-source-20261012.tar.gz` SHA `56c6cce2cdf12992c692dd3b508d09930be1021a5ae3b2932fbec09d97f064c3`。服务器保留该版本，下一窗口直接同签名三重复，禁止先pull新增脚本破坏签名。截止前不启动正式十二格。

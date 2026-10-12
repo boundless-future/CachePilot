@@ -1,45 +1,37 @@
-# 下一工作窗口：先正式 decode，再匿名结构
+# 下一工作窗口：匿名结构正式三次重复
 
-16:32续授更新：本页第1步已经完成，正式十二格及独立审计见 [报告](DECODE_RECEIPT_FORMAL.md)。第2步runner/离线审计和预注册已实现，真实结构试点正在运行；最新执行状态见PROGRESS.md。下面原命令和准备说明保留为历史入口，勿重复启动已完成decode矩阵。
+截至2026-10-12 16:52，decode receipt formal十二格已完成；六session匿名结构有采样准入4/4、关闭额外采样pilot4/4也完成。三处独立复算与原始文件字节审计通过，见 [decode正式报告](DECODE_RECEIPT_FORMAL.md)、[结构GPU报告](REAL_STRUCTURE_GPU.md)。
 
-截至14:50，新decode receipt pilot四格全部通过；服务器 `/root/CachePilot` 保持205项冻结源码，不把本地新增CPU工具同步进去。模型、依赖、原 diagnostic/tuning/base reference 和完整pilot目录仍在服务器，正式重复无需重新下载模型。
+服务器 `/root/CachePilot` 保留**210项无采样pilot冻结源**。不要先git pull或同步新脚本；新增scripts/configs也改变严格签名。本地与服务器有历史辅助文件差异，已完整源包归档，不能直接用本地目录代替。
 
-## 1. 同签名 decode192 formal
+## 正式入口
 
-先检查没有其他实验、端口可用、依赖/模型仍是已验收版本，再运行服务器已有 `verify_source_snapshot.py`。205项源字节必须与pilot plan完全相同且无额外source；本地的新CPU工具会改变该签名，因此直接git pull后不能拿原pilot做准入。若要更新，使用原tar源的隔离工作目录，或明确重新冻结并重做pilot。
-
-以下在服务器执行。把 cutoff 替换为实际已授权工作窗口的带时区截止；输出目录必须不存在。正式十二格预计需要比本次剩余20分钟更长的窗口，不能以截至时间迫近为由跳过检查或只挑成功格。
+先检查SSH、无其他实验、GPU空闲、8000/8080/5555无监听；检查源snapshot的failures为空且additional_files为空。模型和依赖保持已验收环境，无需重新下载。
 
 ```bash
 cd /root/CachePilot
 export PATH=/usr/local/miniconda3/envs/cachepilot/bin:$PATH
 python scripts/verify_source_snapshot.py \
-  artifacts/generation-decode192-receipt-pilot-20261012b/plan.json \
-  /root/CachePilot --output /tmp/decode-formal-source-check.json
+  artifacts/real-structure-unobserved-pilot-20261012a/plan.json \
+  /root/CachePilot --output /tmp/structure-formal-source-check.json
 
-python scripts/run_generation_matrix.py --stage formal --workload decode192 \
-  --diagnostic artifacts/generation-long-prefill-pilot-20261012c \
-  --tuning artifacts/fixed-baseline-formal-20261011a \
-  --long-prefill-formal artifacts/generation-long-prefill-matrix-formal-20261012a \
-  --base-reference artifacts/unprotected-references-formal-20261011a \
-  --immediate-diagnostic artifacts/immediate-decode-candidate-20261012a \
-  --pilot artifacts/generation-decode192-receipt-pilot-20261012b \
-  --output artifacts/generation-decode192-receipt-formal-NEXTWINDOW \
-  --stop-starting-at 'REPLACE_WITH_AUTHORIZED_ISO8601_CUTOFF'
+python scripts/run_real_structure_pilot.py --stage formal \
+  --admission artifacts/real-structure-pilot-20261012a \
+  --pilot artifacts/real-structure-unobserved-pilot-20261012a \
+  --built docs/experiments/2026-10-12/real-structure-built \
+  --source-dir docs/experiments/2026-10-12/real-structure-source \
+  --catalogue docs/experiments/2026-10-12/REAL_STRUCTURE_CATALOGUE.json \
+  --decode-formal artifacts/generation-decode192-receipt-formal-20261012a \
+  --output artifacts/real-structure-formal-NEXTWINDOW \
+  --stop-starting-at REPLACE_WITH_AUTHORIZED_ISO8601_CUTOFF
 ```
 
-四配置各三次，沿用runner的循环轮换；任一token/资源/服务/签名门槛失败则整轮停止，保留未运行格，不聚合部分结果。关闭热路径日志。完成后独立收集、请求/SSE时间复算、整套配置成本与阶段描述、原文件字节inventory归档。输出hash差异保留，单独报告范围；不解释为已证明语义等价。
+用实际授权的带时区未来截止替换占位，输出目录必须不存在。预计十二格约30分钟，另留审计归档时间。四配置每组3次、轮换顺序、全六session60请求/48输出和原变换不变。任何格失败立即停止并保留全部失败及未运行格；不聚合部分矩阵，不重跑择优，不把有观测开销的准入样本混入。
 
-## 2. 全部六会话匿名结构 GPU pilot
+## 完成后
 
-CPU准备完成，详见 [结构方案](REAL_STRUCTURE_PLAN.md)，冻结token trace SHA为 `445b05df9898232b97d2a0f7a0fc7633a42ab8a4d712943ee3f70ebb6c2acb83`。实际Qwen3-4B tokenizer签名、六源SHA及独立审计已保存。下一步需要独立结构runner和配置/trace门槛接线，当前没有该GPU runner，也没有该负载GPU结果。
+`audit_real_structure_pilot.py` 复核来源、请求/计时、原资源、generation、无额外采样文件和immediate零抢占；服务器、本地、冻结源复算一致后归档原文件和inventory。正式n=3报告TTFT、ready-to-end、session完成、prefill/hits、H2D/D2H、queue和抢占，保留输出hash差异。不要使用合成trace的early/pressure/revisit分组；后续CPU分析应按全部六source session，必要时在独立本地目录开发，不修改运行中服务器签名。
 
-保持全部六session/60请求、原输入/8、源会话内部时间/10、第一到达对齐0、48输出、2GiB GPU KV、不增加人工压力/复制/padding。四配置仍为native、new immediate receipt、generation default/selected，非零保护不加入。不要由pilot速度选择session或参数。
+依据该结果再决定是否需要拓宽输入/模型或接回非零保护。当前generation路径仅零保护，不能直接把保护预算改成非零进行性能测试，必须先独立接线及GPU正确性诊断。多worker/异步、真实driver/DMA fault、永久I/O自动恢复、保护泛化收益仍开放。
 
-先记录真实运行中的running/等待请求、GPU KV占用/allocator物理证据、抢占计数、实际计算prefill、GPU/external hit、H2D/D2H、会话完成/入口等待和原资源快照。必须区分“请求/资源通过”和“真实物理压力确实发生”；若无压力，保留低压力结果，不能偷偷压缩到达后仍使用原实验名称。变换需要独立注册。
-
-ImmediateReceiptConnector不支持抢占与unhealthy，若该结构触发限制就fail closed并定位，不能改为忽略状态继续跑。源匿名结构不含原文本或输出反馈，open replay不强制前轮完成；不能称live Agent质量实验。完整四格资源与配置门槛通过后才讨论formal；GPU KV bitwise/新生命周期证据不足时先独立诊断，不混入性能。
-
-## 3. 仍不应扩大结论的范围
-
-非零保护仍未证明稳定优于固定调优基线；generation/immediate候选仅零保护、同步TP1。多worker、异步、真实CUDA driver/DMA fault、永久I/O自动恢复仍开放。上游贡献必须基于锁定上游的最小复现及可维护补丁，不把本项目适配层时序缺口概括为所有LMCache版本的问题。
+本次收尾未关闭容器。上游贡献仍以最小可维护复现为前提，不把项目适配层缺口概括为所有上游版本缺陷。

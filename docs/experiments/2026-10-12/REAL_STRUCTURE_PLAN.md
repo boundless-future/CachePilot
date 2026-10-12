@@ -22,3 +22,5 @@
 复查入口：`python scripts/catalogue_real_traces.py --source-dir DOWNLOADED_FIRST21_TO100 --output catalogue.json`。该脚本只读取CPU源文件，不启动推理。下载固定commit仍须与归档manifest SHA逐项比对。
 
 14:56追加交付复核：新Git archive首次因部分导出遗漏历史测试tar和catalogue换行归一化出现2失败/13通过；补全原fixture、将catalogue设为raw `-text`并重新归档原字节后15/15通过。catalogue SHA仍为原 `74e72c9bc58e6534821b1cc46cbe8863b6c3645cf37499bd8f957b0fda3bd29a`，不改token manifest或审计门槛。见 `generation-matrix-evidence/real-catalogue-git-byte-verification.json`。
+
+16:53更新：上述CPU准备已进入GPU观测及无采样pilot，各4/4通过，全部六会话保留。实际压力/抢占/H2D与限制见 [GPU报告](REAL_STRUCTURE_GPU.md)；正式三重复待下一窗口。前述“尚未GPU”均为历史状态。

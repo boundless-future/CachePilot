@@ -188,7 +188,8 @@
 - [x] 同签名decode192 formal十二格三次重复通过，816请求/156,672输出tokens；服务器/本地/冻结源独立报告一致，154原始文件字节一致。native最低，immediate/default/selected相对+4.24%/+5.85%/+2.29%，一格正常关闭traceback和输出hash差异保留，见 [正式报告](experiments/2026-10-12/DECODE_RECEIPT_FORMAL.md)。
 - [x] 固定commit的真实匿名结构编号21–100共80文件CPU准入审计，全部六条eligible/60请求；实际Qwen3-4B tokenizer生成209,661输入tokens/2,880输出预算。源SHA、54前缀转换、3,262源block身份、零跨session前缀碰撞审计与三项重建/篡改测试通过，见 [方案](experiments/2026-10-12/REAL_STRUCTURE_PLAN.md)。
 - [x] 六session真实匿名结构观测GPU pilot四格通过，240请求/11,520输出；0.5秒采样见94.94–99.67% KV峰值、5–6等待峰值，lazy两组各2次实际抢占，缓存组有H2D且资源/generation闭合。80原始文件服务器/本地/Git字节一致；不是live Agent或正式性能，见 [结构GPU报告](experiments/2026-10-12/REAL_STRUCTURE_GPU.md)。
-- [ ] 完成关闭额外采样的同结构四格pilot，再同签名formal十二格；不混合观测开销样本，按 [预注册](experiments/2026-10-12/REAL_STRUCTURE_PERFORMANCE_PREREGISTRATION.md) 保持全部六session与原变换。
+- [x] 关闭额外采样的同结构pilot4/4通过，另240请求/11,520输出；210项冻结源、72文件/19,800,020 bytes，服务器/本地/冻结源报告一致。lazy各1次抢占且资源闭合，输出差异保留。
+- [ ] 同签名匿名结构formal十二格；保持全部六session与原变换，不混合有观测开销样本，见 [续跑入口](experiments/2026-10-12/NEXT_WINDOW.md)。
 - [ ] 用 Qwen3-8B＋5090 复核；如要区分模型/硬件效应，需要额外控制变量实验。
 - [x] 开发和验证消融已统计客户端 ready-to-first/ready-to-end 及会话完成时间；原始值与聚合均归档，不将入口等待隐藏。新容量和到达负载继续沿用该口径。
 - [ ] 整理复现文档、版本清单、原始数据、图表和个人贡献。
@@ -196,6 +197,8 @@
 - [ ] 项目阶段收尾后重新核查 LMCache/vLLM 上游状态；若仍可复现且有可维护的最小修复与回归测试，考虑提交异步回载压力信号的上游 issue/PR，范围见 [UPSTREAM_ASYNC_KV_PRESSURE.md](UPSTREAM_ASYNC_KV_PRESSURE.md)。
 
 ## 优先顺序
+
+2026-10-12 16:53：decode formal及匿名结构观测/无采样两个pilot全部闭合并归档。下一步为服务器210项冻结源下匿名结构formal十二格；本窗口不再启动GPU，17:00汇报。
 
 2026-10-12 16:43：decode formal十二格已完成并推送；六session结构观测准入4/4通过，确认高占用/等待及lazy两组真实抢占，资源闭合。关闭额外采样的pilot运行中；本窗口只闭合pilot、证据及下一窗口正式入口，不启动预计超过17:00的formal。
 
