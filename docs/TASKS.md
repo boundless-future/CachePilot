@@ -188,6 +188,8 @@
 
 ## 优先顺序
 
+2026-10-12 连接恢复：服务器专项 52 项及新增真实 MessagingFuture 契约 3 项通过，原始输出已归档；固定 adapter/manager 哈希一致。当前不再阻塞于 SSH，下一步仍是真实 manager/connector 回调接线，尚未启动 GPU pilot。
+
 2026-10-12 追加：独立 `GenerationRPCClient` 实现 scheduler-thread lookup/status/free future 追踪和原身份完成，账本增加操作生命周期上限；本地 49 项通过，见 [RPC 候选报告](experiments/2026-10-12/GENERATION_RPC.md)。旧 SSH 地址两次超时，未接上服务器；实际 future 验证、真实 manager 接线和 GPU pilot 均未执行。
 
 最新阻塞已从未知身份失配推进到可重建调用链：抢占后 tracker 新代跳过 lookup，client 保留旧代 mapping，STORE 与 END 分属不同 wire。真实 GPU 时序和两项真实库 CPU 复现已归档；原 pilot 仍失败，两个独立诊断资源也未通过。下一步实现分离 lookup 路由和 session 终结身份的独立候选，补迟到旧批次、连续抢占、复用及部分失败，再逐身份 GPU 审计；冻结后重开新的长 prefill pilot，不能直接 formal。短上下文已完成矩阵和其退化结论不变。

@@ -48,3 +48,27 @@ not rerun results for this revision.
 4. Validate server session closure by exact wire, then run an isolated GPU pilot.
 
 No default path or idle guard changed. Long-prefill formal remains blocked.
+
+## Connection restored and server verification (12:48–12:51 CST)
+
+The original SSH endpoint became reachable. RTX 4090 was idle (1 MiB, 0%).
+Latest candidate sources were copied to the existing project; the six-file
+server suite passed **52 tests, 66 warnings in 16.52 seconds**. A separate new
+installed MessagingFuture contract passed **3 tests, 3 warnings in 1.65 seconds**:
+pending prevents END, successful None/False results terminate the RPC ticket,
+and an exception retains unresolved ownership. These controlled future results
+are not real RPC delivery or STORE/RETRIEVE completion evidence.
+
+Saved output: [targeted](generation-rpc-evidence/targeted.txt) and
+[native future](generation-rpc-evidence/native-future.txt). The new test is
+`tests/test_generation_rpc_native.py`. No inference experiment was started.
+
+Installed source SHA256 checks:
+
+* MP adapter: `63fe75512185c17e990c49c172d2a381741cc6cbc0eb6f8c534cc9ff5df2912c`
+* Lazy manager: `e611da21991cd29757e553acfaeabbdd1332d4743f036f6b35ed0e85c80c5bcd`
+* Multiprocess futures: `97cd68ed22b8bfd50aea9f89df53ae51a3f1776c4d02cc40ed4d870ff34b941b`
+
+Adapter/manager signatures match the pinned connector requirements. Connectivity
+is no longer blocking; actual callback integration and exact-wire service audits
+remain the next gates. The 52+3 focused checks are not a full CUDA regression.
