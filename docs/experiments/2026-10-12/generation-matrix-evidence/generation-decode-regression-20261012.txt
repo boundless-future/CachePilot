@@ -1,0 +1,101 @@
+................................................................. [  7%]
+..............................................F................. [ 15%]
+........................................................................ [ 24%]
+................................................................ [ 31%]
+............................................................. [ 39%]
+....sssssssss.................................................. [ 46%]
+.................................................................... [ 54%]
+.................................................. [ 61%]
+........................................................................ [ 69%]
+........................................................................ [ 78%]
+........................................................................ [ 87%]
+.................................................................... [ 95%]
+.............................. [ 98%]
+..........                                                               [100%]
+=================================== FAILURES ===================================
+__________ test_decode_intervention_keeps_prompts_and_arrival_fields ___________
+
+module = <module 'run_generation_matrix' from '/root/CachePilot/scripts/run_generation_matrix.py'>
+
+    def test_decode_intervention_keeps_prompts_and_arrival_fields(module):
+        root = Path(__file__).resolve().parents[1]
+        import json
+        import tarfile
+>       with tarfile.open(root / 'docs/experiments/2026-10-11/unprotected-reference-evidence/'
+                'unprotected-references-formal-20261011a.tar.gz') as archive:
+
+tests/test_generation_matrix.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/miniconda3/envs/cachepilot/lib/python3.12/tarfile.py:1884: in open
+    return func(name, "r", fileobj, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/miniconda3/envs/cachepilot/lib/python3.12/tarfile.py:1952: in gzopen
+    fileobj = GzipFile(name, mode + "b", compresslevel, fileobj)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <gzip on 0x7fdd45f51570>
+filename = PosixPath('/root/CachePilot/docs/experiments/2026-10-11/unprotected-reference-evidence/unprotected-references-formal-20261011a.tar.gz')
+mode = 'rb', compresslevel = 9, fileobj = None, mtime = None
+
+    def __init__(self, filename=None, mode=None,
+                 compresslevel=_COMPRESS_LEVEL_BEST, fileobj=None, mtime=None):
+        """Constructor for the GzipFile class.
+    
+        At least one of fileobj and filename must be given a
+        non-trivial value.
+    
+        The new class instance is based on fileobj, which can be a regular
+        file, an io.BytesIO object, or any other object which simulates a file.
+        It defaults to None, in which case filename is opened to provide
+        a file object.
+    
+        When fileobj is not None, the filename argument is only used to be
+        included in the gzip file header, which may include the original
+        filename of the uncompressed file.  It defaults to the filename of
+        fileobj, if discernible; otherwise, it defaults to the empty string,
+        and in this case the original filename is not included in the header.
+    
+        The mode argument can be any of 'r', 'rb', 'a', 'ab', 'w', 'wb', 'x', or
+        'xb' depending on whether the file will be read or written.  The default
+        is the mode of fileobj if discernible; otherwise, the default is 'rb'.
+        A mode of 'r' is equivalent to one of 'rb', and similarly for 'w' and
+        'wb', 'a' and 'ab', and 'x' and 'xb'.
+    
+        The compresslevel argument is an integer from 0 to 9 controlling the
+        level of compression; 1 is fastest and produces the least compression,
+        and 9 is slowest and produces the most compression. 0 is no compression
+        at all. The default is 9.
+    
+        The mtime argument is an optional numeric timestamp to be written
+        to the last modification time field in the stream when compressing.
+        If omitted or None, the current time is used.
+    
+        """
+    
+        if mode and ('t' in mode or 'U' in mode):
+            raise ValueError("Invalid mode: {!r}".format(mode))
+        if mode and 'b' not in mode:
+            mode += 'b'
+    
+        try:
+            if fileobj is None:
+>               fileobj = self.myfileobj = builtins.open(filename, mode or 'rb')
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               FileNotFoundError: [Errno 2] No such file or directory: '/root/CachePilot/docs/experiments/2026-10-11/unprotected-reference-evidence/unprotected-references-formal-20261011a.tar.gz'
+
+/usr/local/miniconda3/envs/cachepilot/lib/python3.12/gzip.py:201: FileNotFoundError
+=============================== warnings summary ===============================
+../../usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/opentelemetry/sdk/_logs/_internal/__init__.py:531: 91 warnings
+tests/test_owned_mp_bridge.py: 4 warnings
+  /usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/opentelemetry/sdk/_logs/_internal/__init__.py:531: DeprecationWarning: `LoggingHandler` in `opentelemetry-sdk` is deprecated. Use the handler from `opentelemetry-instrumentation-logging` instead.
+    warnings.warn(
+
+../../usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/torch/jit/_script.py:365: 14 warnings
+  /usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/torch/jit/_script.py:365: DeprecationWarning: `torch.jit.script_method` is deprecated. Please switch to `torch.compile` or `torch.export`.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_generation_matrix.py::test_decode_intervention_keeps_prompts_and_arrival_fields
+1 failed, 821 passed, 9 skipped, 109 warnings, 115 subtests passed in 16.01s

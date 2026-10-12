@@ -1,0 +1,318 @@
+(APIServer pid=6641) INFO 10-12 05:41:52 [api_utils.py:347] 
+(APIServer pid=6641) INFO 10-12 05:41:52 [api_utils.py:347]        █     █     █▄   ▄█
+(APIServer pid=6641) INFO 10-12 05:41:52 [api_utils.py:347]  ▄▄ ▄█ █     █     █ ▀▄▀ █  version 0.30.0
+(APIServer pid=6641) INFO 10-12 05:41:52 [api_utils.py:347]   █▄█▀ █     █     █     █  model   /root/CachePilot/models/Qwen3-4B
+(APIServer pid=6641) INFO 10-12 05:41:52 [api_utils.py:347]    ▀▀  ▀▀▀▀▀ ▀▀▀▀▀ ▀     ▀
+(APIServer pid=6641) INFO 10-12 05:41:52 [api_utils.py:347] 
+(APIServer pid=6641) INFO 10-12 05:41:52 [api_utils.py:286] non-default args: {'model_tag': '/root/CachePilot/models/Qwen3-4B', 'host': '127.0.0.1', 'model': '/root/CachePilot/models/Qwen3-4B', 'dtype': 'bfloat16', 'max_model_len': 8192, 'enforce_eager': True, 'generation_config': 'vllm', 'gpu_memory_utilization': 0.8, 'kv_cache_memory_bytes': 2147483648, 'enable_prefix_caching': True, 'max_num_seqs': 4, 'async_scheduling': False, 'kv_transfer_config': KVTransferConfig(kv_connector='GenerationLedgerConnector', engine_id='fa05d461-7130-4b92-9b90-7d6407fabfe5', kv_buffer_device='cuda', kv_buffer_size=1000000000.0, kv_role='kv_both', kv_rank=None, kv_parallel_size=1, kv_ip='127.0.0.1', kv_port=14579, kv_connector_extra_config={'lmcache.mp.host': 'tcp://127.0.0.1', 'lmcache.mp.port': 5555, 'lmcache.mp.lazy_offload': True, 'lmcache.mp.lazy_offload_policy': 'EVICTION_AWARE', 'lmcache.mp.lazy_offload_horizon_steps': 5.0, 'lmcache.mp.lazy_offload_max_drain_per_step': 1, 'cachepilot.protection.enabled': True, 'cachepilot.protection.max_chunks': 0, 'lmcache.mp.lazy_offload_max_deferral_seconds': 0.0, 'cachepilot.idle_finalize': True, 'cachepilot.idle_finalize_grace_seconds': 15.0, 'cachepilot.generation_ledger': True}, kv_connector_module_path='scripts.generation_ledger_connector', enable_permute_local_kv=False, kv_load_failure_policy='recompute'), 'shutdown_timeout': 10}
+(APIServer pid=6641) INFO 10-12 05:41:52 [model.py:692] Resolved architecture: Qwen3ForCausalLM
+(APIServer pid=6641) INFO 10-12 05:41:52 [model.py:2030] Using max model len 8192
+(APIServer pid=6641) WARNING 10-12 05:41:52 [vllm.py:1547] Enforce eager set, disabling torch.compile and CUDAGraphs. This is equivalent to setting -cc.mode=none -cc.cudagraph_mode=none
+(APIServer pid=6641) WARNING 10-12 05:41:52 [vllm.py:1570] Inductor compilation was disabled by user settings, optimizations settings that are only active during inductor compilation will be ignored.
+(APIServer pid=6641) INFO 10-12 05:41:52 [kernel.py:416] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native'], gelu_and_mul_sparse=['triton', 'native'])
+(APIServer pid=6641) INFO 10-12 05:41:52 [vllm.py:1780] Cudagraph is disabled under eager mode
+(APIServer pid=6641) [32;20m[2026-10-12 05:41:52,358] LMCache INFO:[0m torch_dev=<module 'torch.cuda' from '/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/torch/cuda/__init__.py'>, torch_device_type=cuda [3m(_device_detect.py:311:lmcache.v1.platform._device_detect)[0m
+(APIServer pid=6641) [32;20m[2026-10-12 05:41:52,359] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(APIServer pid=6641) INFO 10-12 05:41:52 [compilation.py:336] Enabled custom fusions: norm_quant, act_quant
+(EngineCore pid=6697) INFO 10-12 05:42:04 [core.py:123] Initializing a V1 LLM engine (v0.30.0) with config: model='/root/CachePilot/models/Qwen3-4B', speculative_config=None, tokenizer='/root/CachePilot/models/Qwen3-4B', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=8192, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, decode_context_parallel_size=1, dcp_comm_backend=ag_rs, disable_custom_all_reduce=False, quantization=None, quantization_config=None, enforce_eager=True, enable_return_routed_experts=False, kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, per_request_spec_decode_metrics='none', kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False, jit_monitor_mode='warn', jit_monitor_verbose=False), seed=0, served_model_name=/root/CachePilot/models/Qwen3-4B, enable_prefix_caching=True, enable_chunked_prefill=True, pooler_config=None, compilation_config={'mode': <CompilationMode.NONE: 0>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['all'], 'ir_enable_torch_wrap': False, 'splitting_ops': [], 'compile_mm_encoder': False, 'cudagraph_mm_encoder': False, 'encoder_cudagraph_token_budgets': [], 'encoder_cudagraph_max_vision_items_per_batch': 0, 'encoder_cudagraph_max_frames_per_batch': None, 'compile_sizes': [], 'compile_ranges_endpoints': [2048], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.NONE: 0>, 'cudagraph_num_of_warmups': 0, 'cudagraph_capture_sizes': [], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': True, 'fuse_act_quant': True, 'fuse_attn_quant': False, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False, 'enable_qk_norm_rope_fusion': False, 'fuse_rope_kvcache_cat_mla': False, 'fuse_act_padding': False, 'fuse_qk_norm_rope_kvcache': False}, 'max_cudagraph_capture_size': 0, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': False}, 'local_cache_dir': None, 'fast_moe_cold_start': False, 'static_all_moe_layers': []}, kernel_config=KernelConfig(ir_op_priority=IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native'], gelu_and_mul_sparse=['triton', 'native']), enable_flashinfer_autotune=True, enable_cutedsl_warmup=True, enable_jit_warmup=True, moe_backend='auto', sparse_indexer_topk_backend='auto', linear_backend='auto', linear_backend_per_quant=None)
+(EngineCore pid=6697) INFO 10-12 05:42:05 [parallel_state.py:1827] world_size=1 rank=0 local_rank=0 distributed_init_method=file:///tmp/vllm_dist_69f55c8bad024a88b7fe6104f4dc78e6 backend=nccl
+[rank0]:[W1012 05:42:05.759426250 ProcessGroupGloo.cpp:524] Warning: Unable to resolve hostname to a (local) address. Using the loopback address as fallback. Manually set the network interface to bind to with GLOO_SOCKET_IFNAME. (function operator())
+(EngineCore pid=6697) INFO 10-12 05:42:05 [parallel_state.py:2267] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, ETP rank 0, EP rank N/A, EPLB rank N/A
+(EngineCore pid=6697) INFO 10-12 05:42:05 [gpu_worker.py:441] Using V2 Model Runner
+(EngineCore pid=6697) INFO 10-12 05:42:06 [model_runner.py:396] Loading model from scratch...
+(EngineCore pid=6697) INFO 10-12 05:42:07 [cuda.py:538] Using FLASH_ATTN attention backend out of potential backends: ['FLASH_ATTN', 'FLASHINFER', 'TRITON_ATTN', 'FLEX_ATTENTION'].
+(EngineCore pid=6697) INFO 10-12 05:42:07 [flash_attn.py:1116] Using FlashAttention version 2
+(EngineCore pid=6697) INFO 10-12 05:42:07 [weight_utils.py:895] Filesystem type for checkpoints: OVERLAY. Checkpoint size: 7.49 GiB. Available RAM: 57.82 GiB.
+(EngineCore pid=6697) INFO 10-12 05:42:07 [weight_utils.py:918] Auto-prefetch is disabled because the filesystem (OVERLAY) is not a recognized network FS (NFS/Lustre). If you want to force prefetching, start vLLM with --safetensors-load-strategy=prefetch.
+(EngineCore pid=6697) Loading safetensors checkpoint shards:   0% Completed | 0/3 [00:00<?, ?it/s]
+(EngineCore pid=6697) Loading safetensors checkpoint shards:  33% Completed | 1/3 [00:00<00:01,  1.66it/s]
+(EngineCore pid=6697) Loading safetensors checkpoint shards:  67% Completed | 2/3 [00:01<00:00,  1.51it/s]
+(EngineCore pid=6697) Loading safetensors checkpoint shards: 100% Completed | 3/3 [00:01<00:00,  2.17it/s]
+(EngineCore pid=6697) 
+(EngineCore pid=6697) INFO 10-12 05:42:09 [default_loader.py:430] Loading weights took 1.39 seconds
+(EngineCore pid=6697) INFO 10-12 05:42:10 [model_runner.py:428] Model loading took 7.56 GiB memory and 4.239196 seconds
+(EngineCore pid=6697) INFO 10-12 05:42:10 [topk_topp_sampler.py:78] Using FlashInfer for top-p & top-k sampling.
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:10,697] LMCache INFO:[0m torch_dev=<module 'torch.cuda' from '/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/torch/cuda/__init__.py'>, torch_device_type=cuda [3m(_device_detect.py:311:lmcache.v1.platform._device_detect)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:10,697] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) INFO 10-12 05:42:10 [utils.py:320] Using LBNHC KV cache layout.
+(EngineCore pid=6697) INFO 10-12 05:42:12 [gpu_worker.py:559] Initial free memory 22.72 GiB, reserved 2.0 GiB memory for KV Cache as specified by kv_cache_memory_bytes config and skipped memory profiling. This does not respect the gpu_memory_utilization config. Only use kv_cache_memory_bytes config when you want manual control of KV cache memory size. If OOM'ed, check the difference of initial free memory between the current run and the previous run where kv_cache_memory_bytes is suggested and update it correspondingly.
+(EngineCore pid=6697) INFO 10-12 05:42:12 [kv_cache_utils.py:2395] GPU KV cache size: 14,560 tokens, Maximum concurrency for 8,192 tokens per request: 1.78x
+(EngineCore pid=6697) INFO 10-12 05:42:12 [factory.py:62] Creating v1 connector with name: GenerationLedgerConnector and engine_id: fa05d461-7130-4b92-9b90-7d6407fabfe5
+(EngineCore pid=6697) WARNING 10-12 05:42:12 [base.py:217] Initializing KVConnectorBase_V1. This API is experimental and subject to change in the future as we iterate the design.
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,183] LMCache INFO:[0m Resolved LMCache MP geometry: group_tokens_per_block=[16], scheduler_block_size=16, cache_model_name=/root/CachePilot/models/Qwen3-4B [3m(lmcache_mp_connector.py:629:lmcache.integration.vllm.lmcache_mp_connector)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,184] LMCache INFO:[0m lmcache.mp.mq_timeout = 300.0 [3m(vllm_multi_process_adapter.py:206:lmcache.integration.vllm.vllm_multi_process_adapter)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,184] LMCache INFO:[0m lmcache.mp.heartbeat_interval = 10.0 [3m(vllm_multi_process_adapter.py:206:lmcache.integration.vllm.vllm_multi_process_adapter)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,184] LMCache INFO:[0m lmcache.mp.nonblocking_lookup_status = True [3m(vllm_multi_process_adapter.py:206:lmcache.integration.vllm.vllm_multi_process_adapter)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,184] LMCache INFO:[0m lmcache.mp.mp_transfer_mode = auto [3m(vllm_multi_process_adapter.py:206:lmcache.integration.vllm.vllm_multi_process_adapter)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,184] LMCache INFO:[0m lmcache.mp.isolated_ipc = False [3m(vllm_multi_process_adapter.py:206:lmcache.integration.vllm.vllm_multi_process_adapter)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,184] LMCache INFO:[0m lmcache.mp.use_vmm_api = False [3m(vllm_multi_process_adapter.py:206:lmcache.integration.vllm.vllm_multi_process_adapter)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,184] LMCache INFO:[0m lmcache.mp.hash_algorithm = blake3 [3m(vllm_multi_process_adapter.py:206:lmcache.integration.vllm.vllm_multi_process_adapter)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,189] LMCache INFO:[0m LMCache MP worker adapter created with instance_id=1561693654871793717 [3m(vllm_multi_process_adapter.py:1376:lmcache.integration.vllm.vllm_multi_process_adapter)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,195] LMCache INFO:[0m Registering kv caches! [3m(lmcache_mp_connector.py:819:lmcache.integration.vllm.lmcache_mp_connector)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,195] LMCache INFO:[0m Engine KV Format: EngineKVFormat.NL_X_NB_BS_NH_CS NL x [NB, BS, NH, CS] [3m(detection.py:69:lmcache.v1.gpu_connector.kv_format.detection)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,196] LMCache INFO:[0m Engine KV Format: EngineKVFormat.NL_X_NB_BS_NH_CS NL x [NB, BS, NH, CS] [3m(detection.py:69:lmcache.v1.gpu_connector.kv_format.detection)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,196] LMCache INFO:[0m Registering kv caches [3m(vllm_multi_process_adapter.py:1559:lmcache.integration.vllm.vllm_multi_process_adapter)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,196] LMCache INFO:[0m Creating transfer context (device_type=cuda, mode=auto) [3m(worker_transfer.py:999:lmcache.v1.multiprocess.transfer_context.worker_transfer)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,197] LMCache INFO:[0m Wrapping 36 KV cache tensors for IPC [3m(kv_wrap.py:62:lmcache.v1.platform.kv_wrap)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,197] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,198] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,199] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,199] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,199] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,199] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,199] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,199] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,199] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,199] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,199] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,199] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,200] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,200] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,200] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,200] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,200] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,200] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,200] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,200] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,200] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,200] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,201] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,201] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,201] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,201] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,201] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,201] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,201] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,201] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,201] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,201] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,202] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,202] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,202] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:12,202] LMCache INFO:[0m Auto-selected backend [cuda] for accelerator 'cuda' from candidate backends [cuda, rocm]. [3m(__init__.py:149:lmcache.v1.platform)[0m
+(EngineCore pid=6697) INFO 10-12 05:42:12 [kernel_warmup.py:172] JIT kernel warmup starting.
+(EngineCore pid=6697) INFO 10-12 05:42:12 [kernel_warmup.py:185] JIT kernel warmup finished in 0.00s.
+(EngineCore pid=6697) INFO 10-12 05:42:13 [jit_monitor.py:85] Kernel JIT monitor activated; monitored JIT compilations during inference will use mode=warn.
+(EngineCore pid=6697) INFO 10-12 05:42:14 [torch_utils.py:287] Reducing Torch threads from 16 to 1 for serving. Set OMP_NUM_THREADS in the external environment to override.
+(EngineCore pid=6697) INFO 10-12 05:42:14 [core.py:379] init engine (profile, create kv cache, warmup model) took 3.66 s
+(EngineCore pid=6697) INFO 10-12 05:42:14 [factory.py:62] Creating v1 connector with name: GenerationLedgerConnector and engine_id: fa05d461-7130-4b92-9b90-7d6407fabfe5
+(EngineCore pid=6697) WARNING 10-12 05:42:14 [base.py:217] Initializing KVConnectorBase_V1. This API is experimental and subject to change in the future as we iterate the design.
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:14,796] LMCache INFO:[0m Resolved LMCache MP geometry: group_tokens_per_block=[16], scheduler_block_size=16, cache_model_name=/root/CachePilot/models/Qwen3-4B [3m(lmcache_mp_connector.py:629:lmcache.integration.vllm.lmcache_mp_connector)[0m
+(EngineCore pid=6697) 
+(EngineCore pid=6697)  _     __  __    ____           _          
+(EngineCore pid=6697) | |   |  \/  |  / ___|__ _  ___| |__   ___      LMCache v0.5.5+g1a4b40b1d
+(EngineCore pid=6697) | |   | |\/| | | |   / _` |/ __| '_ \ / _ \     Website:  https://lmcache.ai/
+(EngineCore pid=6697) | |___| |  | | | |__| (_| | (__| | | |  __/     Recipes:  https://docs.lmcache.ai/recipes
+(EngineCore pid=6697) |_____|_|  |_|  \____\__,_|\___|_| |_|\___|     LinkedIn: https://www.linkedin.com/company/lmcache-lab
+(EngineCore pid=6697) Set LMCACHE_DISABLE_BANNER=1 to hide this banner.
+(EngineCore pid=6697) 
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:14,797] LMCache INFO:[0m lmcache.mp.mq_timeout = 300.0 [3m(vllm_multi_process_adapter.py:206:lmcache.integration.vllm.vllm_multi_process_adapter)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:14,797] LMCache INFO:[0m lmcache.mp.heartbeat_interval = 10.0 [3m(vllm_multi_process_adapter.py:206:lmcache.integration.vllm.vllm_multi_process_adapter)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:14,797] LMCache INFO:[0m lmcache.mp.nonblocking_lookup_status = True [3m(vllm_multi_process_adapter.py:206:lmcache.integration.vllm.vllm_multi_process_adapter)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:14,797] LMCache INFO:[0m lmcache.mp.mp_transfer_mode = auto [3m(vllm_multi_process_adapter.py:206:lmcache.integration.vllm.vllm_multi_process_adapter)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:14,797] LMCache INFO:[0m lmcache.mp.isolated_ipc = False [3m(vllm_multi_process_adapter.py:206:lmcache.integration.vllm.vllm_multi_process_adapter)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:14,797] LMCache INFO:[0m lmcache.mp.use_vmm_api = False [3m(vllm_multi_process_adapter.py:206:lmcache.integration.vllm.vllm_multi_process_adapter)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:14,797] LMCache INFO:[0m lmcache.mp.hash_algorithm = blake3 [3m(vllm_multi_process_adapter.py:206:lmcache.integration.vllm.vllm_multi_process_adapter)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:14,799] LMCache INFO:[0m Bind GPU block pool in LMCacheMPConnector scheduler [3m(lmcache_mp_connector.py:1136:lmcache.integration.vllm.lmcache_mp_connector)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:14,799] LMCache INFO:[0m lazy offload enabled with EVICTION_AWARE policy: EvictionAwarePolicyConfig(horizon_steps=5.0, max_drain_per_step=1, max_deferral_seconds=0.0) [3m(__init__.py:73:lmcache.integration.vllm.lazy_offload_policy)[0m
+(EngineCore pid=6697) WARNING 10-12 05:42:14 [vllm.py:1547] Enforce eager set, disabling torch.compile and CUDAGraphs. This is equivalent to setting -cc.mode=none -cc.cudagraph_mode=none
+(EngineCore pid=6697) WARNING 10-12 05:42:14 [vllm.py:1570] Inductor compilation was disabled by user settings, optimizations settings that are only active during inductor compilation will be ignored.
+(EngineCore pid=6697) INFO 10-12 05:42:14 [kernel.py:416] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native'], gelu_and_mul_sparse=['triton', 'native'])
+(EngineCore pid=6697) INFO 10-12 05:42:14 [vllm.py:1780] Cudagraph is disabled under eager mode
+(EngineCore pid=6697) INFO 10-12 05:42:14 [compilation.py:336] Enabled custom fusions: norm_quant, act_quant
+(APIServer pid=6641) INFO 10-12 05:42:14 [entry.py:135] Supported tasks: ['generate']
+(APIServer pid=6641) INFO 10-12 05:42:14 [factories.py:76] Scale-out endpoints are disabled. Set --enable-scale-out to enable them.
+(APIServer pid=6641) INFO 10-12 05:42:15 [hf.py:642] Detected the chat template content format to be 'string'. You can set `--chat-template-content-format` to override this.
+(APIServer pid=6641) INFO 10-12 05:42:15 [entry.py:139] Starting vLLM server on http://127.0.0.1:8000
+(APIServer pid=6641) INFO 10-12 05:42:15 [launcher.py:61] Available routes are:
+(APIServer pid=6641) INFO 10-12 05:42:15 [launcher.py:70] Route: /openapi.json, Methods: GET, HEAD
+(APIServer pid=6641) INFO 10-12 05:42:15 [launcher.py:70] Route: /docs, Methods: GET, HEAD
+(APIServer pid=6641) INFO 10-12 05:42:15 [launcher.py:70] Route: /docs/oauth2-redirect, Methods: GET, HEAD
+(APIServer pid=6641) INFO 10-12 05:42:15 [launcher.py:70] Route: /redoc, Methods: GET, HEAD
+(APIServer pid=6641) INFO 10-12 05:42:15 [launcher.py:70] Route: /load, Methods: GET
+(APIServer pid=6641) INFO 10-12 05:42:15 [launcher.py:70] Route: /version, Methods: GET
+(APIServer pid=6641) INFO 10-12 05:42:15 [launcher.py:70] Route: /health, Methods: GET
+(APIServer pid=6641) INFO 10-12 05:42:15 [launcher.py:70] Route: /metrics, Methods: GET
+(APIServer pid=6641) INFO 10-12 05:42:15 [launcher.py:70] Route: /tokenize, Methods: POST
+(APIServer pid=6641) INFO 10-12 05:42:15 [launcher.py:70] Route: /detokenize, Methods: POST
+(APIServer pid=6641) INFO 10-12 05:42:15 [launcher.py:70] Route: /v1/models, Methods: GET
+(APIServer pid=6641) INFO 10-12 05:42:15 [launcher.py:70] Route: /ping, Methods: GET
+(APIServer pid=6641) INFO 10-12 05:42:15 [launcher.py:70] Route: /ping, Methods: POST
+(APIServer pid=6641) INFO 10-12 05:42:15 [launcher.py:70] Route: /invocations, Methods: POST
+(APIServer pid=6641) INFO 10-12 05:42:15 [launcher.py:70] Route: /v1/chat/completions, Methods: POST
+(APIServer pid=6641) INFO 10-12 05:42:15 [launcher.py:70] Route: /v1/chat/completions/batch, Methods: POST
+(APIServer pid=6641) INFO 10-12 05:42:15 [launcher.py:70] Route: /v1/responses, Methods: POST
+(APIServer pid=6641) INFO 10-12 05:42:15 [launcher.py:70] Route: /v1/responses/{response_id}, Methods: GET
+(APIServer pid=6641) INFO 10-12 05:42:15 [launcher.py:70] Route: /v1/responses/{response_id}/cancel, Methods: POST
+(APIServer pid=6641) INFO 10-12 05:42:15 [launcher.py:70] Route: /v1/completions, Methods: POST
+(APIServer pid=6641) INFO 10-12 05:42:15 [launcher.py:70] Route: /v1/messages, Methods: POST
+(APIServer pid=6641) INFO 10-12 05:42:15 [launcher.py:70] Route: /v1/messages/count_tokens, Methods: POST
+(APIServer pid=6641) INFO 10-12 05:42:15 [launcher.py:70] Route: /generative_scoring, Methods: POST
+(APIServer pid=6641) INFO 10-12 05:42:15 [launcher.py:70] Route: /scale_elastic_ep, Methods: POST
+(APIServer pid=6641) INFO 10-12 05:42:15 [launcher.py:70] Route: /is_scaling_elastic_ep, Methods: POST
+(APIServer pid=6641) INFO:     Started server process [6641]
+(APIServer pid=6641) INFO:     Waiting for application startup.
+(APIServer pid=6641) INFO:     Application startup complete.
+(APIServer pid=6641) INFO:     127.0.0.1:47328 - "GET /health HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:47332 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:47344 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:47352 - "POST /v1/completions HTTP/1.1" 200 OK
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:16,839] LMCache INFO:[0m Lazy offload counters: admitted=1 emitted=0 emitted_overdue=0 dropped_evicted=0 rejected_unhashed=0 rejected_prefix_broken=0 dropped_on_request_drop=0 dropped_failed_store=0 dropped_id_reuse=0 pending=1 [3m(eviction_aware.py:586:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(APIServer pid=6641) INFO:     127.0.0.1:47368 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:47372 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:47384 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:47398 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:47402 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:47410 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:47414 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:47430 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:47434 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:47442 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:47444 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:57882 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:57892 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:57898 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:57914 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:57928 - "POST /v1/completions HTTP/1.1" 200 OK
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:18,726] LMCache INFO:[0m PeriodicThread lmcache-heartbeat entering main loop (interval=10.0s) [3m(periodic_thread.py:304:lmcache.v1.periodic_thread)[0m
+(APIServer pid=6641) INFO:     127.0.0.1:47352 - "POST /v1/completions HTTP/1.1" 200 OK
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:18,727] LMCache INFO:[0m Started PeriodicThread: lmcache-heartbeat (level=critical, interval=10.0s, init_wait=0.0s) [3m(periodic_thread.py:248:lmcache.v1.periodic_thread)[0m
+(APIServer pid=6641) INFO:     127.0.0.1:57932 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:57934 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:57948 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:57962 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:57968 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:57974 - "POST /v1/completions HTTP/1.1" 200 OK
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:18,988] LMCache INFO:[0m Lazy offload: dropped 1 store op(s), blocks evicted before drain (cmpl-9bc2a5968a6e071b-0-b73148e9) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:19,303] LMCache INFO:[0m Lazy offload: dropped 4 store op(s), blocks evicted before drain (cmpl-8843c65c336716e2-0-b3b81f2f, cmpl-bfbd9202b3530168-0-9e745c45) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(APIServer pid=6641) INFO:     127.0.0.1:47368 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:47372 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:57978 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:57990 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:57996 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:58012 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:58028 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:58034 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:58042 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:58054 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:58070 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:58074 - "POST /v1/completions HTTP/1.1" 200 OK
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:20,922] LMCache INFO:[0m Lazy offload: dropped 2 store op(s), blocks evicted before drain (cmpl-8b81b9569b98cd77-0-aa0f54ca) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:21,232] LMCache INFO:[0m Lazy offload: dropped 4 store op(s), blocks evicted before drain (cmpl-8f7fbb739e0920c5-0-b264fbe4, cmpl-8597fe439972ba59-0-b5195f66) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:21,844] LMCache INFO:[0m Lazy offload counters: admitted=26 emitted=6 emitted_overdue=0 dropped_evicted=11 rejected_unhashed=0 rejected_prefix_broken=0 dropped_on_request_drop=0 dropped_failed_store=0 dropped_id_reuse=0 pending=9 [3m(eviction_aware.py:586:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(APIServer pid=6641) INFO:     127.0.0.1:47384 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:47398 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:47402 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:58078 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:58088 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:58098 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:58106 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:58110 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:58120 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:58126 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:58130 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:58140 - "POST /v1/completions HTTP/1.1" 200 OK
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:22,828] LMCache INFO:[0m Lazy offload: dropped 2 store op(s), blocks evicted before drain (cmpl-97ca46ea7931d752-0-ae5942b7) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:23,141] LMCache INFO:[0m Lazy offload: dropped 4 store op(s), blocks evicted before drain (cmpl-8c7b4835b0c40c06-0-abc5125c, cmpl-86da3579849dc139-0-8256f02d) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:24,656] LMCache INFO:[0m Lazy offload: dropped 2 store op(s), blocks evicted before drain (cmpl-80449ba8d48ba053-0-9ee9c14a) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:24,681] LMCache INFO:[0m Lazy offload: dropped 2 store op(s), blocks evicted before drain (cmpl-bed37aa42b8f0c4e-0-aa3c2501) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:24,735] LMCache INFO:[0m Lazy offload: dropped 2 store op(s), blocks evicted before drain (cmpl-b2a40ebd322522dc-0-b4e7b572) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(APIServer pid=6641) INFO 10-12 05:42:26 [loggers.py:315] Engine 000: Avg prompt throughput: 4947.3 tokens/s, Avg generation throughput: 63.4 tokens/s, Running: 2 reqs, Waiting: 33 reqs, Deferred: 33 reqs, GPU KV cache usage: 82.5%, Prefix cache hit rate: 0.0%, External prefix cache hit rate: 13.1%
+(APIServer pid=6641) INFO 10-12 05:42:26 [metrics.py:107] KV Transfer metrics: LMCache MP lookup count=240, LMCache MP lookup avg latency (ms)=169.958
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:26,464] LMCache INFO:[0m Lazy offload: dropped 2 store op(s), blocks evicted before drain (cmpl-9b8ac533d698f8ac-0-8464b750) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:26,847] LMCache INFO:[0m Lazy offload counters: admitted=39 emitted=12 emitted_overdue=0 dropped_evicted=25 rejected_unhashed=0 rejected_prefix_broken=0 dropped_on_request_drop=0 dropped_failed_store=0 dropped_id_reuse=0 pending=2 [3m(eviction_aware.py:586:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:27,903] LMCache INFO:[0m Lazy offload: dropped 2 store op(s), blocks evicted before drain (cmpl-8a475c2c31bba2ef-0-b390deba) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:29,318] LMCache INFO:[0m Lazy offload: dropped 1 store op(s), blocks evicted before drain (cmpl-a647083751a66032-0-8d72bba2) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:30,016] LMCache INFO:[0m Lazy offload: dropped 1 store op(s), blocks evicted before drain (cmpl-8843308382d3228f-0-be8c295f) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:31,213] LMCache INFO:[0m Lazy offload: dropped 1 store op(s), blocks evicted before drain (cmpl-826177dc8e8d8396-0-86a59816) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:31,263] LMCache INFO:[0m Lazy offload: dropped 1 store op(s), blocks evicted before drain (cmpl-826177dc8e8d8396-0-86a59816) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:31,425] LMCache INFO:[0m Lazy offload: dropped 3 store op(s), blocks evicted before drain (cmpl-9dd55a7841504ac3-0-9b88c93e) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:31,746] LMCache INFO:[0m Lazy offload: dropped 2 store op(s), blocks evicted before drain (cmpl-941a4604d8592472-0-8d6aeeaa) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:31,858] LMCache INFO:[0m Lazy offload counters: admitted=54 emitted=16 emitted_overdue=0 dropped_evicted=36 rejected_unhashed=0 rejected_prefix_broken=0 dropped_on_request_drop=0 dropped_failed_store=0 dropped_id_reuse=0 pending=2 [3m(eviction_aware.py:586:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(APIServer pid=6641) INFO:     127.0.0.1:57928 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:47352 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:57932 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:57934 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:57948 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:57962 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:57968 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:57974 - "POST /v1/completions HTTP/1.1" 200 OK
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:33,185] LMCache INFO:[0m Lazy offload: dropped 2 store op(s), blocks evicted before drain (cmpl-b5114a6c9b3ef257-0-badfa44f) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:34,613] LMCache INFO:[0m Lazy offload: dropped 2 store op(s), blocks evicted before drain (cmpl-b108687b9999d418-0-91525d77) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:36,039] LMCache INFO:[0m Lazy offload: dropped 1 store op(s), blocks evicted before drain (cmpl-a90edb9830969269-0-bc66487a) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(APIServer pid=6641) INFO 10-12 05:42:36 [loggers.py:315] Engine 000: Avg prompt throughput: 4807.2 tokens/s, Avg generation throughput: 86.2 tokens/s, Running: 3 reqs, Waiting: 22 reqs, Deferred: 14 reqs, GPU KV cache usage: 84.7%, Prefix cache hit rate: 0.0%, External prefix cache hit rate: 23.2%
+(APIServer pid=6641) INFO 10-12 05:42:36 [metrics.py:107] KV Transfer metrics: LMCache MP lookup count=207, LMCache MP lookup avg latency (ms)=575.634
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:36,737] LMCache INFO:[0m Lazy offload: dropped 1 store op(s), blocks evicted before drain (cmpl-a3af07199533aa72-0-9d2e1193) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:36,874] LMCache INFO:[0m Lazy offload counters: admitted=69 emitted=18 emitted_overdue=0 dropped_evicted=42 rejected_unhashed=0 rejected_prefix_broken=0 dropped_on_request_drop=0 dropped_failed_store=0 dropped_id_reuse=0 pending=9 [3m(eviction_aware.py:586:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:37,955] LMCache INFO:[0m Lazy offload: dropped 1 store op(s), blocks evicted before drain (cmpl-a2cae1bc3ca52603-0-b2e265f3) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:38,007] LMCache INFO:[0m Lazy offload: dropped 1 store op(s), blocks evicted before drain (cmpl-a2cae1bc3ca52603-0-b2e265f3) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:38,170] LMCache INFO:[0m Lazy offload: dropped 3 store op(s), blocks evicted before drain (cmpl-99249ded7dd3155b-0-9edabf56) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:38,493] LMCache INFO:[0m Lazy offload: dropped 2 store op(s), blocks evicted before drain (cmpl-810447f7a69c239f-0-b9e56e8e) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:40,104] LMCache INFO:[0m Lazy offload: dropped 1 store op(s), blocks evicted before drain (cmpl-a2d6104db297564d-0-8e8e99f5) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [33;20m[2026-10-12 05:42:40,589] LMCache WARNING:[0m <preempted> by preempted requests: {'cmpl-99fe7871d148ce63-0-80d4712b'} [3m(lmcache_mp_connector.py:200:lmcache.integration.vllm.lmcache_mp_connector)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:40,615] LMCache INFO:[0m Lazy offload: dropped 1 store op(s), blocks evicted before drain (cmpl-99fe7871d148ce63-0-80d4712b) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:41,941] LMCache INFO:[0m Lazy offload counters: admitted=77 emitted=21 emitted_overdue=0 dropped_evicted=51 rejected_unhashed=0 rejected_prefix_broken=0 dropped_on_request_drop=0 dropped_failed_store=0 dropped_id_reuse=0 pending=5 [3m(eviction_aware.py:586:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [33;20m[2026-10-12 05:42:42,187] LMCache WARNING:[0m <preempted> by preempted requests: {'cmpl-aedb496d9876d1a9-0-886d9c3a'} [3m(lmcache_mp_connector.py:200:lmcache.integration.vllm.lmcache_mp_connector)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:42,239] LMCache INFO:[0m Lazy offload: dropped 2 store op(s), blocks evicted before drain (cmpl-aedb496d9876d1a9-0-886d9c3a) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:42,443] LMCache INFO:[0m Lazy offload: dropped 1 store op(s), blocks evicted before drain (cmpl-a44273f180cb5c53-0-889e0e9b) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:44,310] LMCache INFO:[0m Lazy offload: dropped 1 store op(s), blocks evicted before drain (cmpl-90a81c7dc18f7946-0-b8ea6979) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:44,569] LMCache INFO:[0m Lazy offload: dropped 1 store op(s), blocks evicted before drain (cmpl-90a81c7dc18f7946-0-b8ea6979) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(APIServer pid=6641) INFO:     127.0.0.1:47398 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:47402 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:58078 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:58088 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:58106 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:58110 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:58120 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:58130 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:55002 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:55010 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:55026 - "POST /v1/completions HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO:     127.0.0.1:55034 - "POST /v1/completions HTTP/1.1" 200 OK
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:45,299] LMCache INFO:[0m Lazy offload: dropped 1 store op(s), blocks evicted before drain (cmpl-b19a2594ae11f5e2-0-bad4a306) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:45,556] LMCache INFO:[0m Lazy offload: dropped 1 store op(s), blocks evicted before drain (cmpl-b19a2594ae11f5e2-0-bad4a306) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:45,657] LMCache INFO:[0m Lazy offload: dropped 1 store op(s), blocks evicted before drain (cmpl-aedb496d9876d1a9-0-886d9c3a) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:45,914] LMCache INFO:[0m Lazy offload: dropped 1 store op(s), blocks evicted before drain (cmpl-aedb496d9876d1a9-0-886d9c3a) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:46,036] LMCache INFO:[0m Lazy offload: dropped 2 store op(s), blocks evicted before drain (cmpl-99fe7871d148ce63-0-80d4712b) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(APIServer pid=6641) INFO 10-12 05:42:46 [loggers.py:315] Engine 000: Avg prompt throughput: 5933.2 tokens/s, Avg generation throughput: 74.3 tokens/s, Running: 3 reqs, Waiting: 17 reqs, Deferred: 5 reqs, GPU KV cache usage: 85.5%, Prefix cache hit rate: 0.0%, External prefix cache hit rate: 23.1%
+(APIServer pid=6641) INFO 10-12 05:42:46 [metrics.py:107] KV Transfer metrics: LMCache MP lookup count=205, LMCache MP lookup avg latency (ms)=1111.515
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:46,952] LMCache INFO:[0m Lazy offload counters: admitted=98 emitted=27 emitted_overdue=0 dropped_evicted=62 rejected_unhashed=0 rejected_prefix_broken=0 dropped_on_request_drop=0 dropped_failed_store=0 dropped_id_reuse=0 pending=9 [3m(eviction_aware.py:586:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:47,407] LMCache INFO:[0m Lazy offload: dropped 2 store op(s), blocks evicted before drain (cmpl-b4db9ad029d1e9e4-0-9284332b) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:47,764] LMCache INFO:[0m Lazy offload: dropped 4 store op(s), blocks evicted before drain (cmpl-8312acc5470e3175-0-9b3cb94e, cmpl-92ad4f2660420224-0-b31337bb) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:49,294] LMCache INFO:[0m Lazy offload: dropped 2 store op(s), blocks evicted before drain (cmpl-be321c18b417c00e-0-aaad9578) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:49,657] LMCache INFO:[0m Lazy offload: dropped 2 store op(s), blocks evicted before drain (cmpl-ac6a096ac6cd13fc-0-9d60a2db) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:49,713] LMCache INFO:[0m Lazy offload: dropped 2 store op(s), blocks evicted before drain (cmpl-bbaad631922fc82a-0-910f9f6d) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:50,901] LMCache INFO:[0m Lazy offload: dropped 2 store op(s), blocks evicted before drain (cmpl-960d842c12fb6bd5-0-b284b09c) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [33;20m[2026-10-12 05:42:51,035] LMCache WARNING:[0m <preempted> by preempted requests: {'cmpl-943104476da23801-0-bb6bc9be'} [3m(lmcache_mp_connector.py:200:lmcache.integration.vllm.lmcache_mp_connector)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:51,215] LMCache INFO:[0m Lazy offload: dropped 2 store op(s), blocks evicted before drain (cmpl-b7996cd35ba94a2c-0-aa8a3dbd) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:51,495] LMCache INFO:[0m Lazy offload: dropped 1 store op(s), blocks evicted before drain (cmpl-ad169b0babb61242-0-84fbfd59) [3m(eviction_aware.py:426:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:51,979] LMCache INFO:[0m Lazy offload counters: admitted=115 emitted=36 emitted_overdue=0 dropped_evicted=79 rejected_unhashed=0 rejected_prefix_broken=0 dropped_on_request_drop=0 dropped_failed_store=0 dropped_id_reuse=0 pending=0 [3m(eviction_aware.py:586:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(APIServer pid=6641) INFO 10-12 05:42:56 [loggers.py:315] Engine 000: Avg prompt throughput: 4270.6 tokens/s, Avg generation throughput: 84.3 tokens/s, Running: 3 reqs, Waiting: 0 reqs, GPU KV cache usage: 70.2%, Prefix cache hit rate: 0.0%, External prefix cache hit rate: 26.6%
+(APIServer pid=6641) INFO 10-12 05:42:56 [metrics.py:107] KV Transfer metrics: LMCache MP lookup count=288, LMCache MP lookup avg latency (ms)=152.169
+(EngineCore pid=6697) [32;20m[2026-10-12 05:42:56,991] LMCache INFO:[0m Lazy offload counters: admitted=118 emitted=36 emitted_overdue=0 dropped_evicted=79 rejected_unhashed=0 rejected_prefix_broken=0 dropped_on_request_drop=0 dropped_failed_store=0 dropped_id_reuse=0 pending=3 [3m(eviction_aware.py:586:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(APIServer pid=6641) INFO:     127.0.0.1:50354 - "GET /metrics HTTP/1.1" 200 OK
+(APIServer pid=6641) INFO 10-12 05:43:06 [loggers.py:315] Engine 000: Avg prompt throughput: 246.9 tokens/s, Avg generation throughput: 10.1 tokens/s, Running: 0 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.0%, Prefix cache hit rate: 0.0%, External prefix cache hit rate: 26.6%
+(APIServer pid=6641) INFO 10-12 05:43:12 [launcher.py:129] [shutdown] API server: shutdown triggered
+(APIServer pid=6641) INFO 10-12 05:43:12 [launcher.py:145] [shutdown] API server: stopping engine client mode=drain timeout=10s
+(APIServer pid=6641) INFO 10-12 05:43:12 [core_client.py:744] [shutdown] MPClient: start timeout=10s
+(APIServer pid=6641) INFO 10-12 05:43:12 [core_client.py:746] [shutdown] MPClient: stopping engine manager
+(APIServer pid=6641) INFO 10-12 05:43:12 [utils.py:632] [shutdown] Process manager: send sigterm to process EngineCore
+(EngineCore pid=6697) INFO 10-12 05:43:12 [core.py:1342] [shutdown] EngineCore: trigger received signal=SIGTERM
+(EngineCore pid=6697) INFO 10-12 05:43:12 [core.py:1493] [shutdown] EngineCore: start mode=drain timeout=10s
+(EngineCore pid=6697) INFO 10-12 05:43:12 [core.py:1524] [shutdown] EngineCore: request processing complete; starting resource teardown
+(EngineCore pid=6697) INFO 10-12 05:43:12 [core.py:1355] [shutdown] EngineCore: exiting busy loop
+(EngineCore pid=6697) [32;20m[2026-10-12 05:43:12,634] LMCache INFO:[0m Stopping PeriodicThread: lmcache-heartbeat [3m(periodic_thread.py:267:lmcache.v1.periodic_thread)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:43:12,634] LMCache INFO:[0m PeriodicThread lmcache-heartbeat loop stopped [3m(periodic_thread.py:372:lmcache.v1.periodic_thread)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:43:12,634] LMCache INFO:[0m Unregistering kv caches [3m(vllm_multi_process_adapter.py:2375:lmcache.integration.vllm.vllm_multi_process_adapter)[0m
+(EngineCore pid=6697) [32;20m[2026-10-12 05:43:13,531] LMCache INFO:[0m Lazy offload final counters: admitted=118 emitted=36 emitted_overdue=0 dropped_evicted=79 rejected_unhashed=0 rejected_prefix_broken=0 dropped_on_request_drop=3 dropped_failed_store=0 dropped_id_reuse=0 pending=0 [3m(eviction_aware.py:578:lmcache.integration.vllm.lazy_offload_policy.eviction_aware)[0m
+(APIServer pid=6641) INFO 10-12 05:43:16 [loggers.py:315] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 0.0 tokens/s, Running: 0 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.0%, Prefix cache hit rate: 0.0%, External prefix cache hit rate: 26.6%
+[W1012 05:43:17.093750338 CudaIPCTypes.cpp:16] Producer process has been terminated before all shared CUDA tensors released. See Note [Sharing CUDA tensors]
+(APIServer pid=6641) INFO 10-12 05:43:18 [core_client.py:748] [shutdown] MPClient: engine manager stopped
+(APIServer pid=6641) INFO 10-12 05:43:18 [core_client.py:749] [shutdown] MPClient: cleaning up background resources
+(APIServer pid=6641) INFO 10-12 05:43:18 [core_client.py:751] [shutdown] MPClient: complete
+(APIServer pid=6641) INFO 10-12 05:43:18 [launcher.py:154] [shutdown] API server: engine client stopped
+(APIServer pid=6641) INFO 10-12 05:43:18 [launcher.py:157] [shutdown] API server: signalling HTTP server shutdown
+(APIServer pid=6641) INFO 10-12 05:43:18 [launcher.py:179] [shutdown] API server: shutting down FastAPI HTTP server
+(APIServer pid=6641) INFO:     Shutting down
+(APIServer pid=6641) INFO:     Waiting for application shutdown.
+(APIServer pid=6641) INFO:     Application shutdown complete.

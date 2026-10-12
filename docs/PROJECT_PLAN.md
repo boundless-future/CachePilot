@@ -388,3 +388,5 @@ Trace 回放评估的是推理系统在同一请求负载下的行为，不评�
 独立 opt-in 零保护 Connector 已实现 acquisition-time ticket、真实 pending admission/drop、跨进程原 batch receipt、lookup 路由与 current STORE 代际分离、owner-thread future polling 及 producer seal。真实库 callback 契约和完整显式 CUDA/native 805 项回归通过，详见 [接线报告](experiments/2026-10-12/GENERATION_BRIDGE.md)。下一门槛是固定原 long-prefill trace 的独立 GPU pilot：逐 wire 服务端 END handler return、session/job 快照及 native terminal/资源闭合必须同时通过。通过前不进入 formal；通过后 lazy 对照使用同一新栈，immediate 保留原 connector 并明确为整套配置比较，诊断日志关闭另行冻结，原失败与旧性能不改写。此项属于所有权适配支线，不作为保护策略收益。
 
 2026-10-12 13:21：独立 GPU 诊断 b/c 已通过，c 增加实际 reservation/native terminal 与 BlockPool 闭合，78 代际全部逐身份 END。启动失败 a、原 pilot 和旧两个诊断仍失败。下一门槛已推进到 [新性能预注册](experiments/2026-10-12/GENERATION_MATRIX_PREREGISTRATION.md)：四配置 pilot 后三次正式重复，零保护限定，不将所有权修复当作策略收益。完整 CUDA/native 回归 824 passed、115 subtests。
+
+2026-10-12 13:51：generation支线通过后，新长prefill pilot 4/4、formal12/12完成，本地独立审计及耗时/阶段/搬运分析归档。进入阶段4的decode192负载扩展，独立预注册、冻结源码、pilot后formal；截止14:55不再启动新格。该扩展保持原held-out输入与到达，只延长输出预算；零保护，不外推到原3C非零保护栈。见 [长prefill报告](experiments/2026-10-12/GENERATION_LONG_PREFILL.md)、[decode预注册](experiments/2026-10-12/DECODE_MATRIX_PREREGISTRATION.md)。

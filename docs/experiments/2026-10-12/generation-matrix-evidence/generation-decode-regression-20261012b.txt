@@ -1,0 +1,36 @@
+................................................................. [  7%]
+................................................................ [ 15%]
+........................................................................ [ 24%]
+................................................................ [ 31%]
+............................................................. [ 39%]
+....sssssssss.................................................. [ 46%]
+.................................................................... [ 54%]
+.................................................. [ 61%]
+........................................................................ [ 69%]
+........................................................................ [ 78%]
+........................................................................ [ 87%]
+.................................................................... [ 95%]
+.............................. [ 98%]
+..........                                                               [100%]
+=============================== warnings summary ===============================
+../../usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/opentelemetry/sdk/_logs/_internal/__init__.py:531: 91 warnings
+tests/test_owned_mp_bridge.py: 4 warnings
+  /usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/opentelemetry/sdk/_logs/_internal/__init__.py:531: DeprecationWarning: `LoggingHandler` in `opentelemetry-sdk` is deprecated. Use the handler from `opentelemetry-instrumentation-logging` instead.
+    warnings.warn(
+
+../../usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/torch/jit/_script.py:365: 14 warnings
+  /usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/torch/jit/_script.py:365: DeprecationWarning: `torch.jit.script_method` is deprecated. Please switch to `torch.compile` or `torch.export`.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+SKIPPED [1] tests/test_native_transfer_gpu.py:202: Explicit opt-in real CUDA test
+SKIPPED [1] tests/test_native_transfer_gpu.py:183: Explicit opt-in real CUDA test
+SKIPPED [1] tests/test_native_transfer_gpu.py:159: Explicit opt-in real CUDA test
+SKIPPED [1] tests/test_native_transfer_gpu.py:216: Explicit opt-in real CUDA test
+SKIPPED [1] tests/test_native_transfer_gpu.py:140: Explicit opt-in real CUDA test
+SKIPPED [1] tests/test_native_transfer_gpu.py:219: Explicit opt-in real CUDA test
+SKIPPED [1] tests/test_native_transfer_gpu.py:173: Explicit opt-in real CUDA test
+SKIPPED [1] tests/test_native_writer_gpu.py:82: Explicit opt-in real CUDA writer test
+SKIPPED [1] tests/test_native_writer_gpu.py:85: Explicit opt-in real CUDA writer test
+822 passed, 9 skipped, 109 warnings, 115 subtests passed in 15.82s

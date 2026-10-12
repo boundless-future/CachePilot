@@ -13,3 +13,8 @@
 比较原生、立即卸载、默认 fixed 和已选 fixed 的整套配置，不宣称保护收益。
 尚未支持多 worker/异步或真实 driver fault。源代码、运行原始日志和失败
 证据已提交推送；运行中的矩阵源文件冻结，不同步后续草稿。
+
+| 13:44前 | 离线复现CLI、194文件源快照校验、decode192变换测试、SSE观测分析、正式绘图和请求/transfer成本工具完成 | 运行中formal源冻结，工具延后同步 |
+| 13:48 | 长prefill正式12/12完成，本地独立审计及阶段/请求成本复算完成，图已视觉检查 | 816正式请求；见GENERATION_LONG_PREFILL.md |
+| 13:50 | decode新runner同步，补齐缺失历史测试archive；全套822 passed、115 subtests，显式CUDA另9 passed | 原缺fixture失败及9个显式跳过保留；Windows cost UTF-8读取修复后复算完成 |
+| 13:51 | 按13:47预注册启动decode192四格pilot | 14:55启动截止；不改长prefill冻结源码证据 |

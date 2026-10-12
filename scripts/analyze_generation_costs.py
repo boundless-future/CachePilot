@@ -13,8 +13,8 @@ def analyze(directory):
         raise ValueError('Complete formal matrix required')
     rows = []
     for cell in matrix['rows']:
-        result = json.loads((directory / cell['cell'] / 'result.json').read_text())
-        data = json.loads((directory / cell['cell'] / 'requests.json').read_text())
+        result = json.loads((directory / cell['cell'] / 'result.json').read_text(encoding='utf-8'))
+        data = json.loads((directory / cell['cell'] / 'requests.json').read_text(encoding='utf-8'))
         counters = result['vllm_delta']
         observations = {}
         for phase in ('queue', 'prefill', 'decode', 'inference'):

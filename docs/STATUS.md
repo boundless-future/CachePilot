@@ -1,6 +1,6 @@
 # CachePilot 当前状态
 
-更新：2026-10-12 13:21。逐步执行记录见 [EVENING_PROGRESS](experiments/2026-10-11/EVENING_PROGRESS.md)，完整阶段与未完成项见 [TASKS](TASKS.md)。本页区分实现、正确性范围和性能证据，历史日期的“下一步”不能代替当前计划。
+更新：2026-10-12 13:51。逐步执行记录见 [EVENING_PROGRESS](experiments/2026-10-11/EVENING_PROGRESS.md)，完整阶段与未完成项见 [TASKS](TASKS.md)。本页区分实现、正确性范围和性能证据，历史日期的“下一步”不能代替当前计划。
 
 ## 项目定位与实现
 
@@ -10,7 +10,7 @@ CachePilot 是 vLLM＋LMCache 的外部实验 Connector 和小预算 KV 卸载�
 
 ## 当前阶段
 
-最新：generation ledger 已接通真实回调，独立 GPU 诊断 b/c 通过；c 包含 78 代际逐身份 END、589 原 reservation、75 native transfer 以及 BlockPool 909 free 恢复。完整 CUDA/native 回归已到 824 passed、115 subtests。当前进入关闭诊断的新栈长 prefill 四配置 pilot，全部通过才运行正式重复。原失败保留，尚无新性能结论。详见 [接线与实机证据](experiments/2026-10-12/GENERATION_BRIDGE.md) 和 [预注册](experiments/2026-10-12/GENERATION_MATRIX_PREREGISTRATION.md)。
+最新：generation ledger 真实接线和独立GPU诊断通过；新栈长 prefill pilot 4/4、formal 12/12，816正式请求经服务器/本地独立审计通过。立即卸载/default/selected 的TTFT P95为15.559/17.210/19.611秒，native为21.266秒；整套零保护配置对照，不评价保护收益。输出hash差异保留。请求计时、分阶段和搬运字节分析已归档，见 [正式报告](experiments/2026-10-12/GENERATION_LONG_PREFILL.md)。当前进入 [decode192预注册](experiments/2026-10-12/DECODE_MATRIX_PREREGISTRATION.md) 的新pilot，服务器全套822 passed、115 subtests，随后显式CUDA9 passed（分开执行）。
 
 | 阶段 | 已完成 | 仍开放 |
 |---|---|---|
@@ -18,7 +18,7 @@ CachePilot 是 vLLM＋LMCache 的外部实验 Connector 和小预算 KV 卸载�
 | P2/3A 观测与候选 | 固定 trace、profiling、分配与 lookup 诊断；六点固定参数开发调优 24 格完成，选中 h5.0/d1 | 固定选择的新文本验证未通过覆盖门槛；更多到达分布、耗时分解 |
 | 3B 所有权支线 | 受控单卡服务链路、原身份 native terminal、L2/取消/失联和资源审计；满足限定 3C 准入 | 真实 driver/DMA 故障、永久 I/O 自动恢复、多 worker/异步范围 |
 | 3C 保护策略 | 零/一/两 chunk、预算与物理容量回退、共享取消/抢占、raw ID 跨代、长前缀拆分和受控 host exception；首轮正式消融 | 生产级全面正确性、可泛化收益结论 |
-| P4 复核 | 首轮新文本/容量重复、新栈 2.5 GiB 九格、固定参数 24 格、无保护 reference 12 格和边界专项 | 原新文本因 one 零保护覆盖停止；到达压缩 formal 已完成；原长 prefill pilot 失败已定位，新代际栈诊断通过、新性能 pilot 进行中；稳定 decode/真实结构压力待补 |
+| P4 复核 | 首轮新文本/容量重复、新栈 2.5 GiB 九格、固定参数 24 格、无保护 reference 12 格和边界专项 | 原新文本因 one 零保护覆盖停止；到达压缩 formal 已完成；原长 prefill 失败保留；新栈长 prefill formal 12格已完成；decode192 pilot进行中，真实结构压力待补 |
 | P5 展示/上游 | 原始证据持续归档 | 最终复现入口、整体图表、最小可维护上游补丁评估 |
 
 ## 能支持的结论
@@ -48,9 +48,9 @@ CachePilot 是 vLLM＋LMCache 的外部实验 Connector 和小预算 KV 卸载�
 
 ## 接下来按顺序推进
 
-1. 完成关闭热路径诊断的新栈长 prefill 四配置 pilot，独立复核后才进入 12 格 formal；所有失败和原输出差异保留。
-2. 根据整套配置比较分解 prefill、排队和搬运成本；该矩阵不包含非零保护，不能宣称保护策略收益。
-3. 冻结稳定 decode 和集中恢复负载，先 pilot 再正式重复。原固定选择的新文本保护验证仍因覆盖不足停止，不重跑筛选。
+1. 完成新冻结 decode192 四配置 pilot，独立复核后进入12格 formal；14:55停止启动GPU格，15:00汇报。
+2. 延续长 prefill 已完成的请求计时、48/8/12阶段和staging字节分析，对decode192执行同口径复核；不包含非零保护。
+3. 评估真实结构压力与后续集中恢复实验是否有额外信息，先独立设计再pilot/formal。原固定选择的新文本保护验证仍因覆盖不足停止，不重跑筛选。
 4. 整理可复现入口、版本边界和项目贡献；真实 driver/DMA fault、多 worker/异步与永久 I/O 自动恢复仍开放。
 
 2026-10-11 的 22:00/23:24 收尾是历史记录，见 [收尾记录](experiments/2026-10-11/LEDGER_CLOSEOUT.md)。今天服务器已恢复，当前实验状态以上述新记录为准。

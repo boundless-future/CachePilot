@@ -181,7 +181,8 @@
 - [x] 账本 client 边界及真实 tracker/manager/BlockPool 手动交接契约通过：PREEMPTED 后 LOOKUP A、STORE B、END A/B 分离，原 block 引用闭合；服务器专项合计 39 passed。terminal 和 producer seal 由测试显式交付，未证明真实回调接线；原错误路径测试保持复现。
 - [x] 独立 opt-in generation connector 接通真实 tracker/manager admission、pending drop、原跨进程 batch receipt、lookup/status/free future、RETRIEVE 及 producer seal；真实 raw ID 重用的旧 in-flight success/failure 和 queue owner-thread pump 契约通过。完整显式 CUDA/native 回归 805 passed、115 subtests；见 [接线报告](experiments/2026-10-12/GENERATION_BRIDGE.md)。这不等于 GPU 服务验收。
 - [x] 独立长 prefill generation 诊断 b/c 通过；c 的 78 代际 END、589 reservation、69 lookup job、75 native transfer 与 BlockPool 909 free 恢复逐项审计通过，原失败和启动失败 a 保留。诊断不计入性能。
-- [ ] 按 [新栈预注册](experiments/2026-10-12/GENERATION_MATRIX_PREREGISTRATION.md) 运行长 prefill native/immediate/default/selected 四配置 pilot，再完成三次正式重复。完整 CUDA/native 824 passed、115 subtests，热路径诊断关闭；当前 pilot 运行中。
+- [x] 新栈长 prefill 四配置pilot 4/4、formal 12/12通过，816正式请求；本地独立审计、请求计时/阶段/搬运分解和图表完成，见 [报告](experiments/2026-10-12/GENERATION_LONG_PREFILL.md)。整套缓存配置低于native，但立即卸载优于两种lazy；无非零保护收益推断。
+- [ ] 按 [decode192预注册](experiments/2026-10-12/DECODE_MATRIX_PREREGISTRATION.md) 完成新pilot/formal；68固定请求、13,056输出tokens，保持prompt/arrival/seed，当前pilot运行中。
 - [ ] 用 Qwen3-8B＋5090 复核；如要区分模型/硬件效应，需要额外控制变量实验。
 - [x] 开发和验证消融已统计客户端 ready-to-first/ready-to-end 及会话完成时间；原始值与聚合均归档，不将入口等待隐藏。新容量和到达负载继续沿用该口径。
 - [ ] 整理复现文档、版本清单、原始数据、图表和个人贡献。
@@ -189,6 +190,8 @@
 - [ ] 项目阶段收尾后重新核查 LMCache/vLLM 上游状态；若仍可复现且有可维护的最小修复与回归测试，考虑提交异步回载压力信号的上游 issue/PR，范围见 [UPSTREAM_ASYNC_KV_PRESSURE.md](UPSTREAM_ASYNC_KV_PRESSURE.md)。
 
 ## 优先顺序
+
+2026-10-12 13:51：新栈长prefill正式12格完成并独立复核，原失败不改写。decode192新源签名已冻结，先pilot后formal；14:55停止启动新GPU格、15:00安全收尾汇报。零保护限定，暂不扩卡或调参。
 
 2026-10-12 13:21：独立 generation GPU 诊断 b/c 通过，原身份和物理 BlockPool 证据已归档；新栈四配置性能 pilot 已启动，禁止修改其冻结源码或重复启动。通过完整独立复核后进入 formal；原启动失败 a 和旧身份失败不改写。下面日期/时点较早的条目为历史开发记录。
 
