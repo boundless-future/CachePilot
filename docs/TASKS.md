@@ -196,6 +196,8 @@
 
 ## 优先顺序
 
+2026-10-12 16:04（用户续授至17:00）：205项服务器源审计通过，同签名decode receipt formal十二格正在运行，不得同步CPU开发或重复启动。真实匿名结构GPU试点runner、来源/采样独立复算、预注册已准备，本地16项通过；等待decode完整门槛后才运行。16:55停止启动新格，17:00安全收尾。
+
 2026-10-12 14:48：新decode receipt pilot四格完整通过并归档，formal仍未开始；时间不足完成十二格，因此安全收尾并为下一窗口保留服务器205项冻结源。六会话真实匿名结构CPU生成和独立来源/前缀审计完成，尚无GPU结果。下一步先同签名decode formal，再真实结构GPU准入。
 
 2026-10-12 14:32：decode原pilot失败已定位为END先于末批STORE的session重建；独立immediate回执候选诊断通过。新四配置pilot进行中，源码冻结；完整834 passed/9 skipped/115 subtests，CUDA另9 passed。今日先闭合pilot与证据，不赶在截止前启动不能安全完成的formal。

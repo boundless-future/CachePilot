@@ -48,6 +48,8 @@ flowchart TB
 
 真实匿名结构准备入口是 `catalogue_real_traces.py` → `prepare_real_structure.py` → `audit_real_structure.py`；固定源commit、全部准入session、实际模型tokenizer和来源SHA。只生成CPU请求结构，不推断物理压力或live Agent行为。
 
+结构GPU准入入口为 `run_real_structure_pilot.py`，要求十二格decode receipt formal先完整通过，冻结输入和既有源码，新签名运行四个冷启动零保护配置。`audit_real_structure_pilot.py` 独立重读归档源文件、原始metrics采样和既有资源审计；缺指标为unknown，保留任何原始资源失败，单次诊断不输出正式性能聚合。实际GPU启动与结果以今日记录为准。
+
 ## 主线与开发支线
 
 - 主线：真实分配信号诊断 → 准入前有限保护 → 同栈 zero/one/two → 固定参数调优与负载复核。
