@@ -1,0 +1,93 @@
+{
+  "files": {
+    "plan.json": {
+      "bytes": 24063,
+      "sha256": "f612247f61c584215c89010f296d7706eabe3a21801edabcd7d35b2e416959ed"
+    },
+    "summary.json": {
+      "bytes": 206301,
+      "sha256": "04efcace0e8707412de9b154c0577e109abb61ace4ed6a2fd96c1a0b15c40c1d"
+    },
+    "two/after-restore-status.json": {
+      "bytes": 3823,
+      "sha256": "9456045e847d2eb44959765349c5a4a97553845015694194554386de03158d59"
+    },
+    "two/running-final-status.json": {
+      "bytes": 840,
+      "sha256": "86bb6f379cd040e71439b03591766083b16f52dc9521f3368c3542249f8add86"
+    },
+    "two/responses.json": {
+      "bytes": 1760340,
+      "sha256": "8bb31e4ee73ca40a7cb6940d868674cbf288e2d16f7c71627d3e52c285a437b9"
+    },
+    "two/before-restore-status.json": {
+      "bytes": 3823,
+      "sha256": "9456045e847d2eb44959765349c5a4a97553845015694194554386de03158d59"
+    },
+    "two/after-restore-vllm.prom": {
+      "bytes": 61685,
+      "sha256": "a6f2b51efc866d25a08e980c1564ee75ed0b3d7e689521111b2153d16688628c"
+    },
+    "two/vllm.log": {
+      "bytes": 67987,
+      "sha256": "7a410c4c6f1889e75edd245714b4112f32eae4f46ea99bf77c09526c5ce8c9a8"
+    },
+    "two/after-restore-lmcache.prom": {
+      "bytes": 24587,
+      "sha256": "ca2c053517ee91db3679b0a6f599ea844b26c566dc30e841e779e5eede8784da"
+    },
+    "two/config.json": {
+      "bytes": 672,
+      "sha256": "51d753bebfb90ff26668ca14a1f6d4510cc96ad8c44021e54b45cb16972398e7"
+    },
+    "two/after-engine-stop-status.json": {
+      "bytes": 813,
+      "sha256": "24ce5aa1586d68cef5fc4819b54941948dd56fc51d987ffb5a5ae6e2614cc8b2"
+    },
+    "two/before-restore-vllm.prom": {
+      "bytes": 61667,
+      "sha256": "7b982891d74b20766689a4f21bd40fbfe84acf7f7cceac4a7fe25de52101092a"
+    },
+    "two/generation-validation.json": {
+      "bytes": 192521,
+      "sha256": "853cbd71a8515b3683bc0a2e572a311611f4e2cd4cbc04d89103c4357f5ef626"
+    },
+    "two/generation.json": {
+      "bytes": 177922,
+      "sha256": "4f147ce0532fae5cbf399a681edf5642e988001d9ab3c89f4cb0771b7de8a688"
+    },
+    "two/result.json": {
+      "bytes": 22139,
+      "sha256": "126ae7a7535d6fcbba060bdf6e0fa615e0ff945c453ce006b87c8f3adff0fd3b"
+    },
+    "two/before-restore-lmcache.prom": {
+      "bytes": 18019,
+      "sha256": "7c41d1e0902db9f820a0b066661002eef1ac00c2d0183092d8576653e85da718"
+    },
+    "two/lmcache.log": {
+      "bytes": 112469,
+      "sha256": "8ddf4f7472afcc0eaaeff21e18646bd6ddfbb31985efb4fcf2502255db861eaf"
+    },
+    "two/events/handoff-28577-SCHEDULER.jsonl": {
+      "bytes": 393761,
+      "sha256": "75fb1bbc6a5fec5449454cfeaba0e5a88ca6492a88dbff2ba9988a46f17ab7bf"
+    },
+    "two/events/owned-connector-28577.jsonl": {
+      "bytes": 468965,
+      "sha256": "652e8a9c3e6c33e1e440df765728dfcee338ed816edc746028d57d1426799cc1"
+    },
+    "two/events/handoff-28577-WORKER.jsonl": {
+      "bytes": 51772,
+      "sha256": "77e7258b9ffadc59d92ab4d2984a6f5228a9ca5082ba21884291dfb81b9b83df"
+    },
+    "two/events/owned-service-28475.jsonl": {
+      "bytes": 388105,
+      "sha256": "bf86d42f57dad87a2820189f2f9182a6dc0f7a3f3f4ce6d81490f5fe69993f75"
+    },
+    "two/probe/kv-28577.jsonl": {
+      "bytes": 1002368,
+      "sha256": "dea253c1005c3c7b58f9d7dc2026d06a50e952a251ee171024187ffcc7bdbafd"
+    }
+  },
+  "verified_source_files": 216
+}

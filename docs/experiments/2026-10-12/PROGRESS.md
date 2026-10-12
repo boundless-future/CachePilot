@@ -91,3 +91,9 @@
 - after-commit探针在原native注册后/worker handoff前抛一次主机异常。a实际EngineCore/API自行退出但无snapshot，整体失败保留。将只读快照前移至异常捕获，再b验证通过，保留16个在途引用/原票据，无目标rollback/END/worker handoff。
 - 回调测试fixture import初次遗漏导致14 pass/1 error，修正后15 pass；完整服务器显式CUDA/native879 pass、115 subtests，19.34s。本地独立/篡改审计18 pass单列。
 - a/b27原始文件906,696bytes远端/本地一致，b216源码冻结tar归档；回归后GPU0%/1MiB。当前为受控主机异常，不是driver/DMA故障、正常归零或自动恢复。下一步长prefix/取消抢占/失败回执GPU专项。
+
+## 21:21 长prefix与失败回执窗口
+
+- runner添加互斥long-prefix/failed-receipt独立分支，原正常默认三格不变。长prefix348请求/1800层全等、9split/8严格四chunk链/9派生票据；54 reservation/36 transfer闭合。22原文件5,044,642bytes、216源码核对冻结。
+- failed-receipt独立348请求/864层全等、9保护STORE中1成功后报告失败，32pin回执前存在、最终0，26 reservation/26 transfer闭合；预期adapter ERROR对应目标，原日志保留。22文件4,222,630bytes、217源码核对冻结。
+- 两格generation各348精确END、BlockPool各909；独立本地审计通过。离线lineage/split/normal/fault测试19 passed，不重复全套CPU。GPU0%/1MiB。下一步共享取消/实际抢占；本次无长suffix失败联合或性能结论。

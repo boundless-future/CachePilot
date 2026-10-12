@@ -8,6 +8,8 @@ from pathlib import Path
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--long-prefix', action='store_true', help='Independent 1088-token two-chunk split diagnostic')
+    parser.add_argument('--failed-receipt', action='store_true', help='Report one successful native STORE as failed; not a DMA fault')
     args = parser.parse_args()
     import protection_zero_smoke as smoke
     from run_protection_ablation import ports_free, source_sha
@@ -26,15 +28,20 @@ def main():
     out = args.output.resolve()
     out.mkdir(parents=True, exist_ok=False)
     frozen = source_sha()
-    write_json(out / 'plan.json', dict(stage='generation-protection-normal-diagnostic',
-        modes=['zero', 'one', 'two'], source_sha256=frozen,
+    if args.long_prefix and args.failed_receipt:
+        parser.error('Run long-prefix and failed-receipt as separate diagnostics')
+    modes = ('two',) if args.long_prefix or args.failed_receipt else ('zero', 'one', 'two')
+    write_json(out / 'plan.json', dict(stage='generation-protection-failed-receipt' if args.failed_receipt else 'generation-protection-long-prefix' if args.long_prefix else 'generation-protection-normal-diagnostic',
+        modes=list(modes), source_sha256=frozen,
         kv_cache_bytes=2147483648, model=str(ROOT / 'models/Qwen3-4B'),
-        workload='unchanged protection_zero_smoke bounded_workload, 576-token source',
-        performance=False, fault_injection=False,
+        workload=f'unchanged protection_zero_smoke bounded_workload, {1088 if args.long_prefix else 576}-token source',
+        long_prefix=args.long_prefix,
+        performance=False, fault_injection=args.failed_receipt,
+        receipt_probe='failed-after-success' if args.failed_receipt else None,
         gates=['existing strict KV/ownership/handoff', 'exact generation END',
                'server sessions empty', 'new-stack snapshot closed']))
     results = []
-    for mode in ('zero', 'one', 'two'):
+    for mode in modes:
         if source_sha() != frozen:
             raise RuntimeError('Source changed during diagnostic')
         cell = out / mode
@@ -52,6 +59,9 @@ def main():
                     config = json.loads(self.command[i])
                     config.update(kv_connector='GenerationProtectionProbeConnector',
                         kv_connector_module_path='scripts.generation_protection_probe')
+                    if args.failed_receipt:
+                        config.update(kv_connector='GenerationProtectionReceiptProbeConnector',
+                            kv_connector_module_path='scripts.generation_protection_receipt_probe')
                     config['kv_connector_extra_config'].update({
                         'cachepilot.generation_ledger': True, 'cachepilot.generation_protection': True})
                     self.command[i] = json.dumps(config)
@@ -61,7 +71,8 @@ def main():
         smoke.Service = DiagnosticService
         caught = None
         try:
-            smoke.run(cell, mode, bounded_workload=True)
+            smoke.run(cell, mode, bounded_workload=True, long_prefix=args.long_prefix,
+                receipt_probe='failed-after-success' if args.failed_receipt else None)
         except Exception as exc:
             caught = repr(exc)
         result = json.loads((cell / 'result.json').read_text())
