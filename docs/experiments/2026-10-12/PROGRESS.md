@@ -65,3 +65,4 @@
 - 完成prefix/suffix原票据交接、原回执、跨代success/failure、idle suffix drop、异常后unresolved。发现native注册后helper仍PREPARED的回滚窗口，新增poison隔离及真实scheduler异常包装契约，保留pin且禁止END，必须重建实例。
 - 本轮未运行GPU推理；19:29 GPU 0%/1MiB。端口检查首次使用ss但环境无该命令，不能以该次输出证明无监听，随后使用/proc/net核查。服务器仅新增候选及测试，历史210源冻结包继续保留。
 - 更新状态、任务、阶段计划和下一窗口入口；Connector接线、GPU bitwise与资源准入、策略消融仍开放。
+- 收尾：/proc/net/tcp与tcp6确认8000/8080/5555无监听；源码及四份日志远端/本地SHA一致。首次staged whitespace检查发现本地manifest使用CRLF（原日志未改），追加统一manifest为LF；重新检查通过。
