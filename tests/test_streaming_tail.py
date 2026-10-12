@@ -11,7 +11,7 @@ def test_chunk_coalescing_is_not_assumed_one_token_per_fragment():
     assert result['final_fragment_to_completion_ms']['mean'] == 5
 
 
-@pytest.mark.parametrize('change', ['failure', 'order', 'finish', 'empty'])
+@pytest.mark.parametrize('change', ['failure', 'order', 'finish', 'empty', 'nan'])
 def test_invalid_streams_are_not_silently_filtered(change):
     row = dict(error=None, chunk_arrivals_ms=[100, 130, 190],
         finished_ms=195, usage=dict(completion_tokens=10))
@@ -21,7 +21,9 @@ def test_invalid_streams_are_not_silently_filtered(change):
         row['chunk_arrivals_ms'] = [100, 190, 130]
     elif change == 'finish':
         row['finished_ms'] = 189
-    else:
+    elif change == 'empty':
         row['chunk_arrivals_ms'] = []
+    else:
+        row['finished_ms'] = float('nan')
     with pytest.raises(ValueError):
         analyze(dict(results=[row]))

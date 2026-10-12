@@ -1,6 +1,7 @@
 """Offline streaming-duration observations; not CUDA per-token timings."""
 import argparse
 import json
+import math
 from pathlib import Path
 import statistics
 
@@ -18,7 +19,8 @@ def analyze(data):
         if row.get('error') is not None:
             raise ValueError('Failed requests cannot be excluded from the comparison')
         chunks = row['chunk_arrivals_ms']
-        if not chunks or chunks != sorted(chunks) or row['finished_ms'] < chunks[-1]:
+        if (not chunks or not all(math.isfinite(t) for t in chunks + [row['finished_ms']])
+                or chunks != sorted(chunks) or row['finished_ms'] < chunks[-1]):
             raise ValueError('Missing or unordered streaming timestamps')
         tokens = row['usage']['completion_tokens']
         if tokens < 2:
