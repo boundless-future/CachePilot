@@ -6,7 +6,7 @@
 
 第一次阅读建议先看 [当前实现与代码导航](docs/IMPLEMENTATION_MAP.md)，再用 [离线复核说明](docs/experiments/2026-10-11/REPRODUCE_EVENING.md) 查看已归档结果；复核这些结果不需要 GPU。
 
-2026-10-12 更新：长 prefill 的代际缺口已通过独立 opt-in 账本接线和 GPU 资源审计；原失败保持失败。关闭诊断的新四配置 pilot 4/4、formal 12/12 通过，正式816请求；长 prefill 下立即卸载/default/selected 的 TTFT P95 相对 native 为 -26.84%/-19.07%/-7.78%，只代表整套零保护配置。见 [长 prefill 正式报告](docs/experiments/2026-10-12/GENERATION_LONG_PREFILL.md)。原decode192 pilot在立即卸载session残留处停止；只读复现定位END后末批STORE重建session。独立END-after-original-receipt候选GPU诊断通过，新四配置pilot 4/4通过，272请求/52,224输出tokens；服务器、本地和冻结源复算一致，同签名formal十二格完成，816请求/156,672输出tokens，native TTFT P95最低，缓存配置相对为+2.29%至+5.85%，旧失败保留。见 [decode正式报告](docs/experiments/2026-10-12/DECODE_RECEIPT_FORMAL.md)。见 [generation 证据](docs/experiments/2026-10-12/GENERATION_BRIDGE.md) 和 [今日推进记录](docs/experiments/2026-10-12/PROGRESS.md)。新连接器暂仅支持零保护，不能据此扩大非零保护验收范围。
+2026-10-12 更新：长 prefill 的代际缺口已通过独立 opt-in 账本接线和 GPU 资源审计；原失败保持失败。关闭诊断的新四配置 pilot 4/4、formal 12/12 通过，正式816请求；长 prefill 下立即卸载/default/selected 的 TTFT P95 相对 native 为 -26.84%/-19.07%/-7.78%，只代表整套零保护配置。见 [长 prefill 正式报告](docs/experiments/2026-10-12/GENERATION_LONG_PREFILL.md)。原decode192 pilot在立即卸载session残留处停止；只读复现定位END后末批STORE重建session。独立END-after-original-receipt候选GPU诊断通过，新四配置pilot 4/4通过，272请求/52,224输出tokens；服务器、本地和冻结源复算一致，同签名formal十二格完成，816请求/156,672输出tokens，native TTFT P95最低，缓存配置相对为+2.29%至+5.85%，旧失败保留。见 [decode正式报告](docs/experiments/2026-10-12/DECODE_RECEIPT_FORMAL.md)。见 [generation 证据](docs/experiments/2026-10-12/GENERATION_BRIDGE.md) 和 [今日推进记录](docs/experiments/2026-10-12/PROGRESS.md)。新连接器暂仅支持零保护，不能据此扩大非零保护验收范围。 六session真实匿名结构的观测准入和无采样pilot各4/4完成，实际高占用/抢占及资源证据见 [结构GPU报告](docs/experiments/2026-10-12/REAL_STRUCTURE_GPU.md)；正式三重复待下一窗口。
 
 ## 历史检查点
 
