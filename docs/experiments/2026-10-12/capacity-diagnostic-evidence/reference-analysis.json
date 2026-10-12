@@ -1,0 +1,544 @@
+{
+  "development": {
+    "reference_rejections": 0,
+    "unique_wires": 0,
+    "reasons": {},
+    "examples": []
+  },
+  "validation": {
+    "reference_rejections": 147,
+    "unique_wires": 6,
+    "reasons": {
+      "('referenced',)": 147
+    },
+    "examples": [
+      {
+        "block_ids": [
+          [
+            1,
+            66,
+            268,
+            903,
+            67,
+            907,
+            264,
+            267,
+            909,
+            802,
+            466,
+            265,
+            606,
+            537,
+            338,
+            605,
+            533,
+            402,
+            803,
+            532,
+            530,
+            818,
+            823,
+            541,
+            804,
+            671,
+            879,
+            878,
+            810,
+            806,
+            807,
+            65,
+            64,
+            63,
+            62,
+            61,
+            60,
+            59,
+            58,
+            57,
+            56,
+            55,
+            54,
+            53,
+            52,
+            51,
+            50,
+            49,
+            48,
+            47,
+            46,
+            45,
+            44,
+            43,
+            42,
+            41,
+            40,
+            39,
+            38,
+            37,
+            36,
+            35,
+            34,
+            33
+          ]
+        ],
+        "blocks": [
+          {
+            "hash_present": true,
+            "id": 1,
+            "null": false,
+            "refs": 2
+          },
+          {
+            "hash_present": true,
+            "id": 66,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 268,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 903,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 67,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 907,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 264,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 267,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 909,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 802,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 466,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 265,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 606,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 537,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 338,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 605,
+            "null": false,
+            "refs": 0
+          }
+        ],
+        "diagnostic_step": 647,
+        "direction": "STORE",
+        "end": 1024,
+        "event": "protection_candidate_diagnostic",
+        "monotonic_ns": 36305005909223,
+        "pid": 36893,
+        "prefix_sha256": "4fd6fad4afad09cc754433a650647577742cd9a81a487779700c295145adba7b",
+        "request_id": "cmpl-a9cdbc0315f3a192-0-8e585ce2",
+        "role": "SCHEDULER",
+        "skip": 0,
+        "stage": "reference_ineligible",
+        "start": 0,
+        "wire_id": "cp1:3389488547618413199:50:9531dc3929449cc502c8d567e1eff2e0:cmpl-a9cdbc0315f3a192-0-8e585ce2"
+      },
+      {
+        "block_ids": [
+          [
+            1,
+            29,
+            28,
+            27,
+            26,
+            25,
+            24,
+            23,
+            22,
+            21,
+            20,
+            19,
+            18,
+            17,
+            16,
+            15,
+            14,
+            13,
+            12,
+            11,
+            10,
+            9,
+            8,
+            7,
+            6,
+            5,
+            4,
+            3,
+            2,
+            829,
+            815,
+            801,
+            805,
+            735,
+            882,
+            881,
+            814,
+            813,
+            812,
+            131,
+            130,
+            129,
+            128,
+            127,
+            126,
+            125,
+            124,
+            123,
+            122,
+            121,
+            120,
+            119,
+            118,
+            117,
+            116,
+            115,
+            114,
+            113,
+            112,
+            111,
+            110,
+            109,
+            108,
+            107
+          ]
+        ],
+        "blocks": [
+          {
+            "hash_present": true,
+            "id": 1,
+            "null": false,
+            "refs": 5
+          },
+          {
+            "hash_present": true,
+            "id": 29,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 28,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 27,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 26,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 25,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 24,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 23,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 22,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 21,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 20,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 19,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 18,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 17,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 16,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 15,
+            "null": false,
+            "refs": 0
+          }
+        ],
+        "diagnostic_step": 648,
+        "direction": "STORE",
+        "end": 1024,
+        "event": "protection_candidate_diagnostic",
+        "monotonic_ns": 36305125202699,
+        "pid": 36893,
+        "prefix_sha256": "1a60ec96e0b7dd7f67f8981fd01baeab24ff45af3b6cb4e1f5e8c6628b0d3945",
+        "request_id": "cmpl-972c08bdb36b98e4-0-b962f17f",
+        "role": "SCHEDULER",
+        "skip": 0,
+        "stage": "reference_ineligible",
+        "start": 0,
+        "wire_id": "cp1:3389488547618413199:51:fd8494a3e32ff14b4833c60d0d795729:cmpl-972c08bdb36b98e4-0-b962f17f"
+      },
+      {
+        "block_ids": [
+          [
+            1,
+            103,
+            102,
+            101,
+            100,
+            99,
+            98,
+            97,
+            96,
+            95,
+            94,
+            93,
+            92,
+            91,
+            90,
+            89,
+            88,
+            87,
+            86,
+            85,
+            84,
+            83,
+            82,
+            81,
+            80,
+            79,
+            78,
+            77,
+            76,
+            75,
+            74,
+            73,
+            72,
+            71,
+            70,
+            69,
+            68,
+            825,
+            828,
+            822,
+            826,
+            800,
+            885,
+            884,
+            817,
+            816,
+            808,
+            197
+          ]
+        ],
+        "blocks": [
+          {
+            "hash_present": true,
+            "id": 1,
+            "null": false,
+            "refs": 5
+          },
+          {
+            "hash_present": true,
+            "id": 103,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 102,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 101,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 100,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 99,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 98,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 97,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 96,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 95,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 94,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 93,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 92,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 91,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 90,
+            "null": false,
+            "refs": 0
+          },
+          {
+            "hash_present": true,
+            "id": 89,
+            "null": false,
+            "refs": 0
+          }
+        ],
+        "diagnostic_step": 648,
+        "direction": "STORE",
+        "end": 768,
+        "event": "protection_candidate_diagnostic",
+        "monotonic_ns": 36305125389090,
+        "pid": 36893,
+        "prefix_sha256": "df96db6e71996956299338f9c863d7b79e41e186503089055455d1fec7bd6b1b",
+        "request_id": "cmpl-bef96301498a4462-0-910878e1",
+        "role": "SCHEDULER",
+        "skip": 0,
+        "stage": "reference_ineligible",
+        "start": 0,
+        "wire_id": "cp1:3389488547618413199:52:305a86ba9105f6e7af453c4e8b711cdd:cmpl-bef96301498a4462-0-910878e1"
+      }
+    ]
+  }
+}

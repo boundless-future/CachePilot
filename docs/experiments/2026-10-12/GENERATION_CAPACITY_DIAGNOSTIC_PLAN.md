@@ -1,6 +1,6 @@
 # 下一步：容量门槛的可观测诊断
 
-本设计基于 [新文本零覆盖反例](GENERATION_STRATEGY_VALIDATION.md)，尚未实现或运行。目的为解释为何开发输入有保护提交而历史新文本没有，不以改变参数获得通过为目标。
+本设计基于 [新文本零覆盖反例](GENERATION_STRATEGY_VALIDATION.md)。实现进展：独立诊断Connector及prepare副本已完成；去掉观测语句后与原决策AST一致，30项真实manager/BlockPool与诊断回归通过。两格GPU诊断已完成；最终结果见 [报告](GENERATION_CAPACITY_DIAGNOSTIC.md)，下一步转向共享前缀引用安全契约。目的为解释为何开发输入有保护提交而历史新文本没有，不以改变参数获得通过为目标。
 
 1. 先增加独立、opt-in的只读诊断入口。复用冻结的开发和新文本输入，策略固定selected-one h5/d1、16 blocks；模型、资源、到达及reserve算法不变。诊断与性能归档隔离，不汇入TTFT比较。
 2. 在scheduler owner的原allocation边界记录当前free、watermark、逐live请求的token/computed footprint、计算出的reserve、剩余预算，以及候选wire/generation、STORE范围、front完整chunk、引用状态和是否被普通manager移走。核对观测计算与原reserve一致；记录该边界候选所有检查阶段，区分容量拒绝、无候选、在途限制、哈希/引用失败和普通STORE先行，不能只打开已去重的capacity日志就称完整时间线。

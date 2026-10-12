@@ -1,5 +1,7 @@
 # CachePilot 当前状态
 
+23:01更新：独立容量/候选窗口GPU诊断两格通过，136测量请求，开发保护4批、新文本0批。新文本存在203次容量/预算满足的候选观测，其中147次有压力排名且全部因共享首块ref>0拒绝，另56次无压力位置。实际tokenizer确认新文本首16tokens仅1种、开发20种。不能把零覆盖仅归因reserve过大；下一步共享前缀引用安全契约，不能直接删除ref检查。230源/36原始文件SHA核对、三处审计一致；真实契约34项及本地5项通过。见 [诊断报告](experiments/2026-10-12/GENERATION_CAPACITY_DIAGNOSTIC.md)。
+
 22:34更新：固定参数新文本pilot在selected-one零保护覆盖处停止。默认/调优零保护通过，三格204请求/9,792输出；候选35次capacity回退、提交0，但原请求/资源/generation/回执/计时门槛通过。selected-two与formal未启动，2/4通过、无聚合，不将无覆盖耗时写成收益。历史trace原样复用，68条各多17tokens；静态边界不是容量根因证明。50文件SHA/226源核对与服务器/本地/冻结源报告一致，56项回归通过。下一步独立只读容量/候选窗口诊断，不改reserve或输入追求通过。见 [反例报告](experiments/2026-10-12/GENERATION_STRATEGY_VALIDATION.md)。
 
 22:16更新：新generation＋保护四组轮转三重复formal 12/12通过，816测量请求/39,168输出tokens。one/two TTFT P95均值相对selected-zero −4.74%/−3.34%；two在r2退化，所有格prefill24,156、H2D1,811,939,328 B相同，不宣称稳定或泛化收益。one提交4/4/4、two4/4/3，69代/格及保护资源闭合。183原始文件SHA核对、224冻结源核对及服务器/本地/冻结源三报告一致；47项测量/入口/审计回归通过。下一步固定参数的新文本覆盖准入，pilot全通过才formal；无覆盖则停止并记录触发局限。见 [正式报告](experiments/2026-10-12/GENERATION_STRATEGY_FORMAL.md)。

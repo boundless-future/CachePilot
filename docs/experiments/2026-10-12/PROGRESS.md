@@ -125,3 +125,11 @@
 原历史validation trace字节从旧包提取，实际模型tokenizer再次核对。新增独立runner/auditor，严格仅两项harness新增，不改224项开发源；pilot按default→selected-zero→one停止，最后一格未运行。55项启动前回归；追加真实失败归档篡改passed标志仍不能促进coverage的测试后56通过。源包、50原始文件、三处独立审计、静态block/chunk边界分析已保存。没有逐步容量原始值，不能完成因果归因；已写只读诊断设计，尚未实现或运行。
 
 详见 [反例报告](GENERATION_STRATEGY_VALIDATION.md)。服务全停、GPU1MiB/0%，容器开机。
+
+## 23:01 共享首块拒绝定位
+
+23:01更新：独立容量/候选窗口GPU诊断两格通过，136测量请求，开发保护4批、新文本0批。新文本存在203次容量/预算满足的候选观测，其中147次有压力排名且全部因共享首块ref>0拒绝，另56次无压力位置。实际tokenizer确认新文本首16tokens仅1种、开发20种。不能把零覆盖仅归因reserve过大；下一步共享前缀引用安全契约，不能直接删除ref检查。230源/36原始文件SHA核对、三处审计一致；真实契约34项及本地5项通过。
+
+新增独立诊断prepare副本、Connector、runner/auditor四项，原226项源不变。去诊断AST一致；先真实契约30项准入，再两格GPU：851/853边界、4/0保护提交。新文本147次引用拒绝仅block1/offset0、ref1–5，涉及6wire；5个正常manager提交/原回执，1个pending_store dropped且END闭合。没有逐ref owner来源，不能声称全部来自live decode。56次无压力位置；容量摘要去重数35不足以解释零覆盖。独立tokenizer复核新文本共同namespace首块。
+
+追加generation prefix/suffix成功失败回执契约后34项通过，本地5项含篡改边界/删除步序测试通过。原始36文件47,899,039 bytes及230源审计一致，服务清理/GPU空闲。下一步共享引用候选CPU契约；不把诊断计时并入性能，不改写原覆盖失败。详见 [报告](GENERATION_CAPACITY_DIAGNOSTIC.md)。
