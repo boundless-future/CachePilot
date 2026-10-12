@@ -1,0 +1,477 @@
+{
+  "matrix_complete": true,
+  "rows": [
+    {
+      "case": "default-zero",
+      "passed": true,
+      "checks": {
+        "tokens": true,
+        "exact_server_empty": true,
+        "generation_closed": true,
+        "no_hotpath_jsonl": true,
+        "result_passed": true,
+        "resources": true,
+        "config": true,
+        "source": true,
+        "trace": true,
+        "budget": true,
+        "mode": true,
+        "healthy": true,
+        "receipts": true,
+        "coverage": true,
+        "bounded": true,
+        "protection_closed": true,
+        "h2d": true,
+        "fatal_logs": true
+      },
+      "ttft_p95_ms": 8454.213771899593,
+      "h2d_bytes": 1811939328.0,
+      "d2h_bytes": 2868903936.0,
+      "committed": 0,
+      "receipts": 0,
+      "peak_pinned_blocks": 0,
+      "fallbacks": {},
+      "shutdown_teardown_errors": [],
+      "raw_timing": {
+        "cell": "default-zero-r0",
+        "passed": true,
+        "requests": 68,
+        "errors": [],
+        "recomputed": {
+          "ttft_ms": {
+            "p50": 2920.9701849995326,
+            "p95": 8454.213771899595,
+            "p99": 8874.150244889715,
+            "mean": 3661.1899856174846
+          },
+          "ready_to_first_ms": {
+            "p50": 2921.6323099990404,
+            "p95": 8454.845106099674,
+            "p99": 8875.053343697691,
+            "mean": 3661.9486600881346
+          },
+          "e2e_ms": {
+            "p50": 4255.306955001288,
+            "p95": 9634.724143850872,
+            "p99": 10034.849584010917,
+            "mean": 4905.405743132659
+          },
+          "ready_to_end_ms": {
+            "p50": 4255.969080000796,
+            "p95": 9635.355478050951,
+            "p99": 10035.752682818893,
+            "mean": 4906.16441760331
+          },
+          "client_queue_ms": {
+            "p50": 0.7103019997884985,
+            "p95": 1.323025650526688,
+            "p99": 1.9642616690180148,
+            "mean": 0.7586744706499945
+          },
+          "cold_ttft_ms": {
+            "p50": 1459.4135245006328,
+            "p95": 2961.5175606995763
+          },
+          "reuse_ttft_ms": {
+            "p50": 4791.63536750093,
+            "p95": 8851.069281449236
+          },
+          "session_completion_ms": {
+            "p95": 31849.11753174929,
+            "mean": 19202.707748650573
+          }
+        }
+      },
+      "prefill_tokens": 24156.0,
+      "external_hit_tokens": 12288.0,
+      "generation_count": 69,
+      "protection_events": {
+        "generation_before_shutdown": 1,
+        "generation_end_submitted": 69,
+        "generation_registered": 69,
+        "initialized": 2,
+        "protection_bypass": 34,
+        "scheduler_built": 42,
+        "scheduler_metadata": 54,
+        "scheduler_receipt": 42,
+        "worker_bound": 42,
+        "worker_receipt": 42,
+        "worker_submit_returned": 42
+      },
+      "generation_counts_match": true
+    },
+    {
+      "case": "selected-zero",
+      "passed": true,
+      "checks": {
+        "tokens": true,
+        "exact_server_empty": true,
+        "generation_closed": true,
+        "no_hotpath_jsonl": true,
+        "result_passed": true,
+        "resources": true,
+        "config": true,
+        "source": true,
+        "trace": true,
+        "budget": true,
+        "mode": true,
+        "healthy": true,
+        "receipts": true,
+        "coverage": true,
+        "bounded": true,
+        "protection_closed": true,
+        "h2d": true,
+        "fatal_logs": true
+      },
+      "ttft_p95_ms": 8153.792635300304,
+      "h2d_bytes": 1811939328.0,
+      "d2h_bytes": 2868903936.0,
+      "committed": 0,
+      "receipts": 0,
+      "peak_pinned_blocks": 0,
+      "fallbacks": {},
+      "shutdown_teardown_errors": [],
+      "raw_timing": {
+        "cell": "selected-zero-r0",
+        "passed": true,
+        "requests": 68,
+        "errors": [],
+        "recomputed": {
+          "ttft_ms": {
+            "p50": 2838.4693499974674,
+            "p95": 8153.792635300306,
+            "p99": 8572.052202590603,
+            "mean": 3523.064302073341
+          },
+          "ready_to_first_ms": {
+            "p50": 2839.0098594991287,
+            "p95": 8154.705464252038,
+            "p99": 8572.852489950492,
+            "mean": 3523.755038647698
+          },
+          "e2e_ms": {
+            "p50": 4117.360916998223,
+            "p95": 9336.616489200424,
+            "p99": 9739.403904798419,
+            "mean": 4741.190441735103
+          },
+          "ready_to_end_ms": {
+            "p50": 4117.901426499884,
+            "p95": 9337.529318152156,
+            "p99": 9740.204192158308,
+            "mean": 4741.881178309461
+          },
+          "client_queue_ms": {
+            "p50": 0.6635835015913472,
+            "p95": 1.4601896011299687,
+            "p99": 2.8253540019795764,
+            "mean": 0.6907365743566461
+          },
+          "cold_ttft_ms": {
+            "p50": 1436.7346859980898,
+            "p95": 2877.6714465982873
+          },
+          "reuse_ttft_ms": {
+            "p50": 4561.240385999554,
+            "p95": 8548.071431351127
+          },
+          "session_completion_ms": {
+            "p95": 31702.742601700265,
+            "mean": 19179.82277020037
+          }
+        }
+      },
+      "prefill_tokens": 24156.0,
+      "external_hit_tokens": 12288.0,
+      "generation_count": 69,
+      "protection_events": {
+        "generation_before_shutdown": 1,
+        "generation_end_submitted": 69,
+        "generation_registered": 69,
+        "initialized": 2,
+        "protection_bypass": 44,
+        "scheduler_built": 38,
+        "scheduler_metadata": 50,
+        "scheduler_receipt": 38,
+        "worker_bound": 38,
+        "worker_receipt": 38,
+        "worker_submit_returned": 38
+      },
+      "generation_counts_match": true
+    },
+    {
+      "case": "selected-one",
+      "passed": true,
+      "checks": {
+        "tokens": true,
+        "exact_server_empty": true,
+        "generation_closed": true,
+        "no_hotpath_jsonl": true,
+        "result_passed": true,
+        "resources": true,
+        "config": true,
+        "source": true,
+        "trace": true,
+        "budget": true,
+        "mode": true,
+        "healthy": true,
+        "receipts": true,
+        "coverage": true,
+        "bounded": true,
+        "protection_closed": true,
+        "h2d": true,
+        "fatal_logs": true
+      },
+      "ttft_p95_ms": 7944.380962950707,
+      "h2d_bytes": 1811939328.0,
+      "d2h_bytes": 2906652672.0,
+      "committed": 4,
+      "receipts": 4,
+      "peak_pinned_blocks": 16,
+      "fallbacks": {
+        "capacity": 32,
+        "inflight_budget": 2
+      },
+      "shutdown_teardown_errors": [
+        {
+          "file": "vllm.log",
+          "line": 266,
+          "text": "(APIServer pid=31233) ERROR 10-12 13:45:05 [async_llm.py:843] AsyncLLM output_handler failed."
+        },
+        {
+          "file": "vllm.log",
+          "line": 267,
+          "text": "(APIServer pid=31233) ERROR 10-12 13:45:05 [async_llm.py:843] Traceback (most recent call last):"
+        },
+        {
+          "file": "vllm.log",
+          "line": 268,
+          "text": "(APIServer pid=31233) ERROR 10-12 13:45:05 [async_llm.py:843]   File \"/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/vllm/v1/engine/async_llm.py\", line 789, in output_handler"
+        },
+        {
+          "file": "vllm.log",
+          "line": 269,
+          "text": "(APIServer pid=31233) ERROR 10-12 13:45:05 [async_llm.py:843]     outputs = await engine_core.get_output_async()"
+        },
+        {
+          "file": "vllm.log",
+          "line": 270,
+          "text": "(APIServer pid=31233) ERROR 10-12 13:45:05 [async_llm.py:843]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+        },
+        {
+          "file": "vllm.log",
+          "line": 271,
+          "text": "(APIServer pid=31233) ERROR 10-12 13:45:05 [async_llm.py:843]   File \"/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/vllm/v1/engine/core_client.py\", line 1175, in get_output_async"
+        },
+        {
+          "file": "vllm.log",
+          "line": 272,
+          "text": "(APIServer pid=31233) ERROR 10-12 13:45:05 [async_llm.py:843]     raise self._format_exception(outputs) from None"
+        },
+        {
+          "file": "vllm.log",
+          "line": 273,
+          "text": "(APIServer pid=31233) ERROR 10-12 13:45:05 [async_llm.py:843] vllm.v1.engine.exceptions.EngineDeadError: EngineCore encountered an issue. See stack trace (above) for the root cause."
+        }
+      ],
+      "raw_timing": {
+        "cell": "selected-one-r0",
+        "passed": true,
+        "requests": 68,
+        "errors": [],
+        "recomputed": {
+          "ttft_ms": {
+            "p50": 2828.8011385011487,
+            "p95": 7944.380962950709,
+            "p99": 8357.387911321784,
+            "mean": 3441.2450942499536
+          },
+          "ready_to_first_ms": {
+            "p50": 2828.9889435000077,
+            "p95": 7945.297062251666,
+            "p99": 8358.383788339997,
+            "mean": 3441.99931969155
+          },
+          "e2e_ms": {
+            "p50": 4051.506068499293,
+            "p95": 9111.124638850197,
+            "p99": 9507.656475330768,
+            "mean": 4650.680638999802
+          },
+          "ready_to_end_ms": {
+            "p50": 4051.6938734981522,
+            "p95": 9112.040738151154,
+            "p99": 9508.652352348981,
+            "mean": 4651.4348644413985
+          },
+          "client_queue_ms": {
+            "p50": 0.5919780014664866,
+            "p95": 1.5656491006666329,
+            "p99": 2.90934614949947,
+            "mean": 0.7542254415966454
+          },
+          "cold_ttft_ms": {
+            "p50": 1466.364103500382,
+            "p95": 2867.416265700194
+          },
+          "reuse_ttft_ms": {
+            "p50": 4436.748562498906,
+            "p95": 8332.845330400414
+          },
+          "session_completion_ms": {
+            "p95": 31770.160700200722,
+            "mean": 19185.719856400465
+          }
+        }
+      },
+      "prefill_tokens": 24156.0,
+      "external_hit_tokens": 12288.0,
+      "generation_count": 69,
+      "protection_events": {
+        "generation_before_shutdown": 1,
+        "generation_end_submitted": 69,
+        "generation_registered": 69,
+        "initialized": 2,
+        "protection_allocation_boundary": 14,
+        "protection_fallback": 34,
+        "protection_metadata_committed": 4,
+        "protection_prefix_split": 4,
+        "protection_prepared": 4,
+        "protection_receipt": 4,
+        "scheduler_built": 42,
+        "scheduler_metadata": 54,
+        "scheduler_receipt": 42,
+        "worker_bound": 42,
+        "worker_receipt": 42,
+        "worker_submit_returned": 42
+      },
+      "generation_counts_match": true
+    },
+    {
+      "case": "selected-two",
+      "passed": true,
+      "checks": {
+        "tokens": true,
+        "exact_server_empty": true,
+        "generation_closed": true,
+        "no_hotpath_jsonl": true,
+        "result_passed": true,
+        "resources": true,
+        "config": true,
+        "source": true,
+        "trace": true,
+        "budget": true,
+        "mode": true,
+        "healthy": true,
+        "receipts": true,
+        "coverage": true,
+        "bounded": true,
+        "protection_closed": true,
+        "h2d": true,
+        "fatal_logs": true
+      },
+      "ttft_p95_ms": 8996.26972739952,
+      "h2d_bytes": 1811939328.0,
+      "d2h_bytes": 2717908992.0,
+      "committed": 4,
+      "receipts": 4,
+      "peak_pinned_blocks": 32,
+      "fallbacks": {
+        "capacity": 32,
+        "inflight_budget": 5
+      },
+      "shutdown_teardown_errors": [],
+      "raw_timing": {
+        "cell": "selected-two-r0",
+        "passed": true,
+        "requests": 68,
+        "errors": [],
+        "recomputed": {
+          "ttft_ms": {
+            "p50": 2964.513884498956,
+            "p95": 8996.269727399522,
+            "p99": 9430.022612430621,
+            "mean": 3887.8278094409648
+          },
+          "ready_to_first_ms": {
+            "p50": 2965.279117499449,
+            "p95": 8997.19155210023,
+            "p99": 9430.242334607756,
+            "mean": 3888.561765161178
+          },
+          "e2e_ms": {
+            "p50": 4414.0150974981225,
+            "p95": 10226.782886049841,
+            "p99": 10649.62705600061,
+            "mean": 5172.175251338183
+          },
+          "ready_to_end_ms": {
+            "p50": 4414.7803304986155,
+            "p95": 10227.70471075055,
+            "p99": 10649.846778177745,
+            "mean": 5172.9092070583965
+          },
+          "client_queue_ms": {
+            "p50": 0.697774001309881,
+            "p95": 1.4218774475011742,
+            "p99": 1.6544349083778798,
+            "mean": 0.7339557202131426
+          },
+          "cold_ttft_ms": {
+            "p50": 1583.5257895014365,
+            "p95": 3005.847933449695
+          },
+          "reuse_ttft_ms": {
+            "p50": 5050.221436000356,
+            "p95": 9405.82794760121
+          },
+          "session_completion_ms": {
+            "p95": 31820.511924698803,
+            "mean": 19355.52255489929
+          }
+        }
+      },
+      "prefill_tokens": 24156.0,
+      "external_hit_tokens": 12288.0,
+      "generation_count": 69,
+      "protection_events": {
+        "generation_before_shutdown": 1,
+        "generation_end_submitted": 69,
+        "generation_registered": 69,
+        "initialized": 2,
+        "protection_allocation_boundary": 14,
+        "protection_fallback": 37,
+        "protection_metadata_committed": 4,
+        "protection_prefix_split": 4,
+        "protection_prepared": 4,
+        "protection_receipt": 4,
+        "scheduler_built": 41,
+        "scheduler_metadata": 53,
+        "scheduler_receipt": 41,
+        "worker_bound": 41,
+        "worker_receipt": 41,
+        "worker_submit_returned": 41
+      },
+      "generation_counts_match": true
+    }
+  ],
+  "relative_selected_zero_pct": {
+    "default-zero": 3.6844343489761178,
+    "selected-zero": 0.0,
+    "selected-one": -2.5682732161103616,
+    "selected-two": 10.332334041116908
+  },
+  "scope": "Single development pilot; no formal, significance or generalization claim",
+  "output_differences": {
+    "default-zero": [
+      "52",
+      "54"
+    ],
+    "selected-zero": [],
+    "selected-one": [],
+    "selected-two": [
+      "48",
+      "52"
+    ]
+  }
+}

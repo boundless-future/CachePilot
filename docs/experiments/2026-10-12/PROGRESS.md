@@ -103,3 +103,9 @@
 - 218同签名，两独立GPU专项：cancel347完整请求+1取消流，936层全等/348代；preemption347完整请求+4压力取消流，504层全等/351代。目标共享32blocks引用2→1→0、最终pin0/BlockPool909，抢占期间39次分配安全。
 - 原始49文件9,287,612bytes与服务器SHA一致，源码tar归档；本地联合审计及34项含篡改测试通过。未改变生产策略，不作性能或受害请求完整续跑结论。
 - 日志复核共享取消格正常teardown后1次API output_handler EngineDeadError，伴CUDA IPC警告，单列保留；抢占格未检出ERROR/Traceback。GPU结束0%/1MiB。下一步限定准入汇总与新pilot预注册，退出异常保留开放支线。
+
+## 21:49 新策略 pilot 完成
+
+21:49更新：新组合无逐步探针策略 pilot 四格通过，272测量请求。候选与调优零保护统一 h5/d1；one/two 实际保护各4批、峰值16/32，69代/格闭合。单次 TTFT P95 相对 selected-zero −2.57%/+10.33%，prefill均24,156，不能宣称稳定收益。a轮入口误导入根目录旧脚本失败保留，b修复路径后221项源冻结；本地独立时间戳/资源/字节复算通过，38测试通过。下一步四组轮转三重复 formal 预注册与入口，保留全部候选，不混入pilot。
+
+证据及下一步：[GENERATION_STRATEGY_PILOT](GENERATION_STRATEGY_PILOT.md)。a首格68请求不计有效pilot，b四格272请求单列。服务器已停止服务、GPU 1MiB/0%，没有留下在途实验。

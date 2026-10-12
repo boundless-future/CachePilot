@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "checks": {
+    "tokens": true,
+    "exact_server_empty": true,
+    "generation_closed": true,
+    "no_hotpath_jsonl": true,
+    "result_passed": true,
+    "resources": true,
+    "config": true,
+    "source": true,
+    "trace": true,
+    "budget": true,
+    "mode": true,
+    "healthy": true,
+    "receipts": true,
+    "coverage": true,
+    "bounded": true,
+    "protection_closed": true,
+    "h2d": true,
+    "fatal_logs": true
+  },
+  "ttft_p95_ms": 8996.26972739952,
+  "h2d_bytes": 1811939328.0,
+  "d2h_bytes": 2717908992.0,
+  "committed": 4,
+  "receipts": 4,
+  "peak_pinned_blocks": 32,
+  "fallbacks": {
+    "capacity": 32,
+    "inflight_budget": 5
+  },
+  "shutdown_teardown_errors": []
+}

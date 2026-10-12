@@ -1,0 +1,1728 @@
+{
+  "generations": [
+    {
+      "wire_id": "cp1:1734341432977301542:1:ce0bc715e168de2022e89759e3ad6b60:cmpl-b9b3f500238cd7b3-0-a06de4e2",
+      "request_id": "cmpl-b9b3f500238cd7b3-0-a06de4e2",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 1,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 2,
+          "kind": "status",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:2:3144f90afaba9f0d4e44bb8e8dbd204d:cmpl-bc747871a7b13cf6-0-af26d157",
+      "request_id": "cmpl-bc747871a7b13cf6-0-af26d157",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 3,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 4,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 5,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:3:6119aaa31f264f47c017bd138319769c:cmpl-b9d78251bd1d4404-0-94aa7848",
+      "request_id": "cmpl-b9d78251bd1d4404-0-94aa7848",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 6,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 9,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 14,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:4:83bdebe3c01c10948629945b88cd7cb3:cmpl-adf6f839e7e2e42f-0-acae2e67",
+      "request_id": "cmpl-adf6f839e7e2e42f-0-acae2e67",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 7,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 10,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 15,
+          "kind": "pending_store",
+          "state": "terminal"
+        },
+        {
+          "serial": 17,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:5:7b18e83cb73183ad2ebe3b75604c37e7:cmpl-ac8ffa6a004fe26c-0-a49dc872",
+      "request_id": "cmpl-ac8ffa6a004fe26c-0-a49dc872",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 8,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 11,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 16,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:6:9e66cd91205b1d81daa0b356bbb86cd9:cmpl-adb42bb1de7c9f31-0-8caeab0b",
+      "request_id": "cmpl-adb42bb1de7c9f31-0-8caeab0b",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 12,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 18,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 26,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:7:103aa770226630dd54866897c0668d46:cmpl-bbd8cde16f1f031b-0-b56722af",
+      "request_id": "cmpl-bbd8cde16f1f031b-0-b56722af",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 13,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 19,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 27,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:8:68eb1c8eebe6fbcad4b74afeaee7e209:cmpl-8a06c779ccc2d95a-0-a3602ca8",
+      "request_id": "cmpl-8a06c779ccc2d95a-0-a3602ca8",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 20,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 28,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 34,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:9:1cc68c44cff0cfa4d999445be6a5b988:cmpl-971288570d5ac2ef-0-9728b35c",
+      "request_id": "cmpl-971288570d5ac2ef-0-9728b35c",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 21,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 29,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 35,
+          "kind": "pending_store",
+          "state": "terminal"
+        },
+        {
+          "serial": 36,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:10:aea5061764b11ab5d0ed8688565e4844:cmpl-9b833c02050b60c0-0-941eb4aa",
+      "request_id": "cmpl-9b833c02050b60c0-0-941eb4aa",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 22,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 30,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 37,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:11:012cc400721bdcc3e1bc7e0768da1037:cmpl-830ad4f1b2ebf7c6-0-a1e77687",
+      "request_id": "cmpl-830ad4f1b2ebf7c6-0-a1e77687",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 23,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 31,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 38,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:12:a2d586f3a50e229bc0961b21e81ed5dc:cmpl-a1c8d3cb43763135-0-9fc1626f",
+      "request_id": "cmpl-a1c8d3cb43763135-0-9fc1626f",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 24,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 32,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 39,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:13:fd7451193bb3c4da1cdb1ccd60d0383a:cmpl-9143678a36a74408-0-81871bc5",
+      "request_id": "cmpl-9143678a36a74408-0-81871bc5",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 25,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 33,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 40,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:14:b5bcb245f64fbf16fc89fb032200be25:cmpl-ae41367ac649292a-0-8ebd73f7",
+      "request_id": "cmpl-ae41367ac649292a-0-8ebd73f7",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 41,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 65,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 89,
+          "kind": "free",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:15:00aa7a152f9cac88f6b43d1b67fbf7fe:cmpl-a1dcaf09ef879a51-0-a494ecb8",
+      "request_id": "cmpl-a1dcaf09ef879a51-0-a494ecb8",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 42,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 66,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 90,
+          "kind": "free",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:16:68f262a9ea8fc6d51375b8e376cfa5af:cmpl-b7d7ee2efe17eacb-0-b6977b1a",
+      "request_id": "cmpl-b7d7ee2efe17eacb-0-b6977b1a",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 43,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 67,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 91,
+          "kind": "free",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:17:c0023ac9b0c36c287d2f270d1b7ff1dd:cmpl-85b56e671c8b1875-0-b93a360d",
+      "request_id": "cmpl-85b56e671c8b1875-0-b93a360d",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 44,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 68,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 92,
+          "kind": "free",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:18:c48d4805d5362cd3f648b68f467cb95d:cmpl-b22aa94048458485-0-acbdcdd7",
+      "request_id": "cmpl-b22aa94048458485-0-acbdcdd7",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 45,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 69,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 93,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:19:957a12771bccfd69a06c61b67e124602:cmpl-860c62b56679a044-0-a2cdc2e1",
+      "request_id": "cmpl-860c62b56679a044-0-a2cdc2e1",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 46,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 70,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 94,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:20:8fea303082deb5d7700bfc41b067c70f:cmpl-86b6e899b2ddd64c-0-a58bdf75",
+      "request_id": "cmpl-86b6e899b2ddd64c-0-a58bdf75",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 47,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 71,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 95,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:21:f5c7c0d7ff6a9496dfed80c60a48b78a:cmpl-bc54c31a92c254a8-0-a6f82686",
+      "request_id": "cmpl-bc54c31a92c254a8-0-a6f82686",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 48,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 72,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 96,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:22:ce64067a93b111a6286d74eb134e8663:cmpl-98d140fb0ba24400-0-82b3edff",
+      "request_id": "cmpl-98d140fb0ba24400-0-82b3edff",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 49,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 73,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 97,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:23:7d6e6ed48dc0b65686bee0131273b07b:cmpl-8b0659b9565352c3-0-ac19b7e9",
+      "request_id": "cmpl-8b0659b9565352c3-0-ac19b7e9",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 50,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 74,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 98,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:24:31a6e7aa4957558ce35a92230a381002:cmpl-adb666e2141df108-0-bc6ccbdb",
+      "request_id": "cmpl-adb666e2141df108-0-bc6ccbdb",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 51,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 75,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 99,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:25:8496bcf845ec5a722c5f8103b3e71086:cmpl-8b97481c8389307a-0-b35bfda9",
+      "request_id": "cmpl-8b97481c8389307a-0-b35bfda9",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 52,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 76,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 100,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:26:c60e1fa1b42c7ae4c490a2afa0cadfa0:cmpl-872bc0269f2ed19d-0-878f5d02",
+      "request_id": "cmpl-872bc0269f2ed19d-0-878f5d02",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 53,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 77,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 101,
+          "kind": "free",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:27:3c4f99beb9d7fdbc51fd3b631d9b5117:cmpl-a58b4d3eb63430c8-0-808164c8",
+      "request_id": "cmpl-a58b4d3eb63430c8-0-808164c8",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 54,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 78,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 102,
+          "kind": "free",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:28:9547f5b489834ab7ab12ec4a948d622a:cmpl-b9ee4aeb92d82ec9-0-8dabaf47",
+      "request_id": "cmpl-b9ee4aeb92d82ec9-0-8dabaf47",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 55,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 79,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 103,
+          "kind": "free",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:29:86fbea8800abb468afdedee4d3e06599:cmpl-aa05e77f94a45040-0-b4c619c0",
+      "request_id": "cmpl-aa05e77f94a45040-0-b4c619c0",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 56,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 80,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 104,
+          "kind": "free",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:30:1d869dd814e1890e94e3c63bcdefb855:cmpl-847ae883f020f830-0-a4c28cb7",
+      "request_id": "cmpl-847ae883f020f830-0-a4c28cb7",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 57,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 81,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 105,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:31:139732eb4f29e3d672c39d8fd25aa7ac:cmpl-827654fdb21c6534-0-bf881a9f",
+      "request_id": "cmpl-827654fdb21c6534-0-bf881a9f",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 58,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 82,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 106,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:32:6d3691947dfa00cc7502216fa73a218f:cmpl-8fb99cac4b2d038d-0-9f60ce5c",
+      "request_id": "cmpl-8fb99cac4b2d038d-0-9f60ce5c",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 59,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 83,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 107,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:33:bc6fb983508a8a93e52b203df7c4789f:cmpl-9f761e3b1bf6c7ef-0-995c5c5a",
+      "request_id": "cmpl-9f761e3b1bf6c7ef-0-995c5c5a",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 60,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 84,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 108,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:34:c9855f854d50e2e6b6eb4693234970a3:cmpl-9f335fb6aac3f9e6-0-b9abf01e",
+      "request_id": "cmpl-9f335fb6aac3f9e6-0-b9abf01e",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 61,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 85,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 109,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:35:accb3de097e6f27e5ca3cd6ca273468e:cmpl-8ad018603c9ac5ee-0-b9aabb2d",
+      "request_id": "cmpl-8ad018603c9ac5ee-0-b9aabb2d",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 62,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 86,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 110,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:36:9d805b00c428bfec454ca7021a1dcc1e:cmpl-abebcc96a446dde2-0-8dd3fe65",
+      "request_id": "cmpl-abebcc96a446dde2-0-8dd3fe65",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 63,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 87,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 111,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:37:f3802ddb416d2e98e9b80c67dc861cd4:cmpl-87eacdfda956531f-0-ab3cd2b4",
+      "request_id": "cmpl-87eacdfda956531f-0-ab3cd2b4",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 64,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 88,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 112,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:38:ac48bef96d5379e6679c00a504c70fa8:cmpl-a11073de5e84ef25-0-be18b4ab",
+      "request_id": "cmpl-a11073de5e84ef25-0-be18b4ab",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 113,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 125,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 137,
+          "kind": "free",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:39:b425dee095447c7777001ebe1937c35f:cmpl-84b556f49f3268f7-0-8d32b4e6",
+      "request_id": "cmpl-84b556f49f3268f7-0-8d32b4e6",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 114,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 126,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 138,
+          "kind": "free",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:40:c147887d023af9eadc0a0c895397a613:cmpl-8524d99647e0d258-0-8a82c071",
+      "request_id": "cmpl-8524d99647e0d258-0-8a82c071",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 115,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 127,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 139,
+          "kind": "free",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:41:e71d1729120804bc6338c9c9469ab3e1:cmpl-a39d913c2186c6f9-0-bf74675e",
+      "request_id": "cmpl-a39d913c2186c6f9-0-bf74675e",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 116,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 128,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 140,
+          "kind": "free",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:42:f33ff826da50f9cab6fe261cd92a14c4:cmpl-90ae585822623835-0-9e89fa71",
+      "request_id": "cmpl-90ae585822623835-0-9e89fa71",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 117,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 129,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 141,
+          "kind": "free",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:43:9a276485277183e800ce885a3f32afd3:cmpl-b5498fcd1a9f6942-0-9472e307",
+      "request_id": "cmpl-b5498fcd1a9f6942-0-9472e307",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 118,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 130,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 142,
+          "kind": "free",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:44:503c44c190c8cc0e14d5cbc5b379ad19:cmpl-b8a60d0d63dcbf32-0-ae11af64",
+      "request_id": "cmpl-b8a60d0d63dcbf32-0-ae11af64",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 119,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 131,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 143,
+          "kind": "free",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:45:94066cc6f2c439d389e3f68150d95146:cmpl-af77414dfcca52a0-0-aefad2e8",
+      "request_id": "cmpl-af77414dfcca52a0-0-aefad2e8",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 120,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 132,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 144,
+          "kind": "free",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:46:a151044ec632de00b748c7437b88b8a0:cmpl-b2c11d0e4b9960db-0-bea65612",
+      "request_id": "cmpl-b2c11d0e4b9960db-0-bea65612",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 121,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 133,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 145,
+          "kind": "free",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:47:9d6c2aabb4f4dec6ce2accfe221567d7:cmpl-bf2e0c29896dec94-0-8c604127",
+      "request_id": "cmpl-bf2e0c29896dec94-0-8c604127",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 122,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 134,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 146,
+          "kind": "free",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:48:c8f999b3eea7648ea249140ed79d31b8:cmpl-bbd7207787740318-0-b76eeffb",
+      "request_id": "cmpl-bbd7207787740318-0-b76eeffb",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 123,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 135,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 147,
+          "kind": "free",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:49:aab721da67fda395c89c4f6f6a28a99f:cmpl-a45fbea215f27c23-0-a66f0294",
+      "request_id": "cmpl-a45fbea215f27c23-0-a66f0294",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 124,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 136,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 148,
+          "kind": "free",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:50:6b1bb099bb821016a50ce1108bfc2bab:cmpl-a874257ba215a5db-0-a78b7387",
+      "request_id": "cmpl-a874257ba215a5db-0-a78b7387",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 149,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 157,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 165,
+          "kind": "pending_store",
+          "state": "terminal"
+        },
+        {
+          "serial": 174,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:51:e1a561dc2927ea4112c21c1089ec30ee:cmpl-82f457c3888e2ad8-0-8ddee9c6",
+      "request_id": "cmpl-82f457c3888e2ad8-0-8ddee9c6",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 150,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 158,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 166,
+          "kind": "pending_store",
+          "state": "terminal"
+        },
+        {
+          "serial": 169,
+          "kind": "pending_store",
+          "state": "dropped"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:52:001494b2700e594879f7a75d7ac57132:cmpl-bc0b05cef52a4a84-0-b7cdb89a",
+      "request_id": "cmpl-bc0b05cef52a4a84-0-b7cdb89a",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 151,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 159,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 167,
+          "kind": "pending_store",
+          "state": "terminal"
+        },
+        {
+          "serial": 177,
+          "kind": "pending_store",
+          "state": "dropped"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:53:4a4711b77da3c976a4a2882b3198c075:cmpl-b3adb06d3ca66813-0-88057cc6",
+      "request_id": "cmpl-b3adb06d3ca66813-0-88057cc6",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 152,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 160,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 168,
+          "kind": "pending_store",
+          "state": "terminal"
+        },
+        {
+          "serial": 170,
+          "kind": "pending_store",
+          "state": "terminal"
+        },
+        {
+          "serial": 178,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:54:314f23257a7f217e9dac60906a63e2d3:cmpl-832d33b0bdb4ff2a-0-87f37b79",
+      "request_id": "cmpl-832d33b0bdb4ff2a-0-87f37b79",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 153,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 161,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 171,
+          "kind": "pending_store",
+          "state": "terminal"
+        },
+        {
+          "serial": 188,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:55:0a1618d24e9cacf75413bcf2fa5faa1f:cmpl-bdcbb22744cde400-0-a31e9961",
+      "request_id": "cmpl-bdcbb22744cde400-0-a31e9961",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 154,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 162,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 172,
+          "kind": "pending_store",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:56:710536103f3c5b9dfb3b34d8616cea52:cmpl-b41dc01b0a56691b-0-a2402de4",
+      "request_id": "cmpl-b41dc01b0a56691b-0-a2402de4",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 155,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 163,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 173,
+          "kind": "pending_store",
+          "state": "terminal"
+        },
+        {
+          "serial": 176,
+          "kind": "pending_store",
+          "state": "dropped"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:57:e91e5b9b179dbb6e88426948d4d015e0:cmpl-92000b5fd30abeab-0-a31c2c62",
+      "request_id": "cmpl-92000b5fd30abeab-0-a31c2c62",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 156,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 164,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 175,
+          "kind": "pending_store",
+          "state": "dropped"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:58:fbab9a4fb7da8eea63d372812f473d09:cmpl-8157be3067c7395d-0-94e42007",
+      "request_id": "cmpl-8157be3067c7395d-0-94e42007",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 179,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 180,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 181,
+          "kind": "retrieve",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:59:2c99cd3f47ce4de31457a53cfbbfc303:cmpl-aeb6266acfec0179-0-812edd8e",
+      "request_id": "cmpl-aeb6266acfec0179-0-812edd8e",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 182,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 183,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 189,
+          "kind": "retrieve",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:60:f70cb36c4c9c570f4fcb98364785069c:cmpl-a9a3ccc2447f0ca8-0-b1c4c60a",
+      "request_id": "cmpl-a9a3ccc2447f0ca8-0-b1c4c60a",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 184,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 185,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 193,
+          "kind": "retrieve",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:61:58d2f9748171eb2f8b80f4f0ebfeb423:cmpl-959049f781bcc01c-0-b30e83de",
+      "request_id": "cmpl-959049f781bcc01c-0-b30e83de",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 186,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 190,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 197,
+          "kind": "retrieve",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:62:1dc102df971f34877152093c7f02a127:cmpl-9638d71cec0b9374-0-8deaf0b0",
+      "request_id": "cmpl-9638d71cec0b9374-0-8deaf0b0",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 187,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 191,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 198,
+          "kind": "retrieve",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:63:f3d64066529de6c6bbe32e3a8a9c2cbf:cmpl-9739777c9ba04612-0-9eead7b1",
+      "request_id": "cmpl-9739777c9ba04612-0-9eead7b1",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 192,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 194,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 202,
+          "kind": "retrieve",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:64:acd41faf16c60ec77fb8d732289167ab:cmpl-9f199c48302c754b-0-98ccd010",
+      "request_id": "cmpl-9f199c48302c754b-0-98ccd010",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 195,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 199,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 207,
+          "kind": "retrieve",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:65:3d63cb197dd3916abd2f5a3132924816:cmpl-843c135a3c73d2af-0-a31f2aad",
+      "request_id": "cmpl-843c135a3c73d2af-0-a31f2aad",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 196,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 200,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 208,
+          "kind": "retrieve",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:66:f3e04eb937636a0030d55c06098410c4:cmpl-a0b1c0a5c3dd2ca7-0-9d3f38f7",
+      "request_id": "cmpl-a0b1c0a5c3dd2ca7-0-9d3f38f7",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 201,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 203,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 212,
+          "kind": "retrieve",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:67:ce165dbfa2cddd013e47990b54910483:cmpl-8b4f8dfde2d66408-0-a03471ff",
+      "request_id": "cmpl-8b4f8dfde2d66408-0-a03471ff",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 204,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 209,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 213,
+          "kind": "retrieve",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:68:fa054e85e6c562d9e4b6a7af680d7541:cmpl-aafe81fc54b92421-0-8086a502",
+      "request_id": "cmpl-aafe81fc54b92421-0-8086a502",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 205,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 210,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 214,
+          "kind": "retrieve",
+          "state": "terminal"
+        }
+      ]
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:69:a20f558458c4ad4f01edd672c383e947:cmpl-9a0a98b682677dc3-0-8f67a23d",
+      "request_id": "cmpl-9a0a98b682677dc3-0-8f67a23d",
+      "sealed": true,
+      "end_state": "submitted",
+      "error": null,
+      "operations": [
+        {
+          "serial": 206,
+          "kind": "lookup",
+          "state": "terminal"
+        },
+        {
+          "serial": 211,
+          "kind": "status",
+          "state": "terminal"
+        },
+        {
+          "serial": 215,
+          "kind": "retrieve",
+          "state": "terminal"
+        }
+      ]
+    }
+  ],
+  "pending_store": 0,
+  "inflight_store": 0,
+  "retrieves": 0,
+  "deferred_ends": [],
+  "pending_rpc": 0,
+  "protection_poisoned": null,
+  "derived_tickets": [
+    {
+      "wire_id": "cp1:1734341432977301542:50:6b1bb099bb821016a50ce1108bfc2bab:cmpl-a874257ba215a5db-0-a78b7387",
+      "serial": 174,
+      "parent_serial": 165
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:52:001494b2700e594879f7a75d7ac57132:cmpl-bc0b05cef52a4a84-0-b7cdb89a",
+      "serial": 177,
+      "parent_serial": 167
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:53:4a4711b77da3c976a4a2882b3198c075:cmpl-b3adb06d3ca66813-0-88057cc6",
+      "serial": 178,
+      "parent_serial": 168
+    },
+    {
+      "wire_id": "cp1:1734341432977301542:54:314f23257a7f217e9dac60906a63e2d3:cmpl-832d33b0bdb4ff2a-0-87f37b79",
+      "serial": 188,
+      "parent_serial": 171
+    }
+  ]
+}

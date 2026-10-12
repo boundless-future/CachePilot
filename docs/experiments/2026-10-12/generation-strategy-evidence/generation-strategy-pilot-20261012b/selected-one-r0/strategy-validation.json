@@ -1,0 +1,75 @@
+{
+  "passed": true,
+  "checks": {
+    "tokens": true,
+    "exact_server_empty": true,
+    "generation_closed": true,
+    "no_hotpath_jsonl": true,
+    "result_passed": true,
+    "resources": true,
+    "config": true,
+    "source": true,
+    "trace": true,
+    "budget": true,
+    "mode": true,
+    "healthy": true,
+    "receipts": true,
+    "coverage": true,
+    "bounded": true,
+    "protection_closed": true,
+    "h2d": true,
+    "fatal_logs": true
+  },
+  "ttft_p95_ms": 7944.380962950707,
+  "h2d_bytes": 1811939328.0,
+  "d2h_bytes": 2906652672.0,
+  "committed": 4,
+  "receipts": 4,
+  "peak_pinned_blocks": 16,
+  "fallbacks": {
+    "capacity": 32,
+    "inflight_budget": 2
+  },
+  "shutdown_teardown_errors": [
+    {
+      "file": "vllm.log",
+      "line": 266,
+      "text": "(APIServer pid=31233) ERROR 10-12 13:45:05 [async_llm.py:843] AsyncLLM output_handler failed."
+    },
+    {
+      "file": "vllm.log",
+      "line": 267,
+      "text": "(APIServer pid=31233) ERROR 10-12 13:45:05 [async_llm.py:843] Traceback (most recent call last):"
+    },
+    {
+      "file": "vllm.log",
+      "line": 268,
+      "text": "(APIServer pid=31233) ERROR 10-12 13:45:05 [async_llm.py:843]   File \"/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/vllm/v1/engine/async_llm.py\", line 789, in output_handler"
+    },
+    {
+      "file": "vllm.log",
+      "line": 269,
+      "text": "(APIServer pid=31233) ERROR 10-12 13:45:05 [async_llm.py:843]     outputs = await engine_core.get_output_async()"
+    },
+    {
+      "file": "vllm.log",
+      "line": 270,
+      "text": "(APIServer pid=31233) ERROR 10-12 13:45:05 [async_llm.py:843]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "file": "vllm.log",
+      "line": 271,
+      "text": "(APIServer pid=31233) ERROR 10-12 13:45:05 [async_llm.py:843]   File \"/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/vllm/v1/engine/core_client.py\", line 1175, in get_output_async"
+    },
+    {
+      "file": "vllm.log",
+      "line": 272,
+      "text": "(APIServer pid=31233) ERROR 10-12 13:45:05 [async_llm.py:843]     raise self._format_exception(outputs) from None"
+    },
+    {
+      "file": "vllm.log",
+      "line": 273,
+      "text": "(APIServer pid=31233) ERROR 10-12 13:45:05 [async_llm.py:843] vllm.v1.engine.exceptions.EngineDeadError: EngineCore encountered an issue. See stack trace (above) for the root cause."
+    }
+  ]
+}
