@@ -99,6 +99,40 @@ def collect_structural(directory):
     return report
 
 
+async def replay_with_pressure(original_replay, cell, api, *args, **kwargs):
+    """Keep raw observations and terminate the observer even if replay fails."""
+    import aiohttp
+    from validate_environment import write_json
+    samples = []
+    done = asyncio.Event()
+
+    async def observe():
+        loop = asyncio.get_running_loop()
+        start = loop.time()
+        async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=2)) as client:
+            while not done.is_set():
+                sample = dict(elapsed_seconds=loop.time() - start)
+                try:
+                    async with client.get(api + '/metrics') as response:
+                        response.raise_for_status()
+                        sample['metrics'] = await response.text()
+                except Exception as exc:
+                    sample['error'] = repr(exc)
+                samples.append(sample)
+                try:
+                    await asyncio.wait_for(done.wait(), timeout=0.5)
+                except asyncio.TimeoutError:
+                    pass
+    task = asyncio.create_task(observe())
+    try:
+        return await original_replay(*args, **kwargs)
+    finally:
+        done.set()
+        await task
+        write_json(cell / 'pressure-samples.json', samples)
+        write_json(cell / 'pressure-summary.json', pressure_summary(samples))
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument('--built', type=Path, required=True)
@@ -111,7 +145,6 @@ def main():
     cutoff = datetime.fromisoformat(args.stop_starting_at)
     if cutoff.utcoffset() is None or datetime.now(timezone.utc) >= cutoff:
         p.error('Future timezone-aware cutoff required')
-    import aiohttp
     import run_protection_ablation as ablation
     import validate_environment as environment
     import replay_trace
@@ -154,34 +187,7 @@ def main():
     original_replay = replay_trace.replay
 
     async def observed_replay(*a, **kw):
-        samples = []
-        done = asyncio.Event()
-
-        async def observe():
-            loop = asyncio.get_running_loop()
-            start = loop.time()
-            async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=2)) as client:
-                while not done.is_set():
-                    sample = dict(elapsed_seconds=loop.time() - start)
-                    try:
-                        async with client.get(ablation.API + '/metrics') as response:
-                            response.raise_for_status()
-                            sample['metrics'] = await response.text()
-                    except Exception as exc:
-                        sample['error'] = repr(exc)
-                    samples.append(sample)
-                    try:
-                        await asyncio.wait_for(done.wait(), timeout=0.5)
-                    except asyncio.TimeoutError:
-                        pass
-        task = asyncio.create_task(observe())
-        try:
-            return await original_replay(*a, **kw)
-        finally:
-            done.set()
-            await task
-            environment.write_json(cell / 'pressure-samples.json', samples)
-            environment.write_json(cell / 'pressure-summary.json', pressure_summary(samples))
+        return await replay_with_pressure(original_replay, cell, ablation.API, *a, **kw)
 
     class StructuralService(original_service):
         def start(self, health, timeout=900):

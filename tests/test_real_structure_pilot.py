@@ -76,3 +76,41 @@ def test_offline_admission_recomputes_observer_and_keeps_resource_failure(runner
     actual = runner.collect_structural(tmp_path)
     assert actual['matrix_complete'] == (mutation == 'none')
     assert actual['aggregates'] == {}
+
+
+@pytest.mark.parametrize('replay_fails', [False, True])
+def test_http_observer_drains_and_archives_on_replay_failure(runner, tmp_path, replay_fails):
+    import asyncio
+    from aiohttp import web
+
+    async def scenario():
+        entered = asyncio.Event()
+        async def metrics(request):
+            entered.set()
+            return web.Response(text='\n'.join(name + ' 0' for name in runner.GAUGES))
+        app = web.Application()
+        app.router.add_get('/metrics', metrics)
+        server = web.AppRunner(app)
+        await server.setup()
+        site = web.TCPSite(server, '127.0.0.1', 0)
+        await site.start()
+        port = site._server.sockets[0].getsockname()[1]
+        async def replay():
+            await asyncio.wait_for(entered.wait(), timeout=3)
+            if replay_fails:
+                raise RuntimeError('replay failed')
+            return 'complete'
+        try:
+            if replay_fails:
+                with pytest.raises(RuntimeError, match='replay failed'):
+                    await runner.replay_with_pressure(replay, tmp_path, f'http://127.0.0.1:{port}')
+            else:
+                assert await runner.replay_with_pressure(replay, tmp_path,
+                    f'http://127.0.0.1:{port}') == 'complete'
+            report = json.loads((tmp_path / 'pressure-summary.json').read_text())
+            assert report['all_gauges_observed'] and report['samples'] == 1
+            assert report['errors'] == 0
+            assert not [t for t in asyncio.all_tasks() if t.get_coro().__qualname__.endswith('.observe')]
+        finally:
+            await server.cleanup()
+    asyncio.run(scenario())
