@@ -1,5 +1,7 @@
 # 当前实现与证据导航
 
+新增 CPU 候选：`scripts/generation_protection_bridge.py` 的 `ProtectionGenerationLedger`、`GenerationProtectionBridge` 和 `GenerationBoundedProtection`；原 ticket→prefix、派生 suffix lineage、原 batch receipt 和 poison 隔离由 `tests/test_generation_protection_bridge.py` 验证。18项新组合测试、合计60项真实库回归通过；服务 bind 仍明确禁用，旧零保护 Connector 未改。见 [报告](experiments/2026-10-12/GENERATION_PROTECTION_CONTRACT.md)。
+
 更新：2026-10-12。帮助从项目目标读到实际代码；历史实验结果以各自冻结版本为准。
 
 ## 项目角色

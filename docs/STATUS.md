@@ -1,5 +1,7 @@
 # CachePilot 当前状态
 
+19:29更新：generation＋非零保护独立 CPU 候选实现，真实 manager/BlockPool 回归 **60 passed**（新增组合18项）；包括 prefix/suffix lineage、跨代回执和部分提交后拒绝误回滚。尚未接入服务 Connector、无新 GPU 或性能结论；下一步为独立服务接线及回调故障门槛，见 [契约报告](experiments/2026-10-12/GENERATION_PROTECTION_CONTRACT.md)。服务器已增加候选脚本，不再是历史210项冻结目录。
+
 更新：2026-10-12 18:50。逐步执行记录见 [今日推进记录](experiments/2026-10-12/PROGRESS.md)，完整阶段与未完成项见 [TASKS](TASKS.md)。本页区分实现、正确性范围和性能证据，历史日期的“下一步”不能代替当前计划。
 
 ## 项目定位与实现

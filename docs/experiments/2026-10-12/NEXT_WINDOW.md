@@ -1,5 +1,7 @@
 # 下一工作窗口：generation与保护的显式交接
 
+19:29更新：CPU 候选交接完成，60项真实库回归通过，详见 [报告](GENERATION_PROTECTION_CONTRACT.md)。下一步从独立 opt-in Connector 的 helper bind、metadata、receipt、END pump 接线契约开始，补多候选部分提交/连续 reset。保留现有零预算 guard；GPU诊断须在服务契约通过之后。服务器已加入候选源码，历史210项严格签名不再匹配当前目录，复现旧formal请使用已归档源码。下面18:50及更早内容为历史记录。
+
 18:50更新：下方历史formal入口已完整执行，12/12通过，不要重复启动。结果见 [正式报告](REAL_STRUCTURE_FORMAL.md)。下一步从 [接线设计](../../GENERATION_PROTECTION_INTEGRATION.md) 的真实manager CPU契约开始：完整范围及prefix/suffix票据、原回执、零步回滚、异常后unresolved、END关闭。独立opt-in实现、GPU bitwise准入后再新签名策略消融；不直接删除零预算guard。服务器保留210项已完成formal的冻结源，后续开发请先保存/使用归档源复现历史结果。
 
 ## 已完成formal的历史复现入口

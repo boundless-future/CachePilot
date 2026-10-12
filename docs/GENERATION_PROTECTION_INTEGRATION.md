@@ -1,5 +1,7 @@
 # generation账本与非零保护：后续接线边界
 
+19:29进展：已实现独立 CPU 候选并通过60项真实库回归（18项新组合），见 [契约报告](experiments/2026-10-12/GENERATION_PROTECTION_CONTRACT.md)。原设计中的 prefix/suffix/receipt 已有测试入口；服务接线和 GPU 准入未完成。native 注册后通用 rollback 的误释放窗口新增为必测支线；候选 poison 后保留 pin 并拒绝回滚，必须停止实例，不能宣称自动恢复。
+
 2026-10-12，匿名结构正式矩阵运行期间的只读代码复核。本文件是下一阶段设计，不代表已经实现或GPU通过。当前服务源码不变，`GenerationLedgerConnector` 的非零预算拒绝继续保留。
 
 ## 具体接口缺口

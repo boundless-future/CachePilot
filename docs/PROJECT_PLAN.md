@@ -1,5 +1,7 @@
 # CachePilot 总体设计与实施方案
 
+19:29执行状态：generation＋保护真实 manager CPU 交接候选已完成，60项回归通过。新增支线记录 native 注册后异常与通用 rollback 的冲突，以 poisoned 实例隔离保留 pin、禁止 END；尚无服务接线/自动恢复/GPU验收。接下来依次为 opt-in Connector 契约、GPU bitwise/resource 准入、新签名策略消融。见 [报告](experiments/2026-10-12/GENERATION_PROTECTION_CONTRACT.md)。
+
 更新：2026-10-12
 
 18:50执行状态：匿名结构formal12/12完成，720请求，三处独立审计一致；native TTFT P95最低，缓存配置相对高5.76–11.33%。长prefill/decode/匿名结构零保护负载复核已闭合；非零保护泛化收益仍未证明。下一步先补generation与保护的显式prefix/suffix/回执交接契约，真实manager与GPU正确性准入后再策略消融，见 [设计](GENERATION_PROTECTION_INTEGRATION.md)。

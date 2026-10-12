@@ -58,3 +58,10 @@
 - 18:46：匿名结构formal12/12完成，720请求/34,560输出tokens；服务器210源完全一致，186文件/47,173,551 bytes逐项核对通过。
 - 18:49：服务器/本地/冻结源报告完全相同；全六source session与请求阶段/搬运成本分析完成，图已视觉检查。native TTFT P95最低，缓存组高5.76–11.33%；一格退出traceback及输出hash差异保留。
 - 18:50：服务器GPU空闲、端口无监听。更新总体计划，补generation与非零保护交接设计；本轮未修改GPU策略或删除零预算guard。临时复查命令默认GBK失败已显式UTF-8复核通过，正式分析工具原本已使用UTF-8，无源码修复。
+
+## 19:23–19:29 generation与保护交接
+
+- 新增独立CPU候选脚本与18项组合测试，未修改原零保护服务链。a/b/c/d逐步回归分别7/40/59/60 passed，原日志及SHA归档；最终仅d对应本次最终源码。
+- 完成prefix/suffix原票据交接、原回执、跨代success/failure、idle suffix drop、异常后unresolved。发现native注册后helper仍PREPARED的回滚窗口，新增poison隔离及真实scheduler异常包装契约，保留pin且禁止END，必须重建实例。
+- 本轮未运行GPU推理；19:29 GPU 0%/1MiB。端口检查首次使用ss但环境无该命令，不能以该次输出证明无监听，随后使用/proc/net核查。服务器仅新增候选及测试，历史210源冻结包继续保留。
+- 更新状态、任务、阶段计划和下一窗口入口；Connector接线、GPU bitwise与资源准入、策略消融仍开放。
