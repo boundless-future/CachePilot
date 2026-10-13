@@ -1,5 +1,7 @@
 # CachePilot 当前状态
 
+2026-10-13最新（用户授权“推进下一阶段”）：共享候选历史输入pilot **4/4**、同240项冻结源formal **12/12**完成。正式816请求/39,168输出tokens，one/two各4/4/4批且回执/69代END/资源闭合。TTFT P95均值相对selected-zero **−1.52%/−1.58%**，two在r1退化；所有格prefill24,240、H2D1,811,939,328 bytes相同，尚无稳定收益或减少重算的证明。pilot/formal共258原始文件SHA及服务器/本地/冻结源复算一致；本地37项、远端27项范围不同单列。输出差异、default-zero-r2关闭traceback及CUDA IPC警告保留。下一主线：既有六session匿名结构的共享候选覆盖pilot，全部通过才formal；联合异常/完整抢占恢复仍开放。见 [正式报告](experiments/2026-10-13/SHARED_STRATEGY_FORMAL.md)。服务器已空闲、容器保持开机。以下旧日期记录是历史状态，不能代替本条。
+
 2026-10-13更新（用户授权推进1–3）：共享前缀独立服务接线、正常/异常GPU限定准入完成。最终显式CUDA/native **961 passed、115 subtests**。正常zero/one/two共1,044请求、720/720/864层KV全等；取消、自然抢占、失败回执、raw ID重用四专项通过。历史新文本全量KV探针两轮零覆盖、稀疏探针缺回载的失败均保留；轻量诊断3次共享保护，独立323请求尾段补齐1批/36层先共享再保护的严格STORE→H2D。全局资源/代际闭合、pin0、909free；七格及补充两轮服务器/本地/冻结源复算一致，305原始文件SHA核对。**不是新性能结论**，未运行pilot/formal；同一先共享再保护批次与取消/抢占等的联合GPU覆盖、完整抢占恢复、异步/多worker仍开放。下一主线：冻结新四组历史输入pilot，全部通过后才formal。详见 [本轮准入报告](experiments/2026-10-13/SHARED_PREFIX_ADMISSION.md)。
 
 23:17停机交接：今日实验已收尾，无在途实验/推理服务，端口空闲、GPU1MiB/0%；231源未漂移，代码已推送，heartbeat保持PAUSED。等待用户开机续授；下一步独立共享前缀Connector接线，不能直接启动性能实验。见 [停机交接](experiments/2026-10-12/SHUTDOWN.md)。

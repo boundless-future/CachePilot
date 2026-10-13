@@ -1,0 +1,951 @@
+{
+  "rows": [
+    {
+      "case": "default-zero",
+      "repeat": 0,
+      "metrics": {
+        "queue_mean_ms": 4071.1523534116754,
+        "prefill_mean_ms": 51.43729741181393,
+        "decode_mean_ms": 1352.235755455842,
+        "inference_mean_ms": 1403.6730528676558,
+        "h2d_staging_seconds": 0.07151667213439941,
+        "d2h_staging_seconds": 0.11057379198074344,
+        "protection_callback_cpu_ms": 0.0,
+        "protection_callback_wall_ms": 0.0,
+        "preemptions": 0.0,
+        "ready_to_first_ms_p95": 9515.365002649467,
+        "ready_to_end_ms_p95": 10873.69087289935,
+        "session_completion_ms_p95": 32119.786224149448,
+        "client_queue_ms_p95": 1.778637700135732,
+        "reuse_ttft_ms_p95": 9955.607930550332
+      },
+      "streaming": {
+        "requests": 68,
+        "first_to_last_fragment_ms": {
+          "mean": 1352.1244816470912,
+          "p95": 1441.4574428496965
+        },
+        "final_fragment_to_completion_ms": {
+          "mean": 0.042541058773542105,
+          "p95": 0.05665909993695095
+        },
+        "stream_span_per_output_interval_ms": {
+          "mean": 28.768605992491302,
+          "p95": 30.66930729467439
+        },
+        "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+      }
+    },
+    {
+      "case": "selected-zero",
+      "repeat": 0,
+      "metrics": {
+        "queue_mean_ms": 3946.2291175882992,
+        "prefill_mean_ms": 52.662813499918066,
+        "decode_mean_ms": 1310.391413338199,
+        "inference_mean_ms": 1363.054226838117,
+        "h2d_staging_seconds": 0.07166214418411254,
+        "d2h_staging_seconds": 0.1045264004468918,
+        "protection_callback_cpu_ms": 0.0,
+        "protection_callback_wall_ms": 0.0,
+        "preemptions": 0.0,
+        "ready_to_first_ms_p95": 9294.973656699947,
+        "ready_to_end_ms_p95": 10587.593095900045,
+        "session_completion_ms_p95": 31952.296243849923,
+        "client_queue_ms_p95": 1.5284743494703434,
+        "reuse_ttft_ms_p95": 9726.64015945029
+      },
+      "streaming": {
+        "requests": 68,
+        "first_to_last_fragment_ms": {
+          "mean": 1310.5154377500078,
+          "p95": 1409.418778999543
+        },
+        "final_fragment_to_completion_ms": {
+          "mean": 0.04732960293468375,
+          "p95": 0.07973544984452019
+        },
+        "stream_span_per_output_interval_ms": {
+          "mean": 27.883307186170377,
+          "p95": 29.98763359573496
+        },
+        "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+      }
+    },
+    {
+      "case": "shared-one",
+      "repeat": 0,
+      "metrics": {
+        "queue_mean_ms": 3839.5890506618102,
+        "prefill_mean_ms": 51.74444458820664,
+        "decode_mean_ms": 1297.197304955877,
+        "inference_mean_ms": 1348.9417495440837,
+        "h2d_staging_seconds": 0.07151609516143799,
+        "d2h_staging_seconds": 0.10444995176792143,
+        "protection_callback_cpu_ms": 101.164528,
+        "protection_callback_wall_ms": 104.229433,
+        "preemptions": 0.0,
+        "ready_to_first_ms_p95": 9017.43472514913,
+        "ready_to_end_ms_p95": 10275.505355799758,
+        "session_completion_ms_p95": 31956.04275229971,
+        "client_queue_ms_p95": 1.3269244494040322,
+        "reuse_ttft_ms_p95": 9425.236395249703
+      },
+      "streaming": {
+        "requests": 68,
+        "first_to_last_fragment_ms": {
+          "mean": 1297.3610511616753,
+          "p95": 1402.6230478500563
+        },
+        "final_fragment_to_completion_ms": {
+          "mean": 0.05105083829114258,
+          "p95": 0.0605187504334026
+        },
+        "stream_span_per_output_interval_ms": {
+          "mean": 27.603426620461175,
+          "p95": 29.843043571277793
+        },
+        "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+      }
+    },
+    {
+      "case": "shared-two",
+      "repeat": 0,
+      "metrics": {
+        "queue_mean_ms": 3825.9612083381453,
+        "prefill_mean_ms": 51.70988947064443,
+        "decode_mean_ms": 1295.8937881029776,
+        "inference_mean_ms": 1347.603677573622,
+        "h2d_staging_seconds": 0.07154080009460448,
+        "d2h_staging_seconds": 0.10590604746341702,
+        "protection_callback_cpu_ms": 101.695078,
+        "protection_callback_wall_ms": 107.139114,
+        "preemptions": 0.0,
+        "ready_to_first_ms_p95": 9026.343641100173,
+        "ready_to_end_ms_p95": 10287.7969483,
+        "session_completion_ms_p95": 31937.82785975036,
+        "client_queue_ms_p95": 1.5847837501951287,
+        "reuse_ttft_ms_p95": 9446.311114350101
+      },
+      "streaming": {
+        "requests": 68,
+        "first_to_last_fragment_ms": {
+          "mean": 1295.9128655587554,
+          "p95": 1408.7267468501523
+        },
+        "final_fragment_to_completion_ms": {
+          "mean": 0.04575582352117635,
+          "p95": 0.07664624954486499
+        },
+        "stream_span_per_output_interval_ms": {
+          "mean": 27.57261416082458,
+          "p95": 29.972909507450048
+        },
+        "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+      }
+    },
+    {
+      "case": "default-zero",
+      "repeat": 1,
+      "metrics": {
+        "queue_mean_ms": 4020.2377024705743,
+        "prefill_mean_ms": 51.52594608821079,
+        "decode_mean_ms": 1332.1444672206542,
+        "inference_mean_ms": 1383.6704133088647,
+        "h2d_staging_seconds": 0.07153830337524415,
+        "d2h_staging_seconds": 0.11056521606445309,
+        "protection_callback_cpu_ms": 0.0,
+        "protection_callback_wall_ms": 0.0,
+        "preemptions": 0.0,
+        "ready_to_first_ms_p95": 9432.773386350298,
+        "ready_to_end_ms_p95": 10701.792689100055,
+        "session_completion_ms_p95": 32085.968150650115,
+        "client_queue_ms_p95": 1.4545019003435298,
+        "reuse_ttft_ms_p95": 9859.80963370016
+      },
+      "streaming": {
+        "requests": 68,
+        "first_to_last_fragment_ms": {
+          "mean": 1332.164771896995,
+          "p95": 1443.3194196004024
+        },
+        "final_fragment_to_completion_ms": {
+          "mean": 0.04635129415178466,
+          "p95": 0.0746858498587244
+        },
+        "stream_span_per_output_interval_ms": {
+          "mean": 28.34393131695734,
+          "p95": 30.708923821285158
+        },
+        "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+      }
+    },
+    {
+      "case": "selected-zero",
+      "repeat": 1,
+      "metrics": {
+        "queue_mean_ms": 3921.7733240588373,
+        "prefill_mean_ms": 51.78826698526042,
+        "decode_mean_ms": 1316.6943426176658,
+        "inference_mean_ms": 1368.4826096029262,
+        "h2d_staging_seconds": 0.07150655937194825,
+        "d2h_staging_seconds": 0.10886457622051239,
+        "protection_callback_cpu_ms": 0.0,
+        "protection_callback_wall_ms": 0.0,
+        "preemptions": 0.0,
+        "ready_to_first_ms_p95": 9192.167306200097,
+        "ready_to_end_ms_p95": 10470.46754295029,
+        "session_completion_ms_p95": 32057.389758100046,
+        "client_queue_ms_p95": 1.8971081502968443,
+        "reuse_ttft_ms_p95": 9612.475665400416
+      },
+      "streaming": {
+        "requests": 68,
+        "first_to_last_fragment_ms": {
+          "mean": 1316.629516073416,
+          "p95": 1433.0220855498283
+        },
+        "final_fragment_to_completion_ms": {
+          "mean": 0.0441742794972764,
+          "p95": 0.0636619499346125
+        },
+        "stream_span_per_output_interval_ms": {
+          "mean": 28.01339395900885,
+          "p95": 30.489831607443158
+        },
+        "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+      }
+    },
+    {
+      "case": "shared-one",
+      "repeat": 1,
+      "metrics": {
+        "queue_mean_ms": 3860.819185382311,
+        "prefill_mean_ms": 51.83474291172441,
+        "decode_mean_ms": 1307.2370748970625,
+        "inference_mean_ms": 1359.0718178087866,
+        "h2d_staging_seconds": 0.07158377647399904,
+        "d2h_staging_seconds": 0.10297900795936585,
+        "protection_callback_cpu_ms": 100.427316,
+        "protection_callback_wall_ms": 105.574968,
+        "preemptions": 0.0,
+        "ready_to_first_ms_p95": 9096.864370550109,
+        "ready_to_end_ms_p95": 10379.874670000025,
+        "session_completion_ms_p95": 32001.90884614958,
+        "client_queue_ms_p95": 1.6565506997721966,
+        "reuse_ttft_ms_p95": 9511.717340549649
+      },
+      "streaming": {
+        "requests": 68,
+        "first_to_last_fragment_ms": {
+          "mean": 1307.4358352794206,
+          "p95": 1405.0747302999298
+        },
+        "final_fragment_to_completion_ms": {
+          "mean": 0.05192805882442746,
+          "p95": 0.06335444986689254
+        },
+        "stream_span_per_output_interval_ms": {
+          "mean": 27.817783729349376,
+          "p95": 29.89520702765808
+        },
+        "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+      }
+    },
+    {
+      "case": "shared-two",
+      "repeat": 1,
+      "metrics": {
+        "queue_mean_ms": 3925.813626999985,
+        "prefill_mean_ms": 48.35511548526483,
+        "decode_mean_ms": 1313.4151709705964,
+        "inference_mean_ms": 1361.770286455861,
+        "h2d_staging_seconds": 0.07154169607162475,
+        "d2h_staging_seconds": 0.11166342353820802,
+        "protection_callback_cpu_ms": 96.023452,
+        "protection_callback_wall_ms": 99.789368,
+        "preemptions": 0.0,
+        "ready_to_first_ms_p95": 9214.8989178002,
+        "ready_to_end_ms_p95": 10482.569115250497,
+        "session_completion_ms_p95": 31980.648614950223,
+        "client_queue_ms_p95": 1.2036039506256202,
+        "reuse_ttft_ms_p95": 9620.45762089997
+      },
+      "streaming": {
+        "requests": 68,
+        "first_to_last_fragment_ms": {
+          "mean": 1313.3608713823887,
+          "p95": 1426.455245399984
+        },
+        "final_fragment_to_completion_ms": {
+          "mean": 0.043441544114423726,
+          "p95": 0.08317369993164903
+        },
+        "stream_span_per_output_interval_ms": {
+          "mean": 27.943848327284865,
+          "p95": 30.35011160425498
+        },
+        "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+      }
+    },
+    {
+      "case": "default-zero",
+      "repeat": 2,
+      "metrics": {
+        "queue_mean_ms": 4018.961076544067,
+        "prefill_mean_ms": 51.64685322057159,
+        "decode_mean_ms": 1329.7723149705955,
+        "inference_mean_ms": 1381.419168191167,
+        "h2d_staging_seconds": 0.07154524803161622,
+        "d2h_staging_seconds": 0.11066703999042511,
+        "protection_callback_cpu_ms": 0.0,
+        "protection_callback_wall_ms": 0.0,
+        "preemptions": 0.0,
+        "ready_to_first_ms_p95": 9390.236883550186,
+        "ready_to_end_ms_p95": 10681.759311849872,
+        "session_completion_ms_p95": 32072.32788340057,
+        "client_queue_ms_p95": 1.5097301005425832,
+        "reuse_ttft_ms_p95": 9812.200450250157
+      },
+      "streaming": {
+        "requests": 68,
+        "first_to_last_fragment_ms": {
+          "mean": 1330.0323990588502,
+          "p95": 1425.5327314502665
+        },
+        "final_fragment_to_completion_ms": {
+          "mean": 0.043171499997055544,
+          "p95": 0.057330900426677545
+        },
+        "stream_span_per_output_interval_ms": {
+          "mean": 28.298561682103195,
+          "p95": 30.33048364787801
+        },
+        "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+      }
+    },
+    {
+      "case": "selected-zero",
+      "repeat": 2,
+      "metrics": {
+        "queue_mean_ms": 3968.8441508235564,
+        "prefill_mean_ms": 52.117577147087374,
+        "decode_mean_ms": 1329.6341189411044,
+        "inference_mean_ms": 1381.7516960881917,
+        "h2d_staging_seconds": 0.07155916833877564,
+        "d2h_staging_seconds": 0.10886451160907744,
+        "protection_callback_cpu_ms": 0.0,
+        "protection_callback_wall_ms": 0.0,
+        "preemptions": 0.0,
+        "ready_to_first_ms_p95": 9281.458947599502,
+        "ready_to_end_ms_p95": 10594.883056199886,
+        "session_completion_ms_p95": 32115.438118799695,
+        "client_queue_ms_p95": 1.2493796000853763,
+        "reuse_ttft_ms_p95": 9714.639998899884
+      },
+      "streaming": {
+        "requests": 68,
+        "first_to_last_fragment_ms": {
+          "mean": 1329.7590061765197,
+          "p95": 1442.854143750401
+        },
+        "final_fragment_to_completion_ms": {
+          "mean": 0.04478005876883211,
+          "p95": 0.07411975011564209
+        },
+        "stream_span_per_output_interval_ms": {
+          "mean": 28.292744812266374,
+          "p95": 30.699024335114913
+        },
+        "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+      }
+    },
+    {
+      "case": "shared-one",
+      "repeat": 2,
+      "metrics": {
+        "queue_mean_ms": 3932.49789092655,
+        "prefill_mean_ms": 52.133168764625864,
+        "decode_mean_ms": 1316.2317140588718,
+        "inference_mean_ms": 1368.3648828234975,
+        "h2d_staging_seconds": 0.07153040027618408,
+        "d2h_staging_seconds": 0.10452700757980343,
+        "protection_callback_cpu_ms": 100.962761,
+        "protection_callback_wall_ms": 105.555308,
+        "preemptions": 0.0,
+        "ready_to_first_ms_p95": 9233.3639295005,
+        "ready_to_end_ms_p95": 10535.470382950278,
+        "session_completion_ms_p95": 31998.025519000475,
+        "client_queue_ms_p95": 1.3889303497307988,
+        "reuse_ttft_ms_p95": 9653.0955885999
+      },
+      "streaming": {
+        "requests": 68,
+        "first_to_last_fragment_ms": {
+          "mean": 1316.1533970440305,
+          "p95": 1424.5882677504594
+        },
+        "final_fragment_to_completion_ms": {
+          "mean": 0.0430251912027469,
+          "p95": 0.057107000293399324
+        },
+        "stream_span_per_output_interval_ms": {
+          "mean": 28.003263766894268,
+          "p95": 30.310388675541688
+        },
+        "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+      }
+    },
+    {
+      "case": "shared-two",
+      "repeat": 2,
+      "metrics": {
+        "queue_mean_ms": 3875.978818779485,
+        "prefill_mean_ms": 51.77751977936061,
+        "decode_mean_ms": 1302.105785000041,
+        "inference_mean_ms": 1353.8833047794014,
+        "h2d_staging_seconds": 0.07153916788101196,
+        "d2h_staging_seconds": 0.10571606385707855,
+        "protection_callback_cpu_ms": 103.055327,
+        "protection_callback_wall_ms": 108.577394,
+        "preemptions": 0.0,
+        "ready_to_first_ms_p95": 9090.020606099413,
+        "ready_to_end_ms_p95": 10354.121511049514,
+        "session_completion_ms_p95": 31970.280764899828,
+        "client_queue_ms_p95": 1.458871699560404,
+        "reuse_ttft_ms_p95": 9503.756933199975
+      },
+      "streaming": {
+        "requests": 68,
+        "first_to_last_fragment_ms": {
+          "mean": 1302.1849356911496,
+          "p95": 1404.1408577501443
+        },
+        "final_fragment_to_completion_ms": {
+          "mean": 0.04654975000181259,
+          "p95": 0.08151575011652312
+        },
+        "stream_span_per_output_interval_ms": {
+          "mean": 27.70606246151382,
+          "p95": 29.87533739893924
+        },
+        "scope": "Observed nonempty SSE fragments; normalized by output tokens minus one. Fragments may contain multiple tokens; not per-token GPU or inter-token latency."
+      }
+    }
+  ],
+  "aggregates": {
+    "default-zero": {
+      "queue_mean_ms": {
+        "mean": 4036.7837108087724,
+        "stdev": 29.770961341777774,
+        "individual": [
+          4071.1523534116754,
+          4020.2377024705743,
+          4018.961076544067
+        ]
+      },
+      "prefill_mean_ms": {
+        "mean": 51.53669890686544,
+        "stdev": 0.10519090539483171,
+        "individual": [
+          51.43729741181393,
+          51.52594608821079,
+          51.64685322057159
+        ]
+      },
+      "decode_mean_ms": {
+        "mean": 1338.050845882364,
+        "stdev": 12.341617449920362,
+        "individual": [
+          1352.235755455842,
+          1332.1444672206542,
+          1329.7723149705955
+        ]
+      },
+      "inference_mean_ms": {
+        "mean": 1389.5875447892292,
+        "stdev": 12.250231814768046,
+        "individual": [
+          1403.6730528676558,
+          1383.6704133088647,
+          1381.419168191167
+        ]
+      },
+      "h2d_staging_seconds": {
+        "mean": 0.07153340784708659,
+        "stdev": 1.4903694924159798e-05,
+        "individual": [
+          0.07151667213439941,
+          0.07153830337524415,
+          0.07154524803161622
+        ]
+      },
+      "d2h_staging_seconds": {
+        "mean": 0.11060201601187387,
+        "stdev": 5.647543647487944e-05,
+        "individual": [
+          0.11057379198074344,
+          0.11056521606445309,
+          0.11066703999042511
+        ]
+      },
+      "protection_callback_cpu_ms": {
+        "mean": 0.0,
+        "stdev": 0.0,
+        "individual": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "protection_callback_wall_ms": {
+        "mean": 0.0,
+        "stdev": 0.0,
+        "individual": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "preemptions": {
+        "mean": 0.0,
+        "stdev": 0.0,
+        "individual": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "ready_to_first_ms_p95": {
+        "mean": 9446.125090849984,
+        "stdev": 63.62360062992485,
+        "individual": [
+          9515.365002649467,
+          9432.773386350298,
+          9390.236883550186
+        ]
+      },
+      "ready_to_end_ms_p95": {
+        "mean": 10752.414291283092,
+        "stdev": 105.50517042972626,
+        "individual": [
+          10873.69087289935,
+          10701.792689100055,
+          10681.759311849872
+        ]
+      },
+      "session_completion_ms_p95": {
+        "mean": 32092.69408606671,
+        "stdev": 24.433628099001968,
+        "individual": [
+          32119.786224149448,
+          32085.968150650115,
+          32072.32788340057
+        ]
+      },
+      "client_queue_ms_p95": {
+        "mean": 1.5809565670072816,
+        "stdev": 0.1734096632847137,
+        "individual": [
+          1.778637700135732,
+          1.4545019003435298,
+          1.5097301005425832
+        ]
+      },
+      "reuse_ttft_ms_p95": {
+        "mean": 9875.872671500216,
+        "stdev": 73.04068892771878,
+        "individual": [
+          9955.607930550332,
+          9859.80963370016,
+          9812.200450250157
+        ]
+      }
+    },
+    "selected-zero": {
+      "queue_mean_ms": {
+        "mean": 3945.6155308235643,
+        "stdev": 23.541411376910784,
+        "individual": [
+          3946.2291175882992,
+          3921.7733240588373,
+          3968.8441508235564
+        ]
+      },
+      "prefill_mean_ms": {
+        "mean": 52.18955254408862,
+        "stdev": 0.44169360976255234,
+        "individual": [
+          52.662813499918066,
+          51.78826698526042,
+          52.117577147087374
+        ]
+      },
+      "decode_mean_ms": {
+        "mean": 1318.9066249656564,
+        "stdev": 9.810253545166084,
+        "individual": [
+          1310.391413338199,
+          1316.6943426176658,
+          1329.6341189411044
+        ]
+      },
+      "inference_mean_ms": {
+        "mean": 1371.096177509745,
+        "stdev": 9.618830073976579,
+        "individual": [
+          1363.054226838117,
+          1368.4826096029262,
+          1381.7516960881917
+        ]
+      },
+      "h2d_staging_seconds": {
+        "mean": 0.07157595729827881,
+        "stdev": 7.913949908199455e-05,
+        "individual": [
+          0.07166214418411254,
+          0.07150655937194825,
+          0.07155916833877564
+        ]
+      },
+      "d2h_staging_seconds": {
+        "mean": 0.10741849609216055,
+        "stdev": 0.002504628299185422,
+        "individual": [
+          0.1045264004468918,
+          0.10886457622051239,
+          0.10886451160907744
+        ]
+      },
+      "protection_callback_cpu_ms": {
+        "mean": 0.0,
+        "stdev": 0.0,
+        "individual": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "protection_callback_wall_ms": {
+        "mean": 0.0,
+        "stdev": 0.0,
+        "individual": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "preemptions": {
+        "mean": 0.0,
+        "stdev": 0.0,
+        "individual": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "ready_to_first_ms_p95": {
+        "mean": 9256.199970166515,
+        "stdev": 55.864106378734654,
+        "individual": [
+          9294.973656699947,
+          9192.167306200097,
+          9281.458947599502
+        ]
+      },
+      "ready_to_end_ms_p95": {
+        "mean": 10550.981231683407,
+        "stdev": 69.82210563534508,
+        "individual": [
+          10587.593095900045,
+          10470.46754295029,
+          10594.883056199886
+        ]
+      },
+      "session_completion_ms_p95": {
+        "mean": 32041.708040249887,
+        "stdev": 82.69374248744998,
+        "individual": [
+          31952.296243849923,
+          32057.389758100046,
+          32115.438118799695
+        ]
+      },
+      "client_queue_ms_p95": {
+        "mean": 1.5583206999508548,
+        "stdev": 0.3248940937713653,
+        "individual": [
+          1.5284743494703434,
+          1.8971081502968443,
+          1.2493796000853763
+        ]
+      },
+      "reuse_ttft_ms_p95": {
+        "mean": 9684.58527458353,
+        "stdev": 62.73633529076223,
+        "individual": [
+          9726.64015945029,
+          9612.475665400416,
+          9714.639998899884
+        ]
+      }
+    },
+    "shared-one": {
+      "queue_mean_ms": {
+        "mean": 3877.6353756568906,
+        "stdev": 48.68368660391162,
+        "individual": [
+          3839.5890506618102,
+          3860.819185382311,
+          3932.49789092655
+        ]
+      },
+      "prefill_mean_ms": {
+        "mean": 51.904118754852306,
+        "stdev": 0.2034364201427084,
+        "individual": [
+          51.74444458820664,
+          51.83474291172441,
+          52.133168764625864
+        ]
+      },
+      "decode_mean_ms": {
+        "mean": 1306.8886979706037,
+        "stdev": 9.521985472432235,
+        "individual": [
+          1297.197304955877,
+          1307.2370748970625,
+          1316.2317140588718
+        ]
+      },
+      "inference_mean_ms": {
+        "mean": 1358.7928167254559,
+        "stdev": 9.714571930910957,
+        "individual": [
+          1348.9417495440837,
+          1359.0718178087866,
+          1368.3648828234975
+        ]
+      },
+      "h2d_staging_seconds": {
+        "mean": 0.07154342397054037,
+        "stdev": 3.5670751022525306e-05,
+        "individual": [
+          0.07151609516143799,
+          0.07158377647399904,
+          0.07153040027618408
+        ]
+      },
+      "d2h_staging_seconds": {
+        "mean": 0.1039853224356969,
+        "stdev": 0.0008723451257909826,
+        "individual": [
+          0.10444995176792143,
+          0.10297900795936585,
+          0.10452700757980343
+        ]
+      },
+      "protection_callback_cpu_ms": {
+        "mean": 100.851535,
+        "stdev": 0.38098398987752674,
+        "individual": [
+          101.164528,
+          100.427316,
+          100.962761
+        ]
+      },
+      "protection_callback_wall_ms": {
+        "mean": 105.119903,
+        "stdev": 0.7712322896345806,
+        "individual": [
+          104.229433,
+          105.574968,
+          105.555308
+        ]
+      },
+      "preemptions": {
+        "mean": 0.0,
+        "stdev": 0.0,
+        "individual": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "ready_to_first_ms_p95": {
+        "mean": 9115.88767506658,
+        "stdev": 109.21433014489708,
+        "individual": [
+          9017.43472514913,
+          9096.864370550109,
+          9233.3639295005
+        ]
+      },
+      "ready_to_end_ms_p95": {
+        "mean": 10396.95013625002,
+        "stdev": 130.8209940953044,
+        "individual": [
+          10275.505355799758,
+          10379.874670000025,
+          10535.470382950278
+        ]
+      },
+      "session_completion_ms_p95": {
+        "mean": 31985.325705816587,
+        "stdev": 25.43400445153197,
+        "individual": [
+          31956.04275229971,
+          32001.90884614958,
+          31998.025519000475
+        ]
+      },
+      "client_queue_ms_p95": {
+        "mean": 1.457468499635676,
+        "stdev": 0.1751755540229044,
+        "individual": [
+          1.3269244494040322,
+          1.6565506997721966,
+          1.3889303497307988
+        ]
+      },
+      "reuse_ttft_ms_p95": {
+        "mean": 9530.016441466418,
+        "stdev": 115.02650050889153,
+        "individual": [
+          9425.236395249703,
+          9511.717340549649,
+          9653.0955885999
+        ]
+      }
+    },
+    "shared-two": {
+      "queue_mean_ms": {
+        "mean": 3875.917884705872,
+        "stdev": 49.92623721928004,
+        "individual": [
+          3825.9612083381453,
+          3925.813626999985,
+          3875.978818779485
+        ]
+      },
+      "prefill_mean_ms": {
+        "mean": 50.61417491175662,
+        "stdev": 1.9566950666826768,
+        "individual": [
+          51.70988947064443,
+          48.35511548526483,
+          51.77751977936061
+        ]
+      },
+      "decode_mean_ms": {
+        "mean": 1303.8049146912049,
+        "stdev": 8.883411263640074,
+        "individual": [
+          1295.8937881029776,
+          1313.4151709705964,
+          1302.105785000041
+        ]
+      },
+      "inference_mean_ms": {
+        "mean": 1354.4190896029615,
+        "stdev": 7.09848581307668,
+        "individual": [
+          1347.603677573622,
+          1361.770286455861,
+          1353.8833047794014
+        ]
+      },
+      "h2d_staging_seconds": {
+        "mean": 0.07154055468241373,
+        "stdev": 1.281837470655956e-06,
+        "individual": [
+          0.07154080009460448,
+          0.07154169607162475,
+          0.07153916788101196
+        ]
+      },
+      "d2h_staging_seconds": {
+        "mean": 0.1077618449529012,
+        "stdev": 0.003380201182720186,
+        "individual": [
+          0.10590604746341702,
+          0.11166342353820802,
+          0.10571606385707855
+        ]
+      },
+      "protection_callback_cpu_ms": {
+        "mean": 100.25795233333334,
+        "stdev": 3.729720383654828,
+        "individual": [
+          101.695078,
+          96.023452,
+          103.055327
+        ]
+      },
+      "protection_callback_wall_ms": {
+        "mean": 105.16862533333334,
+        "stdev": 4.71375322150676,
+        "individual": [
+          107.139114,
+          99.789368,
+          108.577394
+        ]
+      },
+      "preemptions": {
+        "mean": 0.0,
+        "stdev": 0.0,
+        "individual": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "ready_to_first_ms_p95": {
+        "mean": 9110.421054999928,
+        "stdev": 95.91875118746475,
+        "individual": [
+          9026.343641100173,
+          9214.8989178002,
+          9090.020606099413
+        ]
+      },
+      "ready_to_end_ms_p95": {
+        "mean": 10374.829191533338,
+        "stdev": 99.0235087134018,
+        "individual": [
+          10287.7969483,
+          10482.569115250497,
+          10354.121511049514
+        ]
+      },
+      "session_completion_ms_p95": {
+        "mean": 31962.919079866802,
+        "stdev": 22.339428682617598,
+        "individual": [
+          31937.82785975036,
+          31980.648614950223,
+          31970.280764899828
+        ]
+      },
+      "client_queue_ms_p95": {
+        "mean": 1.4157531334603843,
+        "stdev": 0.1942135884969278,
+        "individual": [
+          1.5847837501951287,
+          1.2036039506256202,
+          1.458871699560404
+        ]
+      },
+      "reuse_ttft_ms_p95": {
+        "mean": 9523.508556150015,
+        "stdev": 88.73751401043015,
+        "individual": [
+          9446.311114350101,
+          9620.45762089997,
+          9503.756933199975
+        ]
+      }
+    }
+  },
+  "scope": "Descriptive counters only. Request phases, staging and callback wall time may overlap; not additive latency decomposition or DMA causal attribution. Callback totals cover instrumented protection helper methods only; zero does not imply zero connector overhead."
+}
