@@ -1,3 +1,4 @@
+from cachepilot_test_support.protection_contracts import check_generation_receipt
 from cachepilot_test_support.generation import combined
 from types import SimpleNamespace as NS
 from dataclasses import replace
@@ -16,34 +17,7 @@ from cachepilot.runtime.protection import install_protection_scheduler
 @pytest.mark.parametrize('chunks', [1, 2])
 @pytest.mark.parametrize('failed', [False, True])
 def test_original_receipt_settles_prefix_then_suffix(combined, chunks, failed):
-    helper, scheduler, blocks, bridge, ledger, meta = combined
-    helper.budget = chunks * 16
-    parent = bridge.pending[operation_key(meta)]
-    helper.prepare(scheduler)
-    ledger.seal(wire_id(meta))  # Splitting existing work is not a new producer.
-    stores = bridge.commit_protection(helper, 1)
-    batch = bridge.inflight['old'][0]
-    assert bridge.inflight['old'][1] == (parent,)
-    assert not ledger.ready(parent.wire)
-    with pytest.raises(ValueError, match='Stale'):
-        bridge.apply_receipts(set(), {'old': 1}, {'old': 'wrong'})
-    assert sum(b.ref_cnt for b in blocks) == chunks * 16
-    bridge.apply_receipts({'old'} if failed else set(), {'old': 1}, {'old': batch})
-    helper.receipts({'old': dict(describe(stores[0]), source='protection', batch_id=batch)},
-                    {'old'} if failed else set())
-    with pytest.raises(ValueError, match='Stale'):
-        bridge.apply_receipts(set(), {'old': 1}, {'old': batch})
-    assert all(b.ref_cnt == 0 for b in blocks)
-    if chunks == 1 and not failed:
-        assert not ledger.ready(parent.wire)
-        child = next(iter(bridge.pending.values()))
-        assert ledger.derived_from[child] == parent
-        output = NS(total_num_scheduled_tokens=512, scheduled_new_reqs=[NS(block_ids=[list(range(128))])],
-                    scheduled_cached_reqs=NS(new_block_ids=[]))
-        assert len(bridge.on_scheduler_step(output).stores_to_submit) == 1
-        bridge.apply_receipts(set(), {'old': 1}, {'old': bridge.inflight['old'][0]})
-    assert ledger.ready(parent.wire)
-    assert helper.pool.get_num_free_blocks() == 128
+    check_generation_receipt(combined, chunks, failed)
 
 
 def test_zero_token_rollback_preserves_original_ticket(combined):

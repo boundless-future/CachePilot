@@ -1,7 +1,7 @@
 """Real manager counterexamples: per-call slack is not whole-step slack."""
 import pytest
 pytest.importorskip('vllm')
-from test_native_allocation_capacity_contract import native
+from cachepilot_test_support.native_allocation import native
 
 
 @pytest.mark.parametrize('extra_reference', [False, True])

@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 
 from scripts.summarize_reference_matrix import collect, digest
-from test_replay_measurement_audit import fixture as timing_fixture
+from cachepilot_test_support.measurement import fixture as timing_fixture
 
 
 def write(path, value):

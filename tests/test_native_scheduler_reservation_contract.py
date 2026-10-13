@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 pytest.importorskip('vllm')
 from vllm.v1.core.sched.scheduler import Scheduler
-from test_native_allocation_capacity_contract import native
+from cachepilot_test_support.native_allocation import native
 
 
 def scheduler_with_manager(manager):

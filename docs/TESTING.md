@@ -62,3 +62,33 @@ RPC 支持模块必须可在不加载上游栈的独立进程中使用。
 
 最终验证：Windows 667 passed、312 skipped、26 subtests；服务器强制native/CUDA
 1161 passed、零跳过、115 subtests，121条上游弃用警告。
+
+## 历史契约构件收敛（2026-10-13，第二轮）
+
+进一步适配11个测试文件，共用实现位于：
+
+| 模块 | 用途 |
+| --- | --- |
+| protection_contracts.py | 生产/容量诊断共用生命周期、拒绝与generation回执断言 |
+| native_allocation.py | 固定源码SHA的真实KVCacheManager fixture |
+| measurement.py | 合成回放测量文件及固定时间字段 |
+| gpu_buffer.py | H2D/D2H共用PinnedBuffer，构造时才加载torch |
+
+测试函数仍在原文件，参数化仍由原测试入口承担；容量诊断不再导入并调用其他
+测试函数。六段抽取函数体经过AST核对保持一致，见extraction.txt。
+PinnedBuffer仍分配uint8 pinned tensor，dtype由该tensor读取。
+RPC、measurement、gpu_buffer导入不应提前加载torch/vLLM/LMCache。
+架构测试对剩余8条跨测试模块导入列出明确白名单，禁止新增这类依赖。
+
+剩余债务是OwnedLookupTests → LeasedLookupTests → TransferPlanTests初始化链，
+以及ReusingAllocator。它们服务于历史native研究契约；下一轮提取不含test方法的
+支持类，再由原unittest类组合这些支持类，避免继承时重复收集旧测试。
+本轮运行时策略、native算法及既有实验归档均未修改。
+
+Windows全量668 passed、312 skipped、26 subtests；隔离服务器目录
+`/root/cachepilot-research-test-support-20261013`强制native/CUDA全量
+1162 passed、零跳过、115 subtests，121条上游弃用警告。
+证据见`validation/research-test-support-2026-10-13/`。
+
+本轮11个受影响文件分别新进程运行，90项全部通过（含真实H2D/D2H CUDA）。
+对应文件名与结果逐一记录于isolated.txt。

@@ -7,7 +7,7 @@ import unittest
 from unittest.mock import Mock
 
 import test_leased_l1_contract as fixture
-from test_native_transfer_gpu import PinnedBuffer
+from cachepilot_test_support.gpu_buffer import PinnedBuffer
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 ENABLED = os.environ.get('CACHEPILOT_RUN_CUDA_CONTRACT') == '1'

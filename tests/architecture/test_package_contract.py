@@ -55,6 +55,7 @@ def test_shared_fixture_support_never_imports_test_modules():
 
 def test_rpc_support_is_independent_of_upstream_and_test_collection():
     code = (
+        "import cachepilot_test_support.measurement, cachepilot_test_support.gpu_buffer; "
         "from cachepilot_test_support.rpc import Key,Client,Transport; import sys; "
         "assert not {'torch','vllm','lmcache'} & sys.modules.keys(); "
         "assert not any(n.startswith('test_') for n in sys.modules); "
@@ -66,6 +67,32 @@ def test_rpc_support_is_independent_of_upstream_and_test_collection():
     import os
     environment = dict(os.environ, PYTHONPATH=os.pathsep.join([str(ROOT / "src"), str(ROOT / "tests")]))
     subprocess.run([sys.executable, "-c", code], env=environment, check=True, capture_output=True)
+
+
+def test_cross_test_imports_are_limited_to_known_research_setup_debt():
+    # Remaining unittest setup chains need a separate fixture migration. New
+    # shared helpers belong in cachepilot_test_support, never a test module.
+    allowed = {
+        ("test_leased_lookup_contract.py", "test_owned_lookup_contract"),
+        ("test_leased_lookup_contract.py", "test_leased_l1_contract"),
+        ("test_native_writer_gpu.py", "test_leased_l1_contract"),
+        ("test_native_transfer_gpu.py", "test_transfer_plan_contract"),
+        ("test_owned_wire_protocol.py", "test_transfer_plan_contract"),
+        ("test_owned_writer_contract.py", "test_leased_l1_contract"),
+        ("test_transfer_completion_contract.py", "test_leased_lookup_contract"),
+        ("test_transfer_plan_contract.py", "test_leased_lookup_contract"),
+    }
+    for path in (ROOT / "tests").rglob("test_*.py"):
+        for node in ast.walk(ast.parse(path.read_text(encoding="utf-8"))):
+            if isinstance(node, ast.ImportFrom):
+                names = [node.module or ""]
+            elif isinstance(node, ast.Import):
+                names = [a.name for a in node.names]
+            else:
+                continue
+            for name in names:
+                if name.split(".")[-1].startswith("test_"):
+                    assert (path.name, name) in allowed, (str(path), name)
 
 
 @pytest.mark.parametrize("old,new", MAPPING.items())

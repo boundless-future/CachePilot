@@ -1,4 +1,5 @@
 """Real BlockPool/LMCache manager contracts; no model server or CUDA needed."""
+from cachepilot_test_support.protection_contracts import check_original_lifecycle, check_candidate_rejection
 from cachepilot_test_support.pool import case
 from types import SimpleNamespace as NS
 from dataclasses import replace
@@ -18,49 +19,12 @@ from cachepilot.runtime.prefix_proof import build_proof
 
 
 def test_pin_precedes_allocator_and_original_receipt_releases_once(case):
-    helper, scheduler, blocks, rows = case
-    helper.prepare(scheduler)
-    assert helper.pool.get_num_free_blocks() == 96 and all(b.ref_cnt == 1 for b in blocks)
-    allocated = helper.pool.get_new_blocks(48)
-    assert not set(b.block_id for b in allocated) & set(b.block_id for b in blocks)
-    stores = helper.commit(256)
-    assert len(stores) == 1 and not helper.policy._pending
-    assert helper.manager._requests.has_in_flight("old")
-    helper.pool.free_blocks(allocated)
-    helper.manager.on_store_results(set(), {"old": 1})
-    helper.receipts({"old": dict(describe(stores[0]), source="protection", batch_id="b")}, set())
-    assert not helper.inflight and helper.pool.get_num_free_blocks() == 128
-    assert all(b.ref_cnt == 0 for b in blocks)
-    assert [r["event"] for r in rows] == ["protection_prepared", "protection_metadata_committed", "protection_receipt"]
+    check_original_lifecycle(case)
 
 
 @pytest.mark.parametrize("mutation", ["hash", "tokens", "referenced", "capacity", "active_id", "inflight", "partial"])
 def test_invalid_or_unsupported_candidate_is_never_pinned(case, mutation):
-    helper, scheduler, blocks, rows = case
-    if mutation == "hash":
-        blocks[0].reset_hash()
-    elif mutation == "tokens":
-        helper.policy._pending["old"][0].store_metadata.op.token_ids[0] = 9876
-    elif mutation == "referenced":
-        helper.pool.touch([blocks[0]])
-    elif mutation == "capacity":
-        scheduler.requests["new"].num_tokens_with_spec = 2048
-    elif mutation == "active_id":
-        scheduler.requests["old"] = scheduler.requests["new"]
-    elif mutation == "inflight":
-        helper.manager._requests.register_batch("old", [])
-    elif mutation == "partial":
-        old = helper.policy._pending["old"][0]
-        old.store_metadata = replace(old.store_metadata, op=replace(old.store_metadata.op, end=511))
-    before = helper.pool.get_num_free_blocks()
-    helper.prepare(scheduler)
-    assert not helper.prepared and helper.pool.get_num_free_blocks() == before
-    if mutation == "capacity":
-        fallback = next(r for r in rows if r["event"] == "protection_fallback")
-        assert fallback["reason"] == "capacity"
-        assert fallback["required_blocks"] == 32 and fallback["available_blocks"] == 32
-        assert fallback["free"] < fallback["reserve"] + 32
-        assert fallback["acquired_pins"] == 0
+    check_candidate_rejection(case, mutation)
 
 
 def test_zero_token_step_restores_pending_and_capacity(case):

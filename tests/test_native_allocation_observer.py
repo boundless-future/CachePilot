@@ -1,7 +1,7 @@
 """Native per-call instrumentation retains manager results and errors."""
 import pytest
 pytest.importorskip('vllm')
-from test_native_allocation_capacity_contract import native
+from cachepilot_test_support.native_allocation import native
 from scripts.native_allocation_observer import install_native_allocation_observer
 
 
