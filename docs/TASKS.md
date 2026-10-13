@@ -1,5 +1,7 @@
 # 待办与阶段验收
 
+2026-10-13测试适配：24个测试文件直接使用新包，删除覆盖pyproject的旧pytest.ini；旧路径兼容测试独立保留。Windows全量665 passed、312 skipped；Linux固定环境强制native/CUDA全量1158 passed、零跳过、115 subtests passed。现有契约无回归，测试配置覆盖问题已修复。模块测试与全量命令见[TESTING](TESTING.md)。本次不构成新的端到端模型或性能验收。
+
 2026-10-13 工程收敛：主线已迁入 `src/cachepilot`，旧入口保留模块身份兼容；
 统一配置/CLI、安装元数据、源码快照及模块边界测试已建立。隔离目录真实库回归通过
 1147项、9项跳过、115个subtests；这不是新的GPU性能实验。

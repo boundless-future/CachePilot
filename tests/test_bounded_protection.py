@@ -10,10 +10,10 @@ from lmcache.v1.multiprocess.token_hasher import TokenHasher
 from vllm.v1.core import kv_cache_utils as utils
 from vllm.v1.core.block_pool import BlockPool
 from vllm.utils.hashing import get_hash_fn_by_name
-from scripts.bounded_protection import BoundedProtection, conservative_reserve, install_protection_scheduler
-from scripts.protection_handoff import describe
-from scripts.owned_service_protocol import CLIENT_CONFIG, SEQUENCE_CONFIG, GENERATION_CONFIG
-from scripts.token_prefix_proof import build_proof
+from cachepilot.runtime.protection import BoundedProtection, conservative_reserve, install_protection_scheduler
+from cachepilot.runtime.handoff import describe
+from cachepilot.integration.lmcache.protocol import CLIENT_CONFIG, SEQUENCE_CONFIG, GENERATION_CONFIG
+from cachepilot.runtime.prefix_proof import build_proof
 
 
 @pytest.fixture

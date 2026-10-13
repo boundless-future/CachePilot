@@ -1,14 +1,14 @@
 """Acquisition ownership used by the real service, without global patching."""
 import json
-from pathlib import Path
-import sys
 import time
 from types import SimpleNamespace
 
 import pytest
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from owned_service import Owner, ReadLock, ServiceOwnership, WriteLock
+pytest.importorskip("msgspec")
+pytest.importorskip("lmcache")
+
+from cachepilot.integration.lmcache.service import Owner, ReadLock, ServiceOwnership, WriteLock
 
 
 @pytest.mark.parametrize("worker_id", [None, 0])
@@ -115,7 +115,7 @@ def test_writer_no_ttl_and_wrong_owner_cannot_publish(tmp_path):
 
 
 def test_terminal_before_return_and_duplicate_marker_retire_once(tmp_path):
-    from owned_service import TerminalV1
+    from cachepilot.integration.lmcache.service import TerminalV1
     service = ServiceOwnership(tmp_path)
     payload = TerminalV1(1, "b" * 32, "original", "retrieve")
     owner = Owner("original")
@@ -151,7 +151,7 @@ def test_shutdown_sees_popped_batch_before_any_task_exists(tmp_path):
 
 
 def test_duplicate_terminal_does_not_retry_partial_release(tmp_path):
-    from owned_service import TerminalV1
+    from cachepilot.integration.lmcache.service import TerminalV1
     service = ServiceOwnership(tmp_path)
     payload = TerminalV1(1, "b" * 32, "original", "retrieve")
     owner = Owner("original")
@@ -170,7 +170,7 @@ def test_duplicate_terminal_does_not_retry_partial_release(tmp_path):
 
 
 def test_late_terminal_keeps_ambiguous_submission_unresolved(tmp_path):
-    from owned_service import TerminalV1
+    from cachepilot.integration.lmcache.service import TerminalV1
     service = ServiceOwnership(tmp_path)
     payload = TerminalV1(1, "b" * 32, "original", "retrieve")
     owner = Owner("original", error="unknown submission")

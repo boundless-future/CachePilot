@@ -3,8 +3,8 @@ import pytest
 
 pytest.importorskip('lmcache')
 from lmcache.v1.multiprocess.futures import MessagingFuture
-from scripts.generation_rpc_client import GenerationRPCClient
-from scripts.owned_service_protocol import wire_id
+from cachepilot.integration.lmcache.client import GenerationRPCClient
+from cachepilot.integration.lmcache.protocol import wire_id
 from test_owned_service_protocol import Key
 from test_generation_rpc_client import Transport
 

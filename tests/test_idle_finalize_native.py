@@ -4,8 +4,8 @@ import pytest
 
 pytest.importorskip('lmcache')
 from test_bounded_protection import case
-from scripts.idle_finalize import finalize_idle_pending
-from scripts.owned_service_protocol import wire_id, GENERATION_CONFIG
+from cachepilot.runtime.idle import finalize_idle_pending
+from cachepilot.integration.lmcache.protocol import wire_id, GENERATION_CONFIG
 
 
 def setup(helper, scheduler):
@@ -87,7 +87,7 @@ def test_new_generation_after_finalization_stays_independent(case):
 def test_stale_pending_identity_preserves_real_manager_and_does_not_end_new_owner(case, identity_state):
     """Characterize the long-prefill guard, without claiming its live event cause."""
     from dataclasses import replace
-    from scripts.owned_service_protocol import OwnedRequestClient
+    from cachepilot.integration.lmcache.protocol import OwnedRequestClient
     from test_owned_service_protocol import Client
     helper,s,blocks,rows=case
     c,ended,client,meta=setup(helper,s)

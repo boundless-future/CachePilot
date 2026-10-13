@@ -5,10 +5,10 @@ from types import SimpleNamespace as NS
 import pytest
 
 pytest.importorskip("lmcache")
-from scripts.owned_service_connector import OwnedServiceConnector
-from scripts.owned_service_protocol import CLIENT_CONFIG, SEQUENCE_CONFIG, GENERATION_CONFIG
-from scripts.protection_connector import HandoffObservedConnector, ProtectionConnector, HandoffWorkerMetadata
-from scripts.protection_handoff import HandoffLedger, ProtectionConfig
+from cachepilot.integration.vllm.owned_service import OwnedServiceConnector
+from cachepilot.integration.lmcache.protocol import CLIENT_CONFIG, SEQUENCE_CONFIG, GENERATION_CONFIG
+from cachepilot.integration.vllm.protection import HandoffObservedConnector, ProtectionConnector, HandoffWorkerMetadata
+from cachepilot.runtime.handoff import HandoffLedger, ProtectionConfig
 from lmcache.integration.vllm.lmcache_mp_metadata import LMCacheMPWorkerMetadata
 
 

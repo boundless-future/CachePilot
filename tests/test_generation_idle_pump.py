@@ -1,8 +1,8 @@
 import queue
 from types import SimpleNamespace as NS
 import pytest
-from scripts.generation_idle_pump import GenerationInputQueue, install_generation_idle_pump
-from scripts.idle_finalize import IdleInputQueue, install_idle_core
+from cachepilot.runtime.idle_pump import GenerationInputQueue, install_generation_idle_pump
+from cachepilot.runtime.idle import IdleInputQueue, install_idle_core
 
 
 class Queue:

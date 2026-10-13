@@ -3,7 +3,7 @@ from types import SimpleNamespace as NS
 import pytest
 
 from scripts.idle_identity_observation import observe, snapshot
-from scripts.owned_service_protocol import CLIENT_CONFIG, SEQUENCE_CONFIG, GENERATION_CONFIG, wire_id
+from cachepilot.integration.lmcache.protocol import CLIENT_CONFIG, SEQUENCE_CONFIG, GENERATION_CONFIG, wire_id
 
 
 def state(current):

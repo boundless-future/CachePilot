@@ -2,8 +2,8 @@ from dataclasses import dataclass, field
 from concurrent.futures import Future
 import pytest
 
-from scripts.generation_session_ledger import LedgerRequestClient
-from scripts.owned_service_protocol import CLIENT_CONFIG, GENERATION_CONFIG, SEQUENCE_CONFIG, wire_id
+from cachepilot.runtime.generation import LedgerRequestClient
+from cachepilot.integration.lmcache.protocol import CLIENT_CONFIG, GENERATION_CONFIG, SEQUENCE_CONFIG, wire_id
 
 
 @dataclass

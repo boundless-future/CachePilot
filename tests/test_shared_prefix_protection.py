@@ -3,8 +3,8 @@ import pytest
 pytest.importorskip('lmcache')
 from test_bounded_protection import case
 from test_generation_protection_bridge import combined
-from scripts.shared_prefix_protection import SharedPrefixProtection
-from scripts.protection_handoff import describe
+from cachepilot.runtime.shared_prefix import SharedPrefixProtection
+from cachepilot.runtime.handoff import describe
 
 
 def activate(combined):
@@ -119,7 +119,7 @@ def test_model_service_bind_is_not_admitted(combined):
 @pytest.mark.parametrize('ending',['receipt','rollback','partial_fault'])
 def test_two_protected_generations_share_blocks_and_retire_independently(combined,reverse,ending,monkeypatch):
     from dataclasses import replace
-    from scripts.owned_service_protocol import wire_id,SEQUENCE_CONFIG
+    from cachepilot.integration.lmcache.protocol import wire_id,SEQUENCE_CONFIG
     h,s,blocks,bridge,ledger,meta=activate(combined)
     h.budget=32
     # Limit each candidate to a single chunk so the budget admits both.
@@ -169,7 +169,7 @@ def test_two_protected_generations_share_blocks_and_retire_independently(combine
 @pytest.mark.parametrize('failed',[False,True])
 def test_old_generation_receipt_preserves_shared_successor(combined,failed):
     from dataclasses import replace
-    from scripts.owned_service_protocol import wire_id,SEQUENCE_CONFIG
+    from cachepilot.integration.lmcache.protocol import wire_id,SEQUENCE_CONFIG
     h,s,blocks,bridge,ledger,meta=activate(combined)
     h.pool.touch([blocks[0]]);h.prepare(s)
     stores=bridge.commit_protection(h,1)

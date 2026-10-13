@@ -1,8 +1,8 @@
 from types import SimpleNamespace as NS
 
 import pytest
-from scripts.idle_finalize import finalize_idle_pending, install_idle_scheduler
-from scripts.owned_service_protocol import wire_id, CLIENT_CONFIG, SEQUENCE_CONFIG, GENERATION_CONFIG
+from cachepilot.runtime.idle import finalize_idle_pending, install_idle_scheduler
+from cachepilot.integration.lmcache.protocol import wire_id, CLIENT_CONFIG, SEQUENCE_CONFIG, GENERATION_CONFIG
 
 
 @pytest.fixture
@@ -79,7 +79,7 @@ def test_hook_preserves_busy_and_disabled_behavior(case):
 
 def test_grace_timeout_runs_on_consumer_and_does_not_spin(case):
     import queue
-    from scripts.idle_finalize import IdleInputQueue
+    from cachepilot.runtime.idle import IdleInputQueue
     c,s,calls,_=case
     c._idle_grace_seconds=0.001
     core=NS(scheduler=s,is_running=lambda:True,has_work=lambda:False)
@@ -92,7 +92,7 @@ def test_grace_timeout_runs_on_consumer_and_does_not_spin(case):
 
 def test_arrival_during_grace_wins_and_shutdown_prevents_drop(case):
     import queue
-    from scripts.idle_finalize import IdleInputQueue
+    from cachepilot.runtime.idle import IdleInputQueue
     c,s,calls,_=case; c._idle_grace_seconds=0.001
     core=NS(scheduler=s,is_running=lambda:False,has_work=lambda:False)
     q=IdleInputQueue(queue.Queue(),core)
@@ -113,7 +113,7 @@ def test_grace_keeps_scheduler_predicate_passive(case):
 
 @pytest.mark.parametrize('item', ['abort', 'shutdown', 'utility', 'new_request'])
 def test_control_and_request_input_interrupt_grace_unchanged(case, item):
-    from scripts.idle_finalize import IdleInputQueue
+    from cachepilot.runtime.idle import IdleInputQueue
     c,s,calls,_=case; c._idle_grace_seconds=15
     payload = (item, object())
     class Queue:
@@ -126,7 +126,7 @@ def test_control_and_request_input_interrupt_grace_unchanged(case, item):
 
 @pytest.mark.parametrize('kwargs', [{'block':False}, {'timeout':0.5}])
 def test_explicit_queue_timeout_and_nonblocking_calls_delegate(case, kwargs):
-    from scripts.idle_finalize import IdleInputQueue
+    from cachepilot.runtime.idle import IdleInputQueue
     c,s,calls,_=case; c._idle_grace_seconds=15
     seen=[]
     class Queue:
@@ -141,7 +141,7 @@ def test_explicit_queue_timeout_and_nonblocking_calls_delegate(case, kwargs):
 @pytest.mark.parametrize('busy,arrived', [(True,False), (False,True)])
 def test_timeout_rechecks_work_and_arrivals(case,busy,arrived):
     import queue
-    from scripts.idle_finalize import IdleInputQueue
+    from cachepilot.runtime.idle import IdleInputQueue
     c,s,calls,_=case; c._idle_grace_seconds=15
     class Queue:
         def get(self, **kwargs): raise queue.Empty

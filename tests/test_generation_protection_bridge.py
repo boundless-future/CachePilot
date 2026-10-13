@@ -4,12 +4,12 @@ import pytest
 
 pytest.importorskip('lmcache')
 from test_bounded_protection import case
-from scripts.generation_protection_bridge import (
+from cachepilot.integration.lmcache.protection import (
     GenerationProtectionBridge, ProtectionGenerationLedger, GenerationBoundedProtection)
-from scripts.generation_manager_bridge import operation_key
-from scripts.owned_service_protocol import wire_id, SEQUENCE_CONFIG
-from scripts.protection_handoff import describe
-from scripts.bounded_protection import install_protection_scheduler
+from cachepilot.integration.lmcache.manager import operation_key
+from cachepilot.integration.lmcache.protocol import wire_id, SEQUENCE_CONFIG
+from cachepilot.runtime.handoff import describe
+from cachepilot.runtime.protection import install_protection_scheduler
 
 
 @pytest.fixture

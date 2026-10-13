@@ -7,12 +7,12 @@ pytest.importorskip('lmcache')
 from vllm import SamplingParams
 from vllm.v1.request import Request, RequestStatus
 from lmcache.integration.vllm.lmcache_mp_metadata import LMCacheMPRequestState
-from scripts.generation_ledger_connector import GenerationLedgerConnector, SchedulerLedgerClient
-from scripts.generation_session_ledger import GenerationSessionLedger
-from scripts.generation_manager_bridge import GenerationManagerBridge
-from scripts.protection_connector import HandoffWorkerMetadata
-from scripts.protection_handoff import HandoffLedger, describe
-from scripts.owned_service_protocol import wire_id, coalesce_owned_store_metadata
+from cachepilot.integration.vllm.generation import GenerationLedgerConnector, SchedulerLedgerClient
+from cachepilot.runtime.generation import GenerationSessionLedger
+from cachepilot.integration.lmcache.manager import GenerationManagerBridge
+from cachepilot.integration.vllm.protection import HandoffWorkerMetadata
+from cachepilot.runtime.handoff import HandoffLedger, describe
+from cachepilot.integration.lmcache.protocol import wire_id, coalesce_owned_store_metadata
 from test_bounded_protection import case
 from test_generation_rpc_client import Transport
 
@@ -95,7 +95,7 @@ def test_cancel_before_lookup_ack_preserves_original_future(live):
 
 
 def test_idle_guard_accepts_new_tracker_identity_without_replacing_lookup_route(live):
-    from scripts.idle_finalize import finalize_idle_pending
+    from cachepilot.runtime.idle import finalize_idle_pending
     connector, client, transport, meta, blocks = live
     request = Request('old', list(range(512)), SamplingParams(max_tokens=48), None)
     first = connector._get_or_create_request_tracker(request)
@@ -119,7 +119,7 @@ def test_idle_guard_accepts_new_tracker_identity_without_replacing_lookup_route(
 
 @pytest.mark.parametrize('failed', [False, True])
 def test_real_raw_id_reuse_with_old_inflight_receipt(live, failed):
-    from scripts.idle_finalize import finalize_idle_pending
+    from cachepilot.runtime.idle import finalize_idle_pending
     connector, client, transport, meta, blocks = live
     first = Request('old', list(range(512)), SamplingParams(max_tokens=48), None)
     tracker = connector._get_or_create_request_tracker(first)

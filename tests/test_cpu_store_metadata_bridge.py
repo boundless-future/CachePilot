@@ -7,7 +7,7 @@ from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from chunk_protection_model import Chunk, ChunkProtection
 from protection_state_machine import ProtectionMachine
-from token_prefix_proof import build_proof
+from cachepilot.runtime.prefix_proof import build_proof
 from vllm_metadata_pool import VllmMetadataPool
 from cpu_store_metadata_bridge import CpuStoreMetadataBridge
 

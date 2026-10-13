@@ -3,7 +3,7 @@ from dataclasses import dataclass, field, replace
 
 import pytest
 
-from scripts.owned_service_protocol import (CLIENT_CONFIG, GENERATION_CONFIG,
+from cachepilot.integration.lmcache.protocol import (CLIENT_CONFIG, GENERATION_CONFIG,
     SEQUENCE_CONFIG, OwnedRequestClient, coalesce_owned_store_metadata, parse_id, wire_id)
 
 

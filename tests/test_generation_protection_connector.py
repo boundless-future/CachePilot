@@ -7,22 +7,22 @@ import pytest
 pytest.importorskip('lmcache')
 from test_bounded_protection import case
 from test_generation_rpc_client import Transport
-from scripts.generation_protection_connector import GenerationProtectionConnector
-from scripts.generation_ledger_connector import GenerationLedgerConnector, SchedulerLedgerClient
-from scripts.generation_protection_bridge import (
+from cachepilot.integration.vllm.generation_protection import GenerationProtectionConnector
+from cachepilot.integration.vllm.generation import GenerationLedgerConnector, SchedulerLedgerClient
+from cachepilot.integration.lmcache.protection import (
     GenerationProtectionBridge, ProtectionGenerationLedger, GenerationBoundedProtection)
-from scripts.protection_handoff import HandoffLedger, ProtectionConfig
-from scripts.protection_connector import HandoffWorkerMetadata, HandoffObservedConnector
-from scripts.owned_service_connector import OwnedServiceConnector
-from scripts.owned_service_protocol import wire_id
-from scripts.owned_service_protocol import SEQUENCE_CONFIG
+from cachepilot.runtime.handoff import HandoffLedger, ProtectionConfig
+from cachepilot.integration.vllm.protection import HandoffWorkerMetadata, HandoffObservedConnector
+from cachepilot.integration.vllm.owned_service import OwnedServiceConnector
+from cachepilot.integration.lmcache.protocol import wire_id
+from cachepilot.integration.lmcache.protocol import SEQUENCE_CONFIG
 from lmcache.integration.vllm.lmcache_mp_metadata import LMCacheMPWorkerMetadata
 
 
 @pytest.fixture(params=['original', 'shared'])
 def wired(case, request):
     if request.param == 'shared':
-        from scripts.shared_prefix_connector import SharedPrefixConnector, SharedPrefixServiceProtection
+        from cachepilot.integration.vllm.shared_prefix import SharedPrefixConnector, SharedPrefixServiceProtection
         connector_type, helper_type = SharedPrefixConnector, SharedPrefixServiceProtection
     else:
         connector_type, helper_type = GenerationProtectionConnector, GenerationBoundedProtection
@@ -194,15 +194,15 @@ def test_two_resets_before_old_protected_receipt_preserve_latest_pending(wired, 
     assert manager.pending == pending and not helper.inflight
     assert not transport.calls and all(b.ref_cnt == 0 for b in blocks)
     manager.on_request_finished('old')
-    from scripts.idle_finalize import finalize_idle_pending
+    from cachepilot.runtime.idle import finalize_idle_pending
     finalize_idle_pending(obj, NS(requests={}, running=[], waiting=[],
                                  skipped_waiting=[], deferred_frees={}))
     assert transport.calls == [('end_session', wire) for wire in wires]
 
 
 def test_constructor_factories_select_candidate_without_changing_zero_class(case, monkeypatch):
-    from scripts.idle_finalize_connector import IdleFinalizeConnector
-    from scripts.bounded_protection import BoundedProtection
+    from cachepilot.integration.vllm.idle import IdleFinalizeConnector
+    from cachepilot.runtime.protection import BoundedProtection
     helper, _, _, _ = case
     helper.manager.on_request_reset('old')
     monkeypatch.setattr(BoundedProtection, '__init__', lambda self, connector, config: None)

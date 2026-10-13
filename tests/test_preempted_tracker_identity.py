@@ -10,9 +10,9 @@ pytest.importorskip('lmcache')
 from vllm import SamplingParams
 from vllm.v1.request import Request, RequestStatus
 from lmcache.integration.vllm.lmcache_mp_metadata import LMCacheMPRequestState
-from scripts.owned_service_connector import OwnedServiceConnector
-from scripts.owned_service_protocol import OwnedRequestClient, wire_id
-from scripts.idle_finalize import finalize_idle_pending
+from cachepilot.integration.vllm.owned_service import OwnedServiceConnector
+from cachepilot.integration.lmcache.protocol import OwnedRequestClient, wire_id
+from cachepilot.runtime.idle import finalize_idle_pending
 from test_bounded_protection import case
 from test_idle_finalize_native import pool_state
 from test_owned_service_protocol import Client

@@ -4,9 +4,9 @@ import pytest
 pytest.importorskip('lmcache')
 from test_bounded_protection import case
 from test_generation_protection_connector import wired, step
-from scripts.shared_prefix_connector import SharedPrefixConnector, SharedPrefixServiceProtection
-from scripts.shared_prefix_protection import SharedPrefixProtection
-from scripts.protection_connector import HandoffWorkerMetadata
+from cachepilot.integration.vllm.shared_prefix import SharedPrefixConnector, SharedPrefixServiceProtection
+from cachepilot.runtime.shared_prefix import SharedPrefixProtection
+from cachepilot.integration.vllm.protection import HandoffWorkerMetadata
 
 
 @pytest.mark.parametrize('action', ['success', 'failure', 'zero', 'cancel_before_receipt'])
@@ -58,7 +58,7 @@ def test_admission_and_probe_mro():
 @pytest.mark.parametrize('wired', ['shared'], indirect=True)
 def test_two_shared_candidates_through_bound_native_callback(wired, monkeypatch, fault):
     from dataclasses import replace
-    from scripts.owned_service_protocol import wire_id, SEQUENCE_CONFIG
+    from cachepilot.integration.lmcache.protocol import wire_id, SEQUENCE_CONFIG
     obj, helper, scheduler, blocks, transport, meta = wired
     assert isinstance(helper, SharedPrefixServiceProtection)
     bridge = obj._lazy_offload_manager

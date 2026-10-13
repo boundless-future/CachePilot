@@ -3,9 +3,9 @@ from types import SimpleNamespace as NS
 import pytest
 
 pytest.importorskip('lmcache')
-from scripts.generation_manager_bridge import GenerationManagerBridge
-from scripts.generation_session_ledger import GenerationSessionLedger
-from scripts.owned_service_protocol import wire_id, SEQUENCE_CONFIG, coalesce_owned_store_metadata
+from cachepilot.integration.lmcache.manager import GenerationManagerBridge
+from cachepilot.runtime.generation import GenerationSessionLedger
+from cachepilot.integration.lmcache.protocol import wire_id, SEQUENCE_CONFIG, coalesce_owned_store_metadata
 from test_bounded_protection import case
 
 

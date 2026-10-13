@@ -2,9 +2,9 @@ from concurrent.futures import Future
 from dataclasses import replace
 import pytest
 
-from scripts.generation_rpc_client import GenerationRPCClient
-from scripts.generation_session_ledger import GenerationSessionLedger
-from scripts.owned_service_protocol import SEQUENCE_CONFIG, wire_id
+from cachepilot.integration.lmcache.client import GenerationRPCClient
+from cachepilot.runtime.generation import GenerationSessionLedger
+from cachepilot.integration.lmcache.protocol import SEQUENCE_CONFIG, wire_id
 from test_owned_service_protocol import Key
 
 

@@ -2,8 +2,11 @@ from types import SimpleNamespace
 
 import pytest
 
-from scripts.owned_mp_connector import GENERATION_CONFIG, OwnedMPConnector
-from scripts.owned_mp_server import generation, install_guard
+pytest.importorskip("lmcache")
+pytest.importorskip("vllm")
+
+from cachepilot.integration.vllm.owned_mp import GENERATION_CONFIG, OwnedMPConnector
+from cachepilot.integration.lmcache.guard import generation, install_guard
 
 
 def key(nonce, **changes):

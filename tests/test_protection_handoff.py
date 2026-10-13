@@ -1,5 +1,5 @@
 import pytest
-from scripts.protection_handoff import HandoffLedger, ProtectionConfig
+from cachepilot.runtime.handoff import HandoffLedger, ProtectionConfig
 
 
 @pytest.mark.parametrize("extra", [{"cachepilot.protection.enabled": 1},

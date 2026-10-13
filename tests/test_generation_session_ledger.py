@@ -1,6 +1,6 @@
 import pytest
 
-from scripts.generation_session_ledger import GenerationSessionLedger
+from cachepilot.runtime.generation import GenerationSessionLedger
 
 
 def wid(seq, nonce='a' * 32, raw='same'):

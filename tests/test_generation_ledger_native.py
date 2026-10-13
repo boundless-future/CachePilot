@@ -11,9 +11,9 @@ pytest.importorskip('lmcache')
 from vllm import SamplingParams
 from vllm.v1.request import Request, RequestStatus
 from lmcache.integration.vllm.lmcache_mp_metadata import LMCacheMPRequestState
-from scripts.owned_service_connector import OwnedServiceConnector
-from scripts.generation_session_ledger import LedgerRequestClient
-from scripts.owned_service_protocol import wire_id
+from cachepilot.integration.vllm.owned_service import OwnedServiceConnector
+from cachepilot.runtime.generation import LedgerRequestClient
+from cachepilot.integration.lmcache.protocol import wire_id
 from test_bounded_protection import case
 from test_owned_service_protocol import Client
 

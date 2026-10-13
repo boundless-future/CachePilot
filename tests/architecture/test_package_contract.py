@@ -8,7 +8,6 @@ import sys
 
 import pytest
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
 from cachepilot.config import SharedPrefixConfig
 from cachepilot.provenance import source_manifest
 
@@ -27,6 +26,18 @@ def test_runtime_never_imports_research_scripts():
             else:
                 continue
             assert all(t.split(".")[0] not in names | {"scripts"} for t in targets), str(path)
+
+
+def test_mainline_tests_import_package_directly():
+    for path in (ROOT / "tests").glob("test_*.py"):
+        for node in ast.walk(ast.parse(path.read_text(encoding="utf-8"))):
+            if isinstance(node, ast.ImportFrom):
+                assert (node.module or "").removeprefix("scripts.") not in MAPPING, str(path)
+
+
+def test_package_configured_without_legacy_path_bootstrap(pytestconfig):
+    assert pytestconfig.inipath.name == "pyproject.toml"
+    assert ROOT / "src" in pytestconfig.getini("pythonpath")
 
 
 @pytest.mark.parametrize("old,new", MAPPING.items())
