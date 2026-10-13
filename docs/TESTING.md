@@ -1,5 +1,7 @@
 # 新包框架下的测试
 
+全请求CPU候选最新回归：Windows688 passed、313 skipped、26 subtests；服务器强制native/CUDA1200 passed、零跳过、115 subtests，121条上游warning。新增23项，日志见 `validation/whole-step-2026-10-13/`。候选bind禁止服务接线，无新增模型性能实验。以下为前轮记录。
+
 最新三项推进：剩余跨测试导入全部去除，支持层的历史Setup类不包含test方法。
 Windows全量678 passed、312 skipped、26 subtests；固定服务器强制native/CUDA
 1177 passed、零跳过、115 subtests、121条上游弃用warning。

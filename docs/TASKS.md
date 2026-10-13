@@ -1,5 +1,7 @@
 # 待办与阶段验收
 
+2026-10-13最新：独立全请求包络CPU候选已实现，默认关闭且bind拒绝服务接线；不扣驻留/命中，另计真实remote成员预留。新增23项纯策略/真实manager/Scheduler契约，服务器强制native/CUDA1200 passed、零跳过，Windows688 passed、313 skipped。下一步抢占重入、共享owner及watermark连续准入反例验证，再决定服务接线；原匿名pilot3/4及formal门槛不变。见 [WHOLE_STEP_CANDIDATE](experiments/2026-10-13/WHOLE_STEP_CANDIDATE.md)。
+
 2026-10-13历史测试构件第二轮：11个测试文件改用保护契约断言、native分配fixture、测量数据与GPU buffer支持模块；六段抽取函数体AST一致。Windows668 passed、312 skipped；服务器强制native/CUDA1162 passed、零跳过、115 subtests。11个文件独立进程90项全部通过，包含H2D/D2H。剩余8条历史unittest初始化跨模块依赖已白名单约束，下一步提取无test方法的支持类；运行时策略与性能结论未改。记录见[TESTING](TESTING.md)及validation/research-test-support-2026-10-13。
 
 2026-10-13公共测试支持层：新增RPC、BlockPool、generation与Connector四个支持模块，16个测试入口已适配；八个关键文件各自独立进程运行共141项通过。新增支持层边界与轻量隔离约束。服务器最终强制native/CUDA全量1161 passed、零跳过、115 subtests；Windows最终667 passed、312 skipped、26 subtests。追加回归暴露旧20ms TTL断言过严，现显式覆盖新reader过期并保留pin/owner/重复释放/闭合检查；运行时代码未修改。原失败日志保留。详见[TESTING](TESTING.md)与validation/test-support-2026-10-13。下一步逐批迁移历史研究测试共享构件，再围绕统一runtime开展策略接口解耦；收益与联合GPU异常覆盖仍开放。

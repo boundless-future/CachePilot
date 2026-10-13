@@ -25,10 +25,10 @@ def config():
 
 
 @pytest.fixture
-def actual(config,monkeypatch):
+def actual(config,monkeypatch,request):
     fn=get_hash_fn_by_name('sha256')
     monkeypatch.setattr(utils,'NONE_HASH',fn(utils.resolve_none_hash_seed(fn)),raising=False)
-    kv=KVCacheConfig(num_blocks=33,kv_cache_tensors=[],kv_cache_groups=[KVCacheGroupSpec(
+    kv=KVCacheConfig(num_blocks=getattr(request,'param',33),kv_cache_tensors=[],kv_cache_groups=[KVCacheGroupSpec(
         ['layer'],FullAttentionSpec(block_size=16,num_kv_heads=1,head_size=8,dtype=torch.bfloat16))])
     sched=Scheduler(config,kv,NS(),block_size=16,hash_block_size=16)
     def add(rid,length,offset=0):
@@ -36,6 +36,66 @@ def actual(config,monkeypatch):
             block_hasher=utils.get_request_block_hasher(16,fn))
         sched.add_request(r);return r
     return sched,add
+
+
+@pytest.mark.parametrize('actual',[97],indirect=True)
+@pytest.mark.parametrize('remote',[False,True])
+@pytest.mark.parametrize('pin_count',[0,16,32])
+def test_whole_step_envelope_allows_complete_native_sequence(actual,remote,pin_count):
+    from cachepilot.runtime.whole_step import WholeStepAdmission
+    sched,add=actual
+    if remote:
+        sched.connector=NS(supports_divergent_local_hybrid_hits=False,
+            on_new_request=lambda r:None,
+            get_num_new_matched_tokens=lambda r,local:(r.num_prompt_tokens-1-local,True),
+            update_state_after_alloc=lambda *a:None,build_connector_meta=lambda output:None,
+            request_finished=lambda r,ids:(False,None))
+    first=add('first',33);second=add('second',49,1000)
+    pool=sched.kv_cache_manager.block_pool
+    pressure=pool.get_new_blocks(32)
+    policy=WholeStepAdmission()
+    reserve=policy.reserve(sched)
+    assert reserve is not None and policy.permits(pool.get_num_free_blocks(),pin_count,reserve)
+    pin=pool.get_new_blocks(pin_count) if pin_count else []
+    output=sched.schedule()
+    if remote:
+        assert output.total_num_scheduled_tokens==0
+        assert all(r.status==RequestStatus.WAITING_FOR_REMOTE_KVS for r in (first,second))
+        assert sched._inflight_prefill_reserved_blocks()==2
+        sched.finished_recving_kv_req_ids.update(['first','second'])
+    else:
+        assert output.num_scheduled_tokens=={'first':33,'second':49}
+    sched.finish_requests(['first','second'],RequestStatus.FINISHED_ABORTED)
+    pool.free_blocks(pressure+pin)
+    assert pool.get_num_free_blocks()==96 and not sched.requests
+
+
+@pytest.mark.parametrize('actual',[97],indirect=True)
+def test_whole_step_existing_remote_reservation_and_later_arrival(actual):
+    from cachepilot.runtime.whole_step import whole_step_envelope
+    sched,add=actual
+    sched.connector=NS(supports_divergent_local_hybrid_hits=False,
+        on_new_request=lambda r:None,
+        get_num_new_matched_tokens=lambda r,local:(r.num_prompt_tokens-1-local,True),
+        update_state_after_alloc=lambda *a:None,build_connector_meta=lambda output:None,
+        request_finished=lambda r,ids:(False,None))
+    pool=sched.kv_cache_manager.block_pool
+    pressure=pool.get_new_blocks(32)
+    first=add('first',33)
+    assert sched.schedule().total_num_scheduled_tokens==0
+    assert first.status==RequestStatus.WAITING_FOR_REMOTE_KVS
+    second=add('second',49,1000)
+    envelope=whole_step_envelope(sched)
+    assert envelope.remote_blocks==3 and envelope.reserve==26
+    assert pool.get_num_free_blocks()-32>=envelope.reserve
+    pin=pool.get_new_blocks(32)
+    assert sched.schedule().total_num_scheduled_tokens==0
+    assert second.status==RequestStatus.WAITING_FOR_REMOTE_KVS
+    assert sched._inflight_prefill_reserved_blocks()==2
+    sched.finished_recving_kv_req_ids.update(['first','second'])
+    sched.finish_requests(['first','second'],RequestStatus.FINISHED_ABORTED)
+    pool.free_blocks(pressure+pin)
+    assert pool.get_num_free_blocks()==96 and not sched.requests
 
 
 @pytest.mark.parametrize('extra_reference',[False,True])

@@ -132,7 +132,7 @@ def test_lightweight_entry_does_not_import_gpu_stack():
 
 def test_runtime_decisions_are_independent_of_serving_stack():
     import os
-    code = ("import cachepilot.runtime.admission,cachepilot.runtime.candidates,sys; "
+    code = ("import cachepilot.runtime.admission,cachepilot.runtime.candidates,cachepilot.runtime.whole_step,sys; "
             "assert not {'torch','vllm','lmcache'} & sys.modules.keys()")
     environment = dict(os.environ, PYTHONPATH=str(ROOT / 'src'))
     subprocess.run([sys.executable, '-c', code], env=environment, check=True, capture_output=True)
