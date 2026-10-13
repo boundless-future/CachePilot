@@ -1,4 +1,15 @@
-# 下一窗口：匿名结构共享候选覆盖
+# 下一窗口：原生准入边界与候选设计
+
+2026-10-13 14:21更新：匿名结构pilot **3/4**，双chunk0提交；formal未运行。随后windows/allocation/native三组独立诊断各2格通过并归档，均有观测开销，不能替换原失败。真实Scheduler最终6项序列测试通过，详见 [准入报告](SHARED_STRUCTURE_NATIVE.md)。下面旧计划保留为历史，不能再次照单启动pilot。
+
+当前下一主线：
+
+1. 核对服务器状态和最新TASKS，复用本轮四个完整证据包；不重复运行原pilot，不改输入/预算/reserve追求通过。
+2. 在真实Scheduler中补GPU/外部混合命中、共享owner离开与full-sequence门槛的连续准入契约。已有冷输入/共享前缀/外部回载/reservation测试只是首批边界。
+3. 按 [设计约束](NATIVE_ADMISSION_BOUNDARY.md) 明确整步容量、临时引用、零token和原回执交接，决定能否提出独立opt-in候选；释放引用不恢复被驱逐hash，单次allocate_slots余量不够。
+4. 候选依次通过真实库CPU/异常契约、独立GPU KV bitwise/资源、固定开发pilot与新输入验证，才能讨论性能。若无法得到足够安全窗口，记录适用范围受限，不无限重跑。
+
+## 历史窗口计划（本轮已执行）
 
 当前历史合成输入共享候选pilot4/4、formal12/12完成，见 [正式报告](SHARED_STRATEGY_FORMAL.md)。TTFT均值约低1.5%，但prefill/H2D相同、two一轮退化；不重跑这组挑选结果，不改变旧失败结论。
 

@@ -1,0 +1,32 @@
+[
+  {
+    "case": "shared-one",
+    "steps": 1766,
+    "known_steps": 1743,
+    "allocating_steps": 232,
+    "no_gross_allocation_steps": 1534,
+    "over_pool_steps": 450,
+    "over_pool_allocating_steps": 113,
+    "zero_compute_allocation_steps": [
+      {
+        "step": 794,
+        "free": 909,
+        "reserve": 628,
+        "allocated": 83,
+        "scheduled_tokens": 0
+      }
+    ],
+    "scope": "Descriptive within this instrumented run; excludes touch/free and future demand."
+  },
+  {
+    "case": "shared-two",
+    "steps": 1763,
+    "known_steps": 1740,
+    "allocating_steps": 234,
+    "no_gross_allocation_steps": 1529,
+    "over_pool_steps": 456,
+    "over_pool_allocating_steps": 114,
+    "zero_compute_allocation_steps": [],
+    "scope": "Descriptive within this instrumented run; excludes touch/free and future demand."
+  }
+]

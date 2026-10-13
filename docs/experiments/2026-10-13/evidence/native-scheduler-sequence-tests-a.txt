@@ -1,0 +1,76 @@
+FF..                                                                     [100%]
+=================================== FAILURES ===================================
+______ test_actual_cold_prefill_sequence_can_lose_second_admission[False] ______
+
+actual = (<vllm.v1.core.sched.scheduler.Scheduler object at 0x7ff66fb2cc20>, <function actual.<locals>.add at 0x7ff66fb25b20>)
+extra_reference = False
+
+    @pytest.mark.parametrize('extra_reference',[False,True])
+    def test_actual_cold_prefill_sequence_can_lose_second_admission(actual,extra_reference):
+        sched,add=actual
+        pool=sched.kv_cache_manager.block_pool
+        pressure=pool.get_new_blocks(27)
+        pin=pool.get_new_blocks(1) if extra_reference else []
+        first=add('first',32);second=add('second',48)
+        output=sched.schedule()
+        expected={'first':32} if extra_reference else {'first':32,'second':48}
+>       assert output.num_scheduled_tokens==expected
+E       AssertionError: assert {'first': 32, 'second': 16} == {'first': 32, 'second': 48}
+E         
+E         Omitting 1 identical items, use -vv to show
+E         Differing items:
+E         {'second': 16} != {'second': 48}
+E         Use -v to get more diff
+
+tests/test_native_scheduler_sequence.py:50: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+INFO 10-13 06:06:56 [model.py:692] Resolved architecture: Qwen3ForCausalLM
+INFO 10-13 06:06:56 [model.py:2030] Using max model len 512
+INFO 10-13 06:06:56 [scheduler.py:288] Chunked prefill is enabled with max_num_batched_tokens=512.
+WARNING 10-13 06:06:56 [vllm.py:1547] Enforce eager set, disabling torch.compile and CUDAGraphs. This is equivalent to setting -cc.mode=none -cc.cudagraph_mode=none
+WARNING 10-13 06:06:56 [vllm.py:1570] Inductor compilation was disabled by user settings, optimizations settings that are only active during inductor compilation will be ignored.
+INFO 10-13 06:06:56 [kernel.py:416] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native'], gelu_and_mul_sparse=['triton', 'native'])
+INFO 10-13 06:06:56 [vllm.py:1780] Cudagraph is disabled under eager mode
+INFO 10-13 06:06:56 [compilation.py:336] Enabled custom fusions: norm_quant, act_quant
+------------------------------ Captured log setup ------------------------------
+INFO     vllm.config.model:model.py:692 Resolved architecture: Qwen3ForCausalLM
+INFO     vllm.config.model:model.py:2030 Using max model len 512
+INFO     vllm.config.scheduler:scheduler.py:288 Chunked prefill is enabled with max_num_batched_tokens=512.
+WARNING  vllm.config.vllm:vllm.py:1547 Enforce eager set, disabling torch.compile and CUDAGraphs. This is equivalent to setting -cc.mode=none -cc.cudagraph_mode=none
+WARNING  vllm.config.vllm:vllm.py:1570 Inductor compilation was disabled by user settings, optimizations settings that are only active during inductor compilation will be ignored.
+INFO     vllm.config.kernel:kernel.py:416 Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native'], gelu_and_mul_sparse=['triton', 'native'])
+INFO     vllm.config.vllm:vllm.py:1780 Cudagraph is disabled under eager mode
+INFO     vllm.config.compilation:compilation.py:336 Enabled custom fusions: norm_quant, act_quant
+______ test_actual_cold_prefill_sequence_can_lose_second_admission[True] _______
+
+actual = (<vllm.v1.core.sched.scheduler.Scheduler object at 0x7ff66fb2fef0>, <function actual.<locals>.add at 0x7ff66fb26660>)
+extra_reference = True
+
+    @pytest.mark.parametrize('extra_reference',[False,True])
+    def test_actual_cold_prefill_sequence_can_lose_second_admission(actual,extra_reference):
+        sched,add=actual
+        pool=sched.kv_cache_manager.block_pool
+        pressure=pool.get_new_blocks(27)
+        pin=pool.get_new_blocks(1) if extra_reference else []
+        first=add('first',32);second=add('second',48)
+        output=sched.schedule()
+        expected={'first':32} if extra_reference else {'first':32,'second':48}
+>       assert output.num_scheduled_tokens==expected
+E       AssertionError: assert {'first': 32, 'second': 16} == {'first': 32}
+E         
+E         Omitting 1 identical items, use -vv to show
+E         Left contains 1 more item:
+E         {'second': 16}
+E         Use -v to get more diff
+
+tests/test_native_scheduler_sequence.py:50: AssertionError
+=============================== warnings summary ===============================
+../../usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/torch/jit/_script.py:365: 14 warnings
+  /usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/torch/jit/_script.py:365: DeprecationWarning: `torch.jit.script_method` is deprecated. Please switch to `torch.compile` or `torch.export`.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_native_scheduler_sequence.py::test_actual_cold_prefill_sequence_can_lose_second_admission[False]
+FAILED tests/test_native_scheduler_sequence.py::test_actual_cold_prefill_sequence_can_lose_second_admission[True]
+2 failed, 2 passed, 14 warnings in 8.72s

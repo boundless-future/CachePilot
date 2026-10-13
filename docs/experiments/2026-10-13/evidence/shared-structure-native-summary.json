@@ -1,0 +1,71 @@
+{
+  "diagnostic_passed": true,
+  "performance": false,
+  "scope": "Read-only actual allocation and windows with event overhead. Gross new allocations do not account for touch/free or prove safe next-step reserve. Counts are repeated candidate observations, not distinct requests. Visible checks do not prove token-prefix proof or later same-step availability; this separate run cannot explain the original unobserved pilot causally or replace its zero-coverage failure.",
+  "rows": [
+    {
+      "case": "shared-one",
+      "diagnostic_passed": true,
+      "committed": 1,
+      "fallbacks": {
+        "capacity": 7
+      },
+      "windows": 1767,
+      "candidate_observations": {
+        "request_ineligible": 2504,
+        "minimum_capacity": 5481,
+        "outside_pressure_ranks": 8775,
+        "metadata_ineligible": 3312,
+        "visible_checks_satisfied": 3,
+        "unknown_reserve": 299
+      },
+      "native_summary": {
+        "calls": 2992,
+        "successful": 2901,
+        "rejected": 91,
+        "gross_new_blocks": 3219,
+        "zero_ref_touch_consumption": 7933,
+        "zero_compute_calls_with_new_blocks": 7,
+        "external_load_calls": 93,
+        "native_reserved_calls": 1,
+        "watermark_calls": 0,
+        "positive_touch_calls": 39,
+        "scope": "Single-call observations; native demand includes zero-ref GPU hit touches. No safe extra-pin or whole-step prediction."
+      },
+      "checks_passed": 35,
+      "checks_total": 35
+    },
+    {
+      "case": "shared-two",
+      "diagnostic_passed": true,
+      "committed": 1,
+      "fallbacks": {
+        "capacity": 6
+      },
+      "windows": 1761,
+      "candidate_observations": {
+        "request_ineligible": 2476,
+        "minimum_capacity": 5195,
+        "visible_checks_satisfied": 1,
+        "metadata_ineligible": 3020,
+        "outside_pressure_ranks": 7939,
+        "unknown_reserve": 276
+      },
+      "native_summary": {
+        "calls": 2987,
+        "successful": 2902,
+        "rejected": 85,
+        "gross_new_blocks": 3324,
+        "zero_ref_touch_consumption": 7376,
+        "zero_compute_calls_with_new_blocks": 5,
+        "external_load_calls": 86,
+        "native_reserved_calls": 1,
+        "watermark_calls": 0,
+        "positive_touch_calls": 37,
+        "scope": "Single-call observations; native demand includes zero-ref GPU hit touches. No safe extra-pin or whole-step prediction."
+      },
+      "checks_passed": 35,
+      "checks_total": 35
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "results": {
+    "default-zero-r0": {
+      "1": {
+        "completed_requests_with_full_prefix": 60,
+        "requests_with_later_matching_demand": 52,
+        "unique_prefixes_with_later_demand": 6
+      },
+      "2": {
+        "completed_requests_with_full_prefix": 60,
+        "requests_with_later_matching_demand": 52,
+        "unique_prefixes_with_later_demand": 6
+      }
+    },
+    "selected-zero-r0": {
+      "1": {
+        "completed_requests_with_full_prefix": 60,
+        "requests_with_later_matching_demand": 52,
+        "unique_prefixes_with_later_demand": 6
+      },
+      "2": {
+        "completed_requests_with_full_prefix": 60,
+        "requests_with_later_matching_demand": 52,
+        "unique_prefixes_with_later_demand": 6
+      }
+    },
+    "shared-one-r0": {
+      "1": {
+        "completed_requests_with_full_prefix": 60,
+        "requests_with_later_matching_demand": 52,
+        "unique_prefixes_with_later_demand": 6
+      },
+      "2": {
+        "completed_requests_with_full_prefix": 60,
+        "requests_with_later_matching_demand": 52,
+        "unique_prefixes_with_later_demand": 6
+      }
+    },
+    "shared-two-r0": {
+      "1": {
+        "completed_requests_with_full_prefix": 60,
+        "requests_with_later_matching_demand": 52,
+        "unique_prefixes_with_later_demand": 6
+      },
+      "2": {
+        "completed_requests_with_full_prefix": 60,
+        "requests_with_later_matching_demand": 52,
+        "unique_prefixes_with_later_demand": 6
+      }
+    }
+  },
+  "scope": "Post-hoc demand potential only; not protected batch linkage or actual miss/benefit"
+}

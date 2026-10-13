@@ -1,0 +1,173 @@
+{
+  "diagnostic_passed": true,
+  "rows": [
+    {
+      "case": "shared-one",
+      "diagnostic_passed": true,
+      "checks": {
+        "tokens": true,
+        "exact_server_empty": true,
+        "generation_closed": true,
+        "resources": true,
+        "source": true,
+        "trace": true,
+        "budget": true,
+        "mode": true,
+        "repeat": true,
+        "healthy": true,
+        "receipts": true,
+        "bounded": true,
+        "protection_closed": true,
+        "h2d": true,
+        "fatal_logs": true,
+        "raw_timing": true,
+        "request_identities": true,
+        "generations": true,
+        "diagnostic_config": true,
+        "raw_generation_and_original_receipts": true,
+        "window_observed": true,
+        "allocations_observed": true,
+        "allocation_step_sequence": true,
+        "allocation_window_boundaries": true,
+        "allocation_counts": true,
+        "physical_pool_bounds": true
+      },
+      "performance_coverage": true,
+      "committed": 1,
+      "fallbacks": {
+        "capacity": 7
+      },
+      "allocation_summary": {
+        "steps": 1766,
+        "gross_allocated": 3219,
+        "zero_token_allocation_steps": 1,
+        "known_reserve_steps": 1743,
+        "reserve_exceeded_steps": 0,
+        "reserve_above_total_pool_steps": 450,
+        "max_reserve": 4712,
+        "max_actual_gross_allocation": 368,
+        "usable_blocks": 909
+      },
+      "generation": {
+        "passed": true,
+        "checks": {
+          "nonempty_unique_generations": true,
+          "exact_scheduler_ends": true,
+          "exact_server_ends": true,
+          "observed_wires_registered": true,
+          "server_end_removed": true,
+          "no_late_lookup": true,
+          "original_batch_handoff": true,
+          "scheduler_terminal": true,
+          "status_before_engine_stop_exact_empty": true,
+          "status_after_engine_stop_exact_empty": true
+        },
+        "registered": 62,
+        "scheduler_ends": 62,
+        "server_ends": 62,
+        "store_only_wires": [
+          "cp1:3416140553374643500:13:574882c32625b9ba8af64670712fdb7b:cmpl-ac14da644acdcf8a-0-921f9dc5"
+        ],
+        "observed_wires": 62,
+        "batches": 36,
+        "active_operations": [],
+        "scope": "Original server END handler returns plus exact empty snapshots; not a transport ACK claim"
+      },
+      "windows": 1766,
+      "candidate_observations": {
+        "request_ineligible": 2504,
+        "minimum_capacity": 5518,
+        "outside_pressure_ranks": 8729,
+        "metadata_ineligible": 3296,
+        "unknown_reserve": 307,
+        "visible_checks_satisfied": 3
+      }
+    },
+    {
+      "case": "shared-two",
+      "diagnostic_passed": true,
+      "checks": {
+        "tokens": true,
+        "exact_server_empty": true,
+        "generation_closed": true,
+        "resources": true,
+        "source": true,
+        "trace": true,
+        "budget": true,
+        "mode": true,
+        "repeat": true,
+        "healthy": true,
+        "receipts": true,
+        "bounded": true,
+        "protection_closed": true,
+        "h2d": true,
+        "fatal_logs": true,
+        "raw_timing": true,
+        "request_identities": true,
+        "generations": true,
+        "diagnostic_config": true,
+        "raw_generation_and_original_receipts": true,
+        "window_observed": true,
+        "allocations_observed": true,
+        "allocation_step_sequence": true,
+        "allocation_window_boundaries": true,
+        "allocation_counts": true,
+        "physical_pool_bounds": true
+      },
+      "performance_coverage": true,
+      "committed": 1,
+      "fallbacks": {
+        "capacity": 6
+      },
+      "allocation_summary": {
+        "steps": 1763,
+        "gross_allocated": 3337,
+        "zero_token_allocation_steps": 0,
+        "known_reserve_steps": 1740,
+        "reserve_exceeded_steps": 0,
+        "reserve_above_total_pool_steps": 456,
+        "max_reserve": 4712,
+        "max_actual_gross_allocation": 432,
+        "usable_blocks": 909
+      },
+      "generation": {
+        "passed": true,
+        "checks": {
+          "nonempty_unique_generations": true,
+          "exact_scheduler_ends": true,
+          "exact_server_ends": true,
+          "observed_wires_registered": true,
+          "server_end_removed": true,
+          "no_late_lookup": true,
+          "original_batch_handoff": true,
+          "scheduler_terminal": true,
+          "status_before_engine_stop_exact_empty": true,
+          "status_after_engine_stop_exact_empty": true
+        },
+        "registered": 63,
+        "scheduler_ends": 63,
+        "server_ends": 63,
+        "store_only_wires": [
+          "cp1:3987315392888578077:13:a846c757ec0ddeedcb46b97d748d14cf:cmpl-a84a9aaa6110f63c-0-a4c259fd",
+          "cp1:3987315392888578077:14:1df12e5c4564df6621b7b4e93c0b3f40:cmpl-a84a9aaa6110f63c-0-a4c259fd"
+        ],
+        "observed_wires": 63,
+        "batches": 37,
+        "active_operations": [],
+        "scope": "Original server END handler returns plus exact empty snapshots; not a transport ACK claim"
+      },
+      "windows": 1763,
+      "candidate_observations": {
+        "request_ineligible": 2505,
+        "minimum_capacity": 5357,
+        "outside_pressure_ranks": 7762,
+        "metadata_ineligible": 3245,
+        "unknown_reserve": 287,
+        "visible_checks_satisfied": 2
+      }
+    }
+  ],
+  "performance": false,
+  "scope": "Read-only actual allocation and windows with event overhead. Gross new allocations do not account for touch/free or prove safe next-step reserve. Counts are repeated candidate observations, not distinct requests. Visible checks do not prove token-prefix proof or later same-step availability; this separate run cannot explain the original unobserved pilot causally or replace its zero-coverage failure.",
+  "full_audit_location": "shared-structure-allocation-evidence.tar.gz: artifacts/shared-structure-allocation-20261013a/audit.json"
+}

@@ -1,0 +1,46 @@
+{
+  "passed": true,
+  "rows": [
+    {
+      "case": "shared-one",
+      "calls": 2992,
+      "successful": 2901,
+      "rejected": 91,
+      "gross_new_blocks": 3219,
+      "free_hit_touch_blocks": 7933,
+      "zero_compute_calls_with_new_blocks": 7,
+      "external_load_calls": 93,
+      "mixed_success_rejection_steps": 91,
+      "max_single_call_new_blocks": 368,
+      "max_single_call_touch": 323,
+      "max_native_required": 445,
+      "rejection_reasons": {
+        "final_capacity_gate": 1,
+        "full_sequence_gate": 90,
+        "external_load_rejected": 86,
+        "zero_compute_rejected": 86
+      },
+      "scope": "Descriptive per-call diagnostic; not a strategy or whole-step safe-bound proof."
+    },
+    {
+      "case": "shared-two",
+      "calls": 2987,
+      "successful": 2902,
+      "rejected": 85,
+      "gross_new_blocks": 3324,
+      "free_hit_touch_blocks": 7376,
+      "zero_compute_calls_with_new_blocks": 5,
+      "external_load_calls": 86,
+      "mixed_success_rejection_steps": 85,
+      "max_single_call_new_blocks": 432,
+      "max_single_call_touch": 323,
+      "max_native_required": 445,
+      "rejection_reasons": {
+        "full_sequence_gate": 85,
+        "external_load_rejected": 81,
+        "zero_compute_rejected": 81
+      },
+      "scope": "Descriptive per-call diagnostic; not a strategy or whole-step safe-bound proof."
+    }
+  ]
+}

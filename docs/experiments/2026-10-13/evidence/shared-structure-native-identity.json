@@ -1,0 +1,40 @@
+{
+  "passed": true,
+  "rows": [
+    {
+      "case": "shared-one",
+      "passed": true,
+      "checks": {
+        "calls_present": true,
+        "unique_steps": true,
+        "actual_request_identity": true,
+        "exact_step_time_interval": true,
+        "serial_time_order": true,
+        "nonnegative_native_fields": true,
+        "native_query_fields": true,
+        "native_full_sequence_shape": true
+      },
+      "calls": 2992,
+      "observed_raw_ids": 61,
+      "generation_raw_ids": 61
+    },
+    {
+      "case": "shared-two",
+      "passed": true,
+      "checks": {
+        "calls_present": true,
+        "unique_steps": true,
+        "actual_request_identity": true,
+        "exact_step_time_interval": true,
+        "serial_time_order": true,
+        "nonnegative_native_fields": true,
+        "native_query_fields": true,
+        "native_full_sequence_shape": true
+      },
+      "calls": 2987,
+      "observed_raw_ids": 61,
+      "generation_raw_ids": 61
+    }
+  ],
+  "scope": "Supplemental offline audit; does not change the original frozen-source report."
+}

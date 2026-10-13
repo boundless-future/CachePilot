@@ -1,0 +1,140 @@
+{
+  "diagnostic_passed": true,
+  "rows": [
+    {
+      "case": "shared-one",
+      "diagnostic_passed": true,
+      "checks": {
+        "tokens": true,
+        "exact_server_empty": true,
+        "generation_closed": true,
+        "resources": true,
+        "source": true,
+        "trace": true,
+        "budget": true,
+        "mode": true,
+        "repeat": true,
+        "healthy": true,
+        "receipts": true,
+        "bounded": true,
+        "protection_closed": true,
+        "h2d": true,
+        "fatal_logs": true,
+        "raw_timing": true,
+        "request_identities": true,
+        "generations": true,
+        "diagnostic_config": true,
+        "raw_generation_and_original_receipts": true,
+        "window_observed": true
+      },
+      "performance_coverage": true,
+      "committed": 1,
+      "fallbacks": {
+        "capacity": 7
+      },
+      "generation": {
+        "passed": true,
+        "checks": {
+          "nonempty_unique_generations": true,
+          "exact_scheduler_ends": true,
+          "exact_server_ends": true,
+          "observed_wires_registered": true,
+          "server_end_removed": true,
+          "no_late_lookup": true,
+          "original_batch_handoff": true,
+          "scheduler_terminal": true,
+          "status_before_engine_stop_exact_empty": true,
+          "status_after_engine_stop_exact_empty": true
+        },
+        "registered": 62,
+        "scheduler_ends": 62,
+        "server_ends": 62,
+        "store_only_wires": [
+          "cp1:3187010142880734471:13:a90be90fab4da022c55f5992c09ade45:cmpl-a073409ecbaba396-0-981cd628"
+        ],
+        "observed_wires": 62,
+        "batches": 36,
+        "active_operations": [],
+        "scope": "Original server END handler returns plus exact empty snapshots; not a transport ACK claim"
+      },
+      "windows": 1770,
+      "candidate_observations": {
+        "request_ineligible": 2504,
+        "minimum_capacity": 5639,
+        "outside_pressure_ranks": 8618,
+        "metadata_ineligible": 3543,
+        "unknown_reserve": 310,
+        "visible_checks_satisfied": 2
+      }
+    },
+    {
+      "case": "shared-two",
+      "diagnostic_passed": true,
+      "checks": {
+        "tokens": true,
+        "exact_server_empty": true,
+        "generation_closed": true,
+        "resources": true,
+        "source": true,
+        "trace": true,
+        "budget": true,
+        "mode": true,
+        "repeat": true,
+        "healthy": true,
+        "receipts": true,
+        "bounded": true,
+        "protection_closed": true,
+        "h2d": true,
+        "fatal_logs": true,
+        "raw_timing": true,
+        "request_identities": true,
+        "generations": true,
+        "diagnostic_config": true,
+        "raw_generation_and_original_receipts": true,
+        "window_observed": true
+      },
+      "performance_coverage": true,
+      "committed": 1,
+      "fallbacks": {
+        "capacity": 7
+      },
+      "generation": {
+        "passed": true,
+        "checks": {
+          "nonempty_unique_generations": true,
+          "exact_scheduler_ends": true,
+          "exact_server_ends": true,
+          "observed_wires_registered": true,
+          "server_end_removed": true,
+          "no_late_lookup": true,
+          "original_batch_handoff": true,
+          "scheduler_terminal": true,
+          "status_before_engine_stop_exact_empty": true,
+          "status_after_engine_stop_exact_empty": true
+        },
+        "registered": 62,
+        "scheduler_ends": 62,
+        "server_ends": 62,
+        "store_only_wires": [
+          "cp1:4093968007952906167:13:229c8db09ae02d400ebd1d9879bdee3f:cmpl-b19be3fb83a4ca68-0-aea578ee"
+        ],
+        "observed_wires": 62,
+        "batches": 33,
+        "active_operations": [],
+        "scope": "Original server END handler returns plus exact empty snapshots; not a transport ACK claim"
+      },
+      "windows": 1769,
+      "candidate_observations": {
+        "request_ineligible": 2455,
+        "minimum_capacity": 5243,
+        "visible_checks_satisfied": 1,
+        "metadata_ineligible": 3570,
+        "outside_pressure_ranks": 8499,
+        "unknown_reserve": 306
+      }
+    }
+  ],
+  "performance": false,
+  "scope": "Read-only windows with event logging overhead. Counts are repeated candidate observations, not distinct requests. Visible checks do not prove token-prefix proof or later same-step availability; this separate run cannot explain the original unobserved pilot causally or replace its zero-coverage failure.",
+  "full_audit_location": "shared-structure-windows-evidence.tar.gz: artifacts/shared-structure-windows-20261013a/audit.json"
+}

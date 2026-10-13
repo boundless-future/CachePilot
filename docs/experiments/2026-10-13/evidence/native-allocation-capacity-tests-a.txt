@@ -1,0 +1,64 @@
+.FFF....                                                                 [100%]
+=================================== FAILURES ===================================
+_________ test_local_hit_capacity_counts_only_zero_ref_touches[False] __________
+
+native = (<vllm.v1.core.kv_cache_manager.KVCacheManager object at 0x7eff5780dac0>, <function native.<locals>.request at 0x7eff57844400>, [[1, 2, 3, 4]], [4])
+existing_owner = False
+
+    @pytest.mark.parametrize('existing_owner', [False, True])
+    def test_local_hit_capacity_counts_only_zero_ref_touches(native, existing_owner):
+        m, request, calls, demands = native
+        seed = request('seed')
+        assert m.allocate_slots(seed, 64) is not None
+        if not existing_owner:
+            m.free(seed)
+        target = request('target')
+>       hits, tokens = m.get_computed_blocks(target)
+        ^^^^^^^^^^^^
+E       ValueError: too many values to unpack (expected 2)
+
+tests/test_native_allocation_capacity_contract.py:72: ValueError
+__________ test_local_hit_capacity_counts_only_zero_ref_touches[True] __________
+
+native = (<vllm.v1.core.kv_cache_manager.KVCacheManager object at 0x7eff5780cda0>, <function native.<locals>.request at 0x7eff577fede0>, [[1, 2, 3, 4]], [4])
+existing_owner = True
+
+    @pytest.mark.parametrize('existing_owner', [False, True])
+    def test_local_hit_capacity_counts_only_zero_ref_touches(native, existing_owner):
+        m, request, calls, demands = native
+        seed = request('seed')
+        assert m.allocate_slots(seed, 64) is not None
+        if not existing_owner:
+            m.free(seed)
+        target = request('target')
+>       hits, tokens = m.get_computed_blocks(target)
+        ^^^^^^^^^^^^
+E       ValueError: too many values to unpack (expected 2)
+
+tests/test_native_allocation_capacity_contract.py:72: ValueError
+__________________ test_mixed_local_and_external_zero_compute __________________
+
+native = (<vllm.v1.core.kv_cache_manager.KVCacheManager object at 0x7eff5780ed80>, <function native.<locals>.request at 0x7eff578442c0>, [[1, 2]], [2])
+
+    def test_mixed_local_and_external_zero_compute(native):
+        m, request, calls, demands = native
+        seed = request('seed')
+        m.allocate_slots(seed, 32)
+        m.free(seed)
+        target = request('mixed')
+>       hits, tokens = m.get_computed_blocks(target)
+        ^^^^^^^^^^^^
+E       ValueError: too many values to unpack (expected 2)
+
+tests/test_native_allocation_capacity_contract.py:93: ValueError
+=============================== warnings summary ===============================
+../../usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/torch/jit/_script.py:365: 14 warnings
+  /usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/torch/jit/_script.py:365: DeprecationWarning: `torch.jit.script_method` is deprecated. Please switch to `torch.compile` or `torch.export`.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_native_allocation_capacity_contract.py::test_local_hit_capacity_counts_only_zero_ref_touches[False]
+FAILED tests/test_native_allocation_capacity_contract.py::test_local_hit_capacity_counts_only_zero_ref_touches[True]
+FAILED tests/test_native_allocation_capacity_contract.py::test_mixed_local_and_external_zero_compute
+3 failed, 5 passed, 14 warnings in 8.05s

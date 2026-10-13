@@ -1,0 +1,13 @@
+# 2026-10-13 allocation observer tests
+
+Local command: D:/Python312/python.exe -m pytest -q tests/test_shared_structure_allocation_audit.py tests/test_shared_structure_windows.py tests/test_shared_structure_allocation_observer.py
+Observed tool output: 9 passed, 1 skipped in 0.58s (LMCache absent locally).
+
+Remote command: /usr/local/miniconda3/envs/cachepilot/bin/python -m pytest -q tests/test_shared_structure_allocation_observer.py tests/test_shared_structure_allocation_audit.py
+Observed tool output: 10 passed, 66 warnings in 9.18s.
+Warnings: 14 torch.jit.script_method deprecations, 52 OpenTelemetry LoggingHandler deprecations.
+Real BlockPool observer: 4 tests. Offline audit: 6 tests.
+
+This file summarizes observed tool output; it is not an original pytest stream.
+The first remote PATH-escaped invocation failed before pytest (-m: command not found).
+No full CUDA/native baseline was rerun in this diagnostic.
