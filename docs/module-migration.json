@@ -1,0 +1,23 @@
+{
+  "bounded_protection": "runtime.protection",
+  "shared_prefix_protection": "runtime.shared_prefix",
+  "protection_handoff": "runtime.handoff",
+  "token_prefix_proof": "runtime.prefix_proof",
+  "generation_session_ledger": "runtime.generation",
+  "idle_finalize": "runtime.idle",
+  "generation_idle_pump": "runtime.idle_pump",
+  "owned_service_protocol": "integration.lmcache.protocol",
+  "generation_manager_bridge": "integration.lmcache.manager",
+  "generation_protection_bridge": "integration.lmcache.protection",
+  "generation_rpc_client": "integration.lmcache.client",
+  "owned_mp_connector": "integration.vllm.owned_mp",
+  "owned_service_connector": "integration.vllm.owned_service",
+  "protection_connector": "integration.vllm.protection",
+  "idle_finalize_connector": "integration.vllm.idle",
+  "generation_ledger_connector": "integration.vllm.generation",
+  "generation_protection_connector": "integration.vllm.generation_protection",
+  "shared_prefix_connector": "integration.vllm.shared_prefix",
+  "owned_service": "integration.lmcache.service",
+  "owned_mp_server": "integration.lmcache.guard",
+  "generation_service_observer": "telemetry.service"
+}

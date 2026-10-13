@@ -1,5 +1,12 @@
 # 待办与阶段验收
 
+2026-10-13 工程收敛：主线已迁入 `src/cachepilot`，旧入口保留模块身份兼容；
+统一配置/CLI、安装元数据、源码快照及模块边界测试已建立。隔离目录真实库回归通过
+1147项、9项跳过、115个subtests；这不是新的GPU性能实验。
+逐步实测、已知限制和下一步见 [工程收敛记录](ENGINEERING_CONSOLIDATION.md) 与
+[模块架构](ARCHITECTURE.md)。后续按模块修改：候选/预算与共享引用 → 服务所有权和终结 → generation回执 → vLLM接线 → 观测和实验。
+开放：历史脚本分批分类、策略接口进一步解耦、联合异常与完整抢占恢复、异步/多worker支持和收益验证。
+
 2026-10-13 14:26，用户授权持续推进至14:30：匿名结构共享候选pilot完成但仅 **3/4通过**（双chunk0提交），原60请求/格、资源与generation闭合；formal未启动，禁止重跑筛选。独立只读windows、实际allocation及native逐次准入诊断各2格闭合，均不是性能；native one/two分别2,901/2,902次调用成功、91/85次拒绝，逐调用需求、新分配与空闲命中touch闭合。最终相关回归 **远端33项、本地19项通过**（范围不同，远端包含6项真实Scheduler序列测试）；首次错误预期及原始失败日志保留。原pilot与三组诊断证据均完成服务器/本地/冻结源复算。完整进度见[当日记录](experiments/2026-10-13/PROGRESS.md)，[准入报告](experiments/2026-10-13/SHARED_STRUCTURE_NATIVE.md)、[边界设计](experiments/2026-10-13/NATIVE_ADMISSION_BOUNDARY.md)。当前仍是3C策略评估与覆盖限制诊断，收益未成立；未降低reserve、未启动formal，联合异常/完整恢复/生产门槛继续开放。以下旧日期记录均为历史。
 
 2026-10-13最新（用户授权“推进下一阶段”）：共享候选历史输入pilot **4/4**、同240项冻结源formal **12/12**完成。正式816请求/39,168输出tokens，one/two各4/4/4批且回执/69代END/资源闭合。TTFT P95均值相对selected-zero **−1.52%/−1.58%**，two在r1退化；所有格prefill24,240、H2D1,811,939,328 bytes相同，尚无稳定收益或减少重算的证明。pilot/formal共258原始文件SHA及服务器/本地/冻结源复算一致；本地37项、远端27项范围不同单列。输出差异、default-zero-r2关闭traceback及CUDA IPC警告保留。下一主线：既有六session匿名结构的共享候选覆盖pilot，全部通过才formal；联合异常/完整抢占恢复仍开放。见 [正式报告](experiments/2026-10-13/SHARED_STRATEGY_FORMAL.md)。服务器已空闲、容器保持开机。以下旧日期记录是历史状态，不能代替本条。

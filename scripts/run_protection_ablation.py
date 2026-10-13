@@ -196,12 +196,13 @@ def merge_protection_summary(directory):
 
 
 def source_sha():
-    files = []
-    for directory in (ROOT / "scripts", ROOT / "configs"):
-        for path in sorted(directory.glob("*")):
-            if path.is_file() and path.suffix in {".py", ".sh", ".json"}:
-                files.append((str(path.relative_to(ROOT)), hashlib.sha256(path.read_bytes()).hexdigest()))
-    return dict(files)
+    # Checkout launch compatibility; installed users use the package directly.
+    import sys
+    source = str(ROOT / "src")
+    if source not in sys.path:
+        sys.path.insert(0, source)
+    from cachepilot.provenance import source_manifest
+    return source_manifest(ROOT)
 
 
 def ports_free():

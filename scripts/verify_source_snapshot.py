@@ -3,6 +3,12 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+import sys
+
+_src = str(Path(__file__).resolve().parents[1] / "src")
+if _src not in sys.path:
+    sys.path.insert(0, _src)
+from cachepilot.provenance import source_paths
 
 
 def verify(plan, root):
@@ -20,11 +26,8 @@ def verify(plan, root):
         actual = hashlib.sha256(path.read_bytes()).hexdigest()
         if actual != sha:
             failures.append(dict(path=relative, reason="bytes differ", expected=sha, actual=actual))
-    extra = sorted(str(path.relative_to(root)).replace("\\", "/")
-                   for directory in (root / "scripts", root / "configs")
-                   for path in directory.glob("*")
-                   if path.is_file() and path.suffix in (".py", ".sh", ".json")
-                   and str(path.relative_to(root)).replace("\\", "/") not in expected)
+    extra = [path.relative_to(root).as_posix() for path in source_paths(root)
+             if path.relative_to(root).as_posix() not in expected]
     return dict(passed=bool(expected) and not failures, expected_files=len(expected), failures=failures,
         additional_files=extra, scope="Exact bytes of manifest-listed sources; additions reported separately")
 

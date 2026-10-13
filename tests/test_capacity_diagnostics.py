@@ -36,7 +36,7 @@ def test_capacity_diagnostic_is_opt_in_and_before_dedup(monkeypatch):
 
 def test_diagnostic_copy_preserves_original_decision_ast():
     root = Path(__file__).resolve().parents[1]
-    base = ast.parse((root / 'scripts/bounded_protection.py').read_text())
+    base = ast.parse((root / 'src/cachepilot/runtime/protection.py').read_text())
     observed = ast.parse((root / 'scripts/capacity_diagnostic_protection.py').read_text())
 
     class Strip(ast.NodeTransformer):

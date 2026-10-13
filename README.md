@@ -1,5 +1,10 @@
 # CachePilot
 
+2026-10-13 工程入口：运行主线已收敛到 [`src/cachepilot`](src/cachepilot)，
+旧 `scripts/` 同名模块作为兼容入口。先看 [工程结构与模块边界](docs/ARCHITECTURE.md)、
+[当前待办](docs/TASKS.md) 和 [最小接线示例](examples/shared-prefix/README.md)。
+本次仅迁移工程结构，没有产生新的性能结论。以下时间线保留历史检查点。
+
 面向多轮 Agent 推理的 KV 缓存卸载策略探索。
 
 当前状态（2026-10-11 晚间）：**阶段 3C 的受控单卡保护已实现；阶段 4 已完成容量、六点固定参数调优、原生/立即卸载/固定策略和压缩到达对照。保护尚未证明优于调优固定策略；新文本零覆盖已独立观测，当前不宣称通用加速。** 最新结论、实现边界和下一步见 [当前状态](docs/STATUS.md)；持续执行步骤见 [晚间记录](docs/experiments/2026-10-11/EVENING_PROGRESS.md)。

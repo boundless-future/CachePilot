@@ -12,8 +12,8 @@ def methods(path,name):
 
 
 def test_shared_candidate_keeps_reserve_hash_proof_and_commit_logic():
-    base=methods(ROOT/'scripts/bounded_protection.py','BoundedProtection')
-    shared=methods(ROOT/'scripts/shared_prefix_protection.py','SharedPrefixProtection')
+    base=methods(ROOT/'src/cachepilot/runtime/protection.py','BoundedProtection')
+    shared=methods(ROOT/'src/cachepilot/runtime/shared_prefix.py','SharedPrefixProtection')
     expected=ast.unparse(base['prepare'])
     expected=expected.replace('    from vllm.v1.core import kv_cache_utils',
         '    self.manager._healthy()\n    from vllm.v1.core import kv_cache_utils')
@@ -30,8 +30,8 @@ def test_shared_candidate_keeps_reserve_hash_proof_and_commit_logic():
 
 
 def test_rollback_restores_only_recorded_free_queue_ranks():
-    base=methods(ROOT/'scripts/bounded_protection.py','BoundedProtection')
-    shared=methods(ROOT/'scripts/shared_prefix_protection.py','SharedPrefixProtection')
+    base=methods(ROOT/'src/cachepilot/runtime/protection.py','BoundedProtection')
+    shared=methods(ROOT/'src/cachepilot/runtime/shared_prefix.py','SharedPrefixProtection')
     expected=ast.unparse(base['rollback']).replace('    restore = []','    self.manager._healthy()\n    restore = []')
     expected=expected.replace('if b.ref_cnt == 0)', 'if b.ref_cnt == 0 and b.block_id in prepared.free_ranks)')
     assert ast.dump(ast.parse(expected).body[0])==ast.dump(shared['rollback'])
