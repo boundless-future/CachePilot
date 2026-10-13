@@ -1,5 +1,16 @@
 # 2026-10-13 推进记录
 
+## 12:40起：持续推进至14:30（进行中）
+
+用户授权今日北京时间14:30前持续推进；复用heartbeat cachepilot-15，14:25后入口不再启动新格，14:30安全收尾汇报。先检查本段最新状态及远端进程，避免重复实验。
+
+- 12:40读取既有六session匿名结构来源和旧formal，确认输入是token ID数组、60请求/209,661tokens，自然抢占产生额外generation。
+- 独立新增run_shared_structure_matrix.py / audit_shared_structure_matrix.py，原240项源不改；预注册SHARED_STRUCTURE_PREREGISTRATION.md。
+- 新入口按61唯一raw请求（含warmup）及61+实际preemption代检查；来源/tokenizer文件SHA、ID范围、长度及完整重建审计。首次反篡改raw ID测试暴露仅计数不能验证wire绑定，补wire后缀身份检查后30项通过（结构11+原共享19）；原失败保留在本记录，不伪造原工具日志。
+- 12:45已启动远端pilot：artifacts/shared-structure-pilot-20261013a，日志同名.log；工具会话48632。截止14:25。先等4/4及三处审计，全部通过才formal，不重复启动。
+- 工作树有尚未提交的新入口/测试/预注册和离线证据工具。失败立即保存，禁止更改reserve/输入覆盖；旧匿名结构输入不是未见集合。
+
+
 ## 最新：推进下一阶段
 
 1. 冻结四组历史输入预注册与240项源，新增pilot/formal入口及独立原始计时/资源审计。
