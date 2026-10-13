@@ -1,0 +1,94 @@
+............FFF......                                                    [100%]
+=================================== FAILURES ===================================
+___________ test_envelope_native_preemption_reentry_repeated[0-129] ____________
+
+actual = (<vllm.v1.core.sched.scheduler.Scheduler object at 0x7ff623f147a0>, <function actual.<locals>.add at 0x7ff62815ae80>)
+pin_count = 0
+
+    @pytest.mark.parametrize('actual',[129],indirect=True)
+    @pytest.mark.parametrize('pin_count',[0,16,32])
+    def test_envelope_native_preemption_reentry_repeated(actual,pin_count):
+        import time
+        sched,add=actual
+        manager=sched.kv_cache_manager
+        manager.watermark_blocks=7
+        pool=manager.block_pool
+        pressure=pool.get_new_blocks(48)
+        first=add('first',65)
+        assert sched.schedule().num_scheduled_tokens=={'first':65}
+        for iteration in range(3):
+            sched.running.remove(first)
+            sched._preempt_request(first,time.monotonic())
+            assert first.status==RequestStatus.PREEMPTED and first.num_computed_tokens==0
+            assert first.num_preemptions==iteration+1
+            second=add(f'second-{iteration}',49,1000+iteration*100)
+            reserve=WholeStepAdmission().reserve(sched)
+>           assert reserve is not None
+E           assert None is not None
+
+tests/test_native_scheduler_sequence.py:104: AssertionError
+___________ test_envelope_native_preemption_reentry_repeated[16-129] ___________
+
+actual = (<vllm.v1.core.sched.scheduler.Scheduler object at 0x7ff623f4dbe0>, <function actual.<locals>.add at 0x7ff62815bc40>)
+pin_count = 16
+
+    @pytest.mark.parametrize('actual',[129],indirect=True)
+    @pytest.mark.parametrize('pin_count',[0,16,32])
+    def test_envelope_native_preemption_reentry_repeated(actual,pin_count):
+        import time
+        sched,add=actual
+        manager=sched.kv_cache_manager
+        manager.watermark_blocks=7
+        pool=manager.block_pool
+        pressure=pool.get_new_blocks(48)
+        first=add('first',65)
+        assert sched.schedule().num_scheduled_tokens=={'first':65}
+        for iteration in range(3):
+            sched.running.remove(first)
+            sched._preempt_request(first,time.monotonic())
+            assert first.status==RequestStatus.PREEMPTED and first.num_computed_tokens==0
+            assert first.num_preemptions==iteration+1
+            second=add(f'second-{iteration}',49,1000+iteration*100)
+            reserve=WholeStepAdmission().reserve(sched)
+>           assert reserve is not None
+E           assert None is not None
+
+tests/test_native_scheduler_sequence.py:104: AssertionError
+___________ test_envelope_native_preemption_reentry_repeated[32-129] ___________
+
+actual = (<vllm.v1.core.sched.scheduler.Scheduler object at 0x7ff623f1ce30>, <function actual.<locals>.add at 0x7ff62815a5c0>)
+pin_count = 32
+
+    @pytest.mark.parametrize('actual',[129],indirect=True)
+    @pytest.mark.parametrize('pin_count',[0,16,32])
+    def test_envelope_native_preemption_reentry_repeated(actual,pin_count):
+        import time
+        sched,add=actual
+        manager=sched.kv_cache_manager
+        manager.watermark_blocks=7
+        pool=manager.block_pool
+        pressure=pool.get_new_blocks(48)
+        first=add('first',65)
+        assert sched.schedule().num_scheduled_tokens=={'first':65}
+        for iteration in range(3):
+            sched.running.remove(first)
+            sched._preempt_request(first,time.monotonic())
+            assert first.status==RequestStatus.PREEMPTED and first.num_computed_tokens==0
+            assert first.num_preemptions==iteration+1
+            second=add(f'second-{iteration}',49,1000+iteration*100)
+            reserve=WholeStepAdmission().reserve(sched)
+>           assert reserve is not None
+E           assert None is not None
+
+tests/test_native_scheduler_sequence.py:104: AssertionError
+=============================== warnings summary ===============================
+../../usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/torch/jit/_script.py:365: 14 warnings
+  /usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/torch/jit/_script.py:365: DeprecationWarning: `torch.jit.script_method` is deprecated. Please switch to `torch.compile` or `torch.export`.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_native_scheduler_sequence.py::test_envelope_native_preemption_reentry_repeated[0-129]
+FAILED tests/test_native_scheduler_sequence.py::test_envelope_native_preemption_reentry_repeated[16-129]
+FAILED tests/test_native_scheduler_sequence.py::test_envelope_native_preemption_reentry_repeated[32-129]
+3 failed, 18 passed, 12 deselected, 14 warnings in 7.59s

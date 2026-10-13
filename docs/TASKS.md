@@ -1,5 +1,7 @@
 # 待办与阶段验收
 
+2026-10-13最新：全请求包络新增18项真实Scheduler边界契约；精确容量阈值下共享owner/混合命中/watermark、旧输出消化后三次重入、自然decode抢占后三次失败及压力释放恢复通过。服务器强制native/CUDA1218 passed、零跳过；Windows688 passed、313 skipped。首次错误状态预期与缺accept_tokens构件失败保留，运行时未改；服务bind仍关闭。下一步远端完成/失败恢复、多请求decode及跨步保护释放，再独立服务接线。见 [边界报告](experiments/2026-10-13/WHOLE_STEP_BOUNDARIES.md)。
+
 2026-10-13最新：独立全请求包络CPU候选已实现，默认关闭且bind拒绝服务接线；不扣驻留/命中，另计真实remote成员预留。新增23项纯策略/真实manager/Scheduler契约，服务器强制native/CUDA1200 passed、零跳过，Windows688 passed、313 skipped。下一步抢占重入、共享owner及watermark连续准入反例验证，再决定服务接线；原匿名pilot3/4及formal门槛不变。见 [WHOLE_STEP_CANDIDATE](experiments/2026-10-13/WHOLE_STEP_CANDIDATE.md)。
 
 2026-10-13历史测试构件第二轮：11个测试文件改用保护契约断言、native分配fixture、测量数据与GPU buffer支持模块；六段抽取函数体AST一致。Windows668 passed、312 skipped；服务器强制native/CUDA1162 passed、零跳过、115 subtests。11个文件独立进程90项全部通过，包含H2D/D2H。剩余8条历史unittest初始化跨模块依赖已白名单约束，下一步提取无test方法的支持类；运行时策略与性能结论未改。记录见[TESTING](TESTING.md)及validation/research-test-support-2026-10-13。

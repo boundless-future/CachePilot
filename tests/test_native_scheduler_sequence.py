@@ -13,6 +13,7 @@ from vllm.v1.kv_cache_interface import FullAttentionSpec, KVCacheGroupSpec, KVCa
 from vllm.v1.request import Request, RequestStatus
 from vllm.v1.core import kv_cache_utils as utils
 from vllm.utils.hashing import get_hash_fn_by_name
+from cachepilot.runtime.whole_step import WholeStepAdmission, whole_step_envelope
 
 
 @pytest.fixture(scope='module')
@@ -36,6 +37,140 @@ def actual(config,monkeypatch,request):
             block_hasher=utils.get_request_block_hasher(16,fn))
         sched.add_request(r);return r
     return sched,add
+
+
+@pytest.mark.parametrize('actual',[129],indirect=True)
+@pytest.mark.parametrize('owner_leaves',[False,True])
+@pytest.mark.parametrize('external',[False,True])
+@pytest.mark.parametrize('pin_count',[0,16,32])
+def test_envelope_shared_owner_and_watermark_sequence(actual,owner_leaves,external,pin_count):
+    sched,add=actual
+    manager=sched.kv_cache_manager
+    manager.watermark_blocks=7
+    pool=manager.block_pool
+    pressure=pool.get_new_blocks(48)
+    seed=add('seed',32)
+    assert manager.allocate_slots(seed,32) is not None
+    sched.waiting.remove(seed)
+    del sched.requests['seed']
+    if owner_leaves:manager.free(seed)
+    matched=[]
+    if external:
+        sched.connector=NS(supports_divergent_local_hybrid_hits=False,
+            on_new_request=lambda r:None,
+            get_num_new_matched_tokens=lambda r,local:(r.num_prompt_tokens-1-local,True),
+            update_state_after_alloc=lambda r,blocks,ext:matched.append((r.request_id,ext)),
+            build_connector_meta=lambda output:None,request_finished=lambda r,ids:(False,None))
+    first=add('first',65)
+    second=add('second',49,1000)
+    e=whole_step_envelope(sched)
+    assert e.request_blocks==(('first',5),('second',4)) and e.watermark_blocks==7
+    # Exercise equality, not only a roomy pool. One further owned reference
+    # must be rejected without changing the native allocator state.
+    pressure.extend(pool.get_new_blocks(pool.get_num_free_blocks()-pin_count-e.reserve))
+    free=pool.get_num_free_blocks()
+    assert free-pin_count==e.reserve
+    assert not WholeStepAdmission().permits(free,pin_count+1,e.reserve)
+    assert WholeStepAdmission().permits(pool.get_num_free_blocks(),pin_count,e.reserve)
+    pin=pool.get_new_blocks(pin_count) if pin_count else []
+    output=sched.schedule()
+    if external:
+        assert output.total_num_scheduled_tokens==0
+        assert matched==[('first',32),('second',48)]
+        assert first.status==second.status==RequestStatus.WAITING_FOR_REMOTE_KVS
+        assert sched._inflight_prefill_reserved_blocks()==2
+        sched.finished_recving_kv_req_ids.update(['first','second'])
+    else:
+        assert output.num_scheduled_tokens=={'first':33,'second':49}
+        assert first.status==second.status==RequestStatus.RUNNING
+    sched.finish_requests(['first','second'],RequestStatus.FINISHED_ABORTED)
+    if not owner_leaves:manager.free(seed)
+    pool.free_blocks(pressure+pin)
+    assert pool.get_num_free_blocks()==128 and not sched.requests
+
+
+@pytest.mark.parametrize('actual',[129],indirect=True)
+@pytest.mark.parametrize('pin_count',[0,16,32])
+def test_envelope_native_preemption_reentry_repeated(actual,pin_count):
+    import time
+    from vllm.v1.outputs import ModelRunnerOutput
+    sched,add=actual
+    manager=sched.kv_cache_manager
+    manager.watermark_blocks=7
+    pool=manager.block_pool
+    pressure=pool.get_new_blocks(48)
+    first=add('first',65)
+    pending=sched.schedule()
+    assert pending.num_scheduled_tokens=={'first':65}
+    for iteration in range(3):
+        sched.running.remove(first)
+        sched._preempt_request(first,time.monotonic())
+        assert first.status==RequestStatus.PREEMPTED and first.num_computed_tokens==0
+        assert first.num_preemptions==iteration+1
+        second=add(f'second-{iteration}',49,1000+iteration*100)
+        # The real hook preserves outstanding worker tokens. The candidate
+        # must refuse estimation until the stale result is actually drained.
+        assert first.num_in_flight_tokens>0
+        assert WholeStepAdmission().reserve(sched) is None
+        ids=list(pending.num_scheduled_tokens)
+        sched.update_from_output(pending,ModelRunnerOutput(
+            req_ids=ids,req_id_to_index={rid:i for i,rid in enumerate(ids)}))
+        assert first.num_in_flight_tokens==first.num_stale_output_tokens==0
+        reserve=WholeStepAdmission().reserve(sched)
+        assert reserve is not None
+        assert WholeStepAdmission().permits(pool.get_num_free_blocks(),pin_count,reserve)
+        pin=pool.get_new_blocks(pin_count) if pin_count else []
+        output=sched.schedule()
+        # Native PREEMPTED path resumes; cached prefix and status choices are
+        # decided by the installed scheduler, not an emulated allocation loop.
+        assert set(output.num_scheduled_tokens)=={'first',second.request_id}
+        assert first.status==second.status==RequestStatus.RUNNING
+        pending=output
+        sched.finish_requests(second.request_id,RequestStatus.FINISHED_ABORTED)
+        pool.free_blocks(pin)
+    sched.finish_requests('first',RequestStatus.FINISHED_ABORTED)
+    pool.free_blocks(pressure)
+    assert pool.get_num_free_blocks()==128 and not sched.requests
+
+
+@pytest.mark.parametrize('actual',[97],indirect=True)
+@pytest.mark.parametrize('pin_count',[0,16,32])
+def test_envelope_natural_decode_preemption_and_reentry(actual,pin_count):
+    from vllm.v1.outputs import ModelRunnerOutput
+    sched,add=actual
+    sched.structured_output_manager=NS(accept_tokens=lambda request,tokens:True)
+    pool=sched.kv_cache_manager.block_pool
+    pressure=pool.get_new_blocks(92)
+    first=add('first',64)
+    prefill=sched.schedule()
+    assert prefill.num_scheduled_tokens=={'first':64}
+    sched.update_from_output(prefill,ModelRunnerOutput(
+        req_ids=['first'],req_id_to_index={'first':0},sampled_token_ids=[[3000]]))
+    assert first.num_in_flight_tokens==0 and first.num_tokens==65
+    assert pool.get_num_free_blocks()==0
+    # The next decode token needs a fifth block. Let schedule itself select
+    # the preemption; no direct request-state or running-list mutation.
+    failed=sched.schedule()
+    assert failed.num_scheduled_tokens=={}
+    assert first.status==RequestStatus.PREEMPTED and first.num_preemptions==1
+    assert first.num_computed_tokens==first.num_in_flight_tokens==0
+    reserve=WholeStepAdmission().reserve(sched)
+    assert reserve==21
+    assert not WholeStepAdmission().permits(pool.get_num_free_blocks(),pin_count,reserve)
+    # Repeated insufficient-capacity attempts must remain non-admissions.
+    for _ in range(3):
+        assert sched.schedule().num_scheduled_tokens=={}
+        assert first.status==RequestStatus.PREEMPTED
+        assert WholeStepAdmission().reserve(sched)==reserve
+    pool.free_blocks(pressure)
+    assert WholeStepAdmission().permits(pool.get_num_free_blocks(),pin_count,reserve)
+    pin=pool.get_new_blocks(pin_count) if pin_count else []
+    resumed=sched.schedule()
+    assert resumed.num_scheduled_tokens=={'first':1}
+    assert first.status==RequestStatus.RUNNING
+    sched.finish_requests('first',RequestStatus.FINISHED_ABORTED)
+    pool.free_blocks(pin)
+    assert pool.get_num_free_blocks()==96 and not sched.requests
 
 
 @pytest.mark.parametrize('actual',[97],indirect=True)
