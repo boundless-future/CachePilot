@@ -20,6 +20,11 @@ def test_shared_candidate_keeps_reserve_hash_proof_and_commit_logic():
     expected=expected.replace('b.ref_cnt or b.is_null','b.ref_cnt < 0 or b.is_null')
     expected=expected.replace('{bid: all_ranks[bid] for bid in ids[:protected_count]}',
         '{bid: all_ranks[bid] for bid in ids[:protected_count] if bid in all_ranks}')
+    expected=expected.replace('        self.pool.touch(blocks)',
+        '        refs_before = [b.ref_cnt for b in blocks]\n        self.pool.touch(blocks)')
+    expected=expected.replace('free_after=self.pool.get_num_free_blocks())',
+        'free_after=self.pool.get_num_free_blocks(), refs_before=refs_before, '
+        'refs_after=[b.ref_cnt for b in blocks], shared_blocks_before=sum(ref > 0 for ref in refs_before))')
     assert ast.dump(ast.parse(expected).body[0])==ast.dump(shared['prepare'])
     assert set(shared)=={'prepare','rollback','bind'}
 

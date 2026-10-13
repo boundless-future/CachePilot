@@ -19,12 +19,17 @@ from scripts.owned_service_protocol import SEQUENCE_CONFIG
 from lmcache.integration.vllm.lmcache_mp_metadata import LMCacheMPWorkerMetadata
 
 
-@pytest.fixture
-def wired(case):
+@pytest.fixture(params=['original', 'shared'])
+def wired(case, request):
+    if request.param == 'shared':
+        from scripts.shared_prefix_connector import SharedPrefixConnector, SharedPrefixServiceProtection
+        connector_type, helper_type = SharedPrefixConnector, SharedPrefixServiceProtection
+    else:
+        connector_type, helper_type = GenerationProtectionConnector, GenerationBoundedProtection
     old_helper, scheduler, blocks, rows = case
     meta = old_helper.policy._pending['old'][0].store_metadata
     old_helper.manager.on_request_reset('old')
-    obj = object.__new__(GenerationProtectionConnector)
+    obj = object.__new__(connector_type)
     obj._generation_ledger = ProtectionGenerationLedger()
     obj._generation_retrieves, obj._generation_end_requested = {}, set()
     obj._lazy_offload_manager = GenerationProtectionBridge(old_helper.manager, obj._generation_ledger)
@@ -37,7 +42,7 @@ def wired(case):
     client = SchedulerLedgerClient(transport, 1, obj)
     obj.scheduler_adapter = NS(req_clients={'url': client}, end_session=client.end_session,
                                lmcache_tokens_per_chunk=256)
-    helper = object.__new__(GenerationBoundedProtection)
+    helper = object.__new__(helper_type)
     helper.__dict__.update(old_helper.__dict__)
     helper.connector, helper.budget = obj, 16
     obj._bounded = helper

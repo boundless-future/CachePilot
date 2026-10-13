@@ -95,13 +95,16 @@ class SharedPrefixProtection(GenerationBoundedProtection):
                 continue
             identity = describe(protected_meta)
             # All validation and the pin happen on the serial scheduler owner.
+            refs_before = [b.ref_cnt for b in blocks]
             self.pool.touch(blocks)
             prepared = Prepared(candidate, protected_meta, blocks, identity, proof.chunk_hashes,
                 {bid: all_ranks[bid] for bid in ids[:protected_count] if bid in all_ranks}, continuation)
             self.prepared[rid] = prepared
             left -= len(blocks)
             self.record("protection_prepared", **identity, chunk_hashes=list(proof.chunk_hashes),
-                acquired_pins=len(blocks), reserve=reserve, free_after=self.pool.get_num_free_blocks())
+                acquired_pins=len(blocks), reserve=reserve, free_after=self.pool.get_num_free_blocks(),
+                refs_before=refs_before, refs_after=[b.ref_cnt for b in blocks],
+                shared_blocks_before=sum(ref > 0 for ref in refs_before))
 
     def rollback(self, reason):
         self.manager._healthy()

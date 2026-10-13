@@ -213,7 +213,8 @@
 - [x] 新组合固定参数新文本覆盖准入的执行与失败归档：两个零保护通过，selected-one因35次capacity/0提交失败，selected-two未运行；这是反例记录，不是准入成功。见 [报告](experiments/2026-10-12/GENERATION_STRATEGY_VALIDATION.md)。
 - [x] 独立opt-in容量/free/reserve/live footprint与候选窗口诊断：两格136请求，原策略不变，确定新文本容量满足后共享首块ref检查拒绝147次；原零覆盖失败保留。见 [报告](experiments/2026-10-12/GENERATION_CAPACITY_DIAGNOSTIC.md)。
 - [x] 共享前缀引用保护CPU候选：新增29项真实BlockPool/generation契约，相关84项、本地AST约束2项通过；原引用保留、rollback/free-rank及多候选部分故障闭合。CPU模拟owner释放不等于服务取消验证。见 [报告](experiments/2026-10-12/SHARED_PREFIX_CONTRACT.md)。
-- [ ] 独立共享前缀Connector/绑定子类及callback/多候选故障契约；原CPU bind拒绝与旧默认保留。
+- [x] 独立共享前缀服务 Connector/绑定子类、probe MRO 与已有 owner 引用 callback 契约；原 CPU bind 拒绝与旧默认保留。native-a 76、native-b 85 passed，见 [共享前缀准入](experiments/2026-10-13/SHARED_PREFIX_ADMISSION.md)。
+- [ ] 共享前缀 GPU bitwise、真实共享引用/原回执、取消/抢占/失败回执和旧代重用；正常 zero/one/two 已运行，审计及异常专项仍在进行。
 - [ ] 共享候选GPU bitwise、真实共享引用/原回执、取消/抢占/失败回执与终态资源准入；通过后才固定新文本四组pilot→formal。
 - [ ] 准入通过后新文本三重复及真实匿名结构的非零保护复核，验证收益是否跨输入/负载复现。
 - [ ] 用 Qwen3-8B＋5090 复核；如要区分模型/硬件效应，需要额外控制变量实验。
