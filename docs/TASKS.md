@@ -1,5 +1,7 @@
 # 待办与阶段验收
 
+2026-10-13更新（用户授权推进1–3）：共享前缀独立服务接线、正常/异常GPU限定准入完成。最终显式CUDA/native **961 passed、115 subtests**。正常zero/one/two共1,044请求、720/720/864层KV全等；取消、自然抢占、失败回执、raw ID重用四专项通过。历史新文本全量KV探针两轮零覆盖、稀疏探针缺回载的失败均保留；轻量诊断3次共享保护，独立323请求尾段补齐1批/36层先共享再保护的严格STORE→H2D。全局资源/代际闭合、pin0、909free；七格及补充两轮服务器/本地/冻结源复算一致，305原始文件SHA核对。**不是新性能结论**，未运行pilot/formal；同一先共享再保护批次与取消/抢占等的联合GPU覆盖、完整抢占恢复、异步/多worker仍开放。下一主线：冻结新四组历史输入pilot，全部通过后才formal。详见 [本轮准入报告](experiments/2026-10-13/SHARED_PREFIX_ADMISSION.md)。
+
 23:17停机交接：今日实验已收尾，无在途实验/推理服务，端口空闲、GPU1MiB/0%；231源未漂移，代码已推送，heartbeat保持PAUSED。等待用户开机续授；下一步独立共享前缀Connector接线，不能直接启动性能实验。见 [停机交接](experiments/2026-10-12/SHUTDOWN.md)。
 
 23:14更新：共享前缀独立引用CPU候选完成，真实BlockPool/manager/generation相关84项通过（新增29项），本地源码差异约束2项通过。允许共享完整哈希块增加自己的保护引用；rollback只恢复有原free-rank的归零块，原回执释放不改。成功/失败/逆序回执、其他owner引用变化、旧代/多候选部分注册故障均有契约。原230源不变，仅新增candidate；模型服务bind仍拒绝，无新GPU/收益结论。下一步独立Connector接线及callback契约，再共享KV bitwise/资源准入。见 [契约报告](experiments/2026-10-12/SHARED_PREFIX_CONTRACT.md)。
@@ -214,8 +216,10 @@
 - [x] 独立opt-in容量/free/reserve/live footprint与候选窗口诊断：两格136请求，原策略不变，确定新文本容量满足后共享首块ref检查拒绝147次；原零覆盖失败保留。见 [报告](experiments/2026-10-12/GENERATION_CAPACITY_DIAGNOSTIC.md)。
 - [x] 共享前缀引用保护CPU候选：新增29项真实BlockPool/generation契约，相关84项、本地AST约束2项通过；原引用保留、rollback/free-rank及多候选部分故障闭合。CPU模拟owner释放不等于服务取消验证。见 [报告](experiments/2026-10-12/SHARED_PREFIX_CONTRACT.md)。
 - [x] 独立共享前缀服务 Connector/绑定子类、probe MRO 与已有 owner 引用 callback 契约；原 CPU bind 拒绝与旧默认保留。native-a 76、native-b 85 passed，见 [共享前缀准入](experiments/2026-10-13/SHARED_PREFIX_ADMISSION.md)。
-- [ ] 共享前缀 GPU bitwise、真实共享引用/原回执、取消/抢占/失败回执和旧代重用；正常 zero/one/two 已运行，审计及异常专项仍在进行。
-- [ ] 共享候选GPU bitwise、真实共享引用/原回执、取消/抢占/失败回执与终态资源准入；通过后才固定新文本四组pilot→formal。
+- [x] 新共享前缀 helper 正常 zero/one/two 及取消/自然抢占/失败回执/raw ID重用 GPU 七格、自然零步回滚独立准入；严格KV/原回执/资源及generation闭合，源码冻结复算一致。
+- [x] 先共享再保护 GPU 独立正确性：原历史trace轻量诊断3次提交，扩展尾段1个实际保护来源chunk/36层bitwise相等；原trace全量探针零覆盖/稀疏无回载失败保留，其他2批未声称回载覆盖。
+- [ ] 同一先共享再保护批次与取消/抢占/旧代的联合GPU覆盖，以及抢占后完整恢复；当前CPU契约和分立GPU证据不代替组合验收。
+- [ ] 冻结共享候选新签名四组历史新文本pilot→formal；保持原失败，任一零覆盖/资源失败即停止，不能直接formal。
 - [ ] 准入通过后新文本三重复及真实匿名结构的非零保护复核，验证收益是否跨输入/负载复现。
 - [ ] 用 Qwen3-8B＋5090 复核；如要区分模型/硬件效应，需要额外控制变量实验。
 - [x] 开发和验证消融已统计客户端 ready-to-first/ready-to-end 及会话完成时间；原始值与聚合均归档，不将入口等待隐藏。新容量和到达负载继续沿用该口径。

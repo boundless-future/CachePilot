@@ -1,0 +1,58 @@
+{
+  "passed": true,
+  "checks": {
+    "result": true,
+    "generation": true,
+    "shared": true,
+    "tokens": true,
+    "resources": true,
+    "config": true,
+    "budget": true,
+    "snapshot": true,
+    "source": true,
+    "trace": true
+  },
+  "shared": {
+    "shared_prepares": 3,
+    "shared_committed_batches": [
+      "cp1:3578771572052157531:50:8702b5d12ed76e0388ee0925279b5d5b:cmpl-9ce5504e7e02b197-0-b0e03514:ledger:31",
+      "cp1:3578771572052157531:52:73f17bdb2617b542e97222a27de5314d:cmpl-a2e45f599882b01d-0-bb825df7:ledger:33",
+      "cp1:3578771572052157531:53:2b117b4f6e7bbc361667e56f41ff7172:cmpl-a37e5dacf1877376-0-bde76da6:ledger:34"
+    ],
+    "zero_step_rollbacks": 0
+  },
+  "bounded": {
+    "passed": true,
+    "protection_stores": 3,
+    "peak_protection_blocks": 16,
+    "observed_allocations": 12,
+    "rollbacks": 0,
+    "final_owned_pins": 0
+  },
+  "generation": {
+    "passed": true,
+    "checks": {
+      "nonempty_unique_generations": true,
+      "exact_scheduler_ends": true,
+      "exact_server_ends": true,
+      "observed_wires_registered": true,
+      "server_end_removed": true,
+      "no_late_lookup": true,
+      "original_batch_handoff": true,
+      "scheduler_terminal": true,
+      "status_before_engine_stop_exact_empty": true,
+      "status_after_engine_stop_exact_empty": true
+    },
+    "registered": 69,
+    "scheduler_ends": 69,
+    "server_ends": 69,
+    "store_only_wires": [],
+    "observed_wires": 69,
+    "batches": 40,
+    "active_operations": [],
+    "scope": "Original server END handler returns plus exact empty snapshots; not a transport ACK claim"
+  },
+  "performance": false,
+  "kv_bitwise": false,
+  "scope": "Historical input coverage and resource diagnostic without synchronizing KV probes"
+}

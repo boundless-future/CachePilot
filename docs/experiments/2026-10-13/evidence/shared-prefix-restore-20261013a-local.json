@@ -1,0 +1,170 @@
+{
+  "passed": true,
+  "checks": {
+    "result": true,
+    "generation": true,
+    "kv": true,
+    "config": true,
+    "budget": true,
+    "tokens": true,
+    "resources": true,
+    "generation_snapshot": true,
+    "fatal_logs": true,
+    "shared_source": true,
+    "source": true,
+    "trace": true,
+    "healthy": true,
+    "closed": true
+  },
+  "generation": {
+    "passed": true,
+    "checks": {
+      "nonempty_unique_generations": true,
+      "exact_scheduler_ends": true,
+      "exact_server_ends": true,
+      "observed_wires_registered": true,
+      "server_end_removed": true,
+      "no_late_lookup": true,
+      "original_batch_handoff": true,
+      "scheduler_terminal": true,
+      "status_before_engine_stop_exact_empty": true,
+      "status_after_engine_stop_exact_empty": true
+    },
+    "registered": 392,
+    "scheduler_ends": 392,
+    "server_ends": 392,
+    "store_only_wires": [],
+    "observed_wires": 392,
+    "batches": 40,
+    "active_operations": [],
+    "scope": "Original server END handler returns plus exact empty snapshots; not a transport ACK claim"
+  },
+  "bounded": {
+    "passed": true,
+    "protection_stores": 3,
+    "peak_protection_blocks": 16,
+    "observed_allocations": 12,
+    "rollbacks": 0,
+    "final_owned_pins": 0
+  },
+  "ownership": {
+    "passed": true,
+    "service_processes": 1,
+    "original_tokens": 131,
+    "dispositions": {
+      "RELEASED": 131
+    },
+    "transfer_terminals": 55,
+    "final_free_blocks": {
+      "owned-connector-4292.jsonl": 909
+    },
+    "exactly_once": true,
+    "native_terminal_before_release": true
+  },
+  "sources": {
+    "passed": true,
+    "strict_chunks": 1,
+    "strict_equal_layers": 36,
+    "covered_batches": 1,
+    "protected_batches": 3,
+    "kv_bytes_per_block": 2359296,
+    "submitted_payload_bytes": {
+      "store": 5171576832,
+      "retrieve": 1925185536
+    },
+    "strict_sources": [
+      {
+        "batch_id": "cp1:3282251943006859665:50:ef4fbd9411c6547e83d8af622d05bc0a:cmpl-a6021f33262e143b-0-849148fd:ledger:31",
+        "token_prefix_sha256": "5d883f5436f748b0afdbcc972f78afae12ad86d1020829a7a69258b7c13eddfe",
+        "start": 0,
+        "end": 256,
+        "equal_layers": 36,
+        "store_sequence": 31
+      }
+    ]
+  },
+  "shared": {
+    "shared_prepares": 3,
+    "shared_committed_batches": [
+      "cp1:3282251943006859665:50:ef4fbd9411c6547e83d8af622d05bc0a:cmpl-a6021f33262e143b-0-849148fd:ledger:31",
+      "cp1:3282251943006859665:52:22c4e9b48946865228524cb2463e017a:cmpl-bcf133cb42cd444c-0-98c84364:ledger:33",
+      "cp1:3282251943006859665:53:2def6600652121b2c2e409e8a9429b0b:cmpl-b66d38572dd56f2b-0-baa1b313:ledger:34"
+    ],
+    "zero_step_rollbacks": 0
+  },
+  "kv": {
+    "counts": {
+      "worker_layout_chunks": 1,
+      "before_store_chunks": 137,
+      "after_retrieve_chunks": 1,
+      "retrieved_layers": 36,
+      "equal_layers": 36
+    },
+    "missing_references": [],
+    "unequal_layers": [],
+    "covered_and_equal": true
+  },
+  "shared_strict_sources": [
+    {
+      "batch_id": "cp1:3282251943006859665:50:ef4fbd9411c6547e83d8af622d05bc0a:cmpl-a6021f33262e143b-0-849148fd:ledger:31",
+      "token_prefix_sha256": "5d883f5436f748b0afdbcc972f78afae12ad86d1020829a7a69258b7c13eddfe",
+      "start": 0,
+      "end": 256,
+      "equal_layers": 36,
+      "store_sequence": 31
+    }
+  ],
+  "postlude": {
+    "passed": true,
+    "requests": 323,
+    "restore_attempts": 3,
+    "eviction_requests": 320,
+    "performance": false
+  },
+  "logs": {
+    "fatal_errors": [],
+    "shutdown_teardown_errors": [
+      {
+        "file": "vllm.log",
+        "line": 596,
+        "text": "(APIServer pid=4246) ERROR 10-13 02:37:42 [async_llm.py:843] AsyncLLM output_handler failed."
+      },
+      {
+        "file": "vllm.log",
+        "line": 597,
+        "text": "(APIServer pid=4246) ERROR 10-13 02:37:42 [async_llm.py:843] Traceback (most recent call last):"
+      },
+      {
+        "file": "vllm.log",
+        "line": 598,
+        "text": "(APIServer pid=4246) ERROR 10-13 02:37:42 [async_llm.py:843]   File \"/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/vllm/v1/engine/async_llm.py\", line 789, in output_handler"
+      },
+      {
+        "file": "vllm.log",
+        "line": 599,
+        "text": "(APIServer pid=4246) ERROR 10-13 02:37:42 [async_llm.py:843]     outputs = await engine_core.get_output_async()"
+      },
+      {
+        "file": "vllm.log",
+        "line": 600,
+        "text": "(APIServer pid=4246) ERROR 10-13 02:37:42 [async_llm.py:843]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+      },
+      {
+        "file": "vllm.log",
+        "line": 601,
+        "text": "(APIServer pid=4246) ERROR 10-13 02:37:42 [async_llm.py:843]   File \"/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/vllm/v1/engine/core_client.py\", line 1175, in get_output_async"
+      },
+      {
+        "file": "vllm.log",
+        "line": 602,
+        "text": "(APIServer pid=4246) ERROR 10-13 02:37:42 [async_llm.py:843]     raise self._format_exception(outputs) from None"
+      },
+      {
+        "file": "vllm.log",
+        "line": 603,
+        "text": "(APIServer pid=4246) ERROR 10-13 02:37:42 [async_llm.py:843] vllm.v1.engine.exceptions.EngineDeadError: EngineCore encountered an issue. See stack trace (above) for the root cause."
+      }
+    ]
+  },
+  "performance": false
+}

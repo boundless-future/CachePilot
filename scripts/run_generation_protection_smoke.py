@@ -40,14 +40,14 @@ def main():
     out.mkdir(parents=True, exist_ok=False)
     frozen = source_sha()
     modes = ('two',) if args.long_prefix or args.failed_receipt or args.shared_cancel or args.shared_preemption or args.reuse_id else ('zero', 'one', 'two')
-    write_json(out / 'plan.json', dict(stage='generation-protection-shared-cancel' if args.shared_cancel else 'generation-protection-shared-preemption' if args.shared_preemption else 'generation-protection-failed-receipt' if args.failed_receipt else 'generation-protection-long-prefix' if args.long_prefix else 'generation-protection-normal-diagnostic',
+    write_json(out / 'plan.json', dict(stage='shared-prefix-reuse' if args.reuse_id else 'generation-protection-shared-cancel' if args.shared_cancel else 'generation-protection-shared-preemption' if args.shared_preemption else 'generation-protection-failed-receipt' if args.failed_receipt else 'generation-protection-long-prefix' if args.long_prefix else 'generation-protection-normal-diagnostic',
         modes=list(modes), source_sha256=frozen,
         kv_cache_bytes=2147483648, model=str(ROOT / 'models/Qwen3-4B'),
         workload=f'unchanged protection_zero_smoke bounded_workload, {1088 if args.long_prefix else 576}-token source',
         long_prefix=args.long_prefix,
         shared_cancel=args.shared_cancel, shared_preemption=args.shared_preemption,
-        receipt_gate=args.shared_cancel or args.shared_preemption,
-        shared_prefix=args.shared_prefix, reuse_id=args.reuse_id, reuse_old_failure=args.reuse_old_failure, performance=False, fault_injection=args.failed_receipt,
+        receipt_gate=args.shared_cancel or args.shared_preemption or args.reuse_id,
+        shared_prefix=args.shared_prefix, reuse_id=args.reuse_id, reuse_old_failure=args.reuse_old_failure, performance=False, fault_injection=args.failed_receipt or args.reuse_old_failure,
         receipt_probe='failed-after-success' if args.failed_receipt else None,
         gates=['existing strict KV/ownership/handoff', 'exact generation END',
                'server sessions empty', 'new-stack snapshot closed']))
@@ -111,7 +111,7 @@ def main():
         passed = bool(result.get('passed') and generation['passed'] and snapshot
             and snapshot.get('protection_poisoned') is None and not snapshot.get('shutdown_error'))
         validation = dict(mode=mode, passed=passed, generation=generation,
-            snapshot=snapshot, caught=caught, scope='normal GPU admission only; no fault or performance claim')
+            snapshot=snapshot, caught=caught, scope='GPU diagnostic; selected fault and reuse coverage recorded in plan; no performance claim')
         write_json(cell / 'generation-validation.json', validation)
         results.append(validation)
         write_json(out / 'summary.json', results)

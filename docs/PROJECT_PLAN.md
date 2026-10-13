@@ -1,5 +1,7 @@
 # CachePilot 总体设计与实施方案
 
+2026-10-13更新（用户授权推进1–3）：共享前缀独立服务接线、正常/异常GPU限定准入完成。最终显式CUDA/native **961 passed、115 subtests**。正常zero/one/two共1,044请求、720/720/864层KV全等；取消、自然抢占、失败回执、raw ID重用四专项通过。历史新文本全量KV探针两轮零覆盖、稀疏探针缺回载的失败均保留；轻量诊断3次共享保护，独立323请求尾段补齐1批/36层先共享再保护的严格STORE→H2D。全局资源/代际闭合、pin0、909free；七格及补充两轮服务器/本地/冻结源复算一致，305原始文件SHA核对。**不是新性能结论**，未运行pilot/formal；同一先共享再保护批次与取消/抢占等的联合GPU覆盖、完整抢占恢复、异步/多worker仍开放。下一主线：冻结新四组历史输入pilot，全部通过后才formal。详见 [本轮准入报告](experiments/2026-10-13/SHARED_PREFIX_ADMISSION.md)。
+
 23:14更新：共享前缀独立引用CPU候选完成，真实BlockPool/manager/generation相关84项通过（新增29项），本地源码差异约束2项通过。允许共享完整哈希块增加自己的保护引用；rollback只恢复有原free-rank的归零块，原回执释放不改。成功/失败/逆序回执、其他owner引用变化、旧代/多候选部分注册故障均有契约。原230源不变，仅新增candidate；模型服务bind仍拒绝，无新GPU/收益结论。下一步独立Connector接线及callback契约，再共享KV bitwise/资源准入。见 [契约报告](experiments/2026-10-12/SHARED_PREFIX_CONTRACT.md)。
 
 23:01更新：独立容量/候选窗口GPU诊断两格通过，136测量请求，开发保护4批、新文本0批。新文本存在203次容量/预算满足的候选观测，其中147次有压力排名且全部因共享首块ref>0拒绝，另56次无压力位置。实际tokenizer确认新文本首16tokens仅1种、开发20种。不能把零覆盖仅归因reserve过大；下一步共享前缀引用安全契约，不能直接删除ref检查。230源/36原始文件SHA核对、三处审计一致；真实契约34项及本地5项通过。见 [诊断报告](experiments/2026-10-12/GENERATION_CAPACITY_DIAGNOSTIC.md)。
