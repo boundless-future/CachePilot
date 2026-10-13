@@ -1,6 +1,6 @@
 # 2026-10-13 推进记录
 
-## 12:40起：持续推进至14:30（进行中）
+## 12:40–14:30：持续推进与截止收尾
 
 用户授权今日北京时间14:30前持续推进；复用heartbeat cachepilot-15，14:25后入口不再启动新格，14:30安全收尾汇报。先检查本段最新状态及远端进程，避免重复实验。
 
@@ -24,6 +24,8 @@
 - 真实manager顺序/驱逐契约4 passed，真实Scheduler reservation契约1 passed。约14:07收到Scheduler序列测试2 failed/2 passed，原因是用相同前缀模拟独立冷输入；中间观察预期版本4 passed，最终区分独立/共享输入6 passed。a/b/c日志全部归档，不将测试夹具错误解释成产品故障。
 - 最终Scheduler证明：独立冷输入及外部回载中多占1块可阻止第二请求；共享前缀组复用本步32tokens而仅计算余下16，两种引用条件均准入。真实Scheduler、manager、BlockPool；无模型计算，外部命中回调是夹具。原生单调用余量不能替代整步reserve，设计NATIVE_ADMISSION_BOUNDARY.md已更新。
 - 14:21本地窗口/allocation/native/identity审计回归19 passed。未新增GPU性能格、未降低reserve、未改变原pilot资格；当前进行最后证据与提交收尾。
+- 14:26收尾：远端相关回归33 passed、66 dependency warnings（不同于本地19项范围），原始日志native-boundary-final-tests.txt归档；不重跑历史全套。GPU1MiB/0%、相关实验进程为空，/proc/net/tcp及tcp6确认8000/8080/5555无条目。ss不可用、python默认路径不存在及一次SSH引号错误后改用proc只读核验，未启动新服务。
+- 主提交cefeeb5已推送origin/main，包含本轮67文件与原始失败；工作区干净。下一步按NEXT_WINDOW补混合命中/owner变化完整调度契约，先明确新候选安全边界。服务器保持开机；到14:30暂停heartbeat并汇报。
 
 
 ## 较早：推进下一阶段

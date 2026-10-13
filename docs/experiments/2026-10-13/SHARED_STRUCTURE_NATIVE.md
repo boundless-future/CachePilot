@@ -30,6 +30,7 @@
 - [诊断摘要](evidence/shared-structure-native-summary.json)、[计数分析](evidence/shared-structure-native-analysis.json)、[补充身份审计](evidence/shared-structure-native-identity.json)、[字节与三处复算](evidence/shared-structure-native-integrity.json)。服务器、本地、冻结源报告相同；身份审计为事后补充，不冒充启动前代码。
 - 复算：`python docs/experiments/2026-10-13/verify_shared_structure_native.py <archive> <new-directory>`。分析入口为同目录 `analyze_native_admission.py` 与 `audit_native_call_identity.py`。
 - 启动前远端 observer 4、capacity 8、audit 6，共 18 项通过；本地两类 audit 12 项通过。后续真实 manager/scheduler 边界测试单独记录，未重跑历史完整 961 项 CUDA/native 基线。
+- 最终相关回归：远端七个文件共33 passed、66 dependency warnings；本地窗口/allocation/native/identity四文件19 passed。范围不同，不能合并成52项独立功能覆盖。远端日志为 [native-boundary-final-tests.txt](evidence/native-boundary-final-tests.txt)。
 
 ## 从观察到下一版策略还差什么
 
