@@ -13,8 +13,8 @@ from cachepilot.integration.lmcache.manager import GenerationManagerBridge
 from cachepilot.integration.vllm.protection import HandoffWorkerMetadata
 from cachepilot.runtime.handoff import HandoffLedger, describe
 from cachepilot.integration.lmcache.protocol import wire_id, coalesce_owned_store_metadata
-from test_bounded_protection import case
-from test_generation_rpc_client import Transport
+from cachepilot_test_support.pool import case
+from cachepilot_test_support.rpc import Transport
 
 
 @pytest.fixture

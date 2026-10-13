@@ -1,33 +1,16 @@
+from cachepilot_test_support.generation import combined
 from types import SimpleNamespace as NS
 from dataclasses import replace
 import pytest
 
 pytest.importorskip('lmcache')
-from test_bounded_protection import case
+from cachepilot_test_support.pool import case
 from cachepilot.integration.lmcache.protection import (
     GenerationProtectionBridge, ProtectionGenerationLedger, GenerationBoundedProtection)
 from cachepilot.integration.lmcache.manager import operation_key
 from cachepilot.integration.lmcache.protocol import wire_id, SEQUENCE_CONFIG
 from cachepilot.runtime.handoff import describe
 from cachepilot.runtime.protection import install_protection_scheduler
-
-
-@pytest.fixture
-def combined(case):
-    helper, scheduler, blocks, rows = case
-    candidate = object.__new__(GenerationBoundedProtection)
-    candidate.__dict__.update(helper.__dict__)
-    helper = candidate
-    meta = helper.policy._pending['old'][0].store_metadata
-    helper.manager.on_request_reset('old')
-    ledger = ProtectionGenerationLedger()
-    bridge = GenerationProtectionBridge(helper.manager, ledger)
-    helper.manager = bridge
-    ledger.register('old', wire_id(meta))
-    bridge.on_request_arrived('old')
-    bridge.add_store_candidate(meta)
-    bridge.on_request_finished('old')
-    return helper, scheduler, blocks, bridge, ledger, meta
 
 
 @pytest.mark.parametrize('chunks', [1, 2])

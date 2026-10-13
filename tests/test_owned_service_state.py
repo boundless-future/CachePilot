@@ -77,7 +77,8 @@ def test_bounded_client_tombstones_and_lookup_metadata(tmp_path):
     assert not service.admit(key(1))
 
 
-def test_original_pin_survives_ttl_and_never_releases_new_reader(tmp_path):
+@pytest.mark.parametrize("expire_new", [False, True])
+def test_original_pin_survives_ttl_and_never_releases_new_reader(tmp_path, expire_new):
     service = ServiceOwnership(tmp_path)
     lock = ReadLock(service, "object", 20)
     old, new = Owner("old"), Owner("new")
@@ -87,6 +88,8 @@ def test_original_pin_survives_ttl_and_never_releases_new_reader(tmp_path):
     assert lock.is_locked()  # Live pin, despite expired reservation.
     with service.bind(new):
         lock.lock()
+    if expire_new:
+        time.sleep(0.04)
     with service.bind(old):
         lock.unlock()
         with pytest.raises(RuntimeError):
@@ -97,7 +100,11 @@ def test_original_pin_survives_ttl_and_never_releases_new_reader(tmp_path):
     assert not lock.is_locked()
     rows = [json.loads(r) for r in service.output.read_text().splitlines()]
     released = [r for r in rows if r["event"] == "reservation_released"]
-    assert [r["disposition"] for r in released] == ["STALE_EPOCH", "RELEASED"]
+    assert released[0]["disposition"] == "STALE_EPOCH"
+    # A live pin protects storage even after its reservation expires. There is
+    # no upper bound on scheduling/logging time before the second release.
+    expected = {"STALE_EPOCH"} if expire_new else {"RELEASED", "STALE_EPOCH"}
+    assert len(released) == 2 and released[1]["disposition"] in expected
 
 
 def test_writer_no_ttl_and_wrong_owner_cannot_publish(tmp_path):

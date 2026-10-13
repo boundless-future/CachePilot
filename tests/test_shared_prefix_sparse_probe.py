@@ -2,7 +2,7 @@ from types import SimpleNamespace as NS
 from dataclasses import replace
 import pytest
 pytest.importorskip('lmcache')
-from test_bounded_protection import case
+from cachepilot_test_support.pool import case
 from scripts.shared_prefix_sparse_probe import SharedPrefixSparseProbeConnector
 from scripts.diagnostic_connector import DiagnosticConnector, token_key
 

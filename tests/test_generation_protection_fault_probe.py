@@ -1,8 +1,8 @@
 """Fault placement is after actual native registration and before handoff."""
 import pytest
 pytest.importorskip('lmcache')
-from test_bounded_protection import case
-from test_generation_protection_connector import wired, step
+from cachepilot_test_support.pool import case
+from cachepilot_test_support.connector import wired, step
 from scripts.generation_protection_fault_probe import GenerationProtectionFaultProbeConnector
 
 

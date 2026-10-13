@@ -40,6 +40,34 @@ def test_package_configured_without_legacy_path_bootstrap(pytestconfig):
     assert ROOT / "src" in pytestconfig.getini("pythonpath")
 
 
+def test_shared_fixture_support_never_imports_test_modules():
+    support = ROOT / "tests/cachepilot_test_support"
+    for path in support.glob("*.py"):
+        for node in ast.walk(ast.parse(path.read_text(encoding="utf-8"))):
+            if isinstance(node, ast.ImportFrom):
+                names = [node.module or ""]
+            elif isinstance(node, ast.Import):
+                names = [a.name for a in node.names]
+            else:
+                continue
+            assert not any(n.split(".")[-1].startswith("test_") for n in names), str(path)
+
+
+def test_rpc_support_is_independent_of_upstream_and_test_collection():
+    code = (
+        "from cachepilot_test_support.rpc import Key,Client,Transport; import sys; "
+        "assert not {'torch','vllm','lmcache'} & sys.modules.keys(); "
+        "assert not any(n.startswith('test_') for n in sys.modules); "
+        "a,b=Key(),Key(); a.request_configs.clear(); assert b.request_configs; "
+        "assert Client().ping(1).result() is True; "
+        "t=Transport(); f=t.lookup(b); assert not f.done(); "
+        "f.set_result(None); assert t.futures == [f]"
+    )
+    import os
+    environment = dict(os.environ, PYTHONPATH=os.pathsep.join([str(ROOT / "src"), str(ROOT / "tests")]))
+    subprocess.run([sys.executable, "-c", code], env=environment, check=True, capture_output=True)
+
+
 @pytest.mark.parametrize("old,new", MAPPING.items())
 def test_legacy_and_package_imports_have_same_identity(old, new):
     try:

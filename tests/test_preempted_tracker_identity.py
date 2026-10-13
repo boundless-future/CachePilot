@@ -13,9 +13,9 @@ from lmcache.integration.vllm.lmcache_mp_metadata import LMCacheMPRequestState
 from cachepilot.integration.vllm.owned_service import OwnedServiceConnector
 from cachepilot.integration.lmcache.protocol import OwnedRequestClient, wire_id
 from cachepilot.runtime.idle import finalize_idle_pending
-from test_bounded_protection import case
-from test_idle_finalize_native import pool_state
-from test_owned_service_protocol import Client
+from cachepilot_test_support.pool import case
+from cachepilot_test_support.pool import pool_state
+from cachepilot_test_support.rpc import Client
 
 
 @pytest.mark.parametrize('outcome', ['pending', 'store'])

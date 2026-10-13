@@ -1,3 +1,4 @@
+from cachepilot_test_support.rpc import Transport
 from concurrent.futures import Future
 from dataclasses import replace
 import pytest
@@ -5,26 +6,7 @@ import pytest
 from cachepilot.integration.lmcache.client import GenerationRPCClient
 from cachepilot.runtime.generation import GenerationSessionLedger
 from cachepilot.integration.lmcache.protocol import SEQUENCE_CONFIG, wire_id
-from test_owned_service_protocol import Key
-
-
-class Transport:
-    def __init__(self):
-        self.calls, self.futures = [], []
-
-    def ping(self, value):
-        self.calls.append(('ping', value))
-        future = Future()
-        future.set_result(True)
-        return future
-
-    def __getattr__(self, name):
-        def send(key, *args, **kwargs):
-            self.calls.append((name, getattr(key, 'request_id', key)))
-            future = Future()
-            self.futures.append(future)
-            return future
-        return send
+from cachepilot_test_support.rpc import Key
 
 
 def setup():

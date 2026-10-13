@@ -1,5 +1,7 @@
 # 待办与阶段验收
 
+2026-10-13公共测试支持层：新增RPC、BlockPool、generation与Connector四个支持模块，16个测试入口已适配；八个关键文件各自独立进程运行共141项通过。新增支持层边界与轻量隔离约束。服务器最终强制native/CUDA全量1161 passed、零跳过、115 subtests；Windows最终667 passed、312 skipped、26 subtests。追加回归暴露旧20ms TTL断言过严，现显式覆盖新reader过期并保留pin/owner/重复释放/闭合检查；运行时代码未修改。原失败日志保留。详见[TESTING](TESTING.md)与validation/test-support-2026-10-13。下一步逐批迁移历史研究测试共享构件，再围绕统一runtime开展策略接口解耦；收益与联合GPU异常覆盖仍开放。
+
 2026-10-13测试适配：24个测试文件直接使用新包，删除覆盖pyproject的旧pytest.ini；旧路径兼容测试独立保留。Windows全量665 passed、312 skipped；Linux固定环境强制native/CUDA全量1158 passed、零跳过、115 subtests passed。现有契约无回归，测试配置覆盖问题已修复。模块测试与全量命令见[TESTING](TESTING.md)。本次不构成新的端到端模型或性能验收。
 
 2026-10-13 工程收敛：主线已迁入 `src/cachepilot`，旧入口保留模块身份兼容；

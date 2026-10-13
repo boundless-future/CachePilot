@@ -14,8 +14,8 @@ from lmcache.integration.vllm.lmcache_mp_metadata import LMCacheMPRequestState
 from cachepilot.integration.vllm.owned_service import OwnedServiceConnector
 from cachepilot.runtime.generation import LedgerRequestClient
 from cachepilot.integration.lmcache.protocol import wire_id
-from test_bounded_protection import case
-from test_owned_service_protocol import Client
+from cachepilot_test_support.pool import case
+from cachepilot_test_support.rpc import Client
 
 
 def test_preempted_store_only_generation_has_its_own_end_after_manager_receipt(case):

@@ -1,11 +1,11 @@
 """Run existing real-manager pin/receipt contracts through the diagnostic copy."""
 import pytest
 pytest.importorskip('lmcache')
-from test_bounded_protection import (
-    case, test_pin_precedes_allocator_and_original_receipt_releases_once as original_lifecycle,
-    test_invalid_or_unsupported_candidate_is_never_pinned as original_rejection)
+from cachepilot_test_support.pool import case
+from test_bounded_protection import test_pin_precedes_allocator_and_original_receipt_releases_once as original_lifecycle, test_invalid_or_unsupported_candidate_is_never_pinned as original_rejection
 from scripts.capacity_diagnostic_protection import DiagnosticBoundedProtection
-from test_generation_protection_bridge import combined, test_original_receipt_settles_prefix_then_suffix as original_generation
+from cachepilot_test_support.generation import combined
+from test_generation_protection_bridge import test_original_receipt_settles_prefix_then_suffix as original_generation
 
 
 def activate(case, monkeypatch):

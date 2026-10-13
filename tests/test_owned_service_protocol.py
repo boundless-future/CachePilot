@@ -1,3 +1,4 @@
+from cachepilot_test_support.rpc import Client, Key
 from concurrent.futures import Future
 from dataclasses import dataclass, field, replace
 
@@ -5,30 +6,6 @@ import pytest
 
 from cachepilot.integration.lmcache.protocol import (CLIENT_CONFIG, GENERATION_CONFIG,
     SEQUENCE_CONFIG, OwnedRequestClient, coalesce_owned_store_metadata, parse_id, wire_id)
-
-
-@dataclass
-class Key:
-    request_id: str = "reused:id"
-    cache_salt: str = "salt"
-    request_configs: dict = field(default_factory=lambda: {
-        CLIENT_CONFIG: 7, SEQUENCE_CONFIG: 1, GENERATION_CONFIG: "a" * 32})
-
-
-class Client:
-    def __init__(self):
-        self.calls = []
-
-    def ping(self, instance):
-        self.calls.append(("ping", instance))
-        result = Future()
-        result.set_result(True)
-        return result
-
-    def __getattr__(self, name):
-        def call(value, *args, **kwargs):
-            self.calls.append((name, getattr(value, "request_id", value)))
-        return call
 
 
 def test_wire_keeps_original_id_colons_and_generation():

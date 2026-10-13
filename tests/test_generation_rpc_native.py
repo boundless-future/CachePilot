@@ -5,8 +5,8 @@ pytest.importorskip('lmcache')
 from lmcache.v1.multiprocess.futures import MessagingFuture
 from cachepilot.integration.lmcache.client import GenerationRPCClient
 from cachepilot.integration.lmcache.protocol import wire_id
-from test_owned_service_protocol import Key
-from test_generation_rpc_client import Transport
+from cachepilot_test_support.rpc import Key
+from cachepilot_test_support.rpc import Transport
 
 
 @pytest.mark.parametrize('outcome', ['none', 'false', 'error'])

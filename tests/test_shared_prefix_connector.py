@@ -2,8 +2,8 @@
 from types import SimpleNamespace as NS
 import pytest
 pytest.importorskip('lmcache')
-from test_bounded_protection import case
-from test_generation_protection_connector import wired, step
+from cachepilot_test_support.pool import case
+from cachepilot_test_support.connector import wired, step
 from cachepilot.integration.vllm.shared_prefix import SharedPrefixConnector, SharedPrefixServiceProtection
 from cachepilot.runtime.shared_prefix import SharedPrefixProtection
 from cachepilot.integration.vllm.protection import HandoffWorkerMetadata

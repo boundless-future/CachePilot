@@ -6,7 +6,7 @@ pytest.importorskip('lmcache')
 from cachepilot.integration.lmcache.manager import GenerationManagerBridge
 from cachepilot.runtime.generation import GenerationSessionLedger
 from cachepilot.integration.lmcache.protocol import wire_id, SEQUENCE_CONFIG, coalesce_owned_store_metadata
-from test_bounded_protection import case
+from cachepilot_test_support.pool import case
 
 
 @pytest.fixture

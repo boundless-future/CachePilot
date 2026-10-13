@@ -1,8 +1,8 @@
 """Real pool/manager contracts for additional references on shared prefixes."""
 import pytest
 pytest.importorskip('lmcache')
-from test_bounded_protection import case
-from test_generation_protection_bridge import combined
+from cachepilot_test_support.pool import case
+from cachepilot_test_support.generation import combined
 from cachepilot.runtime.shared_prefix import SharedPrefixProtection
 from cachepilot.runtime.handoff import describe
 

@@ -1,9 +1,10 @@
 """Real manager/policy/BlockPool contracts, no model inference."""
+from cachepilot_test_support.pool import pool_state
 from types import SimpleNamespace as NS
 import pytest
 
 pytest.importorskip('lmcache')
-from test_bounded_protection import case
+from cachepilot_test_support.pool import case
 from cachepilot.runtime.idle import finalize_idle_pending
 from cachepilot.integration.lmcache.protocol import wire_id, GENERATION_CONFIG
 
@@ -21,12 +22,6 @@ def setup(helper, scheduler):
         _lazy_offload_manager=helper.manager, _handoff_record=helper.record,
         scheduler_adapter=NS(req_clients={'url':client}, end_session=end))
     return c, ended, client, meta
-
-
-def pool_state(pool):
-    return (pool.get_num_free_blocks(),
-            [(b.ref_cnt,b.block_hash) for b in pool.blocks],
-            [b.block_id for b in pool.free_block_queue.get_all_free_blocks()])
 
 
 def test_idle_drop_keeps_shared_gpu_cache_and_policy_accounting(case):
@@ -88,7 +83,7 @@ def test_stale_pending_identity_preserves_real_manager_and_does_not_end_new_owne
     """Characterize the long-prefill guard, without claiming its live event cause."""
     from dataclasses import replace
     from cachepilot.integration.lmcache.protocol import OwnedRequestClient
-    from test_owned_service_protocol import Client
+    from cachepilot_test_support.rpc import Client
     helper,s,blocks,rows=case
     c,ended,client,meta=setup(helper,s)
     transport=Client()
