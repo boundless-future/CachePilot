@@ -40,6 +40,6 @@
 主线测试已直接导入新包；旧pytest.ini覆盖pyproject的问题已修复。
 公共支持层按RPC/pool/generation/connector及保护断言/native分配/测量/GPU buffer
 分层，容量诊断不再通过调用其他文件的test函数复验契约。
-剩余8条跨测试模块依赖有架构白名单，下一步抽取历史unittest初始化支持类。
+剩余历史unittest初始化已抽成research_lookup/research_leased_lookup/research_transfer_plan与allocator支持模块；跨测试导入白名单已删除，全测试禁止导入其他test模块。
 具体运行范围、计数和证据以[TESTING](TESTING.md)为准。此进度仅说明测试组织
-收敛，运行时策略接口解耦与3C收益验收仍未完成。
+收敛，候选排序与保守准入决策已分离；完整继承链解耦与3C收益验收仍未完成。

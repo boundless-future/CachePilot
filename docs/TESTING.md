@@ -1,5 +1,15 @@
 # 新包框架下的测试
 
+最新三项推进：剩余跨测试导入全部去除，支持层的历史Setup类不包含test方法。
+Windows全量678 passed、312 skipped、26 subtests；固定服务器强制native/CUDA
+1177 passed、零跳过、115 subtests、121条上游弃用warning。
+九个受影响历史入口各自新进程运行，共136 passed、78 subtests，包含真实H2D/D2H。
+writer入口的native路径隐式依赖已显式修复。全量首次AST一致性失败与后续成功
+日志见 `validation/runtime-boundaries-2026-10-13/`；独立入口首次writer collection失败
+保存在工具记录，后续九个日志全部落盘。没有新增模型服务性能实验。
+运行时新增9项纯决策、1项独立导入架构、5项真实Scheduler连续准入契约。
+详细结论见 [三项推进](experiments/2026-10-13/RUNTIME_ADMISSION_REVIEW.md)。
+
 在仓库根目录执行 `python -m pytest -q`。唯一pytest配置为`pyproject.toml`，
 由它提供`src`路径；旧`pytest.ini`已删除，因为它会覆盖pyproject配置。
 
@@ -50,8 +60,8 @@ conftest 提前导入上游库。八个入口分别启动新 Python 进程验证
 证明这些入口不依赖全量收集顺序。架构测试约束支持层不得反向导入测试模块，
 RPC 支持模块必须可在不加载上游栈的独立进程中使用。
 
-历史 capacity diagnostic 仍有复用测试函数的依赖；更早的 native research
-测试也尚未全部解耦。本轮没有修改这些历史验证的断言或引入全局路径注入。
+此前历史 capacity diagnostic 与 native research 的跨测试依赖已在后续
+收敛中去除；下述旧计数保留为当时验证记录。
 
 本轮首次全量1160项通过；额外副本回归出现1项旧TTL断言失败（1159项通过）：
 20ms内必须释放新reader的假设不成立，第二个reservation可合法返回STALE_EPOCH。

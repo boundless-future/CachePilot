@@ -4,6 +4,12 @@
 `scripts/` 中同名文件只保留导入/启动兼容入口；历史实验、故障注入及审计脚本继续留在原处，以维护已归档证据的原始解释。
 逐文件迁移映射见 [module-migration.json](module-migration.json)。
 
+运行时决策进一步拆分：`runtime/candidates.py`只过滤并排序候选，
+`runtime/admission.py`只计算保守reserve、完整chunk预算与容量判定。
+保护生命周期调用它们后才做证明、pin及交接；两个决策模块不导入上游栈。
+当前共享保护仍继承LMCache generation桥，完整依赖反转尚未完成。
+具体边界及验证见 [准入收敛报告](experiments/2026-10-13/RUNTIME_ADMISSION_REVIEW.md)。
+
 ```text
 CachePilot/
 ├── pyproject.toml                 安装与 CLI 元数据，不安装或升级上游栈

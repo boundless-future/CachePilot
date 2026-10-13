@@ -1,0 +1,8 @@
+.......................                                          [100%]
+=============================== warnings summary ===============================
+../../usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/opentelemetry/sdk/_logs/_internal/__init__.py:531: 80 warnings
+  /usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/opentelemetry/sdk/_logs/_internal/__init__.py:531: DeprecationWarning: `LoggingHandler` in `opentelemetry-sdk` is deprecated. Use the handler from `opentelemetry-instrumentation-logging` instead.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+23 passed, 80 warnings, 8 subtests passed in 2.17s

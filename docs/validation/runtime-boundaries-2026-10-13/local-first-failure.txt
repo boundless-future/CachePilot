@@ -17,30 +17,30 @@ ____________ test_diagnostic_copy_preserves_original_decision_ast _____________
         root = Path(__file__).resolve().parents[1]
         base = ast.parse((root / 'src/cachepilot/runtime/protection.py').read_text())
         observed = ast.parse((root / 'scripts/capacity_diagnostic_protection.py').read_text())
-    
+
         class Strip(ast.NodeTransformer):
             def visit_If(self, node):
                 if 'CACHEPILOT_CAPACITY_DIAGNOSTICS' in ast.unparse(node.test):
                     return None
                 return self.generic_visit(node)
-    
+
             def visit_Expr(self, node):
                 if isinstance(node.value, ast.Call) and ast.unparse(node.value.func) == 'self._diagnostic':
                     return None
                 return self.generic_visit(node)
-    
+
         def methods(tree):
             cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name.endswith('BoundedProtection'))
             return {n.name:n for n in cls.body if isinstance(n, ast.FunctionDef)}
-    
+
         old, new = methods(base), methods(observed)
         for name in ('prepare', '_capacity_fallback'):
 >           assert ast.dump(Strip().visit(new[name]), include_attributes=False) == ast.dump(old[name], include_attributes=False)
 E           AssertionError: assert 'FunctionDef(...pe_params=[])' == 'FunctionDef(...pe_params=[])'
-E             
+E
 E             Skipping 538 identical leading characters in diff, use -v to show
 E             - Call(func=Attribute(value=Attribute(value=Name(id='self', ctx=Load()), attr='admission_policy', ctx=Load()), attr='reserve', ctx=Load()), args=[Name(id='scheduler', ctx=Load())], keywords=[])), If(test=Compare(left=Name(id='reserve', ctx=Load()), ops=[Is()], comparators=[Constant(value=None)]), body=[Return()], orelse=[]), Assign(targets=[Name(id='used', ctx=Store())], value=Call(func=Name(id='sum', ctx=Load()), args=[GeneratorExp(elt=Call(func=Name(id='len', ctx=Load()), args=[Attribute(value=Name(id='p...
-E             
+E
 E             ...Full output truncated (4 lines hidden), use '-vv' to show
 
 tests\test_capacity_diagnostics.py:59: AssertionError

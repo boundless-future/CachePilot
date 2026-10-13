@@ -239,7 +239,8 @@
 - [x] 冻结共享候选历史输入pilot4/4→formal12/12：240源同签名，one/two各4/4/4批；TTFT P95均值−1.52%/−1.58%，无稳定收益结论。原失败保留，见 [正式报告](experiments/2026-10-13/SHARED_STRATEGY_FORMAL.md)。
 - [x] 既有六session匿名结构的非零共享保护pilot复核已执行：3/4通过，双chunk零提交，原失败归档；formal未启动。匿名结构属于历史负载扩展，不冒称未见样本。
 - [x] 原失败后的独立windows/allocation/native逐次准入诊断及四包证据复算；真实manager与Scheduler冷输入/共享前缀/异步回载边界契约通过，见 [报告](experiments/2026-10-13/SHARED_STRUCTURE_NATIVE.md)。诊断不替代性能或原pilot资格。
-- [ ] 补真实Scheduler混合命中、owner离开、完整序列门槛的连续准入契约；明确整步安全边界后才实现独立opt-in候选，不直接降低reserve。
+- [x] 补真实Scheduler混合命中、owner离开、完整序列门槛5项连续准入契约，并完成reserve/touch描述性量化。见 [RUNTIME_ADMISSION_REVIEW](experiments/2026-10-13/RUNTIME_ADMISSION_REVIEW.md)。尚未实现新容量策略，不直接降低reserve。
+- [ ] 明确完整原生调度序列与保护的状态边界，设计独立opt-in容量候选；处理后续准入、remote reservation、local-hit touch、watermark及完整序列门槛。
 - [ ] 新候选真实库异常契约、独立GPU KV/资源准入、固定pilot及验证负载；通过后才正式性能比较。当前无稳定或泛化收益证明。
 - [ ] 用 Qwen3-8B＋5090 复核；如要区分模型/硬件效应，需要额外控制变量实验。
 - [x] 开发和验证消融已统计客户端 ready-to-first/ready-to-end 及会话完成时间；原始值与聚合均归档，不将入口等待隐藏。新容量和到达负载继续沿用该口径。
@@ -248,6 +249,8 @@
 - [ ] 项目阶段收尾后重新核查 LMCache/vLLM 上游状态；若仍可复现且有可维护的最小修复与回归测试，考虑提交异步回载压力信号的上游 issue/PR，范围见 [UPSTREAM_ASYNC_KV_PRESSURE.md](UPSTREAM_ASYNC_KV_PRESSURE.md)。
 
 ## 优先顺序
+
+2026-10-13 工程三项推进：剩余跨测试导入全部去除，candidate/admission纯决策进入runtime且实际复用；匿名结构零提交调查新增5项真实Scheduler契约及可复现量化。未改reserve、未恢复原pilot formal资格。下一步独立opt-in容量候选的整步安全设计，先契约再GPU；runtime/integration继承耦合仍待逐段拆分。
 
 2026-10-13：共享候选历史输入正式比较已完成。下一步既有匿名结构输入的固定参数覆盖pilot；无覆盖即保留反例，不扩模型/卡或调reserve凑收益。先共享再保护联合异常与完整抢占恢复另列支线。
 

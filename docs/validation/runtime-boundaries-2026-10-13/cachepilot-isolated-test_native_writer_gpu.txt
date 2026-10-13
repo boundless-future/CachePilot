@@ -1,0 +1,14 @@
+..                                                                       [100%]
+=============================== warnings summary ===============================
+../../usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/opentelemetry/sdk/_logs/_internal/__init__.py:531: 42 warnings
+tests/test_native_writer_gpu.py: 24 warnings
+  /usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/opentelemetry/sdk/_logs/_internal/__init__.py:531: DeprecationWarning: `LoggingHandler` in `opentelemetry-sdk` is deprecated. Use the handler from `opentelemetry-instrumentation-logging` instead.
+    warnings.warn(
+
+tests/test_native_writer_gpu.py::NativeGPUWriterTests::test_actual_d2h_publish_after_native_completion_and_expired_writer
+tests/test_native_writer_gpu.py::NativeGPUWriterTests::test_partial_d2h_exception_waits_then_discards_and_reuses_writer
+  /usr/local/miniconda3/envs/cachepilot/lib/python3.12/unittest/case.py:586: DeprecationWarning: ExternalStream is deprecated. Use Stream.from_external() instead to interoperate with external streams that implement the CUDA stream protocol.
+    self.setUp()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+2 passed, 68 warnings in 2.96s
