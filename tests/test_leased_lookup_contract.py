@@ -9,8 +9,8 @@ import time
 import unittest
 from unittest.mock import Mock
 
-import test_owned_lookup_contract as lookup_fixture
-import test_leased_l1_contract as l1_fixture
+from cachepilot_test_support import research_lookup as lookup_fixture
+from cachepilot_test_support import allocator as l1_fixture
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 try:
@@ -26,63 +26,13 @@ except ModuleNotFoundError:
     LeasedLookupHarness = None
 
 
+from cachepilot_test_support.research_leased_lookup import LeasedLookupSetup
+
+
 @unittest.skipUnless(LeasedLookupHarness, "Needs native extension and pinned LMCache")
-class LeasedLookupTests(unittest.TestCase):
+class LeasedLookupTests(LeasedLookupSetup, unittest.TestCase):
     # Reuse setup helpers, without inheriting/collecting the earlier tests.
-    key = lookup_fixture.OwnedLookupTests.key
-    begin = lookup_fixture.OwnedLookupTests.begin
-    bitmap = lookup_fixture.OwnedLookupTests.bitmap
-    stage_load = lookup_fixture.OwnedLookupTests.stage_load
-    complete_load = lookup_fixture.OwnedLookupTests.complete_load
 
-    def setUp(self):
-        lookup_fixture.OwnedLookupTests.setUp(self)
-        self.allocator = l1_fixture.ReusingAllocator()
-        self.l1 = LeasedL1Harness(self.allocator, Mock())
-        self.controller = lookup_fixture.OwnedPrefetchHarness(
-            self.l1, Mock(), adapters={0: self.adapter},
-            descriptors={0: lookup_fixture.SimpleNamespace(type_name="CPU-fixture")})
-        self.storage = lookup_fixture.OwnedStorageHarness(self.l1, self.controller, Mock())
-        self.module = LeasedLookupHarness(self.ctx, self.storage)
-
-    def seed(self, key=None, indices=None, temporary=False):
-        key = key or self.key()
-        keys = self.module._chunk_major_object_keys(key, self.hashes)
-        for i in range(len(keys)) if indices is None else indices:
-            result = self.l1.reserve_write([keys[i]], [temporary], Mock())
-            self.assertEqual(result[keys[i]][0], L1Error.SUCCESS)
-            self.l1._objects[keys[i]].memory_obj.data[:] = b"K" * 64
-            self.l1.finish_write([keys[i]])
-        return keys
-
-    def ready(self, *, readers=1, temporary=False, world_size=1):
-        key = self.key(readers=readers, world_size=world_size)
-        keys = self.seed(key, temporary=temporary)
-        workers = tuple(Worker(f"worker-{r}-{i}", r)
-                        for r in range(world_size) for i in range(readers))
-        handle = self.begin(key, workers)
-        completion = self.module.query_owned(handle)
-        self.assertIsNotNone(completion)
-        return keys, handle, completion.tickets
-
-    def read(self, ticket):
-        self.assertIsNotNone(self.module.claim_retrieve(ticket))
-        result = self.module.read_retrieve(ticket)
-        self.assertIsNone(result.error)
-        self.assertTrue(result.buffers)
-        return result
-
-    def finish(self, ticket, succeeded=True):
-        return self.module.finish_retrieve(ticket, succeeded=succeeded, terminal=True)
-
-    def assert_drained(self):
-        lookup_fixture.OwnedLookupTests.assert_drained(self)
-        self.assertFalse(self.module.accesses)
-        self.assertFalse(self.l1.leases)
-
-    def reset(self, keys):
-        for key in keys:
-            self.l1._objects[key].read_lock.core.reset()
 
     def test_success_orders_unpin_before_token_release_and_frees_once(self):
         keys, handle, (ticket,) = self.ready(temporary=True)

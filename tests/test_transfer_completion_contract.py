@@ -9,7 +9,7 @@ import time
 import unittest
 from unittest.mock import Mock
 
-import test_leased_lookup_contract as lookup_fixture
+from cachepilot_test_support import research_leased_lookup as lookup_fixture
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 try:
@@ -50,18 +50,18 @@ class ControlledEvents:
 
 @unittest.skipUnless(TransferCompletionHarness, "Needs pinned LMCache/native extension")
 class TransferCompletionTests(unittest.TestCase):
-    key = lookup_fixture.LeasedLookupTests.key
-    begin = lookup_fixture.LeasedLookupTests.begin
-    bitmap = lookup_fixture.LeasedLookupTests.bitmap
-    stage_load = lookup_fixture.LeasedLookupTests.stage_load
-    complete_load = lookup_fixture.LeasedLookupTests.complete_load
-    seed = lookup_fixture.LeasedLookupTests.seed
-    ready = lookup_fixture.LeasedLookupTests.ready
-    reset = lookup_fixture.LeasedLookupTests.reset
-    assert_drained = lookup_fixture.LeasedLookupTests.assert_drained
+    key = lookup_fixture.LeasedLookupSetup.key
+    begin = lookup_fixture.LeasedLookupSetup.begin
+    bitmap = lookup_fixture.LeasedLookupSetup.bitmap
+    stage_load = lookup_fixture.LeasedLookupSetup.stage_load
+    complete_load = lookup_fixture.LeasedLookupSetup.complete_load
+    seed = lookup_fixture.LeasedLookupSetup.seed
+    ready = lookup_fixture.LeasedLookupSetup.ready
+    reset = lookup_fixture.LeasedLookupSetup.reset
+    assert_drained = lookup_fixture.LeasedLookupSetup.assert_drained
 
     def setUp(self):
-        lookup_fixture.LeasedLookupTests.setUp(self)
+        lookup_fixture.LeasedLookupSetup.setUp(self)
         self.transfers = TransferCompletionHarness(self.module)
         self.callbacks = {}
 

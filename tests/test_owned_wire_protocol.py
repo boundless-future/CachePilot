@@ -5,7 +5,7 @@ import sys
 import unittest
 from types import SimpleNamespace
 
-import test_transfer_plan_contract as fixture
+from cachepilot_test_support import research_transfer_plan as fixture
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 try:
@@ -20,16 +20,16 @@ except ModuleNotFoundError:
 
 @unittest.skipUnless(OwnedSessionRuntime, "Needs pinned LMCache/native extension")
 class WireTests(unittest.TestCase):
-    setUp = fixture.TransferPlanTests.setUp
-    key = fixture.TransferPlanTests.key
-    begin = fixture.TransferPlanTests.begin
-    bitmap = fixture.TransferPlanTests.bitmap
-    stage_load = fixture.TransferPlanTests.stage_load
-    complete_load = fixture.TransferPlanTests.complete_load
-    seed = fixture.TransferPlanTests.seed
-    ready = fixture.TransferPlanTests.ready
-    assert_drained = fixture.TransferPlanTests.assert_drained
-    request_key = fixture.TransferPlanTests.request_key
+    setUp = fixture.TransferPlanSetup.setUp
+    key = fixture.TransferPlanSetup.key
+    begin = fixture.TransferPlanSetup.begin
+    bitmap = fixture.TransferPlanSetup.bitmap
+    stage_load = fixture.TransferPlanSetup.stage_load
+    complete_load = fixture.TransferPlanSetup.complete_load
+    seed = fixture.TransferPlanSetup.seed
+    ready = fixture.TransferPlanSetup.ready
+    assert_drained = fixture.TransferPlanSetup.assert_drained
+    request_key = fixture.TransferPlanSetup.request_key
 
     def runtime(self):
         runtime = OwnedSessionRuntime(self.module, self.transfers)

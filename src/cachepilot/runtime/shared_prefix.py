@@ -4,6 +4,7 @@ No model-service binding yet. Existing production/diagnostic helpers unchanged.
 Conservative capacity reservation and full token/hash proof remain unchanged.
 """
 from cachepilot.runtime.protection import conservative_reserve, Prepared
+from cachepilot.runtime.candidates import ranked_candidates
 from cachepilot.integration.lmcache.protection import GenerationBoundedProtection
 from cachepilot.runtime.handoff import describe
 from cachepilot.runtime.prefix_proof import build_proof
@@ -18,7 +19,7 @@ class SharedPrefixProtection(GenerationBoundedProtection):
         from vllm.v1.core import kv_cache_utils
         if self.prepared:
             raise RuntimeError("Unsettled PREPARED batch from previous step")
-        reserve = conservative_reserve(scheduler)
+        reserve = self.admission_policy.reserve(scheduler)
         if reserve is None:
             return
         used = sum(len(p.blocks) for p in self.inflight.values())
@@ -41,16 +42,9 @@ class SharedPrefixProtection(GenerationBoundedProtection):
         # Use actual full-footprint pressure only to rank imminent candidates.
         all_ranks = self.policy._free_queue_ranks(free)
         ranks = {bid: rank for bid, rank in all_ranks.items() if rank < reserve}
-        candidates = []
-        for rid, pending in self.policy._pending.items():
-            if (rid in scheduler.requests or not self.manager._requests.is_finished(rid)
-                    or self.manager._requests.has_in_flight(rid) or rid in self.inflight):
-                continue
-            op = pending[0]
-            positions = [ranks[b] for b in op.block_hashes if b in ranks]
-            if positions:
-                candidates.append((min(positions), rid, op))
-        for _, rid, candidate in sorted(candidates):
+        candidates = ranked_candidates(self.policy._pending, scheduler.requests,
+            self.manager._requests, self.inflight, ranks)
+        for _, rid, candidate in candidates:
             meta = candidate.store_metadata
             op = meta.op
             if (op.start != 0 or op.end < 256 or op.end % 256 or op.skip_first_n_tokens
@@ -70,10 +64,8 @@ class SharedPrefixProtection(GenerationBoundedProtection):
                         budget_blocks=self.budget, inflight_blocks=used,
                         inflight_request_ids=sorted(self.inflight), acquired_pins=0)
                 continue
-            protected_count = min(len(ids), left)
-            if protected_count < 16 or protected_count % 16:
-                raise RuntimeError("Protection budget must contain complete chunks")
-            if self.pool.get_num_free_blocks() - protected_count < reserve:
+            protected_count = self.admission_policy.prefix_blocks(len(ids), left)
+            if not self.admission_policy.permits(self.pool.get_num_free_blocks(), protected_count, reserve):
                 self._capacity_fallback(meta, protected_count, self.pool.get_num_free_blocks(),
                     reserve, left, used)
                 continue

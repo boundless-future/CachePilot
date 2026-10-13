@@ -69,19 +69,8 @@ def test_rpc_support_is_independent_of_upstream_and_test_collection():
     subprocess.run([sys.executable, "-c", code], env=environment, check=True, capture_output=True)
 
 
-def test_cross_test_imports_are_limited_to_known_research_setup_debt():
-    # Remaining unittest setup chains need a separate fixture migration. New
-    # shared helpers belong in cachepilot_test_support, never a test module.
-    allowed = {
-        ("test_leased_lookup_contract.py", "test_owned_lookup_contract"),
-        ("test_leased_lookup_contract.py", "test_leased_l1_contract"),
-        ("test_native_writer_gpu.py", "test_leased_l1_contract"),
-        ("test_native_transfer_gpu.py", "test_transfer_plan_contract"),
-        ("test_owned_wire_protocol.py", "test_transfer_plan_contract"),
-        ("test_owned_writer_contract.py", "test_leased_l1_contract"),
-        ("test_transfer_completion_contract.py", "test_leased_lookup_contract"),
-        ("test_transfer_plan_contract.py", "test_leased_lookup_contract"),
-    }
+def test_tests_never_import_other_test_modules():
+    # Shared helpers belong in cachepilot_test_support, never a test module.
     for path in (ROOT / "tests").rglob("test_*.py"):
         for node in ast.walk(ast.parse(path.read_text(encoding="utf-8"))):
             if isinstance(node, ast.ImportFrom):
@@ -92,7 +81,7 @@ def test_cross_test_imports_are_limited_to_known_research_setup_debt():
                 continue
             for name in names:
                 if name.split(".")[-1].startswith("test_"):
-                    assert (path.name, name) in allowed, (str(path), name)
+                    pytest.fail(f"Cross-test import: {path.name} -> {name}")
 
 
 @pytest.mark.parametrize("old,new", MAPPING.items())
@@ -139,6 +128,14 @@ def test_lightweight_entry_does_not_import_gpu_stack():
     import os
     environment = dict(os.environ, PYTHONPATH=str(ROOT / "src"))
     subprocess.run([sys.executable, "-c", code], env=environment, check=True, capture_output=True)
+
+
+def test_runtime_decisions_are_independent_of_serving_stack():
+    import os
+    code = ("import cachepilot.runtime.admission,cachepilot.runtime.candidates,sys; "
+            "assert not {'torch','vllm','lmcache'} & sys.modules.keys()")
+    environment = dict(os.environ, PYTHONPATH=str(ROOT / 'src'))
+    subprocess.run([sys.executable, '-c', code], env=environment, check=True, capture_output=True)
 
 
 def test_manifest_tracks_nested_runtime_native_and_build_metadata(tmp_path):

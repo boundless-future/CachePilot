@@ -7,6 +7,8 @@ Native manager owns pins only after metadata commit, and releases them on its
 original receipt. An exception after commit requires engine stop.
 """
 from dataclasses import dataclass
+from cachepilot.runtime.admission import AdmissionPolicy, ConservativeAdmission, conservative_reserve
+from cachepilot.runtime.candidates import ranked_candidates
 
 from cachepilot.runtime.handoff import describe
 from cachepilot.runtime.prefix_proof import build_proof
@@ -23,26 +25,11 @@ class Prepared:
     continuation: object | None
 
 
-def conservative_reserve(scheduler):
-    """Full resident footprint for EVERY live request, including async loads.
-
-    Do not subtract resident/cache-hit blocks or infer eligibility from lookup
-    status. Twice the full footprint also leaves space for native async-load
-    admission reservations. Supported only without speculative/async scheduling.
-    This is deliberately pessimistic, not a performance demand estimator.
-    """
-    requests = list(scheduler.requests.values())
-    if not requests or scheduler.max_num_scheduled_tokens <= 0:
-        return None
-    if any(getattr(r, "mm_features", None) or getattr(r, "lora_request", None)
-           for r in requests):
-        return None
-    footprint = sum((max(r.num_tokens_with_spec, r.num_computed_tokens) + 1 + 15) // 16
-                    for r in requests)
-    return 2 * footprint + scheduler.kv_cache_manager.watermark_blocks + 16
 
 
 class BoundedProtection:
+    admission_policy: AdmissionPolicy = ConservativeAdmission()
+
     def __init__(self, connector, config):
         import hashlib
         import inspect
@@ -148,7 +135,7 @@ class BoundedProtection:
         from vllm.v1.core import kv_cache_utils
         if self.prepared:
             raise RuntimeError("Unsettled PREPARED batch from previous step")
-        reserve = conservative_reserve(scheduler)
+        reserve = self.admission_policy.reserve(scheduler)
         if reserve is None:
             return
         used = sum(len(p.blocks) for p in self.inflight.values())
@@ -171,16 +158,9 @@ class BoundedProtection:
         # Use actual full-footprint pressure only to rank imminent candidates.
         all_ranks = self.policy._free_queue_ranks(free)
         ranks = {bid: rank for bid, rank in all_ranks.items() if rank < reserve}
-        candidates = []
-        for rid, pending in self.policy._pending.items():
-            if (rid in scheduler.requests or not self.manager._requests.is_finished(rid)
-                    or self.manager._requests.has_in_flight(rid) or rid in self.inflight):
-                continue
-            op = pending[0]
-            positions = [ranks[b] for b in op.block_hashes if b in ranks]
-            if positions:
-                candidates.append((min(positions), rid, op))
-        for _, rid, candidate in sorted(candidates):
+        candidates = ranked_candidates(self.policy._pending, scheduler.requests,
+            self.manager._requests, self.inflight, ranks)
+        for _, rid, candidate in candidates:
             meta = candidate.store_metadata
             op = meta.op
             if (op.start != 0 or op.end < 256 or op.end % 256 or op.skip_first_n_tokens
@@ -200,10 +180,8 @@ class BoundedProtection:
                         budget_blocks=self.budget, inflight_blocks=used,
                         inflight_request_ids=sorted(self.inflight), acquired_pins=0)
                 continue
-            protected_count = min(len(ids), left)
-            if protected_count < 16 or protected_count % 16:
-                raise RuntimeError("Protection budget must contain complete chunks")
-            if self.pool.get_num_free_blocks() - protected_count < reserve:
+            protected_count = self.admission_policy.prefix_blocks(len(ids), left)
+            if not self.admission_policy.permits(self.pool.get_num_free_blocks(), protected_count, reserve):
                 self._capacity_fallback(meta, protected_count, self.pool.get_num_free_blocks(),
                     reserve, left, used)
                 continue

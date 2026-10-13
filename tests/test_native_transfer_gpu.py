@@ -10,7 +10,7 @@ import sys
 import time
 import unittest
 
-import test_transfer_plan_contract as fixture
+from cachepilot_test_support import research_transfer_plan as fixture
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 GPU_ENABLED = os.environ.get("CACHEPILOT_RUN_CUDA_CONTRACT") == "1"
@@ -23,19 +23,19 @@ if GPU_ENABLED:
 
 @unittest.skipUnless(GPU_ENABLED, "Explicit opt-in real CUDA test")
 class NativeGPUTransferTests(unittest.TestCase):
-    key = fixture.TransferPlanTests.key
-    begin = fixture.TransferPlanTests.begin
-    bitmap = fixture.TransferPlanTests.bitmap
-    stage_load = fixture.TransferPlanTests.stage_load
-    complete_load = fixture.TransferPlanTests.complete_load
-    ready = fixture.TransferPlanTests.ready
-    assert_drained = fixture.TransferPlanTests.assert_drained
-    request_key = fixture.TransferPlanTests.request_key
-    prepare = fixture.TransferPlanTests.prepare
-    plan = fixture.TransferPlanTests.plan
+    key = fixture.TransferPlanSetup.key
+    begin = fixture.TransferPlanSetup.begin
+    bitmap = fixture.TransferPlanSetup.bitmap
+    stage_load = fixture.TransferPlanSetup.stage_load
+    complete_load = fixture.TransferPlanSetup.complete_load
+    ready = fixture.TransferPlanSetup.ready
+    assert_drained = fixture.TransferPlanSetup.assert_drained
+    request_key = fixture.TransferPlanSetup.request_key
+    prepare = fixture.TransferPlanSetup.prepare
+    plan = fixture.TransferPlanSetup.plan
 
     def setUp(self):
-        fixture.TransferPlanTests.setUp(self)
+        fixture.TransferPlanSetup.setUp(self)
         base = type(self.allocator)
 
         class PinnedAllocator(base):

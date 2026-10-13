@@ -1,6 +1,7 @@
 """Opt-in diagnostic copy of bounded prepare; frozen base stays unchanged."""
 import os
 from scripts.bounded_protection import BoundedProtection, conservative_reserve, Prepared
+from cachepilot.runtime.candidates import ranked_candidates
 from scripts.protection_handoff import describe
 from scripts.token_prefix_proof import build_proof
 
@@ -37,7 +38,7 @@ class DiagnosticBoundedProtection(BoundedProtection):
         from vllm.v1.core import kv_cache_utils
         if self.prepared:
             raise RuntimeError("Unsettled PREPARED batch from previous step")
-        reserve = conservative_reserve(scheduler)
+        reserve = self.admission_policy.reserve(scheduler)
         if os.environ.get("CACHEPILOT_CAPACITY_DIAGNOSTICS") == "1":
             self._diagnostic_step = getattr(self, "_diagnostic_step", 0) + 1
             self._diagnostic("boundary", reserve=reserve,
@@ -87,18 +88,18 @@ class DiagnosticBoundedProtection(BoundedProtection):
         # Use actual full-footprint pressure only to rank imminent candidates.
         all_ranks = self.policy._free_queue_ranks(free)
         ranks = {bid: rank for bid, rank in all_ranks.items() if rank < reserve}
-        candidates = []
-        for rid, pending in self.policy._pending.items():
-            if (rid in scheduler.requests or not self.manager._requests.is_finished(rid)
-                    or self.manager._requests.has_in_flight(rid) or rid in self.inflight):
-                self._diagnostic("request_ineligible", request_id=rid)
-                continue
-            op = pending[0]
-            positions = [ranks[b] for b in op.block_hashes if b in ranks]
-            if positions:
-                candidates.append((min(positions), rid, op))
-            self._diagnostic("rank", **describe(op.store_metadata), positions=positions)
-        for _, rid, candidate in sorted(candidates):
+        candidates = ranked_candidates(self.policy._pending, scheduler.requests,
+            self.manager._requests, self.inflight, ranks)
+        if os.environ.get("CACHEPILOT_CAPACITY_DIAGNOSTICS") == "1":
+            for rid, pending in self.policy._pending.items():
+                if (rid in scheduler.requests or not self.manager._requests.is_finished(rid)
+                        or self.manager._requests.has_in_flight(rid) or rid in self.inflight):
+                    self._diagnostic("request_ineligible", request_id=rid)
+                    continue
+                op = pending[0]
+                positions = [ranks[b] for b in op.block_hashes if b in ranks]
+                self._diagnostic("rank", **describe(op.store_metadata), positions=positions)
+        for _, rid, candidate in candidates:
             meta = candidate.store_metadata
             op = meta.op
             if (op.start != 0 or op.end < 256 or op.end % 256 or op.skip_first_n_tokens
@@ -121,10 +122,8 @@ class DiagnosticBoundedProtection(BoundedProtection):
                         budget_blocks=self.budget, inflight_blocks=used,
                         inflight_request_ids=sorted(self.inflight), acquired_pins=0)
                 continue
-            protected_count = min(len(ids), left)
-            if protected_count < 16 or protected_count % 16:
-                raise RuntimeError("Protection budget must contain complete chunks")
-            if self.pool.get_num_free_blocks() - protected_count < reserve:
+            protected_count = self.admission_policy.prefix_blocks(len(ids), left)
+            if not self.admission_policy.permits(self.pool.get_num_free_blocks(), protected_count, reserve):
                 self._capacity_fallback(meta, protected_count, self.pool.get_num_free_blocks(),
                     reserve, left, used)
                 continue

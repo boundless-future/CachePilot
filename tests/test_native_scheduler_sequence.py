@@ -61,6 +61,77 @@ def test_actual_prefill_sequence_accounts_for_same_step_prefix(actual,extra_refe
     assert pool.get_num_free_blocks()==32 and not sched.requests
 
 
+@pytest.mark.parametrize('owner_leaves',[False,True])
+def test_actual_shared_owner_departure_changes_free_touch_demand(actual,owner_leaves):
+    sched,add=actual
+    manager=sched.kv_cache_manager
+    pool=manager.block_pool
+    pressure=pool.get_new_blocks(27)
+    seed=add('seed',32)
+    assert manager.allocate_slots(seed,32) is not None
+    # Remove the fixture owner from scheduling, keeping or releasing its refs.
+    sched.waiting.remove(seed)
+    del sched.requests['seed']
+    if owner_leaves:
+        manager.free(seed)
+    target=add('target',48)
+    output=sched.schedule()
+    assert output.num_scheduled_tokens=={'target':16}
+    assert target.status==RequestStatus.RUNNING
+    assert pool.get_num_free_blocks()==2
+    sched.finish_requests('target',RequestStatus.FINISHED_ABORTED)
+    if not owner_leaves:
+        manager.free(seed)
+    pool.free_blocks(pressure)
+    assert pool.get_num_free_blocks()==32 and not sched.requests
+
+
+@pytest.mark.parametrize('extra_reference',[False,True])
+def test_actual_full_sequence_gate_rejects_small_next_chunk(actual,extra_reference):
+    sched,add=actual
+    sched.max_num_scheduled_tokens=16
+    pool=sched.kv_cache_manager.block_pool
+    pressure=pool.get_new_blocks(30)
+    pin=pool.get_new_blocks(1) if extra_reference else []
+    target=add('target',65)
+    output=sched.schedule()
+    # One next-chunk block fits in both cases, but the full cold sequence does not.
+    assert output.num_scheduled_tokens=={} and target.status==RequestStatus.WAITING
+    assert pool.get_num_free_blocks()==(1 if extra_reference else 2)
+    sched.finish_requests('target',RequestStatus.FINISHED_ABORTED)
+    pool.free_blocks(pressure+pin)
+    assert pool.get_num_free_blocks()==32 and not sched.requests
+
+
+def test_actual_mixed_local_external_admission_retains_native_reservation(actual):
+    sched,add=actual
+    manager=sched.kv_cache_manager
+    pool=manager.block_pool
+    pressure=pool.get_new_blocks(26)
+    seed=add('seed',32)
+    assert manager.allocate_slots(seed,32) is not None
+    sched.waiting.remove(seed)
+    del sched.requests['seed']
+    manager.free(seed)
+    allocated=[]
+    sched.connector=NS(supports_divergent_local_hybrid_hits=False,
+        on_new_request=lambda r:None,
+        get_num_new_matched_tokens=lambda r,local:(r.num_prompt_tokens-1-local,True),
+        update_state_after_alloc=lambda r,blocks,external:allocated.append((r.request_id,external)),
+        build_connector_meta=lambda output:None,request_finished=lambda r,ids:(False,None))
+    target=add('target',65)
+    output=sched.schedule()
+    assert output.total_num_scheduled_tokens==0
+    assert target.status==RequestStatus.WAITING_FOR_REMOTE_KVS
+    assert allocated==[('target',32)]
+    assert pool.get_num_free_blocks()==2
+    assert sched._inflight_prefill_reserved_blocks()==1
+    sched.finished_recving_kv_req_ids.add('target')
+    sched.finish_requests('target',RequestStatus.FINISHED_ABORTED)
+    pool.free_blocks(pressure)
+    assert pool.get_num_free_blocks()==32 and not sched.requests
+
+
 @pytest.mark.parametrize('extra_reference',[False,True])
 def test_actual_async_zero_compute_step_keeps_native_reservations(actual,extra_reference):
     sched,add=actual

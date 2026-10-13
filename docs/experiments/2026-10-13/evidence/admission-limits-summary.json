@@ -1,0 +1,25 @@
+{
+  "input_sha256": {
+    "shared-structure-allocation-analysis.json": "1ec83126956e810e111e0b2e1de3e044421edae25a3e345d52d237ad37afed81",
+    "shared-structure-native-analysis.json": "277b35d75fccf56eef2b7a44ac902adef412ae09258f73140f896edf987ba654"
+  },
+  "rows": [
+    {
+      "case": "shared-one",
+      "reserve_over_pool_fraction": 0.25817555938037867,
+      "allocating_fraction_when_reserve_over_pool": 0.2511111111111111,
+      "free_hit_touch_to_gross_new_ratio": 2.464429947188568,
+      "zero_compute_calls_with_new_blocks": 7,
+      "full_sequence_rejections": 90
+    },
+    {
+      "case": "shared-two",
+      "reserve_over_pool_fraction": 0.2620689655172414,
+      "allocating_fraction_when_reserve_over_pool": 0.25,
+      "free_hit_touch_to_gross_new_ratio": 2.2190132370637787,
+      "zero_compute_calls_with_new_blocks": 5,
+      "full_sequence_rejections": 85
+    }
+  ],
+  "scope": "Separate instrumented runs. Descriptive ratios only; no safe reserve or pilot causal inference."
+}

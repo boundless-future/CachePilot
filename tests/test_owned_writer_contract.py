@@ -6,7 +6,9 @@ import time
 import unittest
 from unittest.mock import Mock
 
-import test_leased_l1_contract as fixture
+from cachepilot_test_support import allocator as fixture
+from cachepilot.native import configure_native_path
+configure_native_path()
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 try:
     from owned_writer_contract import OwnedWriterHarness

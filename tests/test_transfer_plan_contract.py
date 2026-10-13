@@ -8,7 +8,7 @@ import threading
 import unittest
 from unittest.mock import Mock
 
-import test_leased_lookup_contract as lookup_fixture
+from cachepilot_test_support import research_leased_lookup as lookup_fixture
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 try:
@@ -22,60 +22,12 @@ except ModuleNotFoundError:
     PlannedTransferHarness = None
 
 
+from cachepilot_test_support.research_transfer_plan import TransferPlanSetup
+
+
 @unittest.skipUnless(PlannedTransferHarness, "Needs pinned LMCache/native extension")
-class TransferPlanTests(unittest.TestCase):
-    key = lookup_fixture.LeasedLookupTests.key
-    begin = lookup_fixture.LeasedLookupTests.begin
-    bitmap = lookup_fixture.LeasedLookupTests.bitmap
-    stage_load = lookup_fixture.LeasedLookupTests.stage_load
-    complete_load = lookup_fixture.LeasedLookupTests.complete_load
-    seed = lookup_fixture.LeasedLookupTests.seed
-    ready = lookup_fixture.LeasedLookupTests.ready
-    reset = lookup_fixture.LeasedLookupTests.reset
-    assert_drained = lookup_fixture.LeasedLookupTests.assert_drained
+class TransferPlanTests(TransferPlanSetup, unittest.TestCase):
 
-    def setUp(self):
-        lookup_fixture.LeasedLookupTests.setUp(self)
-        self.transfers = PlannedTransferHarness(self.module)
-        self.layout = RegisteredLayout(
-            "registration-1", Worker("worker-0-0", 0), "test", 1,
-            256, (64,), (KernelLayout(0, 128, 100),))
-        self.transfers.register_layout(self.layout)
-
-    def request_key(self, **changes):
-        return replace(IPCCacheServerKey.from_token_ids(
-            "test", 1, 0, list(range(768)), end=768, request_id="r"), **changes)
-
-    def prepare(self, ticket, *, key=None, blocks=None, skip=0, registration=None):
-        return self.transfers.prepare_plan(
-            ticket, key if key is not None else self.request_key(),
-            blocks if blocks is not None else [[0, 1, 2, 3, 4, 5]],
-            registration=registration or self.layout.incarnation,
-            skip_first_n_tokens=skip)
-
-    def plan(self, **kwargs):
-        keys, job, (ticket,) = self.ready(temporary=True)
-        handle = self.prepare(ticket, **kwargs)
-        self.assertIsNotNone(handle)
-        return keys, job, ticket, handle
-
-    def submit(self, handle):
-        captured = {}
-        def submit(plan, callback):
-            captured.update(plan=plan, callback=callback)
-            return True
-        self.assertTrue(self.transfers.enqueue_plan(handle, submit))
-        return captured
-
-    def finish(self, captured):
-        self.assertTrue(captured["callback"]())
-        self.assertFalse(self.transfers.plans)
-        self.assert_drained()
-
-    def assert_offered(self, job, ticket):
-        self.assertEqual(self.module.jobs[job.sequence].slots[ticket].state, "offered")
-        self.assertFalse(self.module.accesses)
-        self.assertFalse(self.l1.leases)
 
     def test_suffix_selects_original_buffers_and_holds_whole_shard(self):
         keys, job, (ticket,) = self.ready(temporary=True)
