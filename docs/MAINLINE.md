@@ -35,6 +35,14 @@
 
 一份可以复算的主实验报告：冻结条件、逐格结果、成功/失败证据、适用边界、相对基线的效果与成本。运行记录见 [TASKS](TASKS.md)，实验入口为 `scripts/run_whole_step_mainline.py`；运行时仍统一在 `src/cachepilot`。
 
-## 本轮结论后的唯一优先项
+## 身份诊断已完成：停止扩大当前头部保护候选
 
-下一唯一优先项是用稳定trace event ID关联受保护STORE与后续请求，明确区分vLLM GPU prefix hit、LMCache CPU回载和重算。原轨迹的随机API ID及重复前缀不足以证明GPU热命中缺席；没有RETRIEVE也不能据此判断保护无用。做一次闭合的机制诊断，不作为性能结果。若保护没有增加CPU回载且请求原本GPU命中，停止扩大保护策略；若实际回载帮助了重算/TTFT，再提出一个候选目标改动和新冻结匹配比较。暂不扩模型/异步/多worker，不补无关边界。
+稳定trace ID诊断zero/legacy-two/filtered-two共180请求、8,640输出tokens完整，3/3通过。两保护格均只保护event 8的`[0,512)`；后继11/14/17/19/24/25在三格全部GPU命中，长度逐条相同且external=0。没有观察到保护新增CPU回载或避免重算的价值，按上面的无收益分支停止扩大本候选性能实验。先前无候选早退的开销证据单独保留。详细结果、关闭期错误及补充v3审计见[身份诊断](experiments/2026-10-19/IDENTITY_DIAGNOSTIC.md)。
+
+## 唯一下一步：丢失尾部的安全保存窗口
+
+只聚焦同会话event 1→9：完整共享4,352tokens，zero首次已解析cache-match只覆盖GPU1,792/external0；source 1普通STORE成功区间仅`[0,1792)`。自然抢占后命中会变化，这个2,560token缺口只是机会定位，不能当实际执行重算量。两保护格在source 1都记录free302/reserve2,081的容量拒绝；当前从0截取头部的候选不能直接保护任意尾部offset。
+
+下一项先证明：尚未保存的连续chunk在GPU哈希失效前，是否有满足当前reserve、引用和CPU前缀连续性的窗口。现有日志未覆盖整个pending生命周期，必要时只做一次只读窗口诊断，记录pending区间、普通STORE进度、block哈希/引用、free rank和reserve，不作为性能实验。event ID只用于离线审计，策略不得读取未来trace。
+
+窗口存在才改一个对应模块，先同来源KV/资源准入，再零保护匹配比较；不存在则记录精确阻断与当前适用范围，再决定是否设计新准入。不得直接放宽reserve、换输入追求保护提交。暂不扩模型/异步/多worker，不补无关边界，不再跑同一头部候选的大矩阵。

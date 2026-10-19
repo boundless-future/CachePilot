@@ -1,5 +1,7 @@
 # 待办与阶段验收
 
+2026-10-19 22:45主线闭环：稳定trace ID三格诊断完成，180请求/8,640输出tokens，zero/legacy-two/filtered-two均通过。两保护格目标同为event8的`[0,512)`，六个后继在zero也全部GPU命中且长度逐条相同、external0；本轨迹没有新增复用价值，停止扩大当前头部保护候选。首次a因服务PATH缺vllm启动失败，b同源conda启动通过；filtered关闭期8行EngineDeadError保留，运行期fatal0。原a/b共91文件SHA通过；补充v3为独立304项冻结快照，服务器与本地审计JSON一致，定向测试各20 passed，额外本地架构/快照6 passed。只读定位source1→event9的首次覆盖缺口2,560tokens，以及两保护格free302/reserve2081的capacity拒绝；缺口不是实际执行重算量。下一唯一主线是证明该尾部在哈希失效前是否存在满足现安全预算的保存窗口，窗口成立再改对应模块；不再扩大无收益候选。详见[报告](experiments/2026-10-19/IDENTITY_DIAGNOSTIC.md)与[主线](MAINLINE.md)。
+
 2026-10-19 21:45主线续推完成：原始coverage证据显示主要慢请求先于保护触发，原轨迹无该前缀的LMCache回载；更早已有相同前缀普通STORE，但CPU后续驻留情况未证。新增默认关闭`skip_ineligible`，只在无可操作候选时跳过扫描，候选时保留原准入。真实栈42 passed；本地36 passed/9 skipped。原输入pilot3/3、formal9/9（540请求/25,920输出），prepare wall均值247.989→63.699ms（−74.32%）；P95配对三轮−1.101/−0.904/−1.191%，描述性、非显著。重算/搬运r1/r2相同，r0有变化；不做因果归因。571文件SHA、服务器/本地/冻结源码审计一致。filtered-r1关闭期traceback保留。服务器空闲、GPU1MiB/0%、容器开机。下一唯一主线：稳定request ID关联受保护请求、GPU prefix hit、LMCache CPU retrieve及重算，再据实决定保护目标；见[NET_EFFECT](experiments/2026-10-19/NET_EFFECT.md)。
 
 2026-10-19 21:30过程记录：基于coverage证据定位保护晚于主要尾请求；当时启动默认关闭的无候选早退并通过真实栈42项及Windows源码/架构36项。pilot开销门槛通过后启动formal，已在21:45条目记录完成结果、审计与下一步。中间运行目录为`/root/cachepilot-neteffect-20261019/runs/eligibility-formal-20261019a`；只作为过程证据，当前无在途实验。见[净效果假设与记录](experiments/2026-10-19/NET_EFFECT.md)。

@@ -1,0 +1,66 @@
+{
+  "original_evidence_archives": {
+    "identity-diagnostic-20261019a": {
+      "files": 23,
+      "sha256": "2efc56410cb2d04ceef957b53cc9cb6328fe65861755e320f279e315fbb1b413",
+      "inventory_match": true
+    },
+    "identity-diagnostic-20261019b": {
+      "files": 68,
+      "sha256": "0bf2881af7e2bfba4eef8e63f9fc31152cc57e5d1a19389d8540cc19ac859021",
+      "inventory_match": true
+    }
+  },
+  "source_snapshot": {
+    "files": 304,
+    "current_source_matches_snapshot": true,
+    "archive_sha256": "a7c167d18204ab8636b2258c2896b37356243da09eab5e68804190fe71275de1"
+  },
+  "supplemental_audit": {
+    "complete": true,
+    "passed_cells": 3,
+    "same_protected_targets": true,
+    "local_server_json_equal": true,
+    "canonical_json_sha256": "736bf4a730bb0e0b7a0778089f3c4f798b0bc2b5c254db708fdf969056a86ccc",
+    "byte_equality_required": false,
+    "byte_difference_reason": "Local JSON uses CRLF, server JSON uses LF; parsed objects are identical"
+  },
+  "observed_test_runs": [
+    {
+      "host": "Windows local",
+      "command": "python -m pytest -q tests/test_whole_step_identity_diagnostic.py tests/test_replay.py",
+      "result": "20 passed in 1.18s"
+    },
+    {
+      "host": "Linux server supplemental frozen-source v3",
+      "command": "/usr/local/miniconda3/envs/cachepilot/bin/python -m pytest -q tests/test_whole_step_identity_diagnostic.py tests/test_replay.py",
+      "result": "20 passed in 0.61s"
+    },
+    {
+      "host": "Windows local",
+      "command": "python -m pytest -q tests/test_source_snapshot.py tests/architecture/test_package_contract.py -k \"runtime_never_imports_research_scripts or mainline_tests_import_package_directly or tests_never_import_other_test_modules or manifest_tracks_nested_runtime_native_and_build_metadata or saved_source or empty_or_escaping\"",
+      "result": "6 passed, 36 deselected in 0.61s"
+    }
+  ],
+  "audit_reproduction": {
+    "server_cwd": "/root/cachepilot-identity-audit-v3-20261019/source",
+    "server_input": "/root/cachepilot-neteffect-20261019/runs/identity-diagnostic-20261019b",
+    "command": "python scripts/audit_whole_step_identity.py <input> --output <new-output.json>"
+  },
+  "operational_notes": [
+    "Initial diagnostic a failed with exec: vllm: not found; original failed evidence retained.",
+    "Offline test invocation using unqualified conda failed because conda was not in the non-interactive SSH PATH; subsequent environment Python ran the offline tests. Model-service startup must use /usr/local/miniconda3/bin/conda run --no-capture-output -n cachepilot."
+  ],
+  "final_idle": {
+    "at_utc": "2026-10-19T14:44:47.436675+00:00",
+    "ports": {
+      "8000": "closed",
+      "8080": "closed",
+      "5555": "closed"
+    },
+    "active_services": [],
+    "gpu": "NVIDIA GeForce RTX 4090, 1 MiB, 0 %",
+    "container": "kept running; no shutdown requested"
+  },
+  "scope": "Integrity and mechanism audit only; tests do not establish performance gains or executed recomputation savings"
+}

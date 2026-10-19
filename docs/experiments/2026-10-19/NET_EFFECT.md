@@ -40,10 +40,10 @@ filtered三轮computed prefill均33,677、H2D均2,189,426,688、D2H均3,510,632,
 
 正式证据包571文件、SHA256 `2b92f990ed218460132a091435ab8e05cf929ee2f19956a9bb1c893ac97a4070`，位于[evidence/eligibility-formal-20261019a.tar.gz](evidence/eligibility-formal-20261019a.tar.gz)，逐文件清单位于[evidence/eligibility-formal-20261019a-inventory.json](evidence/eligibility-formal-20261019a-inventory.json)。服务器、当前和冻结源码三份汇总相同，全部SHA通过。服务器端口8000/8080/5555空闲、无实验进程、GPU 1MiB/0%，容器保持开机；快照见[evidence/eligibility-final-idle-20261019.json](evidence/eligibility-final-idle-20261019.json)。逐格正式结果见[evidence/eligibility-formal-local-audit.json](evidence/eligibility-formal-local-audit.json)。
 
-## 唯一下一步：精确归因受保护前缀
+## 后续身份诊断（已完成）
 
 本轮证明过滤无候选扫描大幅减少，TTFT出现小幅一致信号；核心问题仍未回答：受保护STORE属于哪条trace请求，其后同前缀请求究竟命中vLLM GPU prefix cache、LMCache CPU回载，还是重算？原始API请求ID随机，只能用重复token前缀映射多个turn；没有匹配LMCache RETRIEVE不能排除GPU热命中。
 
-下一步只做一项机制诊断：沿用相同固定轨迹与two预算，在回放API中传入可审计的trace event ID请求标识，要求响应ID原样匹配，并把对应generation、computed prefix、LMCache lookup/retrieve和保护批次按请求串起来。zero/legacy-two/filtered-two只跑到完成该映射，不并入性能结果。若保护没有增加CPU回载且相关请求本来GPU命中，则停止扩展保护策略；若确有CPU回载及可见重算/TTFT获益，再定位触发时机与哪些前缀有收益，随后只提出一个策略改动并进行新冻结对照。
+随后已沿用相同固定轨迹与two预算，在回放API中传入可审计的trace event ID，完成响应ID、generation、GPU prefix、LMCache回载和保护批次的对应。三格180请求/8,640输出tokens完整，原目标六个后继在zero同样GPU命中、external0，没有新增复用价值；因此停止扩大当前头部保护候选。该诊断不并入上面的性能结果，完整原始证据及失败见[IDENTITY_DIAGNOSTIC](IDENTITY_DIAGNOSTIC.md)。
 
-这不是第二条性能线，也不另建大套件；回放模块已有诊断request ID支持，先核实服务端到端身份，再只补所需的scheduler/worker对应记录。
+下一唯一主线是验证source1→event9丢失尾部的安全保存窗口：首次匹配存在缺口，但该来源在两保护格都遭free302/reserve2081容量拒绝。先证明当前安全预算下存在窗口，再决定候选选择/触发的单模块改动。保留本轮无候选早退的开销优化证据，与头部保护本身没有新增复用价值的结果分开判定。
