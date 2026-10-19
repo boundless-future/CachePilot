@@ -10,6 +10,14 @@
 当前共享保护仍继承LMCache generation桥，完整依赖反转尚未完成。
 具体边界及验证见 [准入收敛报告](experiments/2026-10-13/RUNTIME_ADMISSION_REVIEW.md)。
 
+2026-10-19新增显式 `integration/vllm/whole_step.py`：使用
+`runtime/whole_step.py::WholeStepAdmission`与既有共享引用/代际保护生命周期，
+通过CLI的`config --whole-step`选择。原CPU候选的bind仍拒绝服务；
+默认SharedPrefixConfig不变。当前主线实验入口为`run_whole_step_mainline.py`
+（覆盖/同来源KV）和`run_whole_step_matrix.py`（匹配pilot/formal），
+探针只在`scripts/whole_step_sparse_probe.py`，运行时不导入实验代码。
+本轮目标/准入与进展见 [MAINLINE](MAINLINE.md)。
+
 ```text
 CachePilot/
 ├── pyproject.toml                 安装与 CLI 元数据，不安装或升级上游栈

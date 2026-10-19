@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 import sys
 
-from cachepilot.config import SharedPrefixConfig
+from cachepilot.config import SharedPrefixConfig, WholeStepConfig
 from cachepilot.native import configure_native_path
 from cachepilot.provenance import source_manifest
 
@@ -45,6 +45,7 @@ def main(argv=None):
     commands.add_parser("doctor", help="Inventory dependencies without importing GPU libraries")
     config = commands.add_parser("config", help="Print explicit shared-prefix KV transfer JSON")
     config.add_argument("--max-chunks", type=int, choices=(0, 1, 2), default=0)
+    config.add_argument("--whole-step", action="store_true", help="Use the gated whole-step pilot connector")
     config.add_argument("--port", type=int, default=5555)
     snapshot = commands.add_parser("manifest", help="Hash the runtime and research source tree")
     snapshot.add_argument("root", type=Path)
@@ -56,7 +57,8 @@ def main(argv=None):
     if args.command == "doctor":
         print(json.dumps(doctor(), indent=2))
     elif args.command == "config":
-        print(json.dumps(SharedPrefixConfig(max_chunks=args.max_chunks, port=args.port).kv_transfer_config(), indent=2))
+        config_type = WholeStepConfig if args.whole_step else SharedPrefixConfig
+        print(json.dumps(config_type(max_chunks=args.max_chunks, port=args.port).kv_transfer_config(), indent=2))
     elif args.command == "manifest":
         print(json.dumps(source_manifest(args.root), indent=2))
     else:

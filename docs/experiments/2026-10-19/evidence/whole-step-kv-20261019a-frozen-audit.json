@@ -1,0 +1,213 @@
+{
+  "complete": true,
+  "passed_cells": 2,
+  "rows": [
+    {
+      "mode": "one",
+      "passed": true,
+      "checks": {
+        "result": true,
+        "tokens": true,
+        "raw_timing": true,
+        "resources": true,
+        "generation": true,
+        "generation_count": true,
+        "config": true,
+        "source": true,
+        "trace": true,
+        "budget": true,
+        "identity": true,
+        "healthy": true,
+        "receipts": true,
+        "coverage": true,
+        "bounded": true,
+        "protection_closed": true,
+        "h2d": true,
+        "fatal_logs": true,
+        "postlude": true,
+        "strict_protected_kv": true
+      },
+      "requests": 60,
+      "committed": 1,
+      "receipts": 1,
+      "actual_protected_store_batches": [
+        "cp1:2974005687684532021:10:17027a0baafd6d4af93d8f0e09c71b42:cmpl-aa50757333f03a41-0-993091a7:ledger:13"
+      ],
+      "peak_pinned_blocks": 16,
+      "fallbacks": {
+        "capacity": 6
+      },
+      "generation_count": 144,
+      "h2d_bytes": 2038431744.0,
+      "d2h_bytes": 3963617280.0,
+      "prefill_tokens": 54398.0,
+      "preemptions": 2.0,
+      "generation_audit": {
+        "passed": true,
+        "checks": {
+          "nonempty_unique_generations": true,
+          "exact_scheduler_ends": true,
+          "exact_server_ends": true,
+          "observed_wires_registered": true,
+          "server_end_removed": true,
+          "no_late_lookup": true,
+          "original_batch_handoff": true,
+          "scheduler_terminal": true,
+          "status_before_engine_stop_exact_empty": true,
+          "status_after_engine_stop_exact_empty": true
+        },
+        "registered": 144,
+        "scheduler_ends": 144,
+        "server_ends": 144,
+        "store_only_wires": [
+          "cp1:2974005687684532021:13:5ef1d19cbc20acad61ce0a17e395cbb0:cmpl-89652289548d83e2-0-8b480c2c",
+          "cp1:2974005687684532021:14:55b4365a5789c73903db2bb5d320f7f2:cmpl-89652289548d83e2-0-8b480c2c"
+        ],
+        "observed_wires": 144,
+        "batches": 47,
+        "active_operations": [],
+        "scope": "Original server END handler returns plus exact empty snapshots; not a transport ACK claim"
+      },
+      "pin_audit": {
+        "passed": true,
+        "protection_stores": 1,
+        "peak_protection_blocks": 16,
+        "observed_allocations": 2,
+        "rollbacks": 0,
+        "final_owned_pins": 0
+      },
+      "kv_audit": {
+        "passed": true,
+        "strict_chunks": 1,
+        "strict_equal_layers": 36,
+        "covered_batches": 1,
+        "protected_batches": 1,
+        "kv_bytes_per_block": 2359296,
+        "submitted_payload_bytes": {
+          "store": 7738490880,
+          "retrieve": 2038431744
+        },
+        "strict_sources": [
+          {
+            "batch_id": "cp1:2974005687684532021:10:17027a0baafd6d4af93d8f0e09c71b42:cmpl-aa50757333f03a41-0-993091a7:ledger:13",
+            "token_prefix_sha256": "dc3a3d4417baf29975936ec60873d5b47406f04454922dec6e8a8566cb2a9c25",
+            "start": 0,
+            "end": 256,
+            "equal_layers": 36,
+            "store_sequence": 17
+          }
+        ]
+      },
+      "correctness_postlude_requests": 81,
+      "scope": "Original 60 requests plus separate correctness postlude; strict KV proof, not timing"
+    },
+    {
+      "mode": "two",
+      "passed": true,
+      "checks": {
+        "result": true,
+        "tokens": true,
+        "raw_timing": true,
+        "resources": true,
+        "generation": true,
+        "generation_count": true,
+        "config": true,
+        "source": true,
+        "trace": true,
+        "budget": true,
+        "identity": true,
+        "healthy": true,
+        "receipts": true,
+        "coverage": true,
+        "bounded": true,
+        "protection_closed": true,
+        "h2d": true,
+        "fatal_logs": true,
+        "postlude": true,
+        "strict_protected_kv": true
+      },
+      "requests": 60,
+      "committed": 1,
+      "receipts": 1,
+      "actual_protected_store_batches": [
+        "cp1:2571217076289373123:10:9fa7e4ebe2d07d7e165372f1d71d3b16:cmpl-b8ac32d49babc1a6-0-a0a002a7:ledger:15"
+      ],
+      "peak_pinned_blocks": 32,
+      "fallbacks": {
+        "capacity": 7
+      },
+      "generation_count": 143,
+      "h2d_bytes": 2264924160.0,
+      "d2h_bytes": 3812622336.0,
+      "prefill_tokens": 51598.0,
+      "preemptions": 1.0,
+      "generation_audit": {
+        "passed": true,
+        "checks": {
+          "nonempty_unique_generations": true,
+          "exact_scheduler_ends": true,
+          "exact_server_ends": true,
+          "observed_wires_registered": true,
+          "server_end_removed": true,
+          "no_late_lookup": true,
+          "original_batch_handoff": true,
+          "scheduler_terminal": true,
+          "status_before_engine_stop_exact_empty": true,
+          "status_after_engine_stop_exact_empty": true
+        },
+        "registered": 143,
+        "scheduler_ends": 143,
+        "server_ends": 143,
+        "store_only_wires": [
+          "cp1:2571217076289373123:13:b794673da9db46491c267ca197bb75bf:cmpl-976174d53860858f-0-8707af6d"
+        ],
+        "observed_wires": 143,
+        "batches": 46,
+        "active_operations": [],
+        "scope": "Original server END handler returns plus exact empty snapshots; not a transport ACK claim"
+      },
+      "pin_audit": {
+        "passed": true,
+        "protection_stores": 1,
+        "peak_protection_blocks": 32,
+        "observed_allocations": 2,
+        "rollbacks": 0,
+        "final_owned_pins": 0
+      },
+      "kv_audit": {
+        "passed": true,
+        "strict_chunks": 2,
+        "strict_equal_layers": 72,
+        "covered_batches": 1,
+        "protected_batches": 1,
+        "kv_bytes_per_block": 2359296,
+        "submitted_payload_bytes": {
+          "store": 7700742144,
+          "retrieve": 2264924160
+        },
+        "strict_sources": [
+          {
+            "batch_id": "cp1:2571217076289373123:10:9fa7e4ebe2d07d7e165372f1d71d3b16:cmpl-b8ac32d49babc1a6-0-a0a002a7:ledger:15",
+            "token_prefix_sha256": "dc3a3d4417baf29975936ec60873d5b47406f04454922dec6e8a8566cb2a9c25",
+            "start": 0,
+            "end": 256,
+            "equal_layers": 36,
+            "store_sequence": 20
+          },
+          {
+            "batch_id": "cp1:2571217076289373123:10:9fa7e4ebe2d07d7e165372f1d71d3b16:cmpl-b8ac32d49babc1a6-0-a0a002a7:ledger:15",
+            "token_prefix_sha256": "45f3fefbef7f43c8365fc6eb7d6860b1123ef27af80101d324d59c9621f31932",
+            "start": 256,
+            "end": 512,
+            "equal_layers": 36,
+            "store_sequence": 20
+          }
+        ]
+      },
+      "correctness_postlude_requests": 81,
+      "scope": "Original 60 requests plus separate correctness postlude; strict KV proof, not timing"
+    }
+  ],
+  "formal_eligible": false,
+  "scope": "Diagnostic correctness only; a separate uninstrumented matched pilot is required"
+}

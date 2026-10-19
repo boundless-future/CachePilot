@@ -1,0 +1,323 @@
+{
+  "scope": "Post-hoc descriptive analysis of complete formal raw data only; no new GPU run. Duration sums across overlapping requests are not critical-path components and must not be added as elapsed time.",
+  "rows": [
+    {
+      "cell": "zero-r0",
+      "ttft_p95_ms": 1918.6827402001654,
+      "prefill_tokens": 36477.0,
+      "h2d_bytes": 2000683008.0,
+      "d2h_bytes": 3623878656.0,
+      "preemptions": 0.0,
+      "committed": 0,
+      "generation_count": 61,
+      "queue_seconds_sum": 21.98953266200124,
+      "prefill_seconds_sum": 4.033983325000008,
+      "decode_seconds_sum": 67.92406372699907,
+      "inference_seconds_sum": 71.95804705199907,
+      "lookup_seconds_sum": 13.077582976994563,
+      "worst_ttft_event_ids": [
+        5,
+        4,
+        10,
+        9,
+        8,
+        6
+      ],
+      "client_queue_max_ms": 3.8082100004430686,
+      "shutdown_teardown_errors": []
+    },
+    {
+      "cell": "one-r0",
+      "ttft_p95_ms": 1937.3340612997254,
+      "prefill_tokens": 33677.0,
+      "h2d_bytes": 2189426688.0,
+      "d2h_bytes": 3510632448.0,
+      "preemptions": 1.0,
+      "committed": 1,
+      "generation_count": 62,
+      "queue_seconds_sum": 23.193066089997956,
+      "prefill_seconds_sum": 3.641918193003221,
+      "decode_seconds_sum": 68.53451486499762,
+      "inference_seconds_sum": 72.17643305800084,
+      "lookup_seconds_sum": 11.399345707004613,
+      "worst_ttft_event_ids": [
+        5,
+        4,
+        8,
+        9,
+        10,
+        6
+      ],
+      "client_queue_max_ms": 3.4528199998931086,
+      "shutdown_teardown_errors": []
+    },
+    {
+      "cell": "two-r0",
+      "ttft_p95_ms": 1809.6579402001678,
+      "prefill_tokens": 33677.0,
+      "h2d_bytes": 2189426688.0,
+      "d2h_bytes": 3510632448.0,
+      "preemptions": 1.0,
+      "committed": 1,
+      "generation_count": 62,
+      "queue_seconds_sum": 20.63327180099759,
+      "prefill_seconds_sum": 3.625655418999486,
+      "decode_seconds_sum": 68.0767470439996,
+      "inference_seconds_sum": 71.70240246299909,
+      "lookup_seconds_sum": 11.213227602998813,
+      "worst_ttft_event_ids": [
+        5,
+        4,
+        8,
+        9,
+        10,
+        6
+      ],
+      "client_queue_max_ms": 3.551567000158684,
+      "shutdown_teardown_errors": []
+    },
+    {
+      "cell": "zero-r1",
+      "ttft_p95_ms": 1826.0215006497674,
+      "prefill_tokens": 33677.0,
+      "h2d_bytes": 2189426688.0,
+      "d2h_bytes": 3510632448.0,
+      "preemptions": 1.0,
+      "committed": 0,
+      "generation_count": 62,
+      "queue_seconds_sum": 20.62336017799862,
+      "prefill_seconds_sum": 3.582453857001383,
+      "decode_seconds_sum": 67.78067117500132,
+      "inference_seconds_sum": 71.3631250320027,
+      "lookup_seconds_sum": 11.174296277003123,
+      "worst_ttft_event_ids": [
+        5,
+        4,
+        8,
+        9,
+        10,
+        6
+      ],
+      "client_queue_max_ms": 3.418686999793863,
+      "shutdown_teardown_errors": []
+    },
+    {
+      "cell": "one-r1",
+      "ttft_p95_ms": 1885.237210700143,
+      "prefill_tokens": 33677.0,
+      "h2d_bytes": 2189426688.0,
+      "d2h_bytes": 3510632448.0,
+      "preemptions": 1.0,
+      "committed": 1,
+      "generation_count": 62,
+      "queue_seconds_sum": 22.557378235000215,
+      "prefill_seconds_sum": 3.5060342779993334,
+      "decode_seconds_sum": 68.53460432999918,
+      "inference_seconds_sum": 72.04063860799852,
+      "lookup_seconds_sum": 11.29771065600471,
+      "worst_ttft_event_ids": [
+        5,
+        4,
+        8,
+        9,
+        10,
+        15
+      ],
+      "client_queue_max_ms": 3.833974000372109,
+      "shutdown_teardown_errors": [
+        {
+          "file": "vllm.log",
+          "line": 287,
+          "text": "(APIServer pid=3903) ERROR 10-19 12:48:58 [async_llm.py:843] AsyncLLM output_handler failed."
+        },
+        {
+          "file": "vllm.log",
+          "line": 288,
+          "text": "(APIServer pid=3903) ERROR 10-19 12:48:58 [async_llm.py:843] Traceback (most recent call last):"
+        },
+        {
+          "file": "vllm.log",
+          "line": 289,
+          "text": "(APIServer pid=3903) ERROR 10-19 12:48:58 [async_llm.py:843]   File \"/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/vllm/v1/engine/async_llm.py\", line 789, in output_handler"
+        },
+        {
+          "file": "vllm.log",
+          "line": 290,
+          "text": "(APIServer pid=3903) ERROR 10-19 12:48:58 [async_llm.py:843]     outputs = await engine_core.get_output_async()"
+        },
+        {
+          "file": "vllm.log",
+          "line": 291,
+          "text": "(APIServer pid=3903) ERROR 10-19 12:48:58 [async_llm.py:843]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+        },
+        {
+          "file": "vllm.log",
+          "line": 292,
+          "text": "(APIServer pid=3903) ERROR 10-19 12:48:58 [async_llm.py:843]   File \"/usr/local/miniconda3/envs/cachepilot/lib/python3.12/site-packages/vllm/v1/engine/core_client.py\", line 1175, in get_output_async"
+        },
+        {
+          "file": "vllm.log",
+          "line": 293,
+          "text": "(APIServer pid=3903) ERROR 10-19 12:48:58 [async_llm.py:843]     raise self._format_exception(outputs) from None"
+        },
+        {
+          "file": "vllm.log",
+          "line": 294,
+          "text": "(APIServer pid=3903) ERROR 10-19 12:48:58 [async_llm.py:843] vllm.v1.engine.exceptions.EngineDeadError: EngineCore encountered an issue. See stack trace (above) for the root cause."
+        }
+      ]
+    },
+    {
+      "cell": "two-r1",
+      "ttft_p95_ms": 1918.2610841998667,
+      "prefill_tokens": 33677.0,
+      "h2d_bytes": 2189426688.0,
+      "d2h_bytes": 3510632448.0,
+      "preemptions": 1.0,
+      "committed": 1,
+      "generation_count": 62,
+      "queue_seconds_sum": 22.75048652799842,
+      "prefill_seconds_sum": 3.646154258999104,
+      "decode_seconds_sum": 68.72698456600074,
+      "inference_seconds_sum": 72.37313882499984,
+      "lookup_seconds_sum": 11.38793488300007,
+      "worst_ttft_event_ids": [
+        5,
+        4,
+        8,
+        9,
+        10,
+        6
+      ],
+      "client_queue_max_ms": 3.119105999758176,
+      "shutdown_teardown_errors": []
+    },
+    {
+      "cell": "zero-r2",
+      "ttft_p95_ms": 1909.6986474500682,
+      "prefill_tokens": 33677.0,
+      "h2d_bytes": 2189426688.0,
+      "d2h_bytes": 3510632448.0,
+      "preemptions": 1.0,
+      "committed": 0,
+      "generation_count": 62,
+      "queue_seconds_sum": 22.466208958002426,
+      "prefill_seconds_sum": 3.621125634000691,
+      "decode_seconds_sum": 68.04665859399893,
+      "inference_seconds_sum": 71.66778422799962,
+      "lookup_seconds_sum": 11.324124578001374,
+      "worst_ttft_event_ids": [
+        5,
+        4,
+        8,
+        9,
+        10,
+        6
+      ],
+      "client_queue_max_ms": 3.670205000162241,
+      "shutdown_teardown_errors": []
+    },
+    {
+      "cell": "one-r2",
+      "ttft_p95_ms": 1999.5630404991969,
+      "prefill_tokens": 36477.0,
+      "h2d_bytes": 2000683008.0,
+      "d2h_bytes": 3661627392.0,
+      "preemptions": 2.0,
+      "committed": 1,
+      "generation_count": 63,
+      "queue_seconds_sum": 24.66171609200046,
+      "prefill_seconds_sum": 4.14039479499661,
+      "decode_seconds_sum": 69.9782858070057,
+      "inference_seconds_sum": 74.11868060200231,
+      "lookup_seconds_sum": 11.648350705994744,
+      "worst_ttft_event_ids": [
+        5,
+        9,
+        4,
+        8,
+        10,
+        15
+      ],
+      "client_queue_max_ms": 4.2595490003805025,
+      "shutdown_teardown_errors": []
+    },
+    {
+      "cell": "two-r2",
+      "ttft_p95_ms": 1787.6438519502244,
+      "prefill_tokens": 33677.0,
+      "h2d_bytes": 2189426688.0,
+      "d2h_bytes": 3510632448.0,
+      "preemptions": 1.0,
+      "committed": 1,
+      "generation_count": 62,
+      "queue_seconds_sum": 20.268983101999765,
+      "prefill_seconds_sum": 3.6419136539989267,
+      "decode_seconds_sum": 67.88230076200125,
+      "inference_seconds_sum": 71.52421441600018,
+      "lookup_seconds_sum": 10.983460723002736,
+      "worst_ttft_event_ids": [
+        5,
+        4,
+        8,
+        9,
+        10,
+        6
+      ],
+      "client_queue_max_ms": 3.395708999960334,
+      "shutdown_teardown_errors": []
+    }
+  ],
+  "mean_duration_sums": {
+    "zero": {
+      "queue_seconds_sum": 21.69303393266743,
+      "prefill_seconds_sum": 3.745854272000694,
+      "decode_seconds_sum": 67.9171311653331,
+      "inference_seconds_sum": 71.6629854373338,
+      "lookup_seconds_sum": 11.858667943999686
+    },
+    "one": {
+      "queue_seconds_sum": 23.470720138999543,
+      "prefill_seconds_sum": 3.7627824219997215,
+      "decode_seconds_sum": 69.01580166733417,
+      "inference_seconds_sum": 72.77858408933389,
+      "lookup_seconds_sum": 11.448469023001357
+    },
+    "two": {
+      "queue_seconds_sum": 21.21758047699859,
+      "prefill_seconds_sum": 3.6379077773325057,
+      "decode_seconds_sum": 68.22867745733386,
+      "inference_seconds_sum": 71.86658523466637,
+      "lookup_seconds_sum": 11.19487440300054
+    }
+  },
+  "zero_repeat_output_differences": [
+    {
+      "repeat": 1,
+      "event_ids": [
+        "11",
+        "15",
+        "16",
+        "30",
+        "36",
+        "38",
+        "41",
+        "42"
+      ]
+    },
+    {
+      "repeat": 2,
+      "event_ids": [
+        "11",
+        "15",
+        "16",
+        "30",
+        "36",
+        "38",
+        "41",
+        "42"
+      ]
+    }
+  ],
+  "audit_equality": true
+}

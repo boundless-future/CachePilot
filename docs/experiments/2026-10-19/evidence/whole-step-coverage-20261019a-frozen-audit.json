@@ -1,0 +1,214 @@
+{
+  "complete": true,
+  "passed_cells": 3,
+  "rows": [
+    {
+      "mode": "one",
+      "passed": true,
+      "checks": {
+        "result": true,
+        "tokens": true,
+        "raw_timing": true,
+        "resources": true,
+        "generation": true,
+        "generation_count": true,
+        "config": true,
+        "source": true,
+        "trace": true,
+        "budget": true,
+        "identity": true,
+        "healthy": true,
+        "receipts": true,
+        "coverage": true,
+        "bounded": true,
+        "protection_closed": true,
+        "h2d": true,
+        "fatal_logs": true
+      },
+      "requests": 60,
+      "committed": 1,
+      "receipts": 1,
+      "actual_protected_store_batches": [
+        "cp1:148755277807456916:10:84eeef078f4dcab38e4715ffaebd8b0e:cmpl-ba1fc9239b4cc58a-0-a9e0336f:ledger:15"
+      ],
+      "peak_pinned_blocks": 16,
+      "fallbacks": {
+        "capacity": 7
+      },
+      "generation_count": 62,
+      "h2d_bytes": 2189426688.0,
+      "d2h_bytes": 3510632448.0,
+      "prefill_tokens": 33677.0,
+      "preemptions": 1.0,
+      "generation_audit": {
+        "passed": true,
+        "checks": {
+          "nonempty_unique_generations": true,
+          "exact_scheduler_ends": true,
+          "exact_server_ends": true,
+          "observed_wires_registered": true,
+          "server_end_removed": true,
+          "no_late_lookup": true,
+          "original_batch_handoff": true,
+          "scheduler_terminal": true,
+          "status_before_engine_stop_exact_empty": true,
+          "status_after_engine_stop_exact_empty": true
+        },
+        "registered": 62,
+        "scheduler_ends": 62,
+        "server_ends": 62,
+        "store_only_wires": [
+          "cp1:148755277807456916:13:09c5a88937b33c42a0bef4376c75da30:cmpl-89714eb17979e4ea-0-a8488c94"
+        ],
+        "observed_wires": 62,
+        "batches": 38,
+        "active_operations": [],
+        "scope": "Original server END handler returns plus exact empty snapshots; not a transport ACK claim"
+      },
+      "pin_audit": {
+        "passed": true,
+        "protection_stores": 1,
+        "peak_protection_blocks": 16,
+        "observed_allocations": 2,
+        "rollbacks": 0,
+        "final_owned_pins": 0
+      },
+      "scope": "Actual protected STORE plus overall H2D; no same-chunk bitwise or performance claim"
+    },
+    {
+      "mode": "two",
+      "passed": true,
+      "checks": {
+        "result": true,
+        "tokens": true,
+        "raw_timing": true,
+        "resources": true,
+        "generation": true,
+        "generation_count": true,
+        "config": true,
+        "source": true,
+        "trace": true,
+        "budget": true,
+        "identity": true,
+        "healthy": true,
+        "receipts": true,
+        "coverage": true,
+        "bounded": true,
+        "protection_closed": true,
+        "h2d": true,
+        "fatal_logs": true
+      },
+      "requests": 60,
+      "committed": 1,
+      "receipts": 1,
+      "actual_protected_store_batches": [
+        "cp1:4017960868918040084:10:140ce174fc507f7c8e6f9163416295f1:cmpl-8a0a2139fd1184a9-0-8e3f2d40:ledger:15"
+      ],
+      "peak_pinned_blocks": 32,
+      "fallbacks": {
+        "capacity": 7
+      },
+      "generation_count": 62,
+      "h2d_bytes": 2189426688.0,
+      "d2h_bytes": 3510632448.0,
+      "prefill_tokens": 33677.0,
+      "preemptions": 1.0,
+      "generation_audit": {
+        "passed": true,
+        "checks": {
+          "nonempty_unique_generations": true,
+          "exact_scheduler_ends": true,
+          "exact_server_ends": true,
+          "observed_wires_registered": true,
+          "server_end_removed": true,
+          "no_late_lookup": true,
+          "original_batch_handoff": true,
+          "scheduler_terminal": true,
+          "status_before_engine_stop_exact_empty": true,
+          "status_after_engine_stop_exact_empty": true
+        },
+        "registered": 62,
+        "scheduler_ends": 62,
+        "server_ends": 62,
+        "store_only_wires": [
+          "cp1:4017960868918040084:13:135ee16ea7782170651153820770ba0c:cmpl-ba03429d66cc1b02-0-9daf4f02"
+        ],
+        "observed_wires": 62,
+        "batches": 38,
+        "active_operations": [],
+        "scope": "Original server END handler returns plus exact empty snapshots; not a transport ACK claim"
+      },
+      "pin_audit": {
+        "passed": true,
+        "protection_stores": 1,
+        "peak_protection_blocks": 32,
+        "observed_allocations": 2,
+        "rollbacks": 0,
+        "final_owned_pins": 0
+      },
+      "scope": "Actual protected STORE plus overall H2D; no same-chunk bitwise or performance claim"
+    },
+    {
+      "mode": "zero",
+      "passed": true,
+      "checks": {
+        "result": true,
+        "tokens": true,
+        "raw_timing": true,
+        "resources": true,
+        "generation": true,
+        "generation_count": true,
+        "config": true,
+        "source": true,
+        "trace": true,
+        "budget": true,
+        "identity": true,
+        "healthy": true,
+        "receipts": true,
+        "coverage": true,
+        "bounded": true,
+        "protection_closed": true,
+        "h2d": true,
+        "fatal_logs": true
+      },
+      "requests": 60,
+      "committed": 0,
+      "receipts": 0,
+      "actual_protected_store_batches": [],
+      "peak_pinned_blocks": 0,
+      "fallbacks": {},
+      "generation_count": 61,
+      "h2d_bytes": 2000683008.0,
+      "d2h_bytes": 3623878656.0,
+      "prefill_tokens": 36477.0,
+      "preemptions": 0.0,
+      "generation_audit": {
+        "passed": true,
+        "checks": {
+          "nonempty_unique_generations": true,
+          "exact_scheduler_ends": true,
+          "exact_server_ends": true,
+          "observed_wires_registered": true,
+          "server_end_removed": true,
+          "no_late_lookup": true,
+          "original_batch_handoff": true,
+          "scheduler_terminal": true,
+          "status_before_engine_stop_exact_empty": true,
+          "status_after_engine_stop_exact_empty": true
+        },
+        "registered": 61,
+        "scheduler_ends": 61,
+        "server_ends": 61,
+        "store_only_wires": [],
+        "observed_wires": 61,
+        "batches": 35,
+        "active_operations": [],
+        "scope": "Original server END handler returns plus exact empty snapshots; not a transport ACK claim"
+      },
+      "pin_audit": null,
+      "scope": "Actual protected STORE plus overall H2D; no same-chunk bitwise or performance claim"
+    }
+  ],
+  "formal_eligible": false,
+  "scope": "Diagnostic service coverage; strict KV source audit still required"
+}

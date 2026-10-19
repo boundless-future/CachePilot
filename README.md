@@ -1,5 +1,9 @@
 # CachePilot
 
+## 当前实验主线
+
+2026-10-19：整步候选已完成真实服务覆盖3/3、严格同来源KV准入2/2、无逐步探针pilot 3/3及同源formal 9/9，正式540请求。one的TTFT P95均值退化2.97%，two改善2.46%但有一轮退化，稳定收益尚未成立。目标与执行规则见[主线](docs/MAINLINE.md)，逐格结果、限制与下一优先项见[正式报告](docs/experiments/2026-10-19/WHOLE_STEP_FORMAL.md)。
+
 2026-10-13 工程入口：运行主线已收敛到 [`src/cachepilot`](src/cachepilot)，
 旧 `scripts/` 同名模块作为兼容入口。先看 [工程结构与模块边界](docs/ARCHITECTURE.md)、
 [当前待办](docs/TASKS.md) 和 [最小接线示例](examples/shared-prefix/README.md)。

@@ -1,5 +1,7 @@
 # 待办与阶段验收
 
+2026-10-19 主线重定向：当前3C，按用户要求只沿端到端净效果推进。显式WholeStepConnector接线、33项远端真实库/native回归、原匿名60请求覆盖3/3、同来源KV准入2/2（36/72层全等）、无逐步探针pilot 3/3及同296源formal 9/9已完成。正式540请求/25,920输出tokens完整，服务器/本地/冻结源复算及原始SHA一致；one的TTFT P95均值+2.97%、two−2.46%但一轮+5.05%，稳定收益未成立。下一唯一优先项是保护与尾延迟关键请求、排队/回载/抢占的关联，先用已有数据，再针对具体假设修改一个模块；其他边界进backlog。服务器空闲、容器开机。见[主线](MAINLINE.md)、[正式结果](experiments/2026-10-19/WHOLE_STEP_FORMAL.md)。下方10-13的“继续补边界后再接服务”是历史顺序。
+
 2026-10-13最新：全请求包络新增18项真实Scheduler边界契约；精确容量阈值下共享owner/混合命中/watermark、旧输出消化后三次重入、自然decode抢占后三次失败及压力释放恢复通过。服务器强制native/CUDA1218 passed、零跳过；Windows688 passed、313 skipped。首次错误状态预期与缺accept_tokens构件失败保留，运行时未改；服务bind仍关闭。下一步远端完成/失败恢复、多请求decode及跨步保护释放，再独立服务接线。见 [边界报告](experiments/2026-10-13/WHOLE_STEP_BOUNDARIES.md)。
 
 2026-10-13最新：独立全请求包络CPU候选已实现，默认关闭且bind拒绝服务接线；不扣驻留/命中，另计真实remote成员预留。新增23项纯策略/真实manager/Scheduler契约，服务器强制native/CUDA1200 passed、零跳过，Windows688 passed、313 skipped。下一步抢占重入、共享owner及watermark连续准入反例验证，再决定服务接线；原匿名pilot3/4及formal门槛不变。见 [WHOLE_STEP_CANDIDATE](experiments/2026-10-13/WHOLE_STEP_CANDIDATE.md)。

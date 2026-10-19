@@ -53,3 +53,17 @@ class SharedPrefixConfig:
                 "cachepilot.shared_prefix_protection": True,
             },
         }
+
+
+@dataclass(frozen=True)
+class WholeStepConfig(SharedPrefixConfig):
+    """Explicit whole-step pilot configuration; never the default."""
+
+    def kv_transfer_config(self):
+        result = super().kv_transfer_config()
+        result.update(
+            kv_connector="WholeStepConnector",
+            kv_connector_module_path="cachepilot.integration.vllm.whole_step",
+        )
+        result["kv_connector_extra_config"]["cachepilot.whole_step_protection"] = True
+        return result

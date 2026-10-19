@@ -11,12 +11,17 @@ from cachepilot.runtime.handoff import HandoffLedger, ProtectionConfig
 
 @pytest.fixture(params=['original', 'shared'])
 def wired(case, request):
-    if request.param == 'shared':
+    if request.param == 'whole-step':
+        from cachepilot.integration.vllm.whole_step import WholeStepConnector, WholeStepServiceProtection
+        connector_type, helper_type = WholeStepConnector, WholeStepServiceProtection
+    elif request.param == 'shared':
         from cachepilot.integration.vllm.shared_prefix import SharedPrefixConnector, SharedPrefixServiceProtection
         connector_type, helper_type = SharedPrefixConnector, SharedPrefixServiceProtection
     else:
         connector_type, helper_type = GenerationProtectionConnector, GenerationBoundedProtection
     old_helper, scheduler, blocks, rows = case
+    if request.param == 'whole-step':
+        scheduler._inflight_prefills = []
     meta = old_helper.policy._pending['old'][0].store_metadata
     old_helper.manager.on_request_reset('old')
     obj = object.__new__(connector_type)

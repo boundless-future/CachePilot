@@ -1,0 +1,20 @@
+{
+  "recorded_at": "2026-10-19T12:57:43.700392+00:00",
+  "python": "3.12.14 | packaged by Anaconda, Inc. | (main, Aug 27 2026, 14:46:43) [GCC 14.3.0]",
+  "platform": "Linux-5.15.0-113-generic-x86_64-with-glibc2.35",
+  "packages": {
+    "torch": "2.13.0",
+    "vllm": "0.30.0",
+    "lmcache": "0.5.5+g1a4b40b1d",
+    "transformers": "5.17.0"
+  },
+  "gpu_query": "NVIDIA GeForce RTX 4090, 595.80, 24564",
+  "native_sha256": {
+    "artifacts/reservation-native/cachepilot_reservation_native.cpython-312-x86_64-linux-gnu.so": "3eb61c696490f34f80ce4f9c452769dc6988c705b099d50a5c37c51d0d8f3b8a",
+    "artifacts/reservation-native/build.json": "98611b9665828ea90553857cb9b9c2d76ef61ebca83ba2da79efcdb74c7348af",
+    "native/reservation_lock.cpp": "4060f83d4d5fb7b88620e303d9b7961bd371e208f916099ae54fc1e3bc5ac84c"
+  },
+  "scope": "Metadata only; no new CUDA/benchmark workload. Model/tokenizer and trace provenance are in archived input/provenance audits.",
+  "torch_runtime_version": "2.13.0+cu130",
+  "torch_cuda_version": "13.0"
+}

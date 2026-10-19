@@ -1,5 +1,7 @@
 # CachePilot 当前状态
 
+2026-10-19：3C本轮主实验闭环完成。显式整步候选原匿名60请求覆盖3/3、严格同来源KV准入2/2、无逐步探针pilot 3/3、同296项源formal 9/9均通过，正式540请求/25,920输出tokens及资源/generation闭合，三处审计相等。one的TTFT P95均值退化2.97%；two改善2.46%但一轮退化5.05%，稳定收益未成立。one-r1有关闭期output-handler traceback，按既有窄规则单列保留；输出变化未归因。下一主线为保护与尾延迟关键请求/排队/抢占的关联。见[当前主线](MAINLINE.md)、[正式报告及证据](experiments/2026-10-19/WHOLE_STEP_FORMAL.md)。服务器已空闲、容器开机。以下为历史记录。
+
 ## 2026-10-13 工程收敛
 
 运行时主线已经迁入 `src/cachepilot`，旧 `scripts` 路径保留兼容身份；统一配置、CLI、源码快照和安装产物已建立。Windows回归663 passed，固定Linux环境隔离回归1147 passed、9 skipped、115 subtests passed。此轮没有启动新的性能cell，也没有改变既有保护/回执语义。模块结构和下一步顺序见 [ARCHITECTURE](ARCHITECTURE.md)，执行记录见 [ENGINEERING_CONSOLIDATION](ENGINEERING_CONSOLIDATION.md)。
