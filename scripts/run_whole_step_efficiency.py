@@ -1,4 +1,4 @@
-"""One matched hypothesis: skip scans when no actionable STORE exists.
+"""Matched comparisons for scan eligibility and the native offload deadline.
 
 Run pilot before formal, or audit archived evidence without GPU libraries.
 The old matrix and its admission gates remain independently replayable.
@@ -21,28 +21,56 @@ from cachepilot.config import WholeStepConfig
 from run_fixed_baselines import read, KV_BYTES, strict_idle
 from run_real_structure_pilot import TRACE_SHA, validate_inputs
 from run_arrival_matrix import digest
+from run_whole_step_identity_diagnostic import NATIVE_DEADLINE_SECONDS
 
 LABELS = ('zero', 'legacy-two', 'filtered-two')
+NATIVE_LABELS = ('zero', 'native-deadline')
 ALLOWED = {'src/cachepilot/runtime/shared_prefix.py',
     'src/cachepilot/integration/vllm/whole_step.py', 'scripts/audit_whole_step_matrix.py',
     'scripts/analyze_whole_step_net_effect.py', 'scripts/run_whole_step_efficiency.py'}
 
 
 def configuration(label):
-    config = WholeStepConfig(max_chunks=0 if label == 'zero' else 2).kv_transfer_config()
+    config = WholeStepConfig(max_chunks=0 if label in NATIVE_LABELS else 2).kv_transfer_config()
     if label == 'filtered-two':
         config['kv_connector_extra_config']['cachepilot.skip_ineligible'] = True
+    if label == 'native-deadline':
+        config['kv_connector_extra_config'][
+            'lmcache.mp.lazy_offload_max_deferral_seconds'] = NATIVE_DEADLINE_SECONDS
     return config
 
 
-def order(repeat):
-    return list(LABELS[repeat:] + LABELS[:repeat])
+def labels_for(comparison):
+    if comparison not in ('eligibility', 'native-deadline'):
+        raise ValueError('Unknown comparison')
+    return NATIVE_LABELS if comparison == 'native-deadline' else LABELS
 
 
-def prerequisite(directory, stage, sources):
+def order(repeat, comparison='eligibility'):
+    labels = labels_for(comparison)
+    offset = repeat % len(labels)
+    return list(labels[offset:] + labels[:offset])
+
+
+def prerequisite(directory, stage, sources, comparison='eligibility'):
     from audit_whole_step_matrix import audit as old_audit
     prior = read(directory / 'plan.json')
     old = prior['signature']['source_sha256']
+    if comparison == 'native-deadline':
+        if stage == 'pilot':
+            from analyze_source1_window import audit_run
+            changes = {p for p in set(old) | set(sources) if old.get(p) != sources.get(p)}
+            report = audit_run(directory)
+            if (prior['stage'] != 'source1-deadline'
+                    or changes != {'scripts/run_whole_step_efficiency.py'}
+                    or not report['complete'] or not report['reuse']['full_store_before_first_cache_match']
+                    or not report['reuse']['target_cpu_retrieve_confirmed']):
+                raise ValueError('Successful native deadline mechanism and only matrix runner changes required')
+        elif (prior['stage'] != 'pilot' or old != sources
+                or prior['signature'].get('comparison') != comparison
+                or not audit(directory)['formal_eligible']):
+            raise ValueError('Same-source complete native deadline pilot required')
+        return
     if stage == 'pilot':
         changes = {p for p in set(old) | set(sources) if old.get(p) != sources.get(p)}
         if prior['stage'] != 'formal' or not changes <= ALLOWED or not old_audit(directory)['matrix_complete']:
@@ -56,11 +84,14 @@ def audit(directory):
     directory = Path(directory)
     plan, trace = read(directory / 'plan.json'), read(directory / 'trace.json')
     stage, signature = plan['stage'], plan['signature']
+    comparison = signature.get('comparison', 'eligibility')
+    labels = labels_for(comparison)
+    native = comparison == 'native-deadline'
     repeats = 1 if stage == 'pilot' else 3
     if (stage not in ('pilot', 'formal') or plan['repeats'] != repeats
-            or plan['orders'] != [order(i) for i in range(repeats)]
-            or signature['gate'] != 'whole-step-eligibility-v1'
-            or signature['configs'] != {label: configuration(label) for label in LABELS}
+            or plan['orders'] != [order(i, comparison) for i in range(repeats)]
+            or signature['gate'] != ('native-deadline-v1' if native else 'whole-step-eligibility-v1')
+            or signature['configs'] != {label: configuration(label) for label in labels}
             or signature['hotpath_diagnostics'] is not False or digest(trace) != TRACE_SHA):
         raise ValueError('Invalid eligibility comparison plan')
     with tarfile.open(directory / 'frozen-source.tar.gz') as archive:
@@ -68,7 +99,7 @@ def audit(directory):
                   for m in archive.getmembers() if m.isfile()}
     if frozen != signature['source_sha256']:
         raise ValueError('Source freeze mismatch')
-    prerequisite(directory / 'prerequisite', stage, frozen)
+    prerequisite(directory / 'prerequisite', stage, frozen, comparison)
     if read(directory / 'input/built/trace.json') != trace:
         raise ValueError('Input trace differs')
     from audit_real_structure import audit as input_audit
@@ -77,9 +108,9 @@ def audit(directory):
         raise ValueError('Input provenance differs')
     rows, differences = [], []
     for repeat in range(repeats):
-        for label in LABELS:
+        for label in labels:
             cell = directory / f'{label}-r{repeat}'
-            mode = 'zero' if label == 'zero' else 'two'
+            mode = 'zero' if label in NATIVE_LABELS else 'two'
             config = configuration(label)
             cell_signature = dict(signature, configs={mode: config})
             try:
@@ -89,7 +120,7 @@ def audit(directory):
                     data = read(p)
                     if data['role'] == 'SCHEDULER':
                         timing = data.get('timings', {}).get('prepare', {})
-                if label != 'zero' and (timing.get('calls', 0) <= 0 or timing.get('wall_ns', 0) <= 0):
+                if label not in NATIVE_LABELS and (timing.get('calls', 0) <= 0 or timing.get('wall_ns', 0) <= 0):
                     raise ValueError('Missing prepare timing')
                 row['prepare_wall_ns'] = timing.get('wall_ns', 0)
                 row['prepare_calls'] = timing.get('calls', 0)
@@ -104,23 +135,30 @@ def audit(directory):
     complete = all(r['passed'] for r in rows)
     ratios, aggregates = [], {}
     if complete:
-        for repeat in range(repeats):
-            old = next(r for r in rows if r['repeat'] == repeat and r['label'] == 'legacy-two')
-            new = next(r for r in rows if r['repeat'] == repeat and r['label'] == 'filtered-two')
-            ratios.append(new['prepare_wall_ns'] / old['prepare_wall_ns'])
-        for label in LABELS:
+        if not native:
+            for repeat in range(repeats):
+                old = next(r for r in rows if r['repeat'] == repeat and r['label'] == 'legacy-two')
+                new = next(r for r in rows if r['repeat'] == repeat and r['label'] == 'filtered-two')
+                ratios.append(new['prepare_wall_ns'] / old['prepare_wall_ns'])
+        for label in labels:
             points = [r for r in rows if r['label'] == label]
             aggregates[label] = {key: dict(individual=[r[key] for r in points], mean=statistics.mean(r[key] for r in points))
                 for key in ('ttft_p95_ms', 'prepare_wall_ns', 'prefill_tokens', 'h2d_bytes', 'd2h_bytes', 'preemptions')}
-        for label in ('legacy-two', 'filtered-two'):
+        for label in labels[1:]:
             aggregates[label]['relative_zero_mean_pct'] = 100 * (aggregates[label]['ttft_p95_ms']['mean']
                 / aggregates['zero']['ttft_p95_ms']['mean'] - 1)
-        aggregates['filtered-two']['relative_legacy_mean_pct'] = 100 * (
-            aggregates['filtered-two']['ttft_p95_ms']['mean'] / aggregates['legacy-two']['ttft_p95_ms']['mean'] - 1)
+            points = [r for r in rows if r['label'] == label]
+            bases = [r for r in rows if r['label'] == 'zero']
+            aggregates[label]['paired_ttft_change_pct'] = [100 * (r['ttft_p95_ms'] / b['ttft_p95_ms'] - 1)
+                                                          for r, b in zip(points, bases)]
+        if not native:
+            aggregates['filtered-two']['relative_legacy_mean_pct'] = 100 * (
+                aggregates['filtered-two']['ttft_p95_ms']['mean'] / aggregates['legacy-two']['ttft_p95_ms']['mean'] - 1)
     return dict(complete=complete, passed_cells=sum(r['passed'] for r in rows), rows=rows,
         prepare_wall_ratio_new_old=ratios, formal_eligible=complete and all(r <= 0.5 for r in ratios),
         aggregates=aggregates, output_differences=differences,
-        scope='One fixed workload; overhead hypothesis, no generalized or native/default benefit claim')
+        scope=('One fixed workload; native deadline setting, descriptive repeats, no custom strategy benefit claim'
+               if native else 'One fixed workload; overhead hypothesis, no generalized or native/default benefit claim'))
 
 
 def run(args):
@@ -131,7 +169,10 @@ def run(args):
     if cutoff.utcoffset() is None or datetime.now(timezone.utc) >= cutoff:
         raise ValueError('Future timezone-aware cutoff required')
     sources = ablation.source_sha()
-    prerequisite(args.prerequisite, args.stage, sources)
+    comparison = getattr(args, 'comparison', 'eligibility')
+    native = comparison == 'native-deadline'
+    labels = labels_for(comparison)
+    prerequisite(args.prerequisite, args.stage, sources, comparison)
     model = ROOT / 'models/Qwen3-4B'
     provenance = validate_inputs(args.input / 'built', args.input / 'source', args.input / 'catalogue.json', model)
     trace = read(args.input / 'built/trace.json')
@@ -141,11 +182,13 @@ def run(args):
     out = args.output.resolve()
     out.mkdir(parents=True, exist_ok=False)
     repeats = 1 if args.stage == 'pilot' else 3
-    signature = dict(gate='whole-step-eligibility-v1', source_sha256=sources, trace_sha256=TRACE_SHA,
-        kv_cache_bytes=KV_BYTES, hotpath_diagnostics=False, configs={label: configuration(label) for label in LABELS})
+    signature = dict(gate='native-deadline-v1' if native else 'whole-step-eligibility-v1',
+        comparison=comparison, source_sha256=sources, trace_sha256=TRACE_SHA,
+        kv_cache_bytes=KV_BYTES, hotpath_diagnostics=False, configs={label: configuration(label) for label in labels})
     env.write_json(out / 'plan.json', dict(stage=args.stage, repeats=repeats, signature=signature,
-        orders=[order(i) for i in range(repeats)], prerequisite=str(args.prerequisite.resolve()),
-        stop_starting_at=args.stop_starting_at, overhead_gate='filtered/legacy prepare wall <= 0.5',
+        orders=[order(i, comparison) for i in range(repeats)], prerequisite=str(args.prerequisite.resolve()),
+        stop_starting_at=args.stop_starting_at,
+        overhead_gate='all pilot resource/measurement gates' if native else 'filtered/legacy prepare wall <= 0.5',
         primary_metric='TTFT P95, retain all paired comparisons; three descriptive repeats'))
     shutil.copytree(args.input, out / 'input')
     shutil.copytree(args.prerequisite, out / 'prerequisite')
@@ -176,14 +219,14 @@ def run(args):
     ablation.cache_drained = lambda state: original_drained(state) and strict_idle(state)
     try:
         for repeat in range(repeats):
-            for label in order(repeat):
+            for label in order(repeat, comparison):
                 current = label
                 if datetime.now(timezone.utc) >= cutoff:
                     env.write_json(out / 'stopped.json', dict(next_cell=f'{label}-r{repeat}', reason='cutoff'))
                     return
                 if ablation.source_sha() != sources:
                     raise RuntimeError('Frozen source changed')
-                mode = 'zero' if label == 'zero' else 'two'
+                mode = 'zero' if label in NATIVE_LABELS else 'two'
                 cell = out / f'{label}-r{repeat}'
                 ablation.ports_free()
                 print('START ' + cell.name, flush=True)
@@ -209,6 +252,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('command', choices=('run', 'audit'))
     parser.add_argument('--stage', choices=('pilot', 'formal'))
+    parser.add_argument('--comparison', choices=('eligibility', 'native-deadline'), default='eligibility')
     parser.add_argument('--prerequisite', type=Path)
     parser.add_argument('--input', type=Path)
     parser.add_argument('--directory', type=Path)

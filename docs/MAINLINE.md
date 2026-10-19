@@ -1,8 +1,10 @@
-# 当前实验主线（2026-10-19）
+# 当前实验主线（2026-10-20）
 
 ## 要回答的问题
 
-在固定的匿名六会话多轮压力轨迹上，整步容量预留候选能否在安全预算内实际提交保护 STORE，并与真实 CPU→GPU 回载、请求完成和资源回收共存？通过后，再比较它相对相同参数零保护是否减少重算或改善 TTFT，额外搬运和调度开销是否值得。
+本轮已回答：在固定匿名六会话多轮压力轨迹上，LMCache 已有的原生 deadline 能否补上丢失尾部的复用缺口，关闭诊断后相对 deadline=0 的重算、搬运和 TTFT 净效果如何。三次配对 TTFT P95 均下降，均值降低12.58%；computed prefill减少18.24%，H2D/D2H分别增加8.62%/11.83%。这是 LMCache 原生配置在 CachePilot 生命周期适配层上的描述性基线，不是自定义策略收益。完整逐格证据、原始数据分析和限制见[正式报告](experiments/2026-10-19/NATIVE_DEADLINE.md)。
+
+整步保护已完成接线、同来源 KV 正确性准入及三重复比较，但稳定性能收益未成立；下文保留这条证据链。当前不再扩大无新增复用价值的头部保护候选。
 
 当前是 **3C：策略端到端验证**。2026-10-19 整步候选的真实服务覆盖已完成 one/two/zero 三格，180 请求及 8,640 输出 tokens 完整，两保护组各有一批实际成功 STORE，峰值16/32 blocks，所有资源与 generation 闭合。严格同来源KV准入one/two两格通过，分别1/2 chunks、36/72层比较全等；服务器及本地均复算通过。无逐步探针pilot 3/3及同源正式矩阵9/9已通过，正式540请求/25,920输出tokens。one三轮都退化、TTFT P95均值+2.97%；two均值−2.46%但一轮退化+5.05%，稳定收益未成立。详见[正式报告](experiments/2026-10-19/WHOLE_STEP_FORMAL.md)。原匿名旧策略 pilot 仅 3/4 通过、双块零提交的历史失败保持有效。
 
@@ -39,10 +41,24 @@
 
 稳定trace ID诊断zero/legacy-two/filtered-two共180请求、8,640输出tokens完整，3/3通过。两保护格均只保护event 8的`[0,512)`；后继11/14/17/19/24/25在三格全部GPU命中，长度逐条相同且external=0。没有观察到保护新增CPU回载或避免重算的价值，按上面的无收益分支停止扩大本候选性能实验。先前无候选早退的开销证据单独保留。详细结果、关闭期错误及补充v3审计见[身份诊断](experiments/2026-10-19/IDENTITY_DIAGNOSTIC.md)。
 
-## 唯一下一步：丢失尾部的安全保存窗口
+## 已完成：丢失尾部的保存窗口与原生能力定位
 
 只聚焦同会话event 1→9：完整共享4,352tokens，zero首次已解析cache-match只覆盖GPU1,792/external0；source 1普通STORE成功区间仅`[0,1792)`。自然抢占后命中会变化，这个2,560token缺口只是机会定位，不能当实际执行重算量。两保护格在source 1都记录free302/reserve2,081的容量拒绝；当前从0截取头部的候选不能直接保护任意尾部offset。
 
-下一项先证明：尚未保存的连续chunk在GPU哈希失效前，是否有满足当前reserve、引用和CPU前缀连续性的窗口。现有日志未覆盖整个pending生命周期，必要时只做一次只读窗口诊断，记录pending区间、普通STORE进度、block哈希/引用、free rank和reserve，不作为性能实验。event ID只用于离线审计，策略不得读取未来trace。
+只读窗口诊断已完成：254 次 pending 观察没有满足当前整步 reserve 加一个 chunk 的容量窗口；最佳余量仍为 −649 blocks。最后完好状态 free=302、reserve=2,081，随后中尾部哈希失效，普通 STORE 仅连续保存 `[0,2048)`。仅把保护目标改成尾部无法绕过当前容量准入。观察器改变时序，不能与旧轮比较性能。
 
-窗口存在才改一个对应模块，先同来源KV/资源准入，再零保护匹配比较；不存在则记录精确阻断与当前适用范围，再决定是否设计新准入。不得直接放宽reserve、换输入追求保护提交。暂不扩模型/异步/多worker，不补无关边界，不再跑同一头部候选的大矩阵。
+随后单格机制对照只将已有 `lmcache.mp.lazy_offload_max_deferral_seconds` 从 0 设为 0.5 秒，保护为零。60 请求/2,880 输出 tokens 完整，原回执、native 终结和资源审计通过。source 1 三段普通 STORE 连续保存完整 4,352 tokens，event 9 从 CPU 回载 2,688 tokens、GPU 命中 1,664；没有未覆盖部分。这是原生能力证据，不能算自定义策略收益，也不等于逐层 KV 全等。失败启动和原窗口轮分别保留。详见 [SOURCE1_WINDOW](experiments/2026-10-19/SOURCE1_WINDOW.md)。
+
+## 已完成：关闭诊断的原生 deadline 匹配比较
+
+复用 `scripts/run_whole_step_efficiency.py --comparison native-deadline`。zero/deadline 两组均为显式 WholeStepConnector、max_chunks=0，唯一配置差异为 deadline 0/0.5 秒；原模型、输入、到达、h5/d1/grace15 和资源预算不变，关闭逐步观察器。pilot 2/2、同源三重复 formal 6/6 全部通过，顺序 zero→deadline、deadline→zero、zero→deadline。
+
+deadline 0.5 三轮的 TTFT P95 配对降幅为17.36%、12.14%、8.13%；六格请求、generation、服务端资源及 transfer 终结全部通过。pilot 单轮 P95 几乎持平的结果保留且不并入 formal 均值。证据 SHA、服务器/本地/冻结源码复算一致，正式归档 SHA 为 `838cdc47881fa23f62d1b845f2b8ae1421510a2bdba08f0821ec44d8c4fe16cd`。服务器端口8000/8080/5555空闲，GPU1MiB/0%，容器保持开机。详见[NATIVE_DEADLINE](experiments/2026-10-19/NATIVE_DEADLINE.md)。
+
+## 下一条主线：找出可在线判断的选择信号
+
+已完成source1原生deadline记录的区间交叉复算：event9有效CPU回载为`[1664,4352)`（RETRIEVE start1536/skip128），与三段成功STORE相交384/2,048/256tokens，恰好覆盖全部2,688tokens。三个candidate-add快照均active、未finished、block ref1/无free-rank；没有依据从这条样本直接删掉任一段，也没有依据仅按finished/free-rank筛选。采样不是每个决策瞬间的证明，逻辑区间相交不等于唯一生产来源或逐层KV全等。见[区间证据](experiments/2026-10-19/evidence/source1-deadline-reuse-analysis.json)。
+
+下一唯一事项：用已有全轨迹成功STORE与后继GPU/CPU路径做有边界的离线分类，优先否决会漏掉已确认复用的规则；找得到当时已知的pending age、请求状态或压力等信号，才改统一框架的一个选择模块，真实栈正确性准入后与deadline=0.5做匹配pilot/formal。没有完整证据就结束当前筛选假设，转固定配置的独立负载验证。未观测到回载不等于可安全删除；不把全局搬运差额硬分摊到单次STORE，不放宽reserve。
+
+该阶段先不扩大模型、轨迹、硬件或 deadline 参数扫描。正式报告和运行日志见 [TASKS](TASKS.md)，原始分析为 [native deadline report](experiments/2026-10-19/NATIVE_DEADLINE.md)；event ID 仅供离线核对，策略始终不得读取未来 trace。

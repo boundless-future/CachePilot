@@ -1,5 +1,7 @@
 # CachePilot 当前状态
 
+2026-10-20最新：原生deadline匹配pilot 2/2、同304项运行时冻结源formal 6/6均已完成，正式360请求/17,280输出tokens；不得重复启动。deadline=0.5相对0的三轮TTFT P95变化−17.36%/−12.14%/−8.13%，各格P95均值−12.58%；computed prefill−18.24%，H2D/D2H+8.62%/+11.83%。这是生命周期适配层上的原生配置基线，自定义保护收益仍未成立。192项正式证据SHA、服务器/本地/冻结源及归档审计一致；相关离线测试两侧各18通过，输出差异与关闭warning保留。source1三段STORE与确认CPU回载相交384/2,048/256tokens，候选观测时请求活跃、block ref=1且无free-rank，暂不采用finished/free-only筛选。下一步在已有全轨迹记录中找在线可区分的卸载选择信号，再按门槛决定是否实现。详见[正式报告](experiments/2026-10-19/NATIVE_DEADLINE.md)与[主线](MAINLINE.md)。23:52:59空闲快照确认服务停止、GPU1MiB/0%；本次离线续推未启动新GPU实验，容器保持开机。以下为历史检查点。
+
 2026-10-19：接续3C净效果主线，默认关闭的无候选早退通过真实栈42项；同原轨迹zero/legacy-two/filtered-two pilot 3/3、formal 9/9。filtered相对legacy的prepare累计wall每轮减少73.67–74.78%，TTFT P95三轮均快0.90–1.19%，单轨迹描述性结果；filtered-r1关闭期traceback按既有分类保留。filtered与legacy重算/搬运在r1/r2相同，r0有变化，不证明P95改善由扫描省时造成。571文件证据服务器/本地/298项冻结源码复算及SHA全部通过；服务空闲、GPU1MiB/0%、容器开机。唯一下一步是用确定request ID对齐保护批次、vLLM GPU prefix命中、LMCache CPU回载和重算。见[净效果主线](experiments/2026-10-19/NET_EFFECT.md)与[当前执行主线](MAINLINE.md)。以下为历史记录。
 
 ## 2026-10-13 工程收敛

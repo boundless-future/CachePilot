@@ -1,0 +1,72 @@
+{
+  "complete": true,
+  "observations": 254,
+  "reserve_fits": 0,
+  "margin_best": -649,
+  "margin_worst": -2739,
+  "last_intact_ns": 11599331914832,
+  "first_loss_ns": 11599333489904,
+  "reuse": {
+    "source_event_id": 1,
+    "event_id": 9,
+    "target_tokens": 4352,
+    "successful_source_store_ranges": [
+      {
+        "start": 0,
+        "end": 2048,
+        "batch_id": "cp1:4242171723909642728:3:d2094fca10fe482f462d1efbd9129ff9:cmpl-cachepilot-trace-0001-0:ledger:2",
+        "wire_id": "cp1:4242171723909642728:3:d2094fca10fe482f462d1efbd9129ff9:cmpl-cachepilot-trace-0001-0",
+        "completed_ns": 11599486313808
+      }
+    ],
+    "contiguous_saved_tokens": 2048,
+    "full_prefix_store_completed_ns": null,
+    "first_hash_loss_ns": 11599333489904,
+    "full_store_before_observed_hash_loss": false,
+    "full_store_before_first_cache_match": false,
+    "generations": [
+      {
+        "wire_id": "cp1:4242171723909642728:11:2381da247183d30d3ef609083b73ed46:cmpl-cachepilot-trace-0009-0",
+        "route": "recompute_prefix",
+        "cache_match_ns": 11600654522782,
+        "lookup_observations": 3,
+        "lookup_resolved": true,
+        "lookup_state_changed": false,
+        "gpu_computed_tokens": 0,
+        "external_tokens": 0,
+        "uncovered_prefix_tokens": 4352,
+        "matching_retrieve_ops": 0,
+        "completed_retrieve_ops": 0
+      },
+      {
+        "wire_id": "cp1:4242171723909642728:13:93cec963702825fe63108b1ff1600fb0:cmpl-cachepilot-trace-0009-0",
+        "route": "recompute_prefix",
+        "cache_match_ns": 11600806051300,
+        "lookup_observations": 2,
+        "lookup_resolved": true,
+        "lookup_state_changed": false,
+        "gpu_computed_tokens": 2032,
+        "external_tokens": 0,
+        "uncovered_prefix_tokens": 2320,
+        "matching_retrieve_ops": 0,
+        "completed_retrieve_ops": 0
+      },
+      {
+        "wire_id": "cp1:4242171723909642728:14:c4e9f9b6a7d65ddf6cd7248aac7eff1b:cmpl-cachepilot-trace-0009-0",
+        "route": "recompute_prefix",
+        "cache_match_ns": 11600989320768,
+        "lookup_observations": 3,
+        "lookup_resolved": true,
+        "lookup_state_changed": true,
+        "gpu_computed_tokens": 3888,
+        "external_tokens": 0,
+        "uncovered_prefix_tokens": 464,
+        "matching_retrieve_ops": 0,
+        "completed_retrieve_ops": 0
+      }
+    ],
+    "cache_path_observed": true,
+    "target_cpu_retrieve_confirmed": false,
+    "scope": "Mechanism only; STORE history is not residency, latency benefit or same-source KV equality"
+  }
+}

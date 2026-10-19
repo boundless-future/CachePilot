@@ -2,7 +2,7 @@
 
 ## 当前实验主线
 
-2026-10-19：整步候选覆盖、同来源KV、匹配pilot/formal均完成；无候选早退优化又完成pilot 3/3及同298项冻结源formal 9/9。相对旧two，每轮prepare开销降低约74%、P95快0.90–1.19%，三轮均较快，但仅单轨迹描述性证据。下一步用稳定请求ID关联保护、GPU命中、CPU回载和重算，再决定是否改保护目标。主线见[MAINLINE](docs/MAINLINE.md)，结果和待验证点见[净效果报告](docs/experiments/2026-10-19/NET_EFFECT.md)。
+2026-10-20：当前为3C端到端策略评估。已停止扩展无新增复用价值的头部保护；LMCache原生deadline=0/0.5秒的匹配pilot 2/2、三重复formal 6/6全部完成，正式360请求/17,280输出tokens。deadline=0.5的TTFT P95均值降低12.58%、computed prefill减少18.24%，H2D/D2H增加8.62%/11.83%；这是单轨迹上的原生配置基线，不是CachePilot自定义策略收益。离线核对显示source1三段STORE均与后继CPU回载相交，当前没有依据直接删掉这些搬运。下一步只沿“保住复用、选择性减少卸载”的证据链，先分析已有完整轨迹再决定是否改一个选择模块。见[当前主线](docs/MAINLINE.md)、[正式报告](docs/experiments/2026-10-19/NATIVE_DEADLINE.md)。
 
 2026-10-13 工程入口：运行主线已收敛到 [`src/cachepilot`](src/cachepilot)，
 旧 `scripts/` 同名模块作为兼容入口。先看 [工程结构与模块边界](docs/ARCHITECTURE.md)、
@@ -11,7 +11,7 @@
 
 面向多轮 Agent 推理的 KV 缓存卸载策略探索。
 
-当前状态（2026-10-11 晚间）：**阶段 3C 的受控单卡保护已实现；阶段 4 已完成容量、六点固定参数调优、原生/立即卸载/固定策略和压缩到达对照。保护尚未证明优于调优固定策略；新文本零覆盖已独立观测，当前不宣称通用加速。** 最新结论、实现边界和下一步见 [当前状态](docs/STATUS.md)；持续执行步骤见 [晚间记录](docs/experiments/2026-10-11/EVENING_PROGRESS.md)。
+历史检查点（2026-10-11 晚间）：**阶段 3C 的受控单卡保护已实现；阶段 4 已完成容量、六点固定参数调优、原生/立即卸载/固定策略和压缩到达对照。保护尚未证明优于调优固定策略；新文本零覆盖已独立观测，当前不宣称通用加速。** 最新结论、实现边界和下一步见 [当前状态](docs/STATUS.md)；持续执行步骤见 [晚间记录](docs/experiments/2026-10-11/EVENING_PROGRESS.md)。
 
 第一次阅读建议先看 [当前实现与代码导航](docs/IMPLEMENTATION_MAP.md)，再用 [离线复核说明](docs/experiments/2026-10-11/REPRODUCE_EVENING.md) 查看已归档结果；复核这些结果不需要 GPU。
 

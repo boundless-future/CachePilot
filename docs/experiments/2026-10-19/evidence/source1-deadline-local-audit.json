@@ -1,0 +1,1609 @@
+{
+  "checks": {
+    "budget": true,
+    "cache_path": true,
+    "config": true,
+    "generation": true,
+    "identity": true,
+    "input": true,
+    "logs": true,
+    "observations": true,
+    "plan": true,
+    "protection_closed": true,
+    "requests": true,
+    "resources": true,
+    "source": true,
+    "trace": true,
+    "transfers": true,
+    "zero_protection": true
+  },
+  "complete": true,
+  "generation": {
+    "active_operations": [],
+    "batches": 42,
+    "checks": {
+      "exact_scheduler_ends": true,
+      "exact_server_ends": true,
+      "no_late_lookup": true,
+      "nonempty_unique_generations": true,
+      "observed_wires_registered": true,
+      "original_batch_handoff": true,
+      "scheduler_terminal": true,
+      "server_end_removed": true,
+      "status_after_engine_stop_exact_empty": true,
+      "status_before_engine_stop_exact_empty": true
+    },
+    "observed_wires": 61,
+    "passed": true,
+    "registered": 61,
+    "scheduler_ends": 61,
+    "scope": "Original server END handler returns plus exact empty snapshots; not a transport ACK claim",
+    "server_ends": 61,
+    "store_only_wires": []
+  },
+  "output_tokens": 2880,
+  "requests": 60,
+  "reuse": {
+    "cache_path_observed": true,
+    "contiguous_saved_tokens": 4352,
+    "event_id": 9,
+    "first_hash_loss_ns": null,
+    "full_prefix_store_completed_ns": 12712307769777,
+    "full_store_before_first_cache_match": true,
+    "full_store_before_observed_hash_loss": true,
+    "generations": [
+      {
+        "cache_match_ns": 12714787763079,
+        "completed_retrieve_ops": 1,
+        "external_tokens": 2688,
+        "gpu_computed_tokens": 1664,
+        "lookup_observations": 3,
+        "lookup_resolved": true,
+        "lookup_state_changed": false,
+        "matching_retrieve_ops": 1,
+        "route": "lmcache_cpu_retrieve",
+        "uncovered_prefix_tokens": 0,
+        "wire_id": "cp1:4318810879265359793:11:f94143155ec4742c10c6c4e3abef65ba:cmpl-cachepilot-trace-0009-0"
+      }
+    ],
+    "scope": "Mechanism only; STORE history is not residency, latency benefit or same-source KV equality",
+    "source_event_id": 1,
+    "successful_source_store_ranges": [
+      {
+        "batch_id": "cp1:4318810879265359793:3:5b3d386a55a349c315163dab55d09ab3:cmpl-cachepilot-trace-0001-0:ledger:2",
+        "completed_ns": 12712086389680,
+        "end": 2048,
+        "start": 0,
+        "wire_id": "cp1:4318810879265359793:3:5b3d386a55a349c315163dab55d09ab3:cmpl-cachepilot-trace-0001-0"
+      },
+      {
+        "batch_id": "cp1:4318810879265359793:3:5b3d386a55a349c315163dab55d09ab3:cmpl-cachepilot-trace-0001-0:ledger:3",
+        "completed_ns": 12712188903589,
+        "end": 4096,
+        "start": 2048,
+        "wire_id": "cp1:4318810879265359793:3:5b3d386a55a349c315163dab55d09ab3:cmpl-cachepilot-trace-0001-0"
+      },
+      {
+        "batch_id": "cp1:4318810879265359793:3:5b3d386a55a349c315163dab55d09ab3:cmpl-cachepilot-trace-0001-0:ledger:4",
+        "completed_ns": 12712307769777,
+        "end": 4352,
+        "start": 4096,
+        "wire_id": "cp1:4318810879265359793:3:5b3d386a55a349c315163dab55d09ab3:cmpl-cachepilot-trace-0001-0"
+      }
+    ],
+    "target_cpu_retrieve_confirmed": true,
+    "target_tokens": 4352
+  },
+  "scope": "Native deadline mechanism contrast",
+  "window": {
+    "conclusion": "no_safe_candidate_window_observed",
+    "first_hash_loss": null,
+    "first_pending": {
+      "actionable_current_front": false,
+      "active": true,
+      "all_pending_hashes_intact": true,
+      "any_pending_block_inside_reserve": false,
+      "event": "source1_window_snapshot",
+      "finished": false,
+      "free_blocks": 653,
+      "max_safe_protection_blocks": 0,
+      "monotonic_ns": 12711497952167,
+      "observation": 1,
+      "pending": [
+        {
+          "op": {
+            "blocks": [
+              {
+                "block_id": 122,
+                "current_hash": "876be22a02e28cb5ec7ea44aad8ffed600b60f43db2e661e5218b20dbb49956100000000",
+                "expected_hash": "876be22a02e28cb5ec7ea44aad8ffed600b60f43db2e661e5218b20dbb49956100000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 123,
+                "current_hash": "6b203265edd114d84b4423b5434d9c3314dfe589d481207772469d61adfa288f00000000",
+                "expected_hash": "6b203265edd114d84b4423b5434d9c3314dfe589d481207772469d61adfa288f00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 124,
+                "current_hash": "293fbab57283d25bd7043089a41b2a1a325234b267923f9814dd66c66aa3642200000000",
+                "expected_hash": "293fbab57283d25bd7043089a41b2a1a325234b267923f9814dd66c66aa3642200000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 125,
+                "current_hash": "1a8cff6e212871a9262ff201e3d06d817dac9e75257f1e9df944fe43f80940aa00000000",
+                "expected_hash": "1a8cff6e212871a9262ff201e3d06d817dac9e75257f1e9df944fe43f80940aa00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 126,
+                "current_hash": "92722a687f23252de6c991fe94bf7e7de4edc359992b762a54ee9e644b57a53500000000",
+                "expected_hash": "92722a687f23252de6c991fe94bf7e7de4edc359992b762a54ee9e644b57a53500000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 127,
+                "current_hash": "49ee024c95e407479482acf4e6435f926c91f9668c49305b0483e17b9d56e7b800000000",
+                "expected_hash": "49ee024c95e407479482acf4e6435f926c91f9668c49305b0483e17b9d56e7b800000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 128,
+                "current_hash": "cd552b48aed106b49e9d41087d7e5b7169d10421c81dffc0dbbba8ce158d9ca000000000",
+                "expected_hash": "cd552b48aed106b49e9d41087d7e5b7169d10421c81dffc0dbbba8ce158d9ca000000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 129,
+                "current_hash": "2f3a5d36ddc00ed0ad6adbce8d22e36c595727af692901bced7bedaf9e15168000000000",
+                "expected_hash": "2f3a5d36ddc00ed0ad6adbce8d22e36c595727af692901bced7bedaf9e15168000000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 130,
+                "current_hash": "9b688a300cf10c65398ebfa36583f865163d1535922d24fb3e14d9aa6818829500000000",
+                "expected_hash": "9b688a300cf10c65398ebfa36583f865163d1535922d24fb3e14d9aa6818829500000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 131,
+                "current_hash": "e0b4d3bc1d585125f690c822d2fe707de80afaf1a066dc71767e12565941153200000000",
+                "expected_hash": "e0b4d3bc1d585125f690c822d2fe707de80afaf1a066dc71767e12565941153200000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 132,
+                "current_hash": "f7e5f46279dae7a232e5ae3c978b2ee5099a361b713c8f1a5fe0a39103a5e80100000000",
+                "expected_hash": "f7e5f46279dae7a232e5ae3c978b2ee5099a361b713c8f1a5fe0a39103a5e80100000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 133,
+                "current_hash": "6797549ad8dacf1034abd4d7a196207d2495d927efe5ecfc9f7afc09502e9bbd00000000",
+                "expected_hash": "6797549ad8dacf1034abd4d7a196207d2495d927efe5ecfc9f7afc09502e9bbd00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 134,
+                "current_hash": "d0d5d30f33e87b55ec87ff7ef85ee0366dbb3bab33b007a53352c39c0285ab4600000000",
+                "expected_hash": "d0d5d30f33e87b55ec87ff7ef85ee0366dbb3bab33b007a53352c39c0285ab4600000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 135,
+                "current_hash": "1d8d327e2c0c79abbb81c3cb4f0fca57e39518c81d05d96037ce40b562b0736d00000000",
+                "expected_hash": "1d8d327e2c0c79abbb81c3cb4f0fca57e39518c81d05d96037ce40b562b0736d00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 136,
+                "current_hash": "e7114354a8a117b27a31064d9e7da2504731d90b85a94ff28712b2dff538303f00000000",
+                "expected_hash": "e7114354a8a117b27a31064d9e7da2504731d90b85a94ff28712b2dff538303f00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 137,
+                "current_hash": "7f72125a6f800746334e90c3801ade092331456aa5102dec51f9a5a538d9415400000000",
+                "expected_hash": "7f72125a6f800746334e90c3801ade092331456aa5102dec51f9a5a538d9415400000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 138,
+                "current_hash": "36c063d5058181129437f5b0a35a2f6f48836e754b388f62aa542f3d306a95c700000000",
+                "expected_hash": "36c063d5058181129437f5b0a35a2f6f48836e754b388f62aa542f3d306a95c700000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 139,
+                "current_hash": "8c0e49dcd97e2ea8072c51fc9c31302b0dd47a65a7daeaa71de996540f0f683d00000000",
+                "expected_hash": "8c0e49dcd97e2ea8072c51fc9c31302b0dd47a65a7daeaa71de996540f0f683d00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 140,
+                "current_hash": "87b619cfbfb7ca2d5d3bffe453d7319c1851196f1995fab84170a2aa92e7cd7a00000000",
+                "expected_hash": "87b619cfbfb7ca2d5d3bffe453d7319c1851196f1995fab84170a2aa92e7cd7a00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 141,
+                "current_hash": "c40003274b3008a330cee7b30aed6284ffdf7391175b8c26f97c96a7fd44620800000000",
+                "expected_hash": "c40003274b3008a330cee7b30aed6284ffdf7391175b8c26f97c96a7fd44620800000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 142,
+                "current_hash": "54413e20e0d5047f510d84b0bfd2ccb166bdd2054c602881563792fa3f62e62400000000",
+                "expected_hash": "54413e20e0d5047f510d84b0bfd2ccb166bdd2054c602881563792fa3f62e62400000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 143,
+                "current_hash": "ac8ea35ea8349fb9f202b7c7a2078c47b2d08fb472ea0e8cfe3f20e6f254ba2300000000",
+                "expected_hash": "ac8ea35ea8349fb9f202b7c7a2078c47b2d08fb472ea0e8cfe3f20e6f254ba2300000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 144,
+                "current_hash": "e4d6967dea807ccaf026a9330d423c76c194539bf552582824d653762bff3a6000000000",
+                "expected_hash": "e4d6967dea807ccaf026a9330d423c76c194539bf552582824d653762bff3a6000000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 145,
+                "current_hash": "a9c0df6cca8be33a6913f2b43005ff024187cd31062b11c5c6fc087a3679511200000000",
+                "expected_hash": "a9c0df6cca8be33a6913f2b43005ff024187cd31062b11c5c6fc087a3679511200000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 146,
+                "current_hash": "3c4c0dd3061f8798ff73c02f2d8c13707d41865b2df0c52c1ce71bebf26a6e3900000000",
+                "expected_hash": "3c4c0dd3061f8798ff73c02f2d8c13707d41865b2df0c52c1ce71bebf26a6e3900000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 147,
+                "current_hash": "805091479f407620da05e6caea5c8e7be5ee03a43120167866253ff12a95929800000000",
+                "expected_hash": "805091479f407620da05e6caea5c8e7be5ee03a43120167866253ff12a95929800000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 148,
+                "current_hash": "082a1e951c322adf31d36fbd374288a3f67072b57ca97f51891a03976b834b1700000000",
+                "expected_hash": "082a1e951c322adf31d36fbd374288a3f67072b57ca97f51891a03976b834b1700000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 149,
+                "current_hash": "9fd70a39976e6aae6e1538ea5797dda1f72ef23fa02e7d25652b375197d370af00000000",
+                "expected_hash": "9fd70a39976e6aae6e1538ea5797dda1f72ef23fa02e7d25652b375197d370af00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 150,
+                "current_hash": "ccf14e3e4bf77a53d9174184c26a90a67a8047712ce54d280ac88a3725cc375c00000000",
+                "expected_hash": "ccf14e3e4bf77a53d9174184c26a90a67a8047712ce54d280ac88a3725cc375c00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 151,
+                "current_hash": "3feeaf975ff32e60b88f094ac7198974c28ed273b942cb9d1cbeaa7cfb59c93b00000000",
+                "expected_hash": "3feeaf975ff32e60b88f094ac7198974c28ed273b942cb9d1cbeaa7cfb59c93b00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 152,
+                "current_hash": "3dc469152f82fd6a1340558d43b78610304a225c6f0654b9b35284da46b0669400000000",
+                "expected_hash": "3dc469152f82fd6a1340558d43b78610304a225c6f0654b9b35284da46b0669400000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 153,
+                "current_hash": "0f8bf8ee22900c4585893a239147fabe23b7b177fda13d13bdcf9641d4daf7e700000000",
+                "expected_hash": "0f8bf8ee22900c4585893a239147fabe23b7b177fda13d13bdcf9641d4daf7e700000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 154,
+                "current_hash": "4887947609e0a79982afb061a5777613f2139826023c5937218f17f0f52abcba00000000",
+                "expected_hash": "4887947609e0a79982afb061a5777613f2139826023c5937218f17f0f52abcba00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 155,
+                "current_hash": "f7e3240349133ff4fd4eee52c4feb059f93160199bb5db89011234f5bf0f67c200000000",
+                "expected_hash": "f7e3240349133ff4fd4eee52c4feb059f93160199bb5db89011234f5bf0f67c200000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 156,
+                "current_hash": "cc058c2a260bc648fbd8c268135f5a7fcd81d67523b18bf7680465cad32470de00000000",
+                "expected_hash": "cc058c2a260bc648fbd8c268135f5a7fcd81d67523b18bf7680465cad32470de00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 157,
+                "current_hash": "79727bbd740b4cebf55e9a2610cd6164e26af3dceb0c6544c7eb4eb0fae6d31a00000000",
+                "expected_hash": "79727bbd740b4cebf55e9a2610cd6164e26af3dceb0c6544c7eb4eb0fae6d31a00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 158,
+                "current_hash": "38a24f92b4f4f3c338274809de098aa5b6e5f070625291533b32303c2da07bc500000000",
+                "expected_hash": "38a24f92b4f4f3c338274809de098aa5b6e5f070625291533b32303c2da07bc500000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 159,
+                "current_hash": "2df9ace007a7c081673dc761841dbd89d86613855d122e0a338c6d066f28ad5800000000",
+                "expected_hash": "2df9ace007a7c081673dc761841dbd89d86613855d122e0a338c6d066f28ad5800000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 160,
+                "current_hash": "baaa1dd6b5157e650a74e4a5975426708c90fcfc987dd3d4b0d7a27a5266845700000000",
+                "expected_hash": "baaa1dd6b5157e650a74e4a5975426708c90fcfc987dd3d4b0d7a27a5266845700000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 161,
+                "current_hash": "03b7af082baa365528e0a446b56e88d95b71eac6d9c3c94a389f6893aa3688ea00000000",
+                "expected_hash": "03b7af082baa365528e0a446b56e88d95b71eac6d9c3c94a389f6893aa3688ea00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 162,
+                "current_hash": "dd035c71bbe3ca64a178c5c0e37581e2a57ec536b086ae90e45e62954b395ff800000000",
+                "expected_hash": "dd035c71bbe3ca64a178c5c0e37581e2a57ec536b086ae90e45e62954b395ff800000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 163,
+                "current_hash": "1ea19ec7877a1dccf9310edaf8427cd125036e1fa42bf2af0663cfd29ab393fa00000000",
+                "expected_hash": "1ea19ec7877a1dccf9310edaf8427cd125036e1fa42bf2af0663cfd29ab393fa00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 164,
+                "current_hash": "91957bac88427096741c8c3af2064f2ed7cb8b9e1c042f8a795a1bf667c695be00000000",
+                "expected_hash": "91957bac88427096741c8c3af2064f2ed7cb8b9e1c042f8a795a1bf667c695be00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 165,
+                "current_hash": "3fbd445d929ebbe2c4b4b95ebd01dbd0804078310475486072bc220dd85ff80300000000",
+                "expected_hash": "3fbd445d929ebbe2c4b4b95ebd01dbd0804078310475486072bc220dd85ff80300000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 166,
+                "current_hash": "4064da67247d338a803b438f5caafab084a9f95dd6ad5e718a1ddb87c521f4ed00000000",
+                "expected_hash": "4064da67247d338a803b438f5caafab084a9f95dd6ad5e718a1ddb87c521f4ed00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 167,
+                "current_hash": "73eaf8411c08fc5adf8ceda9a395f75216ced6114798d248badab039c23af76e00000000",
+                "expected_hash": "73eaf8411c08fc5adf8ceda9a395f75216ced6114798d248badab039c23af76e00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 168,
+                "current_hash": "fba26575ea34ae3cef77862f7175d96bcc695ab9019f15df4ca44b76f6be9e1a00000000",
+                "expected_hash": "fba26575ea34ae3cef77862f7175d96bcc695ab9019f15df4ca44b76f6be9e1a00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 169,
+                "current_hash": "339ca60828f1d3e74aaffe2f26d5badbb8a6a3c75653bbe1182b8057e0e80a1c00000000",
+                "expected_hash": "339ca60828f1d3e74aaffe2f26d5badbb8a6a3c75653bbe1182b8057e0e80a1c00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 170,
+                "current_hash": "81733d3a3d0f651c60598c2bf3d9385455746134afd4f0f910bce8446493663700000000",
+                "expected_hash": "81733d3a3d0f651c60598c2bf3d9385455746134afd4f0f910bce8446493663700000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 171,
+                "current_hash": "89a10a36143d03ada5a8dde44e918c296b3ef965b7eddb5e5eff9499b95e9d1a00000000",
+                "expected_hash": "89a10a36143d03ada5a8dde44e918c296b3ef965b7eddb5e5eff9499b95e9d1a00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 172,
+                "current_hash": "7e6fbce883446093453050c589189c78891e0a4d7ee6981642a61511f04dff3300000000",
+                "expected_hash": "7e6fbce883446093453050c589189c78891e0a4d7ee6981642a61511f04dff3300000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 173,
+                "current_hash": "212e48cdcd39fdf7f297355bb6230e2ac4847e7aafc292952ac4ef5d5fbc588500000000",
+                "expected_hash": "212e48cdcd39fdf7f297355bb6230e2ac4847e7aafc292952ac4ef5d5fbc588500000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 174,
+                "current_hash": "1220587569f9b35f68af156fa7df781814603253375c672989e0ec7c305f818700000000",
+                "expected_hash": "1220587569f9b35f68af156fa7df781814603253375c672989e0ec7c305f818700000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 175,
+                "current_hash": "ed720fae4f0b419d12e3fc997f8ef2a1e8f876766d7debb881673bc60382dc2300000000",
+                "expected_hash": "ed720fae4f0b419d12e3fc997f8ef2a1e8f876766d7debb881673bc60382dc2300000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 176,
+                "current_hash": "75adee3e58a76e8a6918b2488f95246cd3f9c34ba2f68932349d917cde73b38200000000",
+                "expected_hash": "75adee3e58a76e8a6918b2488f95246cd3f9c34ba2f68932349d917cde73b38200000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 177,
+                "current_hash": "d05a01a00ef4e030d5d629481f33800b75002c2fc673ddd8e0309f1fabfa00e100000000",
+                "expected_hash": "d05a01a00ef4e030d5d629481f33800b75002c2fc673ddd8e0309f1fabfa00e100000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 178,
+                "current_hash": "08700aaa88a188392f76516020abc563767dc3db866363837c92f7e2a0b566af00000000",
+                "expected_hash": "08700aaa88a188392f76516020abc563767dc3db866363837c92f7e2a0b566af00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 179,
+                "current_hash": "d58334e0a2afe1ad5c3a1e313fda0bc5ab731a298608fbee231887f8671e2ad200000000",
+                "expected_hash": "d58334e0a2afe1ad5c3a1e313fda0bc5ab731a298608fbee231887f8671e2ad200000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 180,
+                "current_hash": "ae31b34748b4d339788e23e2567c45b763101ab833e20d48b8b17268ea649fb000000000",
+                "expected_hash": "ae31b34748b4d339788e23e2567c45b763101ab833e20d48b8b17268ea649fb000000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 181,
+                "current_hash": "c03d70d8d21caeab65e70032b56d41f92f3f860692476733c3481f398114677600000000",
+                "expected_hash": "c03d70d8d21caeab65e70032b56d41f92f3f860692476733c3481f398114677600000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 182,
+                "current_hash": "be6a652ed43196b368466d4f6856b34cd40688bf7307ddeb2de18a84d1062ce300000000",
+                "expected_hash": "be6a652ed43196b368466d4f6856b34cd40688bf7307ddeb2de18a84d1062ce300000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 183,
+                "current_hash": "01ec755c9642109d79a8c90b412d1b615173b2d412fc024e2832ebcb44d4d07700000000",
+                "expected_hash": "01ec755c9642109d79a8c90b412d1b615173b2d412fc024e2832ebcb44d4d07700000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 184,
+                "current_hash": "4161b74984edb8ec0981cfeb7c63f8336c1655a60140d831d202577af19d144b00000000",
+                "expected_hash": "4161b74984edb8ec0981cfeb7c63f8336c1655a60140d831d202577af19d144b00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 185,
+                "current_hash": "11c1f2df2d673e602158e03ce06757fb757c1105b70adb4f028fa48f2992c8a900000000",
+                "expected_hash": "11c1f2df2d673e602158e03ce06757fb757c1105b70adb4f028fa48f2992c8a900000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 186,
+                "current_hash": "ad7d0b0d715bdc461ccf2ca2ebb9f90e03edf9833a567588d417cde39de96b0b00000000",
+                "expected_hash": "ad7d0b0d715bdc461ccf2ca2ebb9f90e03edf9833a567588d417cde39de96b0b00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 187,
+                "current_hash": "b99de193012c92aa5f8d8f2a34259742552634d59968d2211c0ad171eb3fd40400000000",
+                "expected_hash": "b99de193012c92aa5f8d8f2a34259742552634d59968d2211c0ad171eb3fd40400000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 188,
+                "current_hash": "77b13dc2fcf155b86c2a63dac7dd00f4656b741d268f1b52aa01f0e5d235868000000000",
+                "expected_hash": "77b13dc2fcf155b86c2a63dac7dd00f4656b741d268f1b52aa01f0e5d235868000000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 189,
+                "current_hash": "34e5633b259b1cc411b80f73f5aaf667223864f954bfeb345566148567e88c8600000000",
+                "expected_hash": "34e5633b259b1cc411b80f73f5aaf667223864f954bfeb345566148567e88c8600000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 190,
+                "current_hash": "88a549bb30b959841cda6f8af9383b7c017f7d99bb1f686448e60340e010f43b00000000",
+                "expected_hash": "88a549bb30b959841cda6f8af9383b7c017f7d99bb1f686448e60340e010f43b00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 191,
+                "current_hash": "f703ce6a2973ba991cf0e950ef4faf013e1cc8f73624e453d30f04a7dbc32dcf00000000",
+                "expected_hash": "f703ce6a2973ba991cf0e950ef4faf013e1cc8f73624e453d30f04a7dbc32dcf00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 192,
+                "current_hash": "5061b0a67c2d4fa4fa112e6bf87fc8f2b7204adef1274a7f17a640680ef330aa00000000",
+                "expected_hash": "5061b0a67c2d4fa4fa112e6bf87fc8f2b7204adef1274a7f17a640680ef330aa00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 193,
+                "current_hash": "1fc4035e42607dfb2f487faa637d5981b0c3726bfa944fc470789b1cc54d3e6500000000",
+                "expected_hash": "1fc4035e42607dfb2f487faa637d5981b0c3726bfa944fc470789b1cc54d3e6500000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 194,
+                "current_hash": "81da21eb22b5d56dd09f3c9395dcb2b9f3379050d90afd43b24fd3b0cdc9a9d300000000",
+                "expected_hash": "81da21eb22b5d56dd09f3c9395dcb2b9f3379050d90afd43b24fd3b0cdc9a9d300000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 195,
+                "current_hash": "4b2554abc275249c633b41e62420e360e7673fac89dae5b6c30f156c92df40c200000000",
+                "expected_hash": "4b2554abc275249c633b41e62420e360e7673fac89dae5b6c30f156c92df40c200000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 196,
+                "current_hash": "1bf7a219ed1cdad0246791f1b4f0aabd660278e1cf62915387b0b4a0b8de97b300000000",
+                "expected_hash": "1bf7a219ed1cdad0246791f1b4f0aabd660278e1cf62915387b0b4a0b8de97b300000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 197,
+                "current_hash": "9b215e422d7678949ae9785a1187059317092cf23c72cf07b57f5d30e2cafd4000000000",
+                "expected_hash": "9b215e422d7678949ae9785a1187059317092cf23c72cf07b57f5d30e2cafd4000000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 198,
+                "current_hash": "20e4e848e041773cb81737916bb2ed7411852ee0c1f9d4eba401a0dc46ea5b7e00000000",
+                "expected_hash": "20e4e848e041773cb81737916bb2ed7411852ee0c1f9d4eba401a0dc46ea5b7e00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 199,
+                "current_hash": "68dea7b48ecda26e59fe1f2dfb9e9fb4e5df301f6d64122149d3b526c8a9cdd300000000",
+                "expected_hash": "68dea7b48ecda26e59fe1f2dfb9e9fb4e5df301f6d64122149d3b526c8a9cdd300000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 200,
+                "current_hash": "0b59a8fae11a7f2be7af4759e84f5ba2dee156b0fc875698de2ec362cb855dcb00000000",
+                "expected_hash": "0b59a8fae11a7f2be7af4759e84f5ba2dee156b0fc875698de2ec362cb855dcb00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 201,
+                "current_hash": "2daea804952b0f7ad5a9a51e571df43d88c25a427d12b5a4681625e717d3a8d600000000",
+                "expected_hash": "2daea804952b0f7ad5a9a51e571df43d88c25a427d12b5a4681625e717d3a8d600000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 202,
+                "current_hash": "27d0def9573f7e3187c12182fc9f2d04d8286c70950b7fe928db4ea30a49b6d600000000",
+                "expected_hash": "27d0def9573f7e3187c12182fc9f2d04d8286c70950b7fe928db4ea30a49b6d600000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 203,
+                "current_hash": "edbe25c872395baa38173cea14bc8af1b414db5b4a389ae697f1d1e925297bb500000000",
+                "expected_hash": "edbe25c872395baa38173cea14bc8af1b414db5b4a389ae697f1d1e925297bb500000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 204,
+                "current_hash": "0d6503f8a6fdff43aff631a43d0d2d5060043515f1867513f8eec204afc9c5cf00000000",
+                "expected_hash": "0d6503f8a6fdff43aff631a43d0d2d5060043515f1867513f8eec204afc9c5cf00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 205,
+                "current_hash": "0fbdf85f19c6ce91910538c029d1cace2e21ed071968ef17aa1657168f75eef700000000",
+                "expected_hash": "0fbdf85f19c6ce91910538c029d1cace2e21ed071968ef17aa1657168f75eef700000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 206,
+                "current_hash": "70bbdfbf24894e901e79084ede1fcba70c6309f7618b1baffde83bfe8f1d9f6100000000",
+                "expected_hash": "70bbdfbf24894e901e79084ede1fcba70c6309f7618b1baffde83bfe8f1d9f6100000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 207,
+                "current_hash": "3e3db77c86e045c72f02d997916d76c12538cb8a8dd70f1f6b2798eac5c2467000000000",
+                "expected_hash": "3e3db77c86e045c72f02d997916d76c12538cb8a8dd70f1f6b2798eac5c2467000000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 208,
+                "current_hash": "8178841fd3488c8fa317a2d6de77265421d17a74ba254e1282f12b9f3051395200000000",
+                "expected_hash": "8178841fd3488c8fa317a2d6de77265421d17a74ba254e1282f12b9f3051395200000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 209,
+                "current_hash": "098cdb753482a1ee56cfb0de7e2d44d8d8616bca5047d5b6664c418ca2f4c82600000000",
+                "expected_hash": "098cdb753482a1ee56cfb0de7e2d44d8d8616bca5047d5b6664c418ca2f4c82600000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 210,
+                "current_hash": "94a4fd300529a69f36c72c99d799d44b53b16db98108e058b9d71248039e1bbf00000000",
+                "expected_hash": "94a4fd300529a69f36c72c99d799d44b53b16db98108e058b9d71248039e1bbf00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 211,
+                "current_hash": "e62e50a874056f9d1613b66714db8fa926a207170e3305d4d6822bfda361d21b00000000",
+                "expected_hash": "e62e50a874056f9d1613b66714db8fa926a207170e3305d4d6822bfda361d21b00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 212,
+                "current_hash": "a047ce157d11e0f492db9595f11f438297d673213d1a9a1e164a3a668d9a543300000000",
+                "expected_hash": "a047ce157d11e0f492db9595f11f438297d673213d1a9a1e164a3a668d9a543300000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 213,
+                "current_hash": "fa89af94d3afca04184d05cf4e45e4fee511b76892ee18d12af3d296ba48df6700000000",
+                "expected_hash": "fa89af94d3afca04184d05cf4e45e4fee511b76892ee18d12af3d296ba48df6700000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 214,
+                "current_hash": "03e05966b4dd0aa6e773aeb3cd1f730388ea105c006209c2a99c23bbea91aec600000000",
+                "expected_hash": "03e05966b4dd0aa6e773aeb3cd1f730388ea105c006209c2a99c23bbea91aec600000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 215,
+                "current_hash": "9c8d021266488b6f3962f135fcd852a6ff637a7ad77aff84c218d46efab51c3500000000",
+                "expected_hash": "9c8d021266488b6f3962f135fcd852a6ff637a7ad77aff84c218d46efab51c3500000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 216,
+                "current_hash": "e6ba7e9481f74d270024c34d75decc99eff39e9950054cdfa185540a48017eec00000000",
+                "expected_hash": "e6ba7e9481f74d270024c34d75decc99eff39e9950054cdfa185540a48017eec00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 217,
+                "current_hash": "7ea53d1407867b7c66c2b1e378b2fa0c6627678961994dfce3aab34e6732d5b300000000",
+                "expected_hash": "7ea53d1407867b7c66c2b1e378b2fa0c6627678961994dfce3aab34e6732d5b300000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 218,
+                "current_hash": "14726e29f731cfb3730324799d51dfc0e55404d9b5768f2e95363f680f98e76800000000",
+                "expected_hash": "14726e29f731cfb3730324799d51dfc0e55404d9b5768f2e95363f680f98e76800000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 219,
+                "current_hash": "9285773e588ded400aa790fe49a414b9b23449f5913fbbb706bad09849938f5900000000",
+                "expected_hash": "9285773e588ded400aa790fe49a414b9b23449f5913fbbb706bad09849938f5900000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 220,
+                "current_hash": "0d8771ac110abbe279e95dedc41e11ba0146ac5d50bb7c213123e948f7b9e94100000000",
+                "expected_hash": "0d8771ac110abbe279e95dedc41e11ba0146ac5d50bb7c213123e948f7b9e94100000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 221,
+                "current_hash": "a6ea548ff6216b72a9c61c187d26d58d31919a77b4cf5401ddea4fe97d2c101100000000",
+                "expected_hash": "a6ea548ff6216b72a9c61c187d26d58d31919a77b4cf5401ddea4fe97d2c101100000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 222,
+                "current_hash": "bad88f6344d61a567eaa68238b243ae7faabc735d1cd3a3ffd69d7c9a791bf3a00000000",
+                "expected_hash": "bad88f6344d61a567eaa68238b243ae7faabc735d1cd3a3ffd69d7c9a791bf3a00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 223,
+                "current_hash": "7636433558ee96fb200db4eb6de030345a9d8f6450b0b5a8fa4dcb3ae3572c1500000000",
+                "expected_hash": "7636433558ee96fb200db4eb6de030345a9d8f6450b0b5a8fa4dcb3ae3572c1500000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 224,
+                "current_hash": "daa300df98c5582bb70532c188ecfa430bd25f3b0260605fed69b4e277995b3600000000",
+                "expected_hash": "daa300df98c5582bb70532c188ecfa430bd25f3b0260605fed69b4e277995b3600000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 225,
+                "current_hash": "0a959629917595e474ebcf414fd582c96230e7d079c80c919b0e0009e9e0bf9600000000",
+                "expected_hash": "0a959629917595e474ebcf414fd582c96230e7d079c80c919b0e0009e9e0bf9600000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 226,
+                "current_hash": "82c8a21caf9675c21e57d2ef68d11e35a77462d6b784670347cf7f12b36a024900000000",
+                "expected_hash": "82c8a21caf9675c21e57d2ef68d11e35a77462d6b784670347cf7f12b36a024900000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 227,
+                "current_hash": "b94d0e84a3883a29101346b7316a029ca28a6068bf71d1acaf0ff5e5ebd5423300000000",
+                "expected_hash": "b94d0e84a3883a29101346b7316a029ca28a6068bf71d1acaf0ff5e5ebd5423300000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 228,
+                "current_hash": "c9e0c7923a96fca74ee0112cbe998b5e133213a1027b1645f73e069c36c339f100000000",
+                "expected_hash": "c9e0c7923a96fca74ee0112cbe998b5e133213a1027b1645f73e069c36c339f100000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 229,
+                "current_hash": "63ddd25b792179f836f6458f2c3b8cd1fa8bccbff9ce00bc934182ddbf63a1d900000000",
+                "expected_hash": "63ddd25b792179f836f6458f2c3b8cd1fa8bccbff9ce00bc934182ddbf63a1d900000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 230,
+                "current_hash": "1e4dbe7133e87e2f159fc64bad7e817e364d710b6f440c3f5cc24fcdb656d17e00000000",
+                "expected_hash": "1e4dbe7133e87e2f159fc64bad7e817e364d710b6f440c3f5cc24fcdb656d17e00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 231,
+                "current_hash": "3da6757781170e17fce5c37c0d43c88799c5ba2c7fed862ad8ce88a976379f5500000000",
+                "expected_hash": "3da6757781170e17fce5c37c0d43c88799c5ba2c7fed862ad8ce88a976379f5500000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 232,
+                "current_hash": "5ceba4333c064c67091fe258b62c64de332b7baebf0122259cf15a1f54b5f3b400000000",
+                "expected_hash": "5ceba4333c064c67091fe258b62c64de332b7baebf0122259cf15a1f54b5f3b400000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 233,
+                "current_hash": "f8e47daae4336720455912cd82aea0e76042c86d20a0c31045524f1f63ed7ee400000000",
+                "expected_hash": "f8e47daae4336720455912cd82aea0e76042c86d20a0c31045524f1f63ed7ee400000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 234,
+                "current_hash": "ad99ea34f424df3bbf144bf60b3a05213d90a7dc0797a3a8709a10b407ffe9f500000000",
+                "expected_hash": "ad99ea34f424df3bbf144bf60b3a05213d90a7dc0797a3a8709a10b407ffe9f500000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 235,
+                "current_hash": "f47c386e2dfa965fdacabc267b51eacb595d97c90f49441f88c0fad2e5fd3de500000000",
+                "expected_hash": "f47c386e2dfa965fdacabc267b51eacb595d97c90f49441f88c0fad2e5fd3de500000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 236,
+                "current_hash": "369c0b8a98c5279c3a6378803623802a38e271bf754da9c4a451c06310528a0500000000",
+                "expected_hash": "369c0b8a98c5279c3a6378803623802a38e271bf754da9c4a451c06310528a0500000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 237,
+                "current_hash": "64060f735ffbc72c7ba935534d34839889f779e57c3b9eda9d172f0cf19ac9ee00000000",
+                "expected_hash": "64060f735ffbc72c7ba935534d34839889f779e57c3b9eda9d172f0cf19ac9ee00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 238,
+                "current_hash": "36eee944d4c79761da38148fa3fdb1d07ea3925325f6bc16dc842abdf7a9397f00000000",
+                "expected_hash": "36eee944d4c79761da38148fa3fdb1d07ea3925325f6bc16dc842abdf7a9397f00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 239,
+                "current_hash": "e83bb1d1f5bc548bc23bbbf6c3c5ae713302933d4e63ebc2641585727de3f64f00000000",
+                "expected_hash": "e83bb1d1f5bc548bc23bbbf6c3c5ae713302933d4e63ebc2641585727de3f64f00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 240,
+                "current_hash": "743ea67ba4460e2ec295d2aa2de88ccc66b0b49c95b7a392094b73a917b44a2f00000000",
+                "expected_hash": "743ea67ba4460e2ec295d2aa2de88ccc66b0b49c95b7a392094b73a917b44a2f00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 241,
+                "current_hash": "0c0007b30697dd0955a261c769e8419e1c65fe12e59ea7405f455fbe4a76ab7600000000",
+                "expected_hash": "0c0007b30697dd0955a261c769e8419e1c65fe12e59ea7405f455fbe4a76ab7600000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 242,
+                "current_hash": "2bf26355c16c67bae6e2c881a1e9c349af450d0db264375b22b2e7c1f638443900000000",
+                "expected_hash": "2bf26355c16c67bae6e2c881a1e9c349af450d0db264375b22b2e7c1f638443900000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 243,
+                "current_hash": "c615da84a8b857668887f93f86a0c72316c3c134f06425ff4fdaf6c4486c589900000000",
+                "expected_hash": "c615da84a8b857668887f93f86a0c72316c3c134f06425ff4fdaf6c4486c589900000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 244,
+                "current_hash": "7a2a95d884f09966162491c1aadf8ea73ae53890d774be35594f4f9dbc94c36800000000",
+                "expected_hash": "7a2a95d884f09966162491c1aadf8ea73ae53890d774be35594f4f9dbc94c36800000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 245,
+                "current_hash": "6268ab68bf4ab657dc0a00d4a290b329f5c74e43b44e615cb04124b91ba7b97d00000000",
+                "expected_hash": "6268ab68bf4ab657dc0a00d4a290b329f5c74e43b44e615cb04124b91ba7b97d00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 246,
+                "current_hash": "143e07155a56b767a864cf6dbda23a7a0437f4bd9b66a19b3f48379f6afbcd8b00000000",
+                "expected_hash": "143e07155a56b767a864cf6dbda23a7a0437f4bd9b66a19b3f48379f6afbcd8b00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 247,
+                "current_hash": "adb160e61f471a01ed6aa8989e62efb3abcb373886ebc9758ff98175e788b4a800000000",
+                "expected_hash": "adb160e61f471a01ed6aa8989e62efb3abcb373886ebc9758ff98175e788b4a800000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 248,
+                "current_hash": "76e79e6a3927d50ea5148ff23b287ef482ee3e6d2718c203b64b9805a48e241900000000",
+                "expected_hash": "76e79e6a3927d50ea5148ff23b287ef482ee3e6d2718c203b64b9805a48e241900000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 249,
+                "current_hash": "13ac5465b39951abbe25924870646b6dda7f30cf14c15d9582864d24e910c4e400000000",
+                "expected_hash": "13ac5465b39951abbe25924870646b6dda7f30cf14c15d9582864d24e910c4e400000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              }
+            ],
+            "end": 2048,
+            "skip_first_n_tokens": 0,
+            "start": 0,
+            "token_count": 4470
+          }
+        }
+      ],
+      "pid": 13239,
+      "request_id": "cmpl-cachepilot-trace-0001-0",
+      "reserve_blocks": 1420,
+      "reserve_fits": false,
+      "reserve_supported": true,
+      "role": "SCHEDULER",
+      "stage": "policy_add_after",
+      "store_inflight": false
+    },
+    "last_pending": {
+      "actionable_current_front": false,
+      "active": true,
+      "all_pending_hashes_intact": true,
+      "any_pending_block_inside_reserve": false,
+      "event": "source1_window_snapshot",
+      "finished": false,
+      "free_blocks": 281,
+      "max_safe_protection_blocks": 0,
+      "monotonic_ns": 12712260944712,
+      "observation": 69,
+      "pending": [
+        {
+          "op": {
+            "blocks": [
+              {
+                "block_id": 379,
+                "current_hash": "2886c728c58a90ca2bf651abafd75d14b9c38489ef8a88e23c5900a1e87ae63b00000000",
+                "expected_hash": "2886c728c58a90ca2bf651abafd75d14b9c38489ef8a88e23c5900a1e87ae63b00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 380,
+                "current_hash": "c786d77872bf797cd5872d5e1de9fce5c9607f177cca3c1aead6f07c38df44be00000000",
+                "expected_hash": "c786d77872bf797cd5872d5e1de9fce5c9607f177cca3c1aead6f07c38df44be00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 381,
+                "current_hash": "a818a85e20f2a4c49c2e8fc44152a858de70cab53085fd0701b7c897e0700b9f00000000",
+                "expected_hash": "a818a85e20f2a4c49c2e8fc44152a858de70cab53085fd0701b7c897e0700b9f00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 382,
+                "current_hash": "f20e85db27df617c4a2e95d073a830049a634d5ad77ef1d043ac8309190505de00000000",
+                "expected_hash": "f20e85db27df617c4a2e95d073a830049a634d5ad77ef1d043ac8309190505de00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 383,
+                "current_hash": "213ae7c6f4b88c4bc34b8da4d3f27fd2c9b7b3b663ecdda8015f8e74fe473bc200000000",
+                "expected_hash": "213ae7c6f4b88c4bc34b8da4d3f27fd2c9b7b3b663ecdda8015f8e74fe473bc200000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 384,
+                "current_hash": "672c7d0078972a8c078b39426dae3d7cfc882644307d8a4c5cbf28c32d6d06a500000000",
+                "expected_hash": "672c7d0078972a8c078b39426dae3d7cfc882644307d8a4c5cbf28c32d6d06a500000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 385,
+                "current_hash": "f80432ed3a54fbf73c4f5c036f0aeefbcc4ce1614c7f8b453211163ba067950200000000",
+                "expected_hash": "f80432ed3a54fbf73c4f5c036f0aeefbcc4ce1614c7f8b453211163ba067950200000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 386,
+                "current_hash": "95bf409ea337878bcd8eecbe0d33543ed5525af602d1dc6672488f1a98bbf5b900000000",
+                "expected_hash": "95bf409ea337878bcd8eecbe0d33543ed5525af602d1dc6672488f1a98bbf5b900000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 387,
+                "current_hash": "5af3855a311f0a9f8bf1b8d14d94270912999c9d81bbb308ef8bfd5a27a7531c00000000",
+                "expected_hash": "5af3855a311f0a9f8bf1b8d14d94270912999c9d81bbb308ef8bfd5a27a7531c00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 388,
+                "current_hash": "19d0c54d83ab811a88de3009c0b5cce768fca72ed5b0d99fccea67fac30d8cce00000000",
+                "expected_hash": "19d0c54d83ab811a88de3009c0b5cce768fca72ed5b0d99fccea67fac30d8cce00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 389,
+                "current_hash": "cfe87420fef0ef7a0927beee53f2144f984cdc95b3224836197a253c529d07c400000000",
+                "expected_hash": "cfe87420fef0ef7a0927beee53f2144f984cdc95b3224836197a253c529d07c400000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 390,
+                "current_hash": "2ce2421f3ca1d499387a70014ea7d1ddf93af447fbedc6edfc4bfb26cd805aeb00000000",
+                "expected_hash": "2ce2421f3ca1d499387a70014ea7d1ddf93af447fbedc6edfc4bfb26cd805aeb00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 391,
+                "current_hash": "03d17ff24685c1804e63fa2cd9166435029c226c90b77f5ec6f355c1e56b6f2e00000000",
+                "expected_hash": "03d17ff24685c1804e63fa2cd9166435029c226c90b77f5ec6f355c1e56b6f2e00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 392,
+                "current_hash": "4d20f2e5d07b7e9f8e6bb181658d82343005e931064758e21f7da40203c208f200000000",
+                "expected_hash": "4d20f2e5d07b7e9f8e6bb181658d82343005e931064758e21f7da40203c208f200000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 393,
+                "current_hash": "ca44e7227621b540d387d6dc558359a59963a74bd16c4943f9d8290a2e23465300000000",
+                "expected_hash": "ca44e7227621b540d387d6dc558359a59963a74bd16c4943f9d8290a2e23465300000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              },
+              {
+                "block_id": 394,
+                "current_hash": "59878b5b5922667c92f3222d91600b3b8ff57e814b6c1f3f91008d4b2076545f00000000",
+                "expected_hash": "59878b5b5922667c92f3222d91600b3b8ff57e814b6c1f3f91008d4b2076545f00000000",
+                "free_rank": null,
+                "hash_intact": true,
+                "inside_reserve": false,
+                "is_null": false,
+                "ref_count": 1
+              }
+            ],
+            "end": 4352,
+            "skip_first_n_tokens": 0,
+            "start": 4096,
+            "token_count": 4470
+          }
+        }
+      ],
+      "pid": 13239,
+      "request_id": "cmpl-cachepilot-trace-0001-0",
+      "reserve_blocks": 1522,
+      "reserve_fits": false,
+      "reserve_supported": true,
+      "role": "SCHEDULER",
+      "stage": "policy_drain_before",
+      "store_inflight": false
+    },
+    "observations": 69,
+    "passed": true,
+    "safe_windows": []
+  }
+}

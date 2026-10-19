@@ -1,0 +1,28 @@
+{
+  "pid": 14268,
+  "command": [
+    "/usr/local/miniconda3/bin/conda",
+    "run",
+    "--no-capture-output",
+    "-n",
+    "cachepilot",
+    "/usr/local/miniconda3/envs/cachepilot/bin/python",
+    "scripts/run_whole_step_efficiency.py",
+    "run",
+    "--comparison",
+    "native-deadline",
+    "--stage",
+    "formal",
+    "--prerequisite",
+    "/root/cachepilot-native-deadline-matrix-20261019/runs/native-deadline-pilot-20261019a",
+    "--input",
+    "/root/cachepilot-native-deadline-matrix-20261019/runs/native-deadline-pilot-20261019a/input",
+    "--output",
+    "/root/cachepilot-native-deadline-matrix-20261019/runs/native-deadline-formal-20261019a",
+    "--stop-starting-at",
+    "2026-10-19T17:00:00+00:00"
+  ],
+  "started_at": "2026-10-19T15:37:46.590917+00:00",
+  "pilot_complete": true,
+  "source_manifest_equal": true
+}

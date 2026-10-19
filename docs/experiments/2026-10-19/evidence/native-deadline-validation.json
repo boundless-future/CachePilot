@@ -1,0 +1,90 @@
+{
+  "archives": {
+    "native-deadline-pilot-20261019a": {
+      "files": 81,
+      "verified": true,
+      "bytes": 3035651,
+      "sha256": "3167e8a28d36ef568bae6a16f1a00bbda3b79ff8265e939e0545fda2fb2995e1"
+    },
+    "native-deadline-formal-20261019a": {
+      "files": 192,
+      "verified": true,
+      "bytes": 5692549,
+      "sha256": "838cdc47881fa23f62d1b845f2b8ae1421510a2bdba08f0821ec44d8c4fe16cd"
+    },
+    "native-deadline-matrix-source": {
+      "files": 307,
+      "verified": true,
+      "bytes": 329938,
+      "sha256": "3b5f7b386d7b96bcc6b2789080b3a9cd8475adbcaff2333aba66d0d564b3a663"
+    }
+  },
+  "cross_machine": {
+    "pilot": {
+      "server_current_frozen_archived_equal": true,
+      "passed_cells": 2,
+      "requests": 120,
+      "output_tokens": 5760
+    },
+    "formal": {
+      "server_current_frozen_archived_equal": true,
+      "passed_cells": 6,
+      "requests": 360,
+      "output_tokens": 17280
+    }
+  },
+  "runtime_source": {
+    "files": 304,
+    "pilot_formal_signatures_equal": true,
+    "extracted_frozen_sha_verified": true
+  },
+  "analysis": {
+    "p95_reconstructed": 6,
+    "paired_requests": 180,
+    "events": 60,
+    "pilot_excluded": true,
+    "paired_workloads_equal": true,
+    "source1_reuse_intersection_tokens": [
+      384,
+      2048,
+      256
+    ],
+    "source1_reuse_crosscheck": "source1-deadline-reuse-analysis.json"
+  },
+  "test_results": {
+    "source1_and_native_deadline_local_passed": 18,
+    "source1_and_native_deadline_server_passed": 18,
+    "scope": "Three offline test files; not a complete CUDA/native runtime regression"
+  },
+  "idle_snapshot": {
+    "ports_free": {
+      "8000": true,
+      "8080": true,
+      "5555": true
+    },
+    "active_processes": [],
+    "gpu": "1 MiB, 0 %",
+    "container_kept_running": true,
+    "checked_at": "2026-10-19T15:52:59.462536+00:00"
+  },
+  "post_archive_idle_snapshot": {
+    "checked_at": "2026-10-19T16:04:37.903559+00:00",
+    "ports_free": {
+      "8000": true,
+      "8080": true,
+      "5555": true
+    },
+    "active_processes": [],
+    "gpu": "1 MiB, 0 %",
+    "container_kept_running": true
+  },
+  "git_evidence_preservation": {
+    "matching_evidence_files": 47,
+    "working_and_staged_raw_bytes_equal": true,
+    "attributes": [
+      "docs/experiments/2026-10-19/evidence/native-deadline-* -text -whitespace",
+      "docs/experiments/2026-10-19/evidence/source1-* -text -whitespace"
+    ],
+    "scope": "Preserve recorded input hashes and original line endings; no evidence normalization"
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "checks": {
+    "audit_complete": true,
+    "blocks_not_free_ranked": true,
+    "candidate_samples_show_active_request": true,
+    "every_store_segment_intersects_retrieve": true,
+    "full_source_prefix_stored": true,
+    "retrieve_intersections_equal_confirmed_external_tokens": true,
+    "single_confirmed_target_retrieve": true,
+    "store_completed_before_target_lookup": true
+  },
+  "inputs": {
+    "audit_sha256": "c4904dbad326453a1259788fb369c839251c9cc4a4d76aac393526bdd518b085",
+    "handoff_files": {
+      "handoff-13239-SCHEDULER.jsonl": "3384c5d7637678d1647aeb262a6ec9951242c5c59b09b55ee288c46250366b5e",
+      "handoff-13239-WORKER.jsonl": "edaa1b388b7d1e559effd6eded8151eff1163b858bee00cd3b46a0128afb7350"
+    }
+  },
+  "interpretation": "The confirmed external interval [1664,4352) intersects all three source STORE ranges (384, 2048, and 256 tokens), together covering all 2688 external tokens. This sample provides no basis for dropping any one range. At the recorded candidate snapshots the source was active and its blocks had ref_count 1 with no free-queue rank; a completed-request/free-queue-only rule would not select them then. These snapshots do not prove that every possible online decision moment has the same state, nor establish DMA waste or causal latency.",
+  "retrieve": {
+    "completed": true,
+    "effective_start": 1664,
+    "end": 4352,
+    "skip": 128,
+    "start": 1536
+  },
+  "scope": "Offline mechanism evidence from the source1-deadline diagnostic; not a performance attribution or policy input",
+  "source_event_id": 1,
+  "stores": [
+    {
+      "candidate_snapshot": {
+        "active": true,
+        "finished": false,
+        "free_blocks": 653,
+        "free_ranks": [
+          null
+        ],
+        "max_safe_protection_blocks": 0,
+        "monotonic_ns": 12711497952167,
+        "pending_block_count": 128,
+        "ref_counts": [
+          1
+        ],
+        "reserve_blocks": 1420,
+        "store_inflight": false
+      },
+      "completed_ns": 12712086389680,
+      "end": 2048,
+      "retrieve_intersections": [
+        {
+          "end": 2048,
+          "start": 1664,
+          "tokens": 384
+        }
+      ],
+      "start": 0
+    },
+    {
+      "candidate_snapshot": {
+        "active": true,
+        "finished": false,
+        "free_blocks": 524,
+        "free_ranks": [
+          null
+        ],
+        "max_safe_protection_blocks": 0,
+        "monotonic_ns": 12711616971895,
+        "pending_block_count": 128,
+        "ref_counts": [
+          1
+        ],
+        "reserve_blocks": 1420,
+        "store_inflight": false
+      },
+      "completed_ns": 12712188903589,
+      "end": 4096,
+      "retrieve_intersections": [
+        {
+          "end": 4096,
+          "start": 2048,
+          "tokens": 2048
+        }
+      ],
+      "start": 2048
+    },
+    {
+      "candidate_snapshot": {
+        "active": true,
+        "finished": false,
+        "free_blocks": 395,
+        "free_ranks": [
+          null
+        ],
+        "max_safe_protection_blocks": 0,
+        "monotonic_ns": 12711756957812,
+        "pending_block_count": 16,
+        "ref_counts": [
+          1
+        ],
+        "reserve_blocks": 1540,
+        "store_inflight": false
+      },
+      "completed_ns": 12712307769777,
+      "end": 4352,
+      "retrieve_intersections": [
+        {
+          "end": 4352,
+          "start": 4096,
+          "tokens": 256
+        }
+      ],
+      "start": 4096
+    }
+  ],
+  "target_event_id": 9,
+  "target_external_tokens": 2688,
+  "target_gpu_tokens": 1664,
+  "target_prefix_tokens": 4352,
+  "target_route": "lmcache_cpu_retrieve"
+}

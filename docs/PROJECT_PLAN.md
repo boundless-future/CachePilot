@@ -2,6 +2,8 @@
 
 ## 2026-10-19 当前执行主线
 
+最新（2026-10-20）：当前头部保护无新增复用价值，已停止扩展；丢失尾部在现整步reserve下无安全保护窗口，但LMCache原生0.5秒deadline已保存并复用完整目标。关闭诊断的匹配pilot 2/2、同源三重复formal 6/6全部完成：TTFT P95各格均值−12.58%、computed prefill−18.24%，H2D/D2H+8.62%/+11.83%。这是原生配置在生命周期适配层上的单轨迹基线，自定义收益未成立。区间复算确认source1每段STORE均与后继CPU回载相交，候选时active/ref1/无free-rank，因此先审查全轨迹在线选择信号，不直接实现finished/free-only过滤。只有有证据的单模块候选才进入正确性→匹配pilot→三重复；无依据则结束筛选假设，做固定配置独立负载验证，不再扫deadline。详见[正式报告](experiments/2026-10-19/NATIVE_DEADLINE.md)、[MAINLINE](MAINLINE.md)。以下保留此前阶段记录。
+
 原分阶段设计保留。当前3C沿整步候选原匿名轨迹的覆盖→同来源KV→无逐步探针pilot→轮转三重复formal推进，本轮分别3/3、2/2、3/3、9/9通过，正式540请求和三处复算闭合。one的TTFT P95均值+2.97%、two−2.46%但一轮退化，稳定收益未成立。下一优先项为保护是否覆盖尾延迟关键请求，以及排队/回载/抢占的关联；先复用已有证据，具体阻断才最小诊断，不继续以补边界代替主实验。见[MAINLINE](MAINLINE.md)、[正式结果与边界](experiments/2026-10-19/WHOLE_STEP_FORMAL.md)。
 
 同日续推：无可操作候选时的早退开关通过42项真实栈契约；zero/legacy-two/filtered-two三组轮转formal9/9通过，prepare开销下降约74%，相对legacy P95三轮各快0.90–1.19%，单轨迹描述性结果。下一步先用稳定trace event ID区分GPU前缀热命中、LMCache CPU回载和重算，再按证据决定是否调整候选目标；不把关闭策略检查优化当作保护收益。详见[净效果记录](experiments/2026-10-19/NET_EFFECT.md)。

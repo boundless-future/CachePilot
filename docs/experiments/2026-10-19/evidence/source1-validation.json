@@ -1,0 +1,67 @@
+{
+  "archives": {
+    "source1-deadline-20261019a": {
+      "files": 34,
+      "sha256": "bc21c38ed219bcb30d0be4edeaa364bc0ffae9c737370d84fefa522f6a5d8764",
+      "verified": true
+    },
+    "source1-window-20261019a": {
+      "files": 20,
+      "sha256": "c392c9d24e5f633434e52986e78cdf403e4de42c0278d3cc2dfa1106dd3d5d25",
+      "verified": true
+    },
+    "source1-window-20261019b": {
+      "files": 34,
+      "sha256": "1641ad00d7a2e544e8cab57d20f1e01cd7e10f0c7682992a23be378cdf533a80",
+      "verified": true
+    }
+  },
+  "cross_machine": {
+    "source1-deadline": {
+      "checks": 16,
+      "complete": true,
+      "equal": true
+    },
+    "source1-window": {
+      "checks": 15,
+      "complete": true,
+      "equal": true
+    },
+    "source1-window-supplemental": {
+      "checks": 16,
+      "complete": true,
+      "equal": true
+    }
+  },
+  "source_snapshots": {
+    "native-deadline-matrix": {
+      "files": 307,
+      "sha256": "3b5f7b386d7b96bcc6b2789080b3a9cd8475adbcaff2333aba66d0d564b3a663",
+      "verified": true
+    },
+    "source1-deadline": {
+      "files": 306,
+      "sha256": "470c2f4f9eb35f9cc128bf4484bb9b98b943c6616769cc61f31ea40f946cc4ad",
+      "verified": true
+    },
+    "source1-window": {
+      "files": 306,
+      "sha256": "22444af3f3699ee73a4355d277ae044103326c65a902caf9fe39f1d40894ae33",
+      "verified": true
+    }
+  },
+  "test_results": {
+    "deadline": {
+      "local_passed": 15,
+      "server_passed": 15
+    },
+    "matrix": {
+      "local_passed": 18,
+      "server_passed": 18
+    },
+    "window_initial": {
+      "local_passed": 12,
+      "server_passed": 12
+    }
+  }
+}
