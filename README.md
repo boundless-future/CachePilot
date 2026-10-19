@@ -2,7 +2,7 @@
 
 ## 当前实验主线
 
-2026-10-19：整步候选已完成真实服务覆盖3/3、严格同来源KV准入2/2、无逐步探针pilot 3/3及同源formal 9/9，正式540请求。one的TTFT P95均值退化2.97%，two改善2.46%但有一轮退化，稳定收益尚未成立。目标与执行规则见[主线](docs/MAINLINE.md)，逐格结果、限制与下一优先项见[正式报告](docs/experiments/2026-10-19/WHOLE_STEP_FORMAL.md)。
+2026-10-19：整步候选覆盖、同来源KV、匹配pilot/formal均完成；无候选早退优化又完成pilot 3/3及同298项冻结源formal 9/9。相对旧two，每轮prepare开销降低约74%、P95快0.90–1.19%，三轮均较快，但仅单轨迹描述性证据。下一步用稳定请求ID关联保护、GPU命中、CPU回载和重算，再决定是否改保护目标。主线见[MAINLINE](docs/MAINLINE.md)，结果和待验证点见[净效果报告](docs/experiments/2026-10-19/NET_EFFECT.md)。
 
 2026-10-13 工程入口：运行主线已收敛到 [`src/cachepilot`](src/cachepilot)，
 旧 `scripts/` 同名模块作为兼容入口。先看 [工程结构与模块边界](docs/ARCHITECTURE.md)、

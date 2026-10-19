@@ -11,6 +11,8 @@ from cachepilot.runtime.prefix_proof import build_proof
 
 
 class SharedPrefixProtection(GenerationBoundedProtection):
+    skip_ineligible = False
+
     def bind(self, kv_manager):
         raise RuntimeError('Shared prefix candidate requires independent service admission')
 
@@ -19,6 +21,27 @@ class SharedPrefixProtection(GenerationBoundedProtection):
         from vllm.v1.core import kv_cache_utils
         if self.prepared:
             raise RuntimeError("Unsettled PREPARED batch from previous step")
+        if self.skip_ineligible:
+            left = self.budget - sum(len(p.blocks) for p in self.inflight.values())
+            eligible = False
+            for rid, pending in self.policy._pending.items():
+                if (left < 16 or rid in scheduler.requests or rid in self.inflight
+                        or not self.manager._requests.is_finished(rid)
+                        or self.manager._requests.has_in_flight(rid)):
+                    continue
+                meta = pending[0].store_metadata
+                op = meta.op
+                if (op.start == 0 and op.end >= 256 and op.end % 256 == 0
+                        and not op.skip_first_n_tokens and not meta.cache_salt
+                        and len(op.block_ids) == 1
+                        and len(op.block_ids[0]) == op.end // 16):
+                    eligible = True
+                    break
+            # With no actionable front STORE, reserve calculation and the
+            # free-queue scan cannot produce a pin. Keep all proof/admission
+            # checks in the existing path when there is a candidate.
+            if not eligible:
+                return
         reserve = self.admission_policy.reserve(scheduler)
         if reserve is None:
             return

@@ -27,6 +27,11 @@ class WholeStepConnector(GenerationProtectionConnector):
         super()._validate_protection(extra)
         if extra.get("cachepilot.whole_step_protection") is not True:
             raise ValueError("Explicit whole-step protection opt-in required")
+        if type(extra.get("cachepilot.skip_ineligible", False)) is not bool:
+            raise ValueError("skip_ineligible must be a boolean")
 
     def _make_bounded_protection(self, config):
-        return WholeStepServiceProtection(self, config)
+        helper = WholeStepServiceProtection(self, config)
+        helper.skip_ineligible = config.kv_transfer_config.kv_connector_extra_config.get(
+            "cachepilot.skip_ineligible", False)
+        return helper

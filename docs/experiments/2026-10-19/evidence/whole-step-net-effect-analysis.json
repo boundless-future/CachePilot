@@ -1,0 +1,665 @@
+{
+  "coverage": [
+    {
+      "cell": "one-r0",
+      "protection": [
+        {
+          "wire_id": "cp1:148755277807456916:10:84eeef078f4dcab38e4715ffaebd8b0e:cmpl-ba1fc9239b4cc58a-0-a9e0336f",
+          "end": 256,
+          "source_sessions": [
+            "trace_0057"
+          ],
+          "source_possible_events": [
+            3,
+            8,
+            11,
+            14,
+            17,
+            19,
+            24,
+            25
+          ],
+          "prepare_replay_ms_lower_bound": 9407.52041,
+          "slowest_five": [
+            {
+              "event_id": 5,
+              "ttft_ms": 2247.959841000011,
+              "first_ms": 2251.0353190000387,
+              "first_before_protection": true
+            },
+            {
+              "event_id": 4,
+              "ttft_ms": 2129.363031999901,
+              "first_ms": 2131.892450999885,
+              "first_before_protection": true
+            },
+            {
+              "event_id": 8,
+              "ttft_ms": 2003.5829170001307,
+              "first_ms": 3504.432683999994,
+              "first_before_protection": true
+            },
+            {
+              "event_id": 9,
+              "ttft_ms": 1967.4247039999955,
+              "first_ms": 3768.5711589999755,
+              "first_before_protection": true
+            },
+            {
+              "event_id": 10,
+              "ttft_ms": 1901.3410509999176,
+              "first_ms": 3801.6820969999117,
+              "first_before_protection": true
+            }
+          ],
+          "earlier_successful_default_stores": [
+            {
+              "wire_id": "cp1:148755277807456916:5:388cd340e6e4037b2698b8938c515e95:cmpl-b9730d47ccfac440-0-b64b9f0d",
+              "start": 0,
+              "end": 1536,
+              "retired_before_protection_ms": 7093.080565
+            }
+          ],
+          "retrievals": [
+            {
+              "wire_id": "cp1:148755277807456916:12:4e2f49b2b5fc63a42af7da57e5c89e58:cmpl-ba1c2df236525cc5-0-ba5d1acf",
+              "start": 0,
+              "end": 1792,
+              "skip": 0,
+              "after_prepare_ms": -5753.048809,
+              "sessions": [
+                "trace_0021"
+              ],
+              "possible_events": [
+                0,
+                10,
+                13,
+                18,
+                21,
+                26,
+                27,
+                31,
+                33,
+                34,
+                44,
+                45,
+                47,
+                49
+              ],
+              "possibly_uses_protected_prefix": false
+            },
+            {
+              "wire_id": "cp1:148755277807456916:18:803fa37355c217fd779d248b11feff4f:cmpl-88a3b364165a52c3-0-aa6c93be",
+              "start": 0,
+              "end": 5888,
+              "skip": 0,
+              "after_prepare_ms": -3422.988648,
+              "sessions": [
+                "trace_0058"
+              ],
+              "possible_events": [
+                4,
+                6,
+                7,
+                15
+              ],
+              "possibly_uses_protected_prefix": false
+            },
+            {
+              "wire_id": "cp1:148755277807456916:19:2ea479847a22a4f2c1fbd32aaa1ebfea:cmpl-9df160d0951a5d07-0-931c517a",
+              "start": 2816,
+              "end": 3584,
+              "skip": 208,
+              "after_prepare_ms": -3179.442061,
+              "sessions": [
+                "trace_0022"
+              ],
+              "possible_events": [
+                1,
+                9,
+                12,
+                16,
+                38,
+                41,
+                42
+              ],
+              "possibly_uses_protected_prefix": false
+            },
+            {
+              "wire_id": "cp1:148755277807456916:21:669d49b3fcff36b2de2cfd0c0fe612bd:cmpl-bf595e0f96dac097-0-b0a1a7eb",
+              "start": 512,
+              "end": 1792,
+              "skip": 128,
+              "after_prepare_ms": -2067.109806,
+              "sessions": [
+                "trace_0021"
+              ],
+              "possible_events": [
+                0,
+                10,
+                13,
+                18,
+                21,
+                26,
+                27,
+                31,
+                33,
+                34,
+                44,
+                45,
+                47,
+                49
+              ],
+              "possibly_uses_protected_prefix": false
+            },
+            {
+              "wire_id": "cp1:148755277807456916:22:897e2770f604223927f710fe5fe30f64:cmpl-a96fb9d669e7bced-0-aba4482a",
+              "start": 0,
+              "end": 1792,
+              "skip": 0,
+              "after_prepare_ms": -2018.294517,
+              "sessions": [
+                "trace_0086"
+              ],
+              "possible_events": [
+                5,
+                20,
+                22,
+                28,
+                30,
+                32,
+                35,
+                36,
+                37,
+                39,
+                40,
+                43,
+                46,
+                48,
+                50,
+                51,
+                52,
+                53,
+                54,
+                55,
+                56,
+                57,
+                58,
+                59
+              ],
+              "possibly_uses_protected_prefix": false
+            },
+            {
+              "wire_id": "cp1:148755277807456916:26:03d536172d70fd9ded869498e45aa71c:cmpl-a5188972d62f9de6-0-a95a4600",
+              "start": 0,
+              "end": 1792,
+              "skip": 0,
+              "after_prepare_ms": 47.584661,
+              "sessions": [
+                "trace_0026"
+              ],
+              "possible_events": [
+                2,
+                23,
+                29
+              ],
+              "possibly_uses_protected_prefix": false
+            },
+            {
+              "wire_id": "cp1:148755277807456916:41:c8c20eee5eebc729a1da67ed3b514ff9:cmpl-b09497913274690a-0-8b0a8b76",
+              "start": 2048,
+              "end": 3584,
+              "skip": 208,
+              "after_prepare_ms": 23595.070862,
+              "sessions": [
+                "trace_0022"
+              ],
+              "possible_events": [
+                1,
+                9,
+                12,
+                16,
+                38,
+                41,
+                42
+              ],
+              "possibly_uses_protected_prefix": false
+            }
+          ],
+          "possible_protected_retrievals": 0
+        }
+      ],
+      "source_files": {
+        "config.json": "e3a701e2d25627e7200c9e91ed84ef9e76271ed821234e6a61137ceebe350bfa",
+        "generation-summary.json": "1a5c904dbf6d03fdc175c5f2dfd29a52957955fa96649a970162f1a11fa59e6f",
+        "handoffs\\handoff-576-SCHEDULER.jsonl": "a42f0b4ca01a8c7e229fc20a16b57c4310887b3dc7ec3572e98bcd3796bfbf06",
+        "handoffs\\handoff-576-WORKER.jsonl": "30dedb4f7c52de6a07df9ab9ab5ed0bd8d59ae30f49655dda446a3d9918a937a",
+        "lmcache-launch.json": "1772c913396bbb89c391add63e9d3b26a3398774589278ac7fd83edd997a198b",
+        "lmcache.log": "cb1c578d1390d6c4500b3d65670b8ac81e9f50ea10ace327275739f07f24fabc",
+        "owned-events\\owned-service-474.jsonl": "85a42394fd159c317d188f7893c40a3c406ee9bf761c6fef5813d62e9c4435c5",
+        "protection-summary\\protection-576-SCHEDULER.json": "a932da23207feb28711d0ea4a2bdded1d1712905c72470a566013a9c99d93579",
+        "protection-summary\\protection-576-WORKER.json": "f35c50ef961f91e3caa013cd39d8692b1e9a3302b58e2d51a6284ce0e7807486",
+        "requests.json": "2f3ddde89305c413563bdde761d618841e5d35026ec0b5e64b93b531ca50b715",
+        "result.json": "afc099c950280f04d516194109793460eac65a0498f8314dde140eb9f6ee4a62",
+        "run-manifest.json": "273d6228f02a71e524fe82e6546c99d2c061fcbce9a8bb688b436066c5209a97",
+        "shutdown-context.json": "65f6547a2c153e1c1d1a2ecc6945a5f9d9e3aa4c6609bd6cd218901170d5a6bb",
+        "trace.json": "ef297e723eaafe89e7c1b0ad339c5f2772de90aeb3997f92c0c30e5158a7c4e3",
+        "validation.json": "985f74ebb8ed6b39f1d487c75b254409463a326a3017d8e79c6280dd65b8c93a",
+        "vllm-launch.json": "90b649e632b7f1a85d3095ea5721e8f07331004b078aeafb7d82c9a5499855f9",
+        "vllm.log": "f2eed35c7f0b693d9d46760fb8c00570f329fcbc35f9aefc5e57f823b5178195",
+        "warmup.json": "a201c508792a0daf7d2148f44b28aa2bdab228e77c990fc6ddc1d31b01a46786"
+      },
+      "scope": "Diagnostic evidence only; earlier successful STORE does not prove continued CPU residency; no formal timing claim"
+    },
+    {
+      "cell": "two-r0",
+      "protection": [
+        {
+          "wire_id": "cp1:4017960868918040084:10:140ce174fc507f7c8e6f9163416295f1:cmpl-8a0a2139fd1184a9-0-8e3f2d40",
+          "end": 512,
+          "source_sessions": [
+            "trace_0057"
+          ],
+          "source_possible_events": [
+            3,
+            8,
+            11,
+            14,
+            17,
+            19,
+            24,
+            25
+          ],
+          "prepare_replay_ms_lower_bound": 9395.469522,
+          "slowest_five": [
+            {
+              "event_id": 5,
+              "ttft_ms": 2212.7719259999594,
+              "first_ms": 2215.61208099979,
+              "first_before_protection": true
+            },
+            {
+              "event_id": 4,
+              "ttft_ms": 2095.4590429998916,
+              "first_ms": 2097.8173449998394,
+              "first_before_protection": true
+            },
+            {
+              "event_id": 8,
+              "ttft_ms": 1923.725111000067,
+              "first_ms": 3424.0722899999128,
+              "first_before_protection": true
+            },
+            {
+              "event_id": 9,
+              "ttft_ms": 1887.5152880000314,
+              "first_ms": 3688.0316309998307,
+              "first_before_protection": true
+            },
+            {
+              "event_id": 10,
+              "ttft_ms": 1818.4274180000557,
+              "first_ms": 3719.163569999864,
+              "first_before_protection": true
+            }
+          ],
+          "earlier_successful_default_stores": [
+            {
+              "wire_id": "cp1:4017960868918040084:5:b36dd1313f4b7f7928cd83cab776b746:cmpl-b4e1b96153429f1e-0-b0435f07",
+              "start": 0,
+              "end": 1536,
+              "retired_before_protection_ms": 7120.849551
+            }
+          ],
+          "retrievals": [
+            {
+              "wire_id": "cp1:4017960868918040084:12:bcaa6b8a991beceea989e87acd68eb08:cmpl-a66507b140586c25-0-9d339fac",
+              "start": 0,
+              "end": 1792,
+              "skip": 0,
+              "after_prepare_ms": -5821.620638,
+              "sessions": [
+                "trace_0021"
+              ],
+              "possible_events": [
+                0,
+                10,
+                13,
+                18,
+                21,
+                26,
+                27,
+                31,
+                33,
+                34,
+                44,
+                45,
+                47,
+                49
+              ],
+              "possibly_uses_protected_prefix": false
+            },
+            {
+              "wire_id": "cp1:4017960868918040084:18:c262f63035cde0bcfc6f3c8be91f15c3:cmpl-a75c08c32c0b0499-0-a50f2237",
+              "start": 0,
+              "end": 5888,
+              "skip": 0,
+              "after_prepare_ms": -3580.376146,
+              "sessions": [
+                "trace_0058"
+              ],
+              "possible_events": [
+                4,
+                6,
+                7,
+                15
+              ],
+              "possibly_uses_protected_prefix": false
+            },
+            {
+              "wire_id": "cp1:4017960868918040084:19:4af600aa738a5273e77ed0a8ac7fcaf5:cmpl-8bd57fe5058cdad8-0-b0006df7",
+              "start": 2816,
+              "end": 3584,
+              "skip": 208,
+              "after_prepare_ms": -3353.199757,
+              "sessions": [
+                "trace_0022"
+              ],
+              "possible_events": [
+                1,
+                9,
+                12,
+                16,
+                38,
+                41,
+                42
+              ],
+              "possibly_uses_protected_prefix": false
+            },
+            {
+              "wire_id": "cp1:4017960868918040084:21:2c30555497a6eda569afdcfab4ec4a18:cmpl-9b9520afb8a1841c-0-8c0761ce",
+              "start": 512,
+              "end": 1792,
+              "skip": 128,
+              "after_prepare_ms": -2212.1704,
+              "sessions": [
+                "trace_0021"
+              ],
+              "possible_events": [
+                0,
+                10,
+                13,
+                18,
+                21,
+                26,
+                27,
+                31,
+                33,
+                34,
+                44,
+                45,
+                47,
+                49
+              ],
+              "possibly_uses_protected_prefix": false
+            },
+            {
+              "wire_id": "cp1:4017960868918040084:22:8e01e4ae80ac84e7a0b2cf198374e4d6:cmpl-b3e5e59298d8e841-0-b9302e80",
+              "start": 0,
+              "end": 1792,
+              "skip": 0,
+              "after_prepare_ms": -2159.005396,
+              "sessions": [
+                "trace_0086"
+              ],
+              "possible_events": [
+                5,
+                20,
+                22,
+                28,
+                30,
+                32,
+                35,
+                36,
+                37,
+                39,
+                40,
+                43,
+                46,
+                48,
+                50,
+                51,
+                52,
+                53,
+                54,
+                55,
+                56,
+                57,
+                58,
+                59
+              ],
+              "possibly_uses_protected_prefix": false
+            },
+            {
+              "wire_id": "cp1:4017960868918040084:26:1ac001f05235e1810978c8599f0768ed:cmpl-a9c2f0241cf230b8-0-adf36dd6",
+              "start": 0,
+              "end": 1792,
+              "skip": 0,
+              "after_prepare_ms": 60.190558,
+              "sessions": [
+                "trace_0026"
+              ],
+              "possible_events": [
+                2,
+                23,
+                29
+              ],
+              "possibly_uses_protected_prefix": false
+            },
+            {
+              "wire_id": "cp1:4017960868918040084:41:ee4300efc14c499c909c89e91d9eb481:cmpl-b8bab71481154fca-0-a8bf458f",
+              "start": 2048,
+              "end": 3584,
+              "skip": 208,
+              "after_prepare_ms": 23610.582516,
+              "sessions": [
+                "trace_0022"
+              ],
+              "possible_events": [
+                1,
+                9,
+                12,
+                16,
+                38,
+                41,
+                42
+              ],
+              "possibly_uses_protected_prefix": false
+            }
+          ],
+          "possible_protected_retrievals": 0
+        }
+      ],
+      "source_files": {
+        "config.json": "9e186cfc730e2984888d33e16b804b0e282f9955a1f7836338673babf6b5f07b",
+        "generation-summary.json": "2eef649bf56db19e9012b5fc611def40dbdf7fa952091b7255ea59f524966d5e",
+        "handoffs\\handoff-909-SCHEDULER.jsonl": "1d3c621dd40888a278afcee59ac4ca7e5b8f3ecc0c1687c1d372ef2f819a0725",
+        "handoffs\\handoff-909-WORKER.jsonl": "d6e02f0283efdbb554f858e0c5a5295dee8fcdf435517a4f4193a32b16ed9bce",
+        "lmcache-launch.json": "1772c913396bbb89c391add63e9d3b26a3398774589278ac7fd83edd997a198b",
+        "lmcache.log": "2161193074d5426858d409ec628518dc6dc9090385f6581435873812bb420dd1",
+        "owned-events\\owned-service-807.jsonl": "2a5cc0154b842456eb76e75f84d46f24d49e9f902f64b8d741900e3c30c869f3",
+        "protection-summary\\protection-909-SCHEDULER.json": "7f8c3c28abf77cf6da0873d60af470f12450359e7cd7cc407141262bf18b0fe9",
+        "protection-summary\\protection-909-WORKER.json": "ad0d71d32bf9f9ae2a838185345553bdf7a607428c2c71f0ccda45d8ca34afe7",
+        "requests.json": "b6961374aaa201aca910a776bf87e7749ca8eef328e9d9992c22ca4c16a7958f",
+        "result.json": "e2eed8ef1c3f2aa8a7bda0df3ba354168ae986d8d9cb1ba5bcbb3f3498d47adc",
+        "run-manifest.json": "0e0203cd07a71fd21ca7fd1d54c7572fb852d4ecacd3f4ffdf9557925e45747c",
+        "shutdown-context.json": "730c3e013971bb5c50d34c5cc671b14038c4221391a731795f6905f9b3d451c8",
+        "trace.json": "ef297e723eaafe89e7c1b0ad339c5f2772de90aeb3997f92c0c30e5158a7c4e3",
+        "validation.json": "490a95cb4ef6e6a6ba4f04d98f94c764e88162332d797352ea0f40ca212305c4",
+        "vllm-launch.json": "5b3415fabc09a9049a44f49a0beefde555822555832f7696f6f301eb0ab903bb",
+        "vllm.log": "c67e40561443eff13e64c94c0e99ea484d462d2ca3e8696c0d429f1c722ac449",
+        "warmup.json": "5cf409ca9826a2c2874ba3af3b401e68c729ff8b9fd39b265abd4b01113af0db"
+      },
+      "scope": "Diagnostic evidence only; earlier successful STORE does not prove continued CPU residency; no formal timing claim"
+    }
+  ],
+  "formal_overhead": [
+    {
+      "cell": "one-r0",
+      "committed": 1,
+      "timings": {
+        "commit": {
+          "calls": 1947,
+          "cpu_ns": 5589242,
+          "wall_ns": 5511653
+        },
+        "prepare": {
+          "calls": 1947,
+          "cpu_ns": 246432432,
+          "wall_ns": 248022488
+        },
+        "receipts": {
+          "calls": 38,
+          "cpu_ns": 190874,
+          "wall_ns": 189995
+        },
+        "rollback": {
+          "calls": 107,
+          "cpu_ns": 483461,
+          "wall_ns": 551864
+        }
+      }
+    },
+    {
+      "cell": "one-r1",
+      "committed": 1,
+      "timings": {
+        "commit": {
+          "calls": 1936,
+          "cpu_ns": 5445522,
+          "wall_ns": 5496350
+        },
+        "prepare": {
+          "calls": 1936,
+          "cpu_ns": 245531321,
+          "wall_ns": 248576688
+        },
+        "receipts": {
+          "calls": 37,
+          "cpu_ns": 173065,
+          "wall_ns": 172695
+        },
+        "rollback": {
+          "calls": 95,
+          "cpu_ns": 422535,
+          "wall_ns": 502174
+        }
+      }
+    },
+    {
+      "cell": "one-r2",
+      "committed": 1,
+      "timings": {
+        "commit": {
+          "calls": 1919,
+          "cpu_ns": 5772691,
+          "wall_ns": 5818920
+        },
+        "prepare": {
+          "calls": 1919,
+          "cpu_ns": 263708381,
+          "wall_ns": 267736339
+        },
+        "receipts": {
+          "calls": 37,
+          "cpu_ns": 211145,
+          "wall_ns": 215053
+        },
+        "rollback": {
+          "calls": 97,
+          "cpu_ns": 461398,
+          "wall_ns": 521649
+        }
+      }
+    },
+    {
+      "cell": "two-r0",
+      "committed": 1,
+      "timings": {
+        "commit": {
+          "calls": 1953,
+          "cpu_ns": 5749819,
+          "wall_ns": 5809341
+        },
+        "prepare": {
+          "calls": 1953,
+          "cpu_ns": 253094232,
+          "wall_ns": 256100682
+        },
+        "receipts": {
+          "calls": 38,
+          "cpu_ns": 167935,
+          "wall_ns": 173498
+        },
+        "rollback": {
+          "calls": 104,
+          "cpu_ns": 504794,
+          "wall_ns": 572020
+        }
+      }
+    },
+    {
+      "cell": "two-r1",
+      "committed": 1,
+      "timings": {
+        "commit": {
+          "calls": 1949,
+          "cpu_ns": 5652704,
+          "wall_ns": 5855840
+        },
+        "prepare": {
+          "calls": 1949,
+          "cpu_ns": 253370319,
+          "wall_ns": 255272759
+        },
+        "receipts": {
+          "calls": 38,
+          "cpu_ns": 171392,
+          "wall_ns": 176390
+        },
+        "rollback": {
+          "calls": 106,
+          "cpu_ns": 449046,
+          "wall_ns": 527524
+        }
+      }
+    },
+    {
+      "cell": "two-r2",
+      "committed": 1,
+      "timings": {
+        "commit": {
+          "calls": 1959,
+          "cpu_ns": 6055893,
+          "wall_ns": 6258017
+        },
+        "prepare": {
+          "calls": 1959,
+          "cpu_ns": 256306328,
+          "wall_ns": 257397975
+        },
+        "receipts": {
+          "calls": 38,
+          "cpu_ns": 198182,
+          "wall_ns": 191087
+        },
+        "rollback": {
+          "calls": 116,
+          "cpu_ns": 513299,
+          "wall_ns": 585439
+        }
+      }
+    }
+  ],
+  "scope": "Existing raw evidence only; no new GPU experiment"
+}

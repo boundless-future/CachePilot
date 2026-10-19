@@ -6,6 +6,8 @@
 
 当前是 **3C：策略端到端验证**。2026-10-19 整步候选的真实服务覆盖已完成 one/two/zero 三格，180 请求及 8,640 输出 tokens 完整，两保护组各有一批实际成功 STORE，峰值16/32 blocks，所有资源与 generation 闭合。严格同来源KV准入one/two两格通过，分别1/2 chunks、36/72层比较全等；服务器及本地均复算通过。无逐步探针pilot 3/3及同源正式矩阵9/9已通过，正式540请求/25,920输出tokens。one三轮都退化、TTFT P95均值+2.97%；two均值−2.46%但一轮退化+5.05%，稳定收益未成立。详见[正式报告](experiments/2026-10-19/WHOLE_STEP_FORMAL.md)。原匿名旧策略 pilot 仅 3/4 通过、双块零提交的历史失败保持有效。
 
+随后聚焦净开销：真实栈42项通过，无候选早退的zero/legacy-two/filtered-two pilot 3/3及formal 9/9。filtered相对legacy每轮prepare wall降低73.67–74.78%，TTFT P95配对每轮快0.90–1.19%，三轮同向但仅单轨迹描述性结果。覆盖、重算和传输量有轮次变化；没有把延迟差归因于早退。571文件证据的服务器/current/frozen报告和SHA一致。完整记录见[NET_EFFECT](experiments/2026-10-19/NET_EFFECT.md)。
+
 ## 执行顺序与验收
 
 1. **真实服务覆盖实验**：显式 `WholeStepConnector`，先 `one`，通过才跑 `two`、`zero`。复用原始 60 请求匿名轨迹，Qwen3-4B、4090 24GB、BF16、2 GiB GPU KV、16 GiB CPU KV；同步 eager、单 worker；horizon=5、drain=1。冻结代码、输入和 tokenizer，不换轨迹或降低预留以追求通过。
@@ -35,4 +37,4 @@
 
 ## 本轮结论后的唯一优先项
 
-已完成覆盖→同来源KV→pilot→formal→证据复算的闭环。接下来沿“解释并改善净效果”推进：定位保护是否覆盖尾延迟关键请求，以及排队/回载/抢占的关系。先用本轮原始数据，只有证据不足时增加最小时间关联观测；形成一个明确假设后修改一个策略模块，再运行完整匹配对照。one不作为性能推荐，two继续保留实验候选；暂不扩模型/异步/多worker或补齐全部边界。若无法得到可重复净收益，则记录负结果并收缩性能主张。
+下一唯一优先项是用稳定trace event ID关联受保护STORE与后续请求，明确区分vLLM GPU prefix hit、LMCache CPU回载和重算。原轨迹的随机API ID及重复前缀不足以证明GPU热命中缺席；没有RETRIEVE也不能据此判断保护无用。做一次闭合的机制诊断，不作为性能结果。若保护没有增加CPU回载且请求原本GPU命中，停止扩大保护策略；若实际回载帮助了重算/TTFT，再提出一个候选目标改动和新冻结匹配比较。暂不扩模型/异步/多worker，不补无关边界。

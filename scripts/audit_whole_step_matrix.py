@@ -21,7 +21,7 @@ from audit_real_structure import audit as provenance_audit
 import run_protection_ablation as ablation
 
 
-def audit_one(cell, mode, repeat, signature, trace):
+def audit_one(cell, mode, repeat, signature, trace, *, expected_config=None):
     result, manifest = read(cell / 'result.json'), read(cell / 'run-manifest.json')
     snapshot = read(cell / 'generation-summary.json')
     summary = ablation.merge_protection_summary(cell / 'protection-summary')
@@ -34,7 +34,8 @@ def audit_one(cell, mode, repeat, signature, trace):
     expected = base + int(preemptions) if preemptions is not None else -1
     checks = dict(extra_checks(cell, CASES[mode], result, trace), result=result['passed'],
         resources=resource_gate('lazy', result), raw_timing=timing['passed'],
-        config=read(cell / 'config.json') == signature['configs'][mode] == configuration(mode),
+        config=read(cell / 'config.json') == signature['configs'][mode] == (
+            configuration(mode) if expected_config is None else expected_config),
         source=manifest['source_sha256'] == signature['source_sha256'],
         trace=digest(trace) == digest(read(cell / 'trace.json')) == manifest['trace_sha256'] == signature['trace_sha256'] == TRACE_SHA,
         budget=manifest['kv_cache_bytes'] == signature['kv_cache_bytes'] == KV_BYTES,

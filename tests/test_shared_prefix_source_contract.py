@@ -25,7 +25,17 @@ def test_shared_candidate_keeps_reserve_hash_proof_and_commit_logic():
     expected=expected.replace('free_after=self.pool.get_num_free_blocks())',
         'free_after=self.pool.get_num_free_blocks(), refs_before=refs_before, '
         'refs_after=[b.ref_cnt for b in blocks], shared_blocks_before=sum(ref > 0 for ref in refs_before))')
-    assert ast.dump(ast.parse(expected).body[0])==ast.dump(shared['prepare'])
+    # The explicit optional gate is separately covered with real manager/pool
+    # contracts. Preserve exact AST equality of every original admission,
+    # proof, pin and commit statement when that gate is disabled.
+    prepare=shared['prepare']
+    gate=prepare.body[3]
+    assert isinstance(gate,ast.If) and ast.unparse(gate.test)=='self.skip_ineligible'
+    assert ast.unparse(prepare.body[0])=='self.manager._healthy()'
+    assert ast.unparse(prepare.body[2].test)=='self.prepared'
+    assert ast.unparse(prepare.body[4].value)=='self.admission_policy.reserve(scheduler)'
+    prepare.body.remove(gate)
+    assert ast.dump(ast.parse(expected).body[0])==ast.dump(prepare)
     assert set(shared)=={'prepare','rollback','bind'}
 
 

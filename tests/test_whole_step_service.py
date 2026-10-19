@@ -20,6 +20,9 @@ def test_service_gate_does_not_enable_cpu_candidate():
         obj._validate_protection({'cachepilot.generation_protection': True})
     obj._validate_protection({'cachepilot.generation_protection': True,
                              'cachepilot.whole_step_protection': True})
+    with pytest.raises(ValueError, match='boolean'):
+        obj._validate_protection({'cachepilot.generation_protection': True,
+            'cachepilot.whole_step_protection': True, 'cachepilot.skip_ineligible': 'false'})
     with pytest.raises(RuntimeError):
         object.__new__(WholeStepProtection).bind(None)
     helper = object.__new__(WholeStepServiceProtection)
@@ -29,9 +32,11 @@ def test_service_gate_does_not_enable_cpu_candidate():
 
 
 @pytest.mark.parametrize('wired', ['whole-step'], indirect=True)
+@pytest.mark.parametrize('skip_ineligible', [False, True])
 @pytest.mark.parametrize('action', ['success', 'failure', 'zero'])
-def test_whole_step_bound_native_receipts_preserve_shared_owner(wired, action):
+def test_whole_step_bound_native_receipts_preserve_shared_owner(wired, action, skip_ineligible):
     obj, helper, scheduler, blocks, transport, meta = wired
+    helper.skip_ineligible = skip_ineligible
     shared = blocks[:8]
     helper.pool.touch(shared)
     helper.prepare(scheduler)

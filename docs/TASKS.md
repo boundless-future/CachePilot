@@ -1,5 +1,9 @@
 # 待办与阶段验收
 
+2026-10-19 21:45主线续推完成：原始coverage证据显示主要慢请求先于保护触发，原轨迹无该前缀的LMCache回载；更早已有相同前缀普通STORE，但CPU后续驻留情况未证。新增默认关闭`skip_ineligible`，只在无可操作候选时跳过扫描，候选时保留原准入。真实栈42 passed；本地36 passed/9 skipped。原输入pilot3/3、formal9/9（540请求/25,920输出），prepare wall均值247.989→63.699ms（−74.32%）；P95配对三轮−1.101/−0.904/−1.191%，描述性、非显著。重算/搬运r1/r2相同，r0有变化；不做因果归因。571文件SHA、服务器/本地/冻结源码审计一致。filtered-r1关闭期traceback保留。服务器空闲、GPU1MiB/0%、容器开机。下一唯一主线：稳定request ID关联受保护请求、GPU prefix hit、LMCache CPU retrieve及重算，再据实决定保护目标；见[NET_EFFECT](experiments/2026-10-19/NET_EFFECT.md)。
+
+2026-10-19 21:30过程记录：基于coverage证据定位保护晚于主要尾请求；当时启动默认关闭的无候选早退并通过真实栈42项及Windows源码/架构36项。pilot开销门槛通过后启动formal，已在21:45条目记录完成结果、审计与下一步。中间运行目录为`/root/cachepilot-neteffect-20261019/runs/eligibility-formal-20261019a`；只作为过程证据，当前无在途实验。见[净效果假设与记录](experiments/2026-10-19/NET_EFFECT.md)。
+
 2026-10-19 主线重定向：当前3C，按用户要求只沿端到端净效果推进。显式WholeStepConnector接线、33项远端真实库/native回归、原匿名60请求覆盖3/3、同来源KV准入2/2（36/72层全等）、无逐步探针pilot 3/3及同296源formal 9/9已完成。正式540请求/25,920输出tokens完整，服务器/本地/冻结源复算及原始SHA一致；one的TTFT P95均值+2.97%、two−2.46%但一轮+5.05%，稳定收益未成立。下一唯一优先项是保护与尾延迟关键请求、排队/回载/抢占的关联，先用已有数据，再针对具体假设修改一个模块；其他边界进backlog。服务器空闲、容器开机。见[主线](MAINLINE.md)、[正式结果](experiments/2026-10-19/WHOLE_STEP_FORMAL.md)。下方10-13的“继续补边界后再接服务”是历史顺序。
 
 2026-10-13最新：全请求包络新增18项真实Scheduler边界契约；精确容量阈值下共享owner/混合命中/watermark、旧输出消化后三次重入、自然decode抢占后三次失败及压力释放恢复通过。服务器强制native/CUDA1218 passed、零跳过；Windows688 passed、313 skipped。首次错误状态预期与缺accept_tokens构件失败保留，运行时未改；服务bind仍关闭。下一步远端完成/失败恢复、多请求decode及跨步保护释放，再独立服务接线。见 [边界报告](experiments/2026-10-13/WHOLE_STEP_BOUNDARIES.md)。

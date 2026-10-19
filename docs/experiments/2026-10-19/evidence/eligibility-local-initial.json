@@ -1,0 +1,5 @@
+{
+  "result": "1 failed, 35 passed, 9 skipped",
+  "failed_test": "tests/test_shared_prefix_source_contract.py::test_shared_candidate_keeps_reserve_hash_proof_and_commit_logic",
+  "reason": "Old exact AST contract did not permit the newly explicit optional gate. Updated to remove only that gate after checking its position after health and unsettled guards; remaining original body still requires exact AST equality. Runtime unchanged."
+}

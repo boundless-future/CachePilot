@@ -1,6 +1,6 @@
 # CachePilot 当前状态
 
-2026-10-19：3C本轮主实验闭环完成。显式整步候选原匿名60请求覆盖3/3、严格同来源KV准入2/2、无逐步探针pilot 3/3、同296项源formal 9/9均通过，正式540请求/25,920输出tokens及资源/generation闭合，三处审计相等。one的TTFT P95均值退化2.97%；two改善2.46%但一轮退化5.05%，稳定收益未成立。one-r1有关闭期output-handler traceback，按既有窄规则单列保留；输出变化未归因。下一主线为保护与尾延迟关键请求/排队/抢占的关联。见[当前主线](MAINLINE.md)、[正式报告及证据](experiments/2026-10-19/WHOLE_STEP_FORMAL.md)。服务器已空闲、容器开机。以下为历史记录。
+2026-10-19：接续3C净效果主线，默认关闭的无候选早退通过真实栈42项；同原轨迹zero/legacy-two/filtered-two pilot 3/3、formal 9/9。filtered相对legacy的prepare累计wall每轮减少73.67–74.78%，TTFT P95三轮均快0.90–1.19%，单轨迹描述性结果；filtered-r1关闭期traceback按既有分类保留。filtered与legacy重算/搬运在r1/r2相同，r0有变化，不证明P95改善由扫描省时造成。571文件证据服务器/本地/298项冻结源码复算及SHA全部通过；服务空闲、GPU1MiB/0%、容器开机。唯一下一步是用确定request ID对齐保护批次、vLLM GPU prefix命中、LMCache CPU回载和重算。见[净效果主线](experiments/2026-10-19/NET_EFFECT.md)与[当前执行主线](MAINLINE.md)。以下为历史记录。
 
 ## 2026-10-13 工程收敛
 
