@@ -5,7 +5,7 @@
 2026-10-20：当前为3C端到端策略评估。已停止扩展无新增复用价值的头部保护；LMCache原生deadline=0/0.5秒的匹配pilot 2/2、三重复formal 6/6全部完成，正式360请求/17,280输出tokens。deadline=0.5的TTFT P95均值降低12.58%、computed prefill减少18.24%，H2D/D2H增加8.62%/11.83%；这是单轨迹上的原生配置基线，不是CachePilot自定义策略收益。离线核对显示source1三段STORE均与后继CPU回载相交，当前没有依据直接删掉这些搬运。下一步只沿“保住复用、选择性减少卸载”的证据链，先分析已有完整轨迹再决定是否改一个选择模块。见[当前主线](docs/MAINLINE.md)、[正式报告](docs/experiments/2026-10-19/NATIVE_DEADLINE.md)。
 
 2026-10-13 工程入口：运行主线已收敛到 [`src/cachepilot`](src/cachepilot)，
-旧 `scripts/` 同名模块作为兼容入口。先看 [工程结构与模块边界](docs/ARCHITECTURE.md)、
+旧 `scripts/` 同名模块作为兼容入口。先看 [当前项目结构图](docs/PROJECT_STRUCTURE.md)、[工程结构与模块边界](docs/ARCHITECTURE.md)、
 [当前待办](docs/TASKS.md) 和 [最小接线示例](examples/shared-prefix/README.md)。
 本次仅迁移工程结构，没有产生新的性能结论。以下时间线保留历史检查点。
 

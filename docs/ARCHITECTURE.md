@@ -1,5 +1,9 @@
 # CachePilot 工程结构与模块边界
 
+2026-10-20 的实际文件树、模块关系和完整 Connector 继承图见
+[当前项目结构图](PROJECT_STRUCTURE.md)。图中区分了默认 SharedPrefix 与当前主线
+WholeStep 两个分支，并标出运行时与接入层尚存的耦合。
+
 2026-10-13 工程收敛后，稳定主线的唯一实现位于 `src/cachepilot/`。
 `scripts/` 中同名文件只保留导入/启动兼容入口；历史实验、故障注入及审计脚本继续留在原处，以维护已归档证据的原始解释。
 逐文件迁移映射见 [module-migration.json](module-migration.json)。
